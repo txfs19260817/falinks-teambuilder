@@ -1,3 +1,7 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
+const typography = require('@tailwindcss/typography');
+const daisyUI = require('daisyui');
+
 module.exports = {
   content: ['./src/**/*.{js,ts,jsx,tsx}'],
   theme: {
@@ -40,5 +44,5 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [typography, daisyUI],
 };

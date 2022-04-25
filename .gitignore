@@ -33,3 +33,6 @@ local
 
 # vercel
 .vercel
+
+# idea
+.idea
