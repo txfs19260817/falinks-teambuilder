@@ -14,6 +14,7 @@
     "prepare": "husky install"
   },
   "dependencies": {
+    "@pkmn/dex": "^0.5.15",
     "@pkmn/sets": "^3.0.0",
     "@syncedstore/core": "^0.3.9",
     "@syncedstore/react": "^0.3.9",
