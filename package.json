@@ -10,15 +10,20 @@
     "build-prod": "run-s clean build export",
     "clean": "rimraf .next out",
     "lint": "next lint",
-    "build-types": "tsc --noEmit --pretty",
+    "build-types": "tsc --noEmit --pretty --skipLibCheck",
     "prepare": "husky install"
   },
   "dependencies": {
+    "@syncedstore/core": "^0.3.9",
+    "@syncedstore/react": "^0.3.9",
     "daisyui": "^2.6.0",
     "next": "^12.1.5",
     "next-seo": "^5.4.0",
+    "pokemon-showdown": "^0.11.7",
     "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "react-dom": "^17.0.2",
+    "y-webrtc": "^10.2.3",
+    "yjs": "^13.5.35"
   },
   "devDependencies": {
     "@commitlint/cli": "^16.2.3",

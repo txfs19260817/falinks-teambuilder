@@ -14,7 +14,7 @@ const Navbar = () => {
           </label>
           <ul tabIndex={0} className="dropdown-content menu rounded-box bg-neutral p-2 text-neutral-content shadow">
             <li>
-              <Link href="/about">
+              <Link href="/src/pages/about">
                 <a className="border-none">About</a>
               </Link>
             </li>
@@ -37,14 +37,14 @@ const Navbar = () => {
             </li>
           </ul>
         </div>
-        <Link href="/">
+        <Link href="/src/pages">
           <a className="btn btn-ghost text-xl normal-case">{AppConfig.title}</a>
         </Link>
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal">
           <li>
-            <Link href="/about">
+            <Link href="/src/pages/about">
               <a className="border-none">About</a>
             </Link>
           </li>

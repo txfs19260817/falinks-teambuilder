@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 
-import { Meta } from '@/layout/Meta';
-import { Navbar } from '@/layout/Navbar';
+import { Meta } from '@/components/layout/Meta';
+import { Navbar } from '@/components/layout/Navbar';
 import { AppConfig } from '@/utils/AppConfig';
 
 type IMainProps = {
@@ -15,7 +15,7 @@ const Main = ({ title, description, children, canonical }: IMainProps) => (
   <div className="w-full antialiased">
     <Meta title={`${AppConfig.title} - ${title}`} description={description || AppConfig.description} canonical={canonical} />
     <Navbar />
-    <div className="mx-auto max-w-screen-lg">
+    <div className="mx-auto max-w-screen-xl">
       <div className="content py-5">{children}</div>
     </div>
   </div>
