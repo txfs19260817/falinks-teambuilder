@@ -1,6 +1,6 @@
 import { PokemonSet } from '@pkmn/sets';
 
-import { guidGenerator } from '@/utils/helpers';
+import { guidGenerator } from '@/utils/Helpers';
 
 type StatIDExceptHP = 'atk' | 'def' | 'spa' | 'spd' | 'spe';
 type StatID = 'hp' | StatIDExceptHP;

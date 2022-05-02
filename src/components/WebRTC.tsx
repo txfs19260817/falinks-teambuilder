@@ -1,20 +1,19 @@
+import { getYjsValue } from '@syncedstore/core';
 import React, { useEffect, useState } from 'react';
 import { WebrtcProvider } from 'y-webrtc';
 import { Doc } from 'yjs';
 
-import { teamDoc } from '@/store';
-
 export type WebRTCProviderProps = {
   roomName?: string;
-  doc?: Doc;
+  doc: ReturnType<typeof getYjsValue>;
   children: React.ReactNode;
 };
 
 export class WebRTCProvider {
   webrtcProvider: WebrtcProvider;
 
-  constructor(roomName?: string, doc?: Doc) {
-    this.webrtcProvider = new WebrtcProvider(roomName || 'falinks-room', doc || (teamDoc as Doc));
+  constructor(doc: ReturnType<typeof getYjsValue>, roomName?: string) {
+    this.webrtcProvider = new WebrtcProvider(roomName || 'falinks-room', doc as Doc);
   }
 
   connect = () => this.webrtcProvider.connect();
@@ -26,7 +25,7 @@ export function WebRTCProviderClient({ roomName, doc, children }: WebRTCProvider
   const [isComponentMounted, setIsComponentMounted] = useState(false);
 
   useEffect(() => {
-    const webrtcProvider = new WebRTCProvider(roomName, doc);
+    const webrtcProvider = new WebRTCProvider(doc, roomName);
     webrtcProvider.connect();
     setIsComponentMounted(true);
     return () => {
