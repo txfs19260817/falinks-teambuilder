@@ -1,4 +1,4 @@
-import { PokemonSet } from 'pokemon-showdown/sim/teams';
+import { PokemonSet } from '@pkmn/sets';
 
 import { guidGenerator } from '@/utils/helpers';
 
