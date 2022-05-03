@@ -1,11 +1,11 @@
 import { getYjsValue, syncedStore } from '@syncedstore/core';
 import { useSyncedStore } from '@syncedstore/react';
 import React, { useEffect, useState } from 'react';
+import { WebrtcProvider } from 'y-webrtc';
 
 import { PokemonPanel } from '@/components/workspace/PokemonPanel';
 import { Pokemon } from '@/models/Pokemon';
 import { AppConfig } from '@/utils/AppConfig';
-import { WebRTCProvider } from '@/utils/WebRTCProvider';
 
 export type WebRTCProviderProps = {
   roomName: string;
@@ -34,7 +34,7 @@ function Workspace({ roomName }: WebRTCProviderProps) {
 
   useEffect(() => {
     // Connect to the room via WebRTC
-    const webrtcProvider = new WebRTCProvider(roomName, teamDoc);
+    const webrtcProvider = new WebrtcProvider(roomName, teamDoc as any);
     webrtcProvider.connect();
     // push test data
     teamState.team.push(
