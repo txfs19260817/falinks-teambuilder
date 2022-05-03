@@ -3,4 +3,5 @@ export const AppConfig = {
   title: 'Falinks Teambuilder',
   description: 'Falinks Teambuilder is a collaborative Pokémon team building platform.',
   locale: 'en',
+  maxPokemonPerTeam: 6,
 };
