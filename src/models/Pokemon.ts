@@ -1,10 +1,6 @@
-import { PokemonSet } from '@pkmn/sets';
+import { PokemonSet, StatsTable } from '@pkmn/types';
 
 import { guidGenerator } from '@/utils/Helpers';
-
-type StatIDExceptHP = 'atk' | 'def' | 'spa' | 'spd' | 'spe';
-type StatID = 'hp' | StatIDExceptHP;
-type StatsTable = { [stat in StatID]: number };
 
 export class Pokemon implements PokemonSet {
   /**
