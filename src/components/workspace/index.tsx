@@ -20,7 +20,7 @@ function Workspace({ roomName }: WebRTCProviderProps) {
   const teamState = useSyncedStore(teamStore);
 
   // Tab state and methods
-  const [tabIdx, setTabIdx] = useState<number>(-1);
+  const [tabIdx, setTabIdx] = useState<number>(0);
 
   const newTab = () => {
     const newLen = teamState.team.push(new Pokemon('Pikachu'));
@@ -36,18 +36,6 @@ function Workspace({ roomName }: WebRTCProviderProps) {
     // Connect to the room via WebRTC
     const webrtcProvider = new WebrtcProvider(roomName, teamDoc as any);
     webrtcProvider.connect();
-    // push test data
-    teamState.team.push(
-      new Pokemon('Pikachu', '', 'Life Orb', 'Static', [], 'Bold', {
-        hp: 6,
-        atk: 252,
-        def: 0,
-        spa: 0,
-        spd: 0,
-        spe: 252,
-      })
-    );
-    setTabIdx(0);
 
     return () => {
       webrtcProvider.disconnect();
