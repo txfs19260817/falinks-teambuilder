@@ -3,6 +3,7 @@ import { useSyncedStore } from '@syncedstore/react';
 import React, { useEffect, useState } from 'react';
 import { WebrtcProvider } from 'y-webrtc';
 
+import { DexContextProvider } from '@/components/workspace/DexContext';
 import { PokemonPanel } from '@/components/workspace/PokemonPanel';
 import { Pokemon } from '@/models/Pokemon';
 import { AppConfig } from '@/utils/AppConfig';
@@ -43,7 +44,7 @@ function Workspace({ roomName }: WebRTCProviderProps) {
   }, []);
 
   return (
-    <>
+    <DexContextProvider>
       {/* Tab header */}
       <div className="tabs tabs-boxed">
         {teamState.team.map((p, i) => (
@@ -64,7 +65,7 @@ function Workspace({ roomName }: WebRTCProviderProps) {
       </div>
       {/* Panel */}
       <PokemonPanel tabIdx={tabIdx} teamState={teamState} />
-    </>
+    </DexContextProvider>
   );
 }
 
