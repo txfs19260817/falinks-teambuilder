@@ -2,9 +2,19 @@ import { useState } from 'react';
 
 import { GenderPicker } from '@/components/workspace/GenderPicker';
 import { LevelSetter } from '@/components/workspace/LevelSetter';
+import { PokemonTable } from '@/components/workspace/PokemonTable';
 import { ShinyToggle } from '@/components/workspace/ShinyToggle';
 import { SpriteAvatar } from '@/components/workspace/SpriteAvatar';
 import { FocusedField, PanelProps } from '@/components/workspace/types';
+
+const RenderSwitch = ({ focusedField, tabIdx, teamState }: { focusedField: FocusedField } & PanelProps) => {
+  switch (focusedField) {
+    case FocusedField.Species:
+      return <PokemonTable {...{ tabIdx, teamState }} />;
+    default:
+      return <>{focusedField}</>;
+  }
+};
 
 export function PokemonPanel({ tabIdx, teamState }: PanelProps) {
   const [focusedField, setFocusedField] = useState<FocusedField>(FocusedField.Species);
@@ -92,7 +102,9 @@ export function PokemonPanel({ tabIdx, teamState }: PanelProps) {
             ))}
           </label>
         </div>
-        <div className="col-start-1 col-end-5 border-2">{focusedField}</div>
+        <div className="col-start-1 col-end-5 max-h-52 overflow-y-scroll border-2 md:max-h-72">
+          <RenderSwitch {...{ focusedField, tabIdx, teamState }} />
+        </div>
       </div>
     </div>
   );

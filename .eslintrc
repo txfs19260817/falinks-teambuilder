@@ -73,6 +73,8 @@
         "@typescript-eslint/no-unused-vars": "off",
         // Sync store needs to be modified directly
         "no-param-reassign": "off",
+        // React-table uses this at least
+        "no-nested-ternary": "off",
         "unused-imports/no-unused-imports": "error",
         "unused-imports/no-unused-vars": [
           "error",
