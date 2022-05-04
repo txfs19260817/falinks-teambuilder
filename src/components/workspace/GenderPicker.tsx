@@ -28,6 +28,7 @@ export function GenderPicker({ tabIdx, teamState }: PanelProps) {
     // @ts-ignore
     teamState.team[tabIdx].gender = newPicked;
   };
+
   return (
     <div className="flex space-x-0.5 text-sm lg:text-lg">
       <label className="hidden md:block">Gender: </label>

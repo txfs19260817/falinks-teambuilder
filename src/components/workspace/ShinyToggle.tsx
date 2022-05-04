@@ -5,6 +5,12 @@ import { PanelProps } from '@/components/workspace/types';
 export function ShinyToggle({ tabIdx, teamState }: PanelProps) {
   const [checked, setChecked] = useState(false);
 
+  // receive changes from other users
+  useEffect(() => {
+    if (!teamState.team[tabIdx]) return;
+    setChecked(teamState.team[tabIdx]?.shiny || false);
+  }, [teamState.team[tabIdx]?.shiny]);
+
   // emit changes to other users
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const newChecked = e.target.checked;
@@ -13,12 +19,6 @@ export function ShinyToggle({ tabIdx, teamState }: PanelProps) {
     // @ts-ignore
     teamState.team[tabIdx].shiny = newChecked;
   };
-
-  // receive changes from other users
-  useEffect(() => {
-    if (!teamState.team[tabIdx]) return;
-    setChecked(teamState.team[tabIdx]?.shiny || false);
-  }, [teamState.team[tabIdx]?.shiny]);
 
   return (
     <div className="flex space-x-0.5 text-sm lg:text-lg">

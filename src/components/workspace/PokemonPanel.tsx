@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 import { GenderPicker } from '@/components/workspace/GenderPicker';
+import { LevelSetter } from '@/components/workspace/LevelSetter';
 import { ShinyToggle } from '@/components/workspace/ShinyToggle';
 import { SpriteAvatar } from '@/components/workspace/SpriteAvatar';
 import { FocusedField, PanelProps } from '@/components/workspace/types';
@@ -34,10 +35,7 @@ export function PokemonPanel({ tabIdx, teamState }: PanelProps) {
         {/* 2. Misc */}
         <div aria-label="misc" className="form-control justify-between">
           {/* Level */}
-          <div className="flex space-x-0.5 text-sm lg:text-lg">
-            <span>Level: </span>
-            <input type="number" defaultValue={50} min={0} max={100} className="input input-xs w-full md:input-sm" />
-          </div>
+          <LevelSetter {...{ tabIdx, teamState }} />
           {/* Gender */}
           <GenderPicker {...{ tabIdx, teamState }} />
           {/* Shiny */}
