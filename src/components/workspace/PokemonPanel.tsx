@@ -2,7 +2,8 @@ import { useState } from 'react';
 
 import { GenderPicker } from '@/components/workspace/GenderPicker';
 import { LevelSetter } from '@/components/workspace/LevelSetter';
-import { PokemonTable } from '@/components/workspace/PokemonTable';
+import { NicknameInput } from '@/components/workspace/NicknameInput';
+import { PokemonTable, SpeciesInput } from '@/components/workspace/PokemonTable';
 import { ShinyToggle } from '@/components/workspace/ShinyToggle';
 import { SpriteAvatar } from '@/components/workspace/SpriteAvatar';
 import { FocusedField, PanelProps } from '@/components/workspace/types';
@@ -28,19 +29,11 @@ export function PokemonPanel({ tabIdx, teamState }: PanelProps) {
         {/* 1. Nickname & Species */}
         <div aria-label="species" className="form-control justify-between">
           {/* Nickname */}
-          <input type="text" placeholder="Nickname" className="input-accent input input-xs" />
+          <NicknameInput {...{ tabIdx, teamState }} />
           {/* Sprite */}
           <SpriteAvatar {...{ tabIdx, teamState }} />
           {/* Species */}
-          <label className="input-group-xs input-group input-group-vertical">
-            <span>Species</span>
-            <input
-              type="text"
-              placeholder="Species"
-              className="input-primary input input-sm md:input-md"
-              onFocus={() => setFocusedField(FocusedField.Species)}
-            />
-          </label>
+          <SpeciesInput onFocus={() => setFocusedField(FocusedField.Species)} {...{ tabIdx, teamState }} />
         </div>
         {/* 2. Misc */}
         <div aria-label="misc" className="form-control justify-between">

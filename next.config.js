@@ -7,6 +7,7 @@ module.exports = withBundleAnalyzer({
   eslint: {
     dirs: ['.'],
   },
+  images: { domains: ['play.pokemonshowdown.com'] },
   poweredByHeader: false,
   trailingSlash: true,
   basePath: '',

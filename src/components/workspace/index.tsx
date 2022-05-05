@@ -1,3 +1,4 @@
+import { Icons } from '@pkmn/img';
 import { getYjsValue, syncedStore } from '@syncedstore/core';
 import { useSyncedStore } from '@syncedstore/react';
 import React, { useEffect, useState } from 'react';
@@ -7,6 +8,7 @@ import { DexContextProvider } from '@/components/workspace/DexContext';
 import { PokemonPanel } from '@/components/workspace/PokemonPanel';
 import { Pokemon } from '@/models/Pokemon';
 import { AppConfig } from '@/utils/AppConfig';
+import { convertStylesStringToObject } from '@/utils/Helpers';
 
 export type WebRTCProviderProps = {
   roomName: string;
@@ -52,13 +54,14 @@ function Workspace({ roomName }: WebRTCProviderProps) {
             <span className="badge indicator-item badge-secondary" onClick={() => removeTab(i)}>
               ×
             </span>
-            <a className={`tab tab-lifted tab-lg ${i === tabIdx ? 'tab-active' : ''}`} onClick={() => setTabIdx(i)}>
+            <a className={`tab tab-lifted tab-md md:tab-lg ${i === tabIdx ? 'tab-active' : ''}`} onClick={() => setTabIdx(i)}>
+              <span style={convertStylesStringToObject(Icons.getPokemon(p.species).style)}></span>
               {p.species}
             </a>
           </div>
         ))}
         {teamState.team.length < AppConfig.maxPokemonPerTeam && (
-          <button className="tab tab-lifted tab-active tab-lg" onClick={() => newTab()}>
+          <button className="tab tab-lifted tab-active tab-md md:tab-lg" onClick={() => newTab()}>
             +
           </button>
         )}

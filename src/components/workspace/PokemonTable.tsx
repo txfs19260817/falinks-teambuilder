@@ -15,7 +15,7 @@ import {
   TableInstance,
   useTableInstance,
 } from '@tanstack/react-table';
-import { useContext, useState } from 'react';
+import { ChangeEvent, useContext, useEffect, useState } from 'react';
 
 import { DexContext } from '@/components/workspace/DexContext';
 import { PanelProps } from '@/components/workspace/types';
@@ -100,6 +100,7 @@ function Filter({ column, instance }: { column: Column<any>; instance: TableInst
   if (Array.isArray(firstValue) && column.id === 'types') {
     return (
       <select
+        className="select select-xs w-16 md:w-24"
         onChange={(e) => {
           column.setColumnFilterValue(e.target.value);
         }}
@@ -151,6 +152,7 @@ function Filter({ column, instance }: { column: Column<any>; instance: TableInst
       </div>
     );
   }
+
   return (
     <input
       type="search"
@@ -162,9 +164,10 @@ function Filter({ column, instance }: { column: Column<any>; instance: TableInst
   );
 }
 
-export function PokemonTable(_props: PanelProps) {
+export function PokemonTable({ tabIdx, teamState }: PanelProps) {
   // get dex
   const { gen } = useContext(DexContext);
+  // table settings
   const [data] = useState<Specie[]>(() => [...Array.from(gen.species)]);
   const [columns] = useState<typeof defaultColumns>(() => [...defaultColumns]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -175,6 +178,7 @@ export function PokemonTable(_props: PanelProps) {
     pageSize: 25,
     pageCount: -1, // -1 allows the table to calculate the page count for us via instance.getPageCount()
   });
+  // table instance
   const instance = useTableInstance(table, {
     data,
     columns,
@@ -194,6 +198,13 @@ export function PokemonTable(_props: PanelProps) {
     getSortedRowModel: getSortedRowModelSync(),
     getPaginationRowModel: getPaginationRowModel(),
   });
+  // handle table events
+  const handleRowClick = (specie?: Specie) => {
+    if (!specie || !teamState.team[tabIdx]) return;
+    // @ts-ignore
+    teamState.team[tabIdx].species = specie.name;
+  };
+  // table render
   return (
     <>
       <table className="table-compact relative table w-full">
@@ -226,7 +237,7 @@ export function PokemonTable(_props: PanelProps) {
         </thead>
         <tbody>
           {instance.getRowModel().rows.map((row) => (
-            <tr key={row.id} className="hover">
+            <tr key={row.id} className="hover" onClick={() => handleRowClick(row.original)}>
               {row.getVisibleCells().map((cell) => (
                 <td key={cell.id}>{cell.renderCell()}</td>
               ))}
@@ -235,7 +246,7 @@ export function PokemonTable(_props: PanelProps) {
         </tbody>
       </table>
       <div className="h-2" />
-      <div className="btn-group w-full items-center justify-center">
+      <div className="btn-group w-full items-center justify-center" aria-label="paginator">
         <button className="btn btn-sm" onClick={() => instance.setPageIndex(0)} disabled={!instance.getCanPreviousPage()}>
           {'<<'}
         </button>
@@ -281,5 +292,43 @@ export function PokemonTable(_props: PanelProps) {
         </select>
       </div>
     </>
+  );
+}
+
+export function SpeciesInput({ onFocus, teamState, tabIdx }: { onFocus: () => void } & PanelProps) {
+  const [species, setSpecies] = useState<string>('Pikachu');
+
+  // receive changes from other users
+  useEffect(() => {
+    if (!teamState.team[tabIdx]) return;
+    setSpecies(teamState.team[tabIdx]?.species || 'Pikachu');
+  }, [teamState.team[tabIdx]?.species]);
+
+  // emit changes to other users
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const newSp = e.target.value;
+    // setSpecies(newSp);
+    if (!teamState.team[tabIdx]) return;
+    // @ts-ignore
+    teamState.team[tabIdx].species = newSp;
+  };
+
+  return (
+    <div className="tooltip" data-tip="Please pick Pokémon below">
+      <label className="input-group-xs input-group input-group-vertical">
+        <span>Species</span>
+        <input
+          type="text"
+          placeholder="Species"
+          className="input-primary input input-sm md:input-md"
+          value={species}
+          onFocus={onFocus}
+          onChange={handleChange}
+          onKeyDown={(event) => {
+            event.preventDefault();
+          }}
+        />
+      </label>
+    </div>
   );
 }

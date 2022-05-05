@@ -23,7 +23,7 @@ export function LevelSetter({ tabIdx, teamState }: PanelProps) {
   return (
     <div className="flex space-x-0.5 text-sm lg:text-lg">
       <span>Level: </span>
-      <input type="number" value={level} min={0} max={100} className="input input-xs w-full md:input-sm" onChange={(e) => handleChange(e)} />
+      <input type="number" value={level} min={0} max={100} className="input input-xs w-full md:input-sm" onChange={handleChange} />
     </div>
   );
 }

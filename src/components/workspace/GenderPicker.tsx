@@ -35,15 +35,7 @@ export function GenderPicker({ tabIdx, teamState }: PanelProps) {
       {availableGenders.map((g) => (
         <Fragment key={g}>
           <label>{g}</label>
-          <input
-            type="radio"
-            value={g}
-            checked={gender === g}
-            className="radio radio-sm md:radio-md"
-            onChange={(e) => {
-              handleChange(e);
-            }}
-          />
+          <input type="radio" value={g} checked={gender === g} className="radio radio-sm md:radio-md" onChange={handleChange} />
         </Fragment>
       ))}
     </div>

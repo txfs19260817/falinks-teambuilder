@@ -1,4 +1,5 @@
 import { Sprites } from '@pkmn/img';
+import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
 import { PanelProps } from '@/components/workspace/types';
@@ -21,7 +22,7 @@ export function SpriteAvatar({ teamState, tabIdx }: PanelProps) {
   return (
     <div className="avatar flex items-center justify-center py-1">
       <div className="w-48 rounded-xl">
-        <img src={spriteUrl} alt="sprite" />
+        <Image src={spriteUrl} alt="sprite" layout="fill" objectFit="contain" />
       </div>
     </div>
   );
