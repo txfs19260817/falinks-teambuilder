@@ -12,7 +12,7 @@
     "lint": "next lint",
     "build-types": "tsc --noEmit --pretty --skipLibCheck",
     "prepare": "husky install",
-    "test": "jest --watch"
+    "test": "jest --coverage"
   },
   "dependencies": {
     "@pkmn/data": "^0.5.15",
