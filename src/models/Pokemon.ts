@@ -1,3 +1,4 @@
+import { Sets } from '@pkmn/sets';
 import { PokemonSet, StatsTable } from '@pkmn/types';
 
 import { guidGenerator } from '@/utils/Helpers';
@@ -47,7 +48,10 @@ export class Pokemon implements PokemonSet {
     evs?: StatsTable,
     gender?: string,
     ivs?: StatsTable,
-    level?: number
+    level?: number,
+    gigantamax?: boolean,
+    happiness?: number,
+    shiny?: boolean
   ) {
     this.id = guidGenerator();
     this.species = species;
@@ -60,5 +64,17 @@ export class Pokemon implements PokemonSet {
     this.gender = gender || '';
     this.ivs = ivs || { hp: 31, atk: 31, def: 31, spa: 31, spd: 31, spe: 31 };
     this.level = level || 50;
+    this.gigantamax = gigantamax;
+    this.happiness = happiness;
+    this.shiny = shiny;
+  }
+
+  static exportSet(p: Pokemon | Partial<PokemonSet>): string {
+    return Sets.exportSet(p);
+  }
+
+  static importSet(s: string): Pokemon {
+    const { species, name, item, ability, moves, nature, evs, gender, ivs, level, gigantamax, happiness, shiny } = Sets.importSet(s);
+    return new Pokemon(species as string, name, item, ability, moves, nature, evs, gender, ivs, level, gigantamax, happiness, shiny);
   }
 }
