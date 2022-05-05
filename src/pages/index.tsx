@@ -45,7 +45,9 @@ const Index = () => {
                 className="input-bordered input w-full max-w-xs text-base-content"
                 {...register('roomName')}
               />
-              <button className="btn btn-primary">Create/Join</button>
+              <button className="btn btn-primary" role="button">
+                Create/Join
+              </button>
             </form>
           </div>
         </div>
