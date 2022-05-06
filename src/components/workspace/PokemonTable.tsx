@@ -145,6 +145,10 @@ export function PokemonTable({ tabIdx, teamState }: PanelProps) {
     teamState.team[tabIdx].species = specie.name;
     // @ts-ignore
     teamState.team[tabIdx].ability = specie.abilities[0]; // eslint-disable-line prefer-destructuring
+    if (specie.requiredItem) {
+      // @ts-ignore
+      teamState.team[tabIdx].item = specie.requiredItem; // eslint-disable-line prefer-destructuring
+    }
   };
 
   // table render
