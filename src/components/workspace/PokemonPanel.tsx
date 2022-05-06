@@ -1,6 +1,8 @@
 import { useState } from 'react';
 
+import { AbilitiesTable, AbilityInput } from '@/components/workspace/AbilitiesTable';
 import { GenderPicker } from '@/components/workspace/GenderPicker';
+import { ItemInput, ItemsTable } from '@/components/workspace/ItemsTable';
 import { LevelSetter } from '@/components/workspace/LevelSetter';
 import { NicknameInput } from '@/components/workspace/NicknameInput';
 import { PokemonTable, SpeciesInput } from '@/components/workspace/PokemonTable';
@@ -12,6 +14,10 @@ const RenderSwitch = ({ focusedField, tabIdx, teamState }: { focusedField: Focus
   switch (focusedField) {
     case FocusedField.Species:
       return <PokemonTable {...{ tabIdx, teamState }} />;
+    case FocusedField.Item:
+      return <ItemsTable {...{ tabIdx, teamState }} />;
+    case FocusedField.Ability:
+      return <AbilitiesTable {...{ tabIdx, teamState }} />;
     default:
       return <>{focusedField}</>;
   }
@@ -44,20 +50,9 @@ export function PokemonPanel({ tabIdx, teamState }: PanelProps) {
           {/* Shiny */}
           <ShinyToggle {...{ tabIdx, teamState }} />
           {/* Item */}
-          <label className="input-group-xs input-group input-group-vertical md:input-group-md">
-            <span>Item</span>
-            <input type="text" placeholder="Item" className="input-bordered input input-xs md:input-md" onFocus={() => setFocusedField(FocusedField.Item)} />
-          </label>
+          <ItemInput onFocus={() => setFocusedField(FocusedField.Item)} {...{ tabIdx, teamState }} />
           {/* Ability */}
-          <label className="input-group-xs input-group input-group-vertical md:input-group-md">
-            <span>Ability</span>
-            <input
-              type="text"
-              placeholder="Ability"
-              className="input-bordered input input-xs md:input-md"
-              onFocus={() => setFocusedField(FocusedField.Ability)}
-            />
-          </label>
+          <AbilityInput onFocus={() => setFocusedField(FocusedField.Ability)} {...{ tabIdx, teamState }} />
         </div>
         {/* 3. Moves */}
         <div aria-label="moves" className="form-control justify-between">
