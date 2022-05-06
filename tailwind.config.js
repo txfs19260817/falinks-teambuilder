@@ -15,7 +15,7 @@ module.exports = {
       '3xl': '1.875rem',
       '4xl': '2.25rem',
       '5xl': '3rem',
-      '6xl': '4rem',
+      '6xl': '4rem'
     },
     extend: {
       colors: {
@@ -28,7 +28,7 @@ module.exports = {
           600: '#718096',
           700: '#4a5568',
           800: '#2d3748',
-          900: '#1a202c',
+          900: '#1a202c'
         },
         blue: {
           100: '#ebf8ff',
@@ -39,10 +39,13 @@ module.exports = {
           600: '#3182ce',
           700: '#2b6cb0',
           800: '#2c5282',
-          900: '#2a4365',
-        },
-      },
-    },
+          900: '#2a4365'
+        }
+      }
+    }
   },
   plugins: [typography, daisyUI],
+  daisyui: {
+    logs: false
+  }
 };

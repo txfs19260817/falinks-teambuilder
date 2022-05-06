@@ -1,23 +1,23 @@
 import { Specie } from '@pkmn/data';
+import { AbilityName, SpeciesAbility } from '@pkmn/dex-types';
 import { Icons } from '@pkmn/img';
+import { StatsTable } from '@pkmn/types';
 import {
-  Column,
   ColumnFiltersState,
   createTable,
-  getColumnFilteredRowModelSync,
   getCoreRowModelSync,
-  getGlobalFilteredRowModelSync,
+  getFilteredRowModelSync,
   getPaginationRowModel,
   getSortedRowModelSync,
   PaginationState,
   Row,
   SortingState,
-  TableInstance,
   useTableInstance,
 } from '@tanstack/react-table';
-import { ChangeEvent, useContext, useEffect, useState } from 'react';
+import { ChangeEvent, Key, useContext, useEffect, useMemo, useState } from 'react';
 
 import { DexContext } from '@/components/workspace/DexContext';
+import { OmniFilter } from '@/components/workspace/OmniFilter';
 import { PanelProps } from '@/components/workspace/types';
 import { convertStylesStringToObject } from '@/utils/Helpers';
 
@@ -25,7 +25,7 @@ const table = createTable().setRowType<Specie>();
 const defaultColumns = [
   table.createDataColumn('name', {
     header: 'Name',
-    cell: ({ value }) => (
+    cell: ({ value }: { value: string }) => (
       <span>
         <span style={convertStylesStringToObject(Icons.getPokemon(value).style)}></span>
         {value}
@@ -34,24 +34,22 @@ const defaultColumns = [
   }),
   table.createDataColumn('types', {
     header: 'Types',
-    enableSorting: false,
-    cell: ({ value }) => (
+    cell: ({ value }: { value: string[] }) => (
       <span>
         {value.map((type) => (
-          <img key={type} className="inline-block" alt={type} src={Icons.getType(type).url} loading="lazy" />
+          <img className="inline-block" key={type} alt={type} title={type} src={Icons.getType(type).url} loading="lazy" />
         ))}
       </span>
     ),
-    filterFn: (rows: Row<any>[], _columnIds: string[], filterValue: any) => {
-      return rows.filter((row) => row.values.types.includes(filterValue));
-    },
+    enableSorting: false,
+    filterFn: 'arrIncludes',
   }),
   table.createDataColumn('abilities', {
     header: 'Abilities',
+    cell: ({ value }: { value: SpeciesAbility<AbilityName | ''> }) => Object.values(value).join('/'),
     enableSorting: false,
-    cell: ({ value }) => Object.values(value).join('/'),
-    filterFn: (rows: Row<any>[], _columnIds: string[], filterValue: string) => {
-      return rows.filter((row) => JSON.stringify(row.values.abilities).toLowerCase().includes(filterValue.toLowerCase()));
+    filterFn: (row: Row<any>, columnId: string, filterValue: string) => {
+      return Object.values(row.values[columnId]).join(' ').toLowerCase().includes(filterValue.toLowerCase());
     },
   }),
   table.createDataColumn((row) => row.baseStats.hp, {
@@ -90,86 +88,27 @@ const defaultColumns = [
     enableColumnFilter: false,
     enableGlobalFilter: false,
   }),
+  table.createDataColumn((row) => row.baseStats, {
+    id: 'total',
+    header: 'Total',
+    cell: ({ value }: { value: StatsTable }) => {
+      return Object.values(value).reduce((acc, curr) => acc + curr, 0);
+    },
+    enableColumnFilter: false,
+    enableGlobalFilter: false,
+    sortingFn: (a: Row<any>, b: Row<any>, columnId: string) =>
+      Object.values<number>(a.values[columnId]).reduce((acc, curr) => acc + curr, 0) -
+      Object.values<number>(b.values[columnId]).reduce((acc, curr) => acc + curr, 0),
+  }),
 ];
-
-function Filter({ column, instance }: { column: Column<any>; instance: TableInstance<any> }) {
-  if (!column.getCanColumnFilter()) return null;
-  const firstValue = instance.getPreColumnFilteredRowModel().flatRows[0]?.values[column.id];
-  const columnFilterValue = column.getColumnFilterValue();
-
-  if (Array.isArray(firstValue) && column.id === 'types') {
-    return (
-      <select
-        className="select select-xs w-16 md:w-24"
-        onChange={(e) => {
-          column.setColumnFilterValue(e.target.value);
-        }}
-      >
-        <option value="">All</option>
-        <option value="Grass">Grass</option>
-        <option value="Fire">Fire</option>
-        <option value="Water">Water</option>
-        <option value="Bug">Bug</option>
-        <option value="Normal">Normal</option>
-        <option value="Poison">Poison</option>
-        <option value="Electric">Electric</option>
-        <option value="Ground">Ground</option>
-        <option value="Rock">Rock</option>
-        <option value="Flying">Flying</option>
-        <option value="Fighting">Fighting</option>
-        <option value="Psychic">Psychic</option>
-        <option value="Ice">Ice</option>
-        <option value="Ghost">Ghost</option>
-        <option value="Dragon">Dragon</option>
-        <option value="Dark">Dark</option>
-        <option value="Steel">Steel</option>
-        <option value="Fairy">Fairy</option>
-      </select>
-    );
-  }
-
-  if (typeof firstValue === 'number') {
-    return (
-      <div className="flex space-x-1">
-        <input
-          type="number"
-          min={Number(column.getPreFilteredMinMaxValues()[0])}
-          max={Number(column.getPreFilteredMinMaxValues()[1])}
-          value={(columnFilterValue as [number, number])?.[0] ?? ''}
-          onChange={(e) => column.setColumnFilterValue((old: [number, number]) => [e.target.value, old?.[1]])}
-          placeholder={`↓ (${column.getPreFilteredMinMaxValues()[0]})`}
-          className="input input-xs w-16 shadow"
-        />
-        <input
-          type="number"
-          min={Number(column.getPreFilteredMinMaxValues()[0])}
-          max={Number(column.getPreFilteredMinMaxValues()[1])}
-          value={(columnFilterValue as [number, number])?.[1] ?? ''}
-          onChange={(e) => column.setColumnFilterValue((old: [number, number]) => [old?.[0], e.target.value])}
-          placeholder={`↑ (${column.getPreFilteredMinMaxValues()[1]})`}
-          className="input input-xs w-16 shadow"
-        />
-      </div>
-    );
-  }
-
-  return (
-    <input
-      type="search"
-      value={(columnFilterValue ?? '') as string}
-      onChange={(e) => column.setColumnFilterValue(e.target.value)}
-      placeholder={`... (${column.getPreFilteredUniqueValues().size} rows)`}
-      className="input input-xs w-24 shadow md:w-32"
-    />
-  );
-}
 
 export function PokemonTable({ tabIdx, teamState }: PanelProps) {
   // get dex
   const { gen } = useContext(DexContext);
+
   // table settings
   const [data] = useState<Specie[]>(() => [...Array.from(gen.species)]);
-  const [columns] = useState<typeof defaultColumns>(() => [...defaultColumns]);
+  const columns = useMemo<typeof defaultColumns>(() => [...defaultColumns], []);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [globalFilter, setGlobalFilter] = useState('');
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -178,6 +117,7 @@ export function PokemonTable({ tabIdx, teamState }: PanelProps) {
     pageSize: 25,
     pageCount: -1, // -1 allows the table to calculate the page count for us via instance.getPageCount()
   });
+
   // table instance
   const instance = useTableInstance(table, {
     data,
@@ -192,24 +132,25 @@ export function PokemonTable({ tabIdx, teamState }: PanelProps) {
     onGlobalFilterChange: setGlobalFilter,
     onSortingChange: setSorting,
     onPaginationChange: setPagination,
-    getColumnFilteredRowModel: getColumnFilteredRowModelSync(),
-    getGlobalFilteredRowModel: getGlobalFilteredRowModelSync(),
+    getFilteredRowModel: getFilteredRowModelSync(),
     getCoreRowModel: getCoreRowModelSync(),
     getSortedRowModel: getSortedRowModelSync(),
     getPaginationRowModel: getPaginationRowModel(),
   });
+
   // handle table events
   const handleRowClick = (specie?: Specie) => {
     if (!specie || !teamState.team[tabIdx]) return;
     // @ts-ignore
     teamState.team[tabIdx].species = specie.name;
   };
+
   // table render
   return (
     <>
       <table className="table-compact relative table w-full">
         <thead>
-          {instance.getHeaderGroups().map((headerGroup) => (
+          {instance.getHeaderGroups().map((headerGroup: { id?: Key; headers: any[] }) => (
             <tr key={headerGroup.id}>
               {headerGroup.headers.map((header) => (
                 <th key={header.id} colSpan={header.colSpan} className="sticky top-0">
@@ -227,7 +168,7 @@ export function PokemonTable({ tabIdx, teamState }: PanelProps) {
                           desc: '↓',
                         }[header.column.getIsSorted() as string] ?? (header.column.getCanSort() ? '⇵' : null)}
                       </div>
-                      <Filter column={header.column} instance={instance} />
+                      <OmniFilter column={header.column} instance={instance} />
                     </>
                   )}
                 </th>
@@ -236,7 +177,7 @@ export function PokemonTable({ tabIdx, teamState }: PanelProps) {
           ))}
         </thead>
         <tbody>
-          {instance.getRowModel().rows.map((row) => (
+          {instance.getRowModel().rows.map((row: { id?: Key; original?: Specie; getVisibleCells: () => any[] }) => (
             <tr key={row.id} className="hover" onClick={() => handleRowClick(row.original)}>
               {row.getVisibleCells().map((cell) => (
                 <td key={cell.id}>{cell.renderCell()}</td>
