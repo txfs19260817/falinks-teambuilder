@@ -35,7 +35,7 @@ export function AbilitiesTable({ tabIdx, teamState }: PanelProps) {
   const { gen } = useContext(DexContext);
 
   // table settings
-  const [data, setData] = useState<Ability[]>(() => [...getAbilitiesBySpecie(gen, teamState.team[tabIdx]?.species)]);
+  const [data, setData] = useState<Ability[]>([]);
   useEffect(() => {
     setData(() => [...getAbilitiesBySpecie(gen, teamState.team[tabIdx]?.species)]);
   }, [teamState.team[tabIdx]?.species]);

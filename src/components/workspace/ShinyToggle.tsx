@@ -22,7 +22,7 @@ export function ShinyToggle({ tabIdx, teamState }: PanelProps) {
 
   return (
     <div className="md:text-md flex inline-flex space-x-0.5 text-xs">
-      <label>Shiny: </label>
+      <label>Shiny</label>
       <div className="whitespace-nowrap">
         <label className="swap swap-flip">
           <input type="checkbox" checked={checked} onChange={(e) => handleChange(e)} />

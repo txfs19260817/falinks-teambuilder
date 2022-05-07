@@ -35,7 +35,7 @@ export function GmaxToggle({ tabIdx, teamState }: PanelProps) {
 
   return (
     <div className="md:text-md flex inline-flex space-x-0.5 text-xs">
-      <label>G-Max: </label>
+      <label>GMax</label>
       <div className="whitespace-nowrap">
         <label className={`swap ${isGigantamax ? 'swap-active' : 'swap-flip'}`}>
           <input type="checkbox" checked={checked} onChange={(e) => handleChange(e)} disabled={!isChangable} />

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 import { AbilitiesTable, AbilityInput } from '@/components/workspace/AbilitiesTable';
+import { EvsSliders } from '@/components/workspace/EvsSliders';
 import { GenderPicker } from '@/components/workspace/GenderPicker';
 import { GmaxToggle } from '@/components/workspace/GmaxToggle';
 import { ItemInput, ItemsTable } from '@/components/workspace/ItemsTable';
@@ -14,8 +15,7 @@ import { FocusedField, FocusedFieldToIdx, PanelProps } from '@/components/worksp
 
 const RenderSwitch = ({ focusedField, tabIdx, teamState }: { focusedField: FocusedFieldToIdx } & PanelProps) => {
   const firstEntry = Object.entries(focusedField)[0];
-  if (!firstEntry) return null;
-  const [field, idx] = firstEntry;
+  const [field, idx] = firstEntry ?? ['', 0];
   switch (field) {
     case FocusedField.Species:
       return <PokemonTable {...{ tabIdx, teamState }} />;
@@ -26,9 +26,9 @@ const RenderSwitch = ({ focusedField, tabIdx, teamState }: { focusedField: Focus
     case FocusedField.Moves:
       return <MovesTable {...{ tabIdx, teamState }} moveIdx={idx} />;
     case FocusedField.Stats:
-      return <>{field}</>;
+      return <EvsSliders {...{ tabIdx, teamState }} />;
     default:
-      return <>{focusedField}</>;
+      return <>{field}</>;
   }
 };
 
