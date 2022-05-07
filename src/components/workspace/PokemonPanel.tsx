@@ -131,7 +131,7 @@ export function PokemonPanel({ tabIdx, teamState }: PanelProps) {
           </label>
         </div>
         {/* 5. Lower part */}
-        <div className="col-start-1 col-end-5 max-h-52 overflow-y-scroll border-2 md:max-h-72">
+        <div className="col-start-1 col-end-5 max-h-52 overflow-y-auto border-2 md:max-h-72">
           <RenderSwitch {...{ focusedField, tabIdx, teamState }} />
         </div>
       </div>

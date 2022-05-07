@@ -49,15 +49,26 @@ export function EvsSliders({ tabIdx, teamState }: PanelProps) {
 
   return (
     <>
+      <div role="rowheader" className="grid grid-cols-12 overflow-x-hidden px-4 text-xs font-bold md:gap-x-4 md:text-sm">
+        <span></span>
+        <span>Base</span>
+        <span className="invisible md:visible">Nature</span>
+        <span className="mx-2 md:mx-0">EVs</span>
+        <span className="col-span-6"></span>
+        <span>IVs</span>
+        <span>Stats</span>
+      </div>
       {['hp', 'atk', 'def', 'spa', 'spd', 'spe'].map((stat) => {
         const b = (base as unknown as { [s: string]: number })[stat] ?? 0;
         const iv = (ivs as unknown as { [s: string]: number })[stat] ?? 31;
         const ev = (evs as unknown as { [s: string]: number })[stat] ?? 0;
         const lv = teamState.team[tabIdx]?.level ?? 50;
         return (
-          <div key={stat} className="flex items-center space-x-2 px-4 text-xs md:text-sm">
-            <label className="w-1/6 uppercase md:w-1/12">{stat}</label>
-            <span className="w-1/6 uppercase md:w-1/12">{b}</span>
+          <div key={stat} className="grid-rows-7 grid grid-cols-12 items-center overflow-hidden px-4 text-xs md:gap-x-4 md:text-sm">
+            <span className="font-bold uppercase" role="columnheader">
+              {stat}
+            </span>
+            <span className="uppercase">{b}</span>
             <div className="flex space-x-0.5">
               <input type="radio" name="desc" className="radio-primary radio radio-xs md:radio-sm" />
               <input type="radio" name="inc" className="radio-secondary radio radio-xs md:radio-sm" />
@@ -69,7 +80,7 @@ export function EvsSliders({ tabIdx, teamState }: PanelProps) {
               max="252"
               step="4"
               value={ev}
-              className="input-bordered input input-xs md:input-sm"
+              className="input-bordered input input-xs col-span-2 mx-2 md:input-sm md:col-span-1 md:mx-0"
               onChange={(e) => {
                 setEvs({ ...evs, [stat]: Number(e.target.value) });
                 // @ts-ignore
@@ -86,7 +97,7 @@ export function EvsSliders({ tabIdx, teamState }: PanelProps) {
               max="252"
               step="4"
               value={ev}
-              className="range range-xs md:range-sm"
+              className="range range-xs col-span-5 md:range-sm md:col-span-6"
               onChange={(e) => {
                 setEvs({ ...evs, [stat]: Number(e.target.value) });
                 // @ts-ignore
@@ -112,7 +123,7 @@ export function EvsSliders({ tabIdx, teamState }: PanelProps) {
                 };
               }}
             />
-            <span className="w-1/6 md:w-1/12">
+            <span>
               {stat === 'hp'
                 ? Math.floor((Math.floor(2 * b + iv + Math.floor(ev / 4) + 100) * lv) / 100 + 10)
                 : Math.floor((Math.floor(2 * b + iv + Math.floor(ev / 4)) * lv) / 100 + 5)}
