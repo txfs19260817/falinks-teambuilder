@@ -58,7 +58,7 @@ export class Pokemon implements PokemonSet {
     this.name = name || '';
     this.item = item || '';
     this.ability = ability || '';
-    this.moves = moves || [];
+    this.moves = moves || ['', '', '', ''];
     this.nature = nature || 'Hardy';
     this.evs = evs || { hp: 0, atk: 0, def: 0, spa: 0, spd: 0, spe: 0 };
     this.gender = gender || '';

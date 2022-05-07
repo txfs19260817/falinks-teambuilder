@@ -5,7 +5,7 @@ export function OmniFilter({ column, instance }: { column: Column<any>; instance
   const firstValue = instance.getPreFilteredRowModel().flatRows[0]?.values[column.id];
   const columnFilterValue = column.getFilterValue();
 
-  if (Array.isArray(firstValue) && column.id === 'types') {
+  if (column.id === 'types' || column.id === 'type') {
     return (
       <select
         className="select select-xs w-16 md:w-24"
@@ -32,6 +32,22 @@ export function OmniFilter({ column, instance }: { column: Column<any>; instance
         <option value="Rock">Rock</option>
         <option value="Steel">Steel</option>
         <option value="Water">Water</option>
+      </select>
+    );
+  }
+
+  if (column.id === 'category') {
+    return (
+      <select
+        className="select select-xs w-16 md:w-24"
+        onChange={(e) => {
+          column.setFilterValue(e.target.value);
+        }}
+      >
+        <option value="">All</option>
+        <option value="Physical">Physical</option>
+        <option value="Special">Special</option>
+        <option value="Status">Status</option>
       </select>
     );
   }

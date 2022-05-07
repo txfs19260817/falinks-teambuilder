@@ -20,3 +20,5 @@ export const convertStylesStringToObject = (stringStyles: string) =>
 
     return value ? { ...acc, [camelCaseProperty]: value } : acc;
   }, {});
+
+export const trimGmaxFromName = (name: string): string => name.replace(/-Gmax$/, '');

@@ -20,5 +20,5 @@ export function NicknameInput({ tabIdx, teamState }: PanelProps) {
     teamState.team[tabIdx].name = newNick;
   };
 
-  return <input type="text" placeholder="Nickname" className="input-accent input input-xs" value={nickname} onChange={handleChange} />;
+  return <input type="text" placeholder="Nickname" className="input-bordered input input-xs" value={nickname} onChange={handleChange} />;
 }

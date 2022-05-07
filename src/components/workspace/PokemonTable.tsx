@@ -149,6 +149,8 @@ export function PokemonTable({ tabIdx, teamState }: PanelProps) {
       // @ts-ignore
       teamState.team[tabIdx].item = specie.requiredItem; // eslint-disable-line prefer-destructuring
     }
+    // @ts-ignore
+    teamState.team[tabIdx].moves.splice(0, 4, ...['', '', '', '']);
   };
 
   // table render

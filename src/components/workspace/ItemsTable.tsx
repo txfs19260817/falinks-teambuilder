@@ -169,12 +169,12 @@ export function ItemsTable({ tabIdx, teamState }: PanelProps) {
 }
 
 export function ItemInput({ onFocus, teamState, tabIdx }: { onFocus: () => void } & PanelProps) {
-  const [item, setItem] = useState<string>('Focus Sash');
+  const [item, setItem] = useState<string>('');
 
   // receive changes from other users
   useEffect(() => {
     if (!teamState.team[tabIdx]) return;
-    setItem(teamState.team[tabIdx]?.item || 'Focus Sash');
+    setItem(teamState.team[tabIdx]?.item || '');
   }, [teamState.team[tabIdx]?.item]);
 
   // emit changes to other users
@@ -192,7 +192,7 @@ export function ItemInput({ onFocus, teamState, tabIdx }: { onFocus: () => void 
         <input
           type="text"
           placeholder="Item"
-          className="input-bordered input input-xs md:input-md"
+          className="input-secondary input input-xs md:input-md"
           value={item}
           onFocus={onFocus}
           onChange={handleChange}

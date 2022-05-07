@@ -2,29 +2,40 @@ import { useState } from 'react';
 
 import { AbilitiesTable, AbilityInput } from '@/components/workspace/AbilitiesTable';
 import { GenderPicker } from '@/components/workspace/GenderPicker';
+import { GmaxToggle } from '@/components/workspace/GmaxToggle';
 import { ItemInput, ItemsTable } from '@/components/workspace/ItemsTable';
 import { LevelSetter } from '@/components/workspace/LevelSetter';
+import { MoveInput, MovesTable } from '@/components/workspace/MovesTable';
 import { NicknameInput } from '@/components/workspace/NicknameInput';
 import { PokemonTable, SpeciesInput } from '@/components/workspace/PokemonTable';
 import { ShinyToggle } from '@/components/workspace/ShinyToggle';
 import { SpriteAvatar } from '@/components/workspace/SpriteAvatar';
-import { FocusedField, PanelProps } from '@/components/workspace/types';
+import { FocusedField, FocusedFieldToIdx, PanelProps } from '@/components/workspace/types';
 
-const RenderSwitch = ({ focusedField, tabIdx, teamState }: { focusedField: FocusedField } & PanelProps) => {
-  switch (focusedField) {
+const RenderSwitch = ({ focusedField, tabIdx, teamState }: { focusedField: FocusedFieldToIdx } & PanelProps) => {
+  const firstEntry = Object.entries(focusedField)[0];
+  if (!firstEntry) return null;
+  const [field, idx] = firstEntry;
+  switch (field) {
     case FocusedField.Species:
       return <PokemonTable {...{ tabIdx, teamState }} />;
     case FocusedField.Item:
       return <ItemsTable {...{ tabIdx, teamState }} />;
     case FocusedField.Ability:
       return <AbilitiesTable {...{ tabIdx, teamState }} />;
+    case FocusedField.Moves:
+      return <MovesTable {...{ tabIdx, teamState }} moveIdx={idx} />;
+    case FocusedField.Stats:
+      return <>{field}</>;
     default:
       return <>{focusedField}</>;
   }
 };
 
 export function PokemonPanel({ tabIdx, teamState }: PanelProps) {
-  const [focusedField, setFocusedField] = useState<FocusedField>(FocusedField.Species);
+  const [focusedField, setFocusedField] = useState<FocusedFieldToIdx>({
+    Species: 0,
+  });
   if (tabIdx < 0 || tabIdx >= teamState.team.length) {
     return <div className="flex justify-center bg-base-200 px-4 py-16">Please create / select a Pokemon</div>;
   }
@@ -39,7 +50,14 @@ export function PokemonPanel({ tabIdx, teamState }: PanelProps) {
           {/* Sprite */}
           <SpriteAvatar {...{ tabIdx, teamState }} />
           {/* Species */}
-          <SpeciesInput onFocus={() => setFocusedField(FocusedField.Species)} {...{ tabIdx, teamState }} />
+          <SpeciesInput
+            onFocus={() =>
+              setFocusedField({
+                Species: 0,
+              })
+            }
+            {...{ tabIdx, teamState }}
+          />
         </div>
         {/* 2. Misc */}
         <div aria-label="misc" className="form-control justify-between">
@@ -47,32 +65,54 @@ export function PokemonPanel({ tabIdx, teamState }: PanelProps) {
           <LevelSetter {...{ tabIdx, teamState }} />
           {/* Gender */}
           <GenderPicker {...{ tabIdx, teamState }} />
-          {/* Shiny */}
-          <ShinyToggle {...{ tabIdx, teamState }} />
+          {/* Shiny & Gigantamax */}
+          <div className="flex">
+            <ShinyToggle {...{ tabIdx, teamState }} />
+            <GmaxToggle {...{ tabIdx, teamState }} />
+          </div>
           {/* Item */}
-          <ItemInput onFocus={() => setFocusedField(FocusedField.Item)} {...{ tabIdx, teamState }} />
+          <ItemInput
+            onFocus={() =>
+              setFocusedField({
+                Item: 0,
+              })
+            }
+            {...{ tabIdx, teamState }}
+          />
           {/* Ability */}
-          <AbilityInput onFocus={() => setFocusedField(FocusedField.Ability)} {...{ tabIdx, teamState }} />
+          <AbilityInput
+            onFocus={() =>
+              setFocusedField({
+                Ability: 0,
+              })
+            }
+            {...{ tabIdx, teamState }}
+          />
         </div>
         {/* 3. Moves */}
         <div aria-label="moves" className="form-control justify-between">
-          {[1, 2, 3, 4].map((i) => (
-            <label key={i} className="input-group-xs input-group input-group-vertical">
-              <span>Moves {i}</span>
-              <input
-                type="text"
-                placeholder={`Move ${i}`}
-                className="input-bordered input input-sm md:input-md"
-                onFocus={() => setFocusedField(FocusedField.Moves)}
-              />
-            </label>
+          {[0, 1, 2, 3].map((i) => (
+            <MoveInput
+              key={i}
+              moveIdx={i}
+              onFocus={() =>
+                setFocusedField({
+                  Moves: i,
+                })
+              }
+              {...{ tabIdx, teamState }}
+            />
           ))}
         </div>
         {/* 4. Status */}
         <div aria-label="status" className="form-control justify-start">
           <label
             className="input-group-md input-group input-group-vertical rounded-lg border border-base-300 transition-all hover:opacity-80 hover:shadow-xl md:input-group-lg"
-            onClick={() => setFocusedField(FocusedField.Stats)}
+            onClick={() =>
+              setFocusedField({
+                Stats: 0,
+              })
+            }
           >
             <span>Status</span>
             {Object.entries({
@@ -90,6 +130,7 @@ export function PokemonPanel({ tabIdx, teamState }: PanelProps) {
             ))}
           </label>
         </div>
+        {/* 5. Lower part */}
         <div className="col-start-1 col-end-5 max-h-52 overflow-y-scroll border-2 md:max-h-72">
           <RenderSwitch {...{ focusedField, tabIdx, teamState }} />
         </div>
