@@ -6,6 +6,7 @@ import { WebrtcProvider } from 'y-webrtc';
 
 import { DexContextProvider } from '@/components/workspace/DexContext';
 import { PokemonPanel } from '@/components/workspace/PokemonPanel';
+import { FocusedFieldToIdx } from '@/components/workspace/types';
 import { Pokemon } from '@/models/Pokemon';
 import { AppConfig } from '@/utils/AppConfig';
 import { convertStylesStringToObject } from '@/utils/Helpers';
@@ -25,9 +26,17 @@ function Workspace({ roomName }: WebRTCProviderProps) {
   // Tab state and methods
   const [tabIdx, setTabIdx] = useState<number>(0);
 
+  // Panel in the current tab
+  const [focusedField, setFocusedField] = useState<FocusedFieldToIdx>({
+    Species: 0,
+  });
+
   const newTab = () => {
-    const newLen = teamState.team.push(new Pokemon('Pikachu'));
+    const newLen = teamState.team.push(new Pokemon('Bulbasaur'));
     setTabIdx(newLen - 1);
+    setFocusedField({
+      Species: 0,
+    });
   };
 
   const removeTab = (index: number) => {
@@ -67,7 +76,7 @@ function Workspace({ roomName }: WebRTCProviderProps) {
         )}
       </div>
       {/* Panel */}
-      <PokemonPanel tabIdx={tabIdx} teamState={teamState} />
+      <PokemonPanel {...{ focusedField, setFocusedField, tabIdx, teamState }} />
     </DexContextProvider>
   );
 }

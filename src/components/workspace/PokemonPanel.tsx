@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 
 import { AbilitiesTable, AbilityInput } from '@/components/workspace/AbilitiesTable';
 import { EvsSliders } from '@/components/workspace/EvsSliders';
@@ -32,10 +32,15 @@ const RenderSwitch = ({ focusedField, tabIdx, teamState }: { focusedField: Focus
   }
 };
 
-export function PokemonPanel({ tabIdx, teamState }: PanelProps) {
-  const [focusedField, setFocusedField] = useState<FocusedFieldToIdx>({
-    Species: 0,
-  });
+export function PokemonPanel({
+  focusedField,
+  setFocusedField,
+  tabIdx,
+  teamState,
+}: {
+  focusedField: FocusedFieldToIdx;
+  setFocusedField: Dispatch<SetStateAction<FocusedFieldToIdx>>;
+} & PanelProps) {
   if (tabIdx < 0 || tabIdx >= teamState.team.length) {
     return <div className="flex justify-center bg-base-200 px-4 py-16">Please create / select a Pokemon</div>;
   }
