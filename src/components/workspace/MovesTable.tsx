@@ -1,6 +1,7 @@
 import { Generation, Move } from '@pkmn/data';
 import { Icons } from '@pkmn/img';
 import { ColumnFiltersState, createTable, getCoreRowModelSync, getFilteredRowModelSync, getSortedRowModelSync, useTableInstance } from '@tanstack/react-table';
+import Image from 'next/image';
 import { ChangeEvent, Key, useContext, useEffect, useMemo, useState } from 'react';
 
 import { DexContext } from '@/components/workspace/DexContext';
@@ -16,8 +17,8 @@ const defaultColumns = [
   }),
   table.createDataColumn('type', {
     header: 'Type',
-    cell: ({ value }: { value: string }) => (
-      <img className="inline-block" key={value} alt={value} title={value} src={Icons.getType(value).url} loading="lazy" />
+    cell: ({ value: type }: { value: string }) => (
+      <Image className="inline-block" width={32} height={14} key={type} alt={type} title={type} src={Icons.getType(type).url} loading="lazy" />
     ),
   }),
   table.createDataColumn('category', {
@@ -96,7 +97,7 @@ export function MovesTable({ moveIdx, tabIdx, teamState }: { moveIdx: number } &
   return (
     <>
       <table className="table-compact relative table w-full">
-        <thead>
+        <thead className="sticky z-50">
           {instance.getHeaderGroups().map((headerGroup: { id?: Key; headers: any[] }) => (
             <tr key={headerGroup.id}>
               {headerGroup.headers.map((header) => (

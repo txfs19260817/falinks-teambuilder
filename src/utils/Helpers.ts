@@ -1,5 +1,6 @@
 import { Nature } from '@pkmn/dex-types';
 import { StatsTable } from '@pkmn/types';
+import { CSSProperties } from 'react';
 
 const maxTotalEvs = 508;
 
@@ -27,6 +28,23 @@ export const convertStylesStringToObject = (stringStyles: string) =>
 
     return value ? { ...acc, [camelCaseProperty]: value } : acc;
   }, {});
+
+export const getPokemonIconFromLocal = (pokeNum?: number): CSSProperties => {
+  let num = pokeNum ?? 0;
+  if (num < 0 || num > 898) num = 0;
+
+  const top = -Math.floor(num / 12) * 30;
+  const left = -(num % 12) * 40;
+
+  const url = `/assets/sprites/pokemonicons-sheet.png`;
+  return {
+    display: 'inline-block',
+    width: '40px',
+    height: '30px',
+    imageRendering: 'pixelated',
+    background: `transparent url(${url}) no-repeat scroll ${left}px ${top}px`,
+  };
+};
 
 export const trimGmaxFromName = (name: string): string => name.replace(/-Gmax$/, '');
 

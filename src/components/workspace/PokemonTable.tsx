@@ -14,30 +14,33 @@ import {
   SortingState,
   useTableInstance,
 } from '@tanstack/react-table';
+import Image from 'next/image';
 import { ChangeEvent, Key, useContext, useEffect, useMemo, useState } from 'react';
 
 import { DexContext } from '@/components/workspace/DexContext';
 import { OmniFilter } from '@/components/workspace/OmniFilter';
 import { PanelProps } from '@/components/workspace/types';
-import { convertStylesStringToObject } from '@/utils/Helpers';
+import { getPokemonIconFromLocal } from '@/utils/Helpers';
 
 const table = createTable().setRowType<Specie>();
 const defaultColumns = [
   table.createDataColumn('name', {
     header: 'Name',
-    cell: ({ value }: { value: string }) => (
-      <span>
-        <span style={convertStylesStringToObject(Icons.getPokemon(value).style)}></span>
-        {value}
-      </span>
-    ),
+    cell: ({ value, row }) => {
+      return (
+        <span>
+          <span style={getPokemonIconFromLocal(row.original?.num)}></span>
+          {value}
+        </span>
+      );
+    },
   }),
   table.createDataColumn('types', {
     header: 'Types',
     cell: ({ value }: { value: string[] }) => (
       <span>
         {value.map((type) => (
-          <img className="inline-block" key={type} alt={type} title={type} src={Icons.getType(type).url} loading="lazy" />
+          <Image className="inline-block" width={32} height={14} key={type} alt={type} title={type} src={Icons.getType(type).url} loading="lazy" />
         ))}
       </span>
     ),
@@ -157,7 +160,7 @@ export function PokemonTable({ tabIdx, teamState }: PanelProps) {
   return (
     <>
       <table className="table-compact relative table w-full">
-        <thead>
+        <thead className="sticky z-50">
           {instance.getHeaderGroups().map((headerGroup: { id?: Key; headers: any[] }) => (
             <tr key={headerGroup.id}>
               {headerGroup.headers.map((header) => (
