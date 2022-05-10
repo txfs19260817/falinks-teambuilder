@@ -1,3 +1,5 @@
+import { Nature } from '@pkmn/dex-types';
+
 export const S4 = (): string => (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1); // eslint-disable-line no-bitwise
 
 export const guidGenerator: () => string = () => `${S4() + S4()}-${S4()}-${S4()}-${S4()}-${S4()}${S4()}${S4()}`;
@@ -22,3 +24,9 @@ export const convertStylesStringToObject = (stringStyles: string) =>
   }, {});
 
 export const trimGmaxFromName = (name: string): string => name.replace(/-Gmax$/, '');
+
+export const getStats = (stat: string, base: number, ev: number, iv: number, nature: Nature, level: number = 50) => {
+  return stat === 'hp'
+    ? Math.floor((Math.floor(2 * base + iv + Math.floor(ev / 4) + 100) * level) / 100 + 10)
+    : Math.floor(((Math.floor(2 * base + iv + Math.floor(ev / 4)) * level) / 100 + 5) * (nature.plus === stat ? 1.1 : nature.minus === stat ? 0.9 : 1));
+};

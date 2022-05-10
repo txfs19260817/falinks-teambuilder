@@ -1,3 +1,4 @@
+import '../scripts/wdyr';
 import '../styles/global.css';
 
 import { AppProps } from 'next/app';

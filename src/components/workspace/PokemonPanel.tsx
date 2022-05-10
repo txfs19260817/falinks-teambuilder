@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction } from 'react';
 
 import { AbilitiesTable, AbilityInput } from '@/components/workspace/AbilitiesTable';
-import { EvsSliders } from '@/components/workspace/EvsSliders';
+import { EvsSliders, StatsClickable } from '@/components/workspace/EvsSliders';
 import { GenderPicker } from '@/components/workspace/GenderPicker';
 import { GmaxToggle } from '@/components/workspace/GmaxToggle';
 import { ItemInput, ItemsTable } from '@/components/workspace/ItemsTable';
@@ -28,11 +28,11 @@ const RenderSwitch = ({ focusedField, tabIdx, teamState }: { focusedField: Focus
     case FocusedField.Stats:
       return <EvsSliders {...{ tabIdx, teamState }} />;
     default:
-      return <>{field}</>;
+      return null;
   }
 };
 
-export function PokemonPanel({
+const PokemonPanel = ({
   focusedField,
   setFocusedField,
   tabIdx,
@@ -40,7 +40,7 @@ export function PokemonPanel({
 }: {
   focusedField: FocusedFieldToIdx;
   setFocusedField: Dispatch<SetStateAction<FocusedFieldToIdx>>;
-} & PanelProps) {
+} & PanelProps) => {
   if (tabIdx < 0 || tabIdx >= teamState.team.length) {
     return <div className="flex justify-center bg-base-200 px-4 py-16">Please create / select a Pokemon</div>;
   }
@@ -111,29 +111,14 @@ export function PokemonPanel({
         </div>
         {/* 4. Status */}
         <div aria-label="status" className="form-control justify-start">
-          <label
-            className="input-group-md input-group input-group-vertical rounded-lg border border-base-300 transition-all hover:opacity-80 hover:shadow-xl md:input-group-lg"
-            onClick={() =>
+          <StatsClickable
+            onFocus={() =>
               setFocusedField({
                 Stats: 0,
               })
             }
-          >
-            <span>Status</span>
-            {Object.entries({
-              hp: 6,
-              atk: 120,
-              def: 0,
-              spa: 120,
-              spd: 0,
-              spe: 252,
-            }).map(([key, value]) => (
-              <div key={key} className="flex flex-wrap items-center justify-between bg-base-100 px-1 hover:bg-base-200 md:py-1">
-                <label className="flex-none uppercase md:w-10">{key}: </label>
-                <meter className="w-full flex-1" min="0" max="252" low={100} high={200} optimum={252} value={value} title={`${value}`} />
-              </div>
-            ))}
-          </label>
+            {...{ tabIdx, teamState }}
+          />
         </div>
         {/* 5. Lower part */}
         <div className="col-start-1 col-end-5 max-h-52 overflow-y-auto border-2 md:max-h-72">
@@ -142,4 +127,8 @@ export function PokemonPanel({
       </div>
     </div>
   );
-}
+};
+
+PokemonPanel.whyDidYouRender = true;
+
+export { PokemonPanel };
