@@ -4,7 +4,7 @@ import { ChangeEvent, useContext, useEffect, useState } from 'react';
 
 import { DexContext } from '@/components/workspace/DexContext';
 import { PanelProps } from '@/components/workspace/types';
-import { getStats } from '@/utils/Helpers';
+import { getSingleEvUpperLimit, getStats } from '@/utils/Helpers';
 
 const defaultStats: StatsTable = {
   hp: 0,
@@ -20,7 +20,7 @@ export function EvsSliders({ tabIdx, teamState }: PanelProps) {
   const { gen } = useContext(DexContext);
   const natures = Array.from(gen.natures);
 
-  //  stats
+  // stats
   const [base, setBase] = useState<StatsTable>(defaultStats);
   const [evs, setEvs] = useState<StatsTable>(defaultStats);
   const [ivs, setIvs] = useState<StatsTable>({
@@ -97,10 +97,13 @@ export function EvsSliders({ tabIdx, teamState }: PanelProps) {
         const lv = teamState.team[tabIdx]?.level ?? 50;
         return (
           <div key={stat} className="grid-rows-7 grid grid-cols-12 items-center overflow-hidden px-4 text-xs md:gap-x-4 md:text-sm">
+            {/* Column Header */}
             <span className="font-bold uppercase" role="columnheader">
               {stat}
             </span>
+            {/* Base */}
             <span className="uppercase">{b}</span>
+            {/* Nature radio */}
             <div className="flex space-x-0.5">
               <>
                 <span>-</span>
@@ -123,6 +126,7 @@ export function EvsSliders({ tabIdx, teamState }: PanelProps) {
                 <span>+</span>
               </>
             </div>
+            {/* EVs - number input */}
             <input
               type="number"
               id={`ev-${stat}-number`}
@@ -132,14 +136,15 @@ export function EvsSliders({ tabIdx, teamState }: PanelProps) {
               value={ev}
               className="input-bordered input input-xs col-span-2 mx-2 md:input-sm md:mx-0"
               onChange={(e) => {
-                setEvs({ ...evs, [stat]: Number(e.target.value) });
+                const newEv = Math.min(Number(e.target.value), getSingleEvUpperLimit(evs, ev));
                 // @ts-ignore
                 teamState.team[tabIdx].evs = {
                   ...evs,
-                  [stat]: Number(e.target.value),
+                  [stat]: newEv,
                 };
               }}
             />
+            {/* EVs - range slider */}
             <input
               type="range"
               id={`ev-${stat}-range`}
@@ -149,23 +154,23 @@ export function EvsSliders({ tabIdx, teamState }: PanelProps) {
               value={ev}
               className="range range-xs col-span-5 md:range-sm "
               onChange={(e) => {
-                setEvs({ ...evs, [stat]: Number(e.target.value) });
+                const newEv = Math.min(Number(e.target.value), getSingleEvUpperLimit(evs, ev));
                 // @ts-ignore
                 teamState.team[tabIdx].evs = {
                   ...evs,
-                  [stat]: Number(e.target.value),
+                  [stat]: newEv,
                 };
               }}
             />
+            {/* IVs - number input */}
             <input
               type="number"
               id={`iv-${stat}-number`}
               min="0"
               max="31"
               value={iv}
-              className="input-bordered input input-xs md:input-sm"
+              className="input-bordered input input-xs appearance-none md:input-sm"
               onChange={(e) => {
-                setIvs({ ...ivs, [stat]: Number(e.target.value) });
                 // @ts-ignore
                 teamState.team[tabIdx].ivs = {
                   ...ivs,
@@ -173,6 +178,7 @@ export function EvsSliders({ tabIdx, teamState }: PanelProps) {
                 };
               }}
             />
+            {/* Final Stat */}
             <span>{getStats(stat, b, ev, iv, nature, lv)}</span>
           </div>
         );

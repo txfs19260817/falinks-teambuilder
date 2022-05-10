@@ -109,7 +109,7 @@ const PokemonPanel = ({
             />
           ))}
         </div>
-        {/* 4. Status */}
+        {/* 4. Stats */}
         <div aria-label="status" className="form-control justify-start">
           <StatsClickable
             onFocus={() =>
@@ -129,6 +129,6 @@ const PokemonPanel = ({
   );
 };
 
-PokemonPanel.whyDidYouRender = true;
+PokemonPanel.whyDidYouRender = false;
 
 export { PokemonPanel };

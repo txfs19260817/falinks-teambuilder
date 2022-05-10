@@ -16,6 +16,9 @@ export type WebRTCProviderProps = {
 };
 
 function Workspace({ roomName }: WebRTCProviderProps) {
+  // Connected
+  const [connected, setConnected] = useState(false);
+
   // Define a team state for the current room
   const teamStore = syncedStore({ team: [] as Pokemon[] });
 
@@ -48,11 +51,17 @@ function Workspace({ roomName }: WebRTCProviderProps) {
     // Connect to the room via WebRTC
     const webrtcProvider = new WebrtcProvider(roomName, teamDoc as any);
     webrtcProvider.connect();
+    setConnected(true);
 
     return () => {
+      setConnected(false);
       webrtcProvider.disconnect();
     };
   }, []);
+
+  if (!connected) {
+    return <h1>Connecting...</h1>;
+  }
 
   return (
     <DexContextProvider>
@@ -80,5 +89,7 @@ function Workspace({ roomName }: WebRTCProviderProps) {
     </DexContextProvider>
   );
 }
+
+Workspace.whyDidYouRender = false;
 
 export default Workspace;

@@ -10,19 +10,9 @@ const Workspace = dynamic(() => import('@/components/workspace/index'), {
 const Room = () => {
   // Get the room name from the params
   const { isReady, query } = useRouter();
-  if (!isReady)
-    return (
-      <Main title={`Room`}>
-        <h1>Loading...</h1>
-      </Main>
-    );
-  const roomName = query.name as string;
+  const roomName = (query.name as string) || 'Loading...';
 
-  return (
-    <Main title={`Room - ${roomName}`}>
-      <Workspace roomName={roomName} />
-    </Main>
-  );
+  return <Main title={`Room - ${roomName}`}>{isReady ? <Workspace roomName={roomName} /> : <h1>Loading...</h1>}</Main>;
 };
 
 export default Room;

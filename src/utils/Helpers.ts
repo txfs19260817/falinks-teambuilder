@@ -1,4 +1,9 @@
 import { Nature } from '@pkmn/dex-types';
+import { StatsTable } from '@pkmn/types';
+
+const maxTotalEvs = 508;
+
+const maxSingleEvs = 252;
 
 export const S4 = (): string => (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1); // eslint-disable-line no-bitwise
 
@@ -25,8 +30,12 @@ export const convertStylesStringToObject = (stringStyles: string) =>
 
 export const trimGmaxFromName = (name: string): string => name.replace(/-Gmax$/, '');
 
-export const getStats = (stat: string, base: number, ev: number, iv: number, nature: Nature, level: number = 50) => {
+export const getStats = (stat: string, base: number, ev: number, iv: number, nature: Nature, level: number = 50): number => {
   return stat === 'hp'
     ? Math.floor((Math.floor(2 * base + iv + Math.floor(ev / 4) + 100) * level) / 100 + 10)
     : Math.floor(((Math.floor(2 * base + iv + Math.floor(ev / 4)) * level) / 100 + 5) * (nature.plus === stat ? 1.1 : nature.minus === stat ? 0.9 : 1));
+};
+
+export const getSingleEvUpperLimit = (evs: StatsTable, oldEv: number): number => {
+  return Math.min(maxTotalEvs - Object.values(evs).reduce((x, y) => x + y) + oldEv, maxSingleEvs);
 };
