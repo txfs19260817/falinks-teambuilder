@@ -1,6 +1,14 @@
 import { WebrtcProvider } from 'y-webrtc';
 import { AbstractType, Doc } from 'yjs';
 
+type WebrtcProviderOptions = {
+  signaling: Array<string> | null;
+  password: string | null;
+  awareness: null;
+  maxConns: number | null;
+  filterBcConns: boolean | null;
+  peerOpts: any | null;
+};
 let instance: WebrtcProviders;
 
 class WebrtcProviders {
@@ -22,7 +30,17 @@ class WebrtcProviders {
     if (this.providers.has(roomName)) {
       throw new Error(`Room '${roomName}' 's provider already exists!`);
     }
-    this.providers.set(roomName, new WebrtcProvider(roomName, doc as any));
+
+    this.providers.set(
+      roomName,
+      new WebrtcProvider(
+        roomName,
+        doc as any,
+        {
+          signaling: ['wss://y-webrtc-signaling-us.herokuapp.com'],
+        } as WebrtcProviderOptions
+      )
+    );
   }
 
   public getOrCreateProvider(roomName: string, doc?: Doc | AbstractType<any>): WebrtcProvider {
@@ -30,7 +48,16 @@ class WebrtcProviders {
       if (!doc) {
         throw new Error(`No room '${roomName}' found so you need to pass a doc`);
       }
-      this.providers.set(roomName, new WebrtcProvider(roomName, doc as any));
+      this.providers.set(
+        roomName,
+        new WebrtcProvider(
+          roomName,
+          doc as any,
+          {
+            signaling: ['wss://y-webrtc-signaling-us.herokuapp.com'],
+          } as WebrtcProviderOptions
+        )
+      );
     }
     return this.providers.get(roomName)!;
   }
