@@ -2,13 +2,11 @@ import { getYjsValue, syncedStore } from '@syncedstore/core';
 
 import { Pokemon } from '@/models/Pokemon';
 
-type RoomAttributes = {
-  name: string;
-};
+// type RoomAttributes = { name: string };
 
 export const teamStore = syncedStore({
   team: [] as Pokemon[],
-  roomAttributes: {} as RoomAttributes,
+  // roomAttributes: {} as RoomAttributes,
 });
 
 // Create a document that syncs automatically using Y-WebRTC

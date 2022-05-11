@@ -1,13 +1,13 @@
 import { Icons } from '@pkmn/img';
 import { useSyncedStore } from '@syncedstore/react';
 import React, { useEffect, useState } from 'react';
-import { WebrtcProvider } from 'y-webrtc';
 
 import { DexContextProvider } from '@/components/workspace/DexContext';
 import { PokemonPanel } from '@/components/workspace/PokemonPanel';
 import { FocusedFieldToIdx } from '@/components/workspace/types';
 import { Pokemon } from '@/models/Pokemon';
 import { teamDoc, teamStore } from '@/store';
+import WebrtcProviders from '@/store/webrtcProviders';
 import { AppConfig } from '@/utils/AppConfig';
 import { convertStylesStringToObject } from '@/utils/Helpers';
 
@@ -42,15 +42,16 @@ function Workspace({ roomName }: WebRTCProviderProps) {
   };
 
   useEffect(() => {
-    if (teamState.roomAttributes.name && teamState.roomAttributes.name.length > 0) {
-      setConnected(true);
-      return;
-    }
-    teamState.roomAttributes.name = roomName;
     // Connect to the room via WebRTC
-    const webrtcProvider = new WebrtcProvider(roomName, teamDoc as any);
-    webrtcProvider.connect();
+    const webrtcProvider = WebrtcProviders.getOrCreateProvider(roomName, teamDoc as any);
+    WebrtcProviders.connectByProvider(webrtcProvider);
     setConnected(true);
+
+    // Disconnect on unmount
+    return () => {
+      WebrtcProviders.disconnectByRoomName(roomName);
+      setConnected(false);
+    };
   }, []);
 
   if (!connected) {
