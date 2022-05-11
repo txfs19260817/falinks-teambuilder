@@ -1,8 +1,10 @@
+import { useSyncedStore } from '@syncedstore/react';
 import { ChangeEvent, useEffect, useState } from 'react';
 
-import { PanelProps } from '@/components/workspace/types';
+import { teamStore } from '@/store';
 
-function ItemInput({ onFocus, teamState, tabIdx }: { onFocus: () => void } & PanelProps) {
+function ItemInput({ onFocus, tabIdx }: { onFocus: () => void; tabIdx: number }) {
+  const teamState = useSyncedStore(teamStore);
   const [item, setItem] = useState<string>('');
 
   // receive changes from other users

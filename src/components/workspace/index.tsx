@@ -1,5 +1,4 @@
 import { Icons } from '@pkmn/img';
-import { getYjsValue, syncedStore } from '@syncedstore/core';
 import { useSyncedStore } from '@syncedstore/react';
 import React, { useEffect, useState } from 'react';
 import { WebrtcProvider } from 'y-webrtc';
@@ -8,6 +7,7 @@ import { DexContextProvider } from '@/components/workspace/DexContext';
 import { PokemonPanel } from '@/components/workspace/PokemonPanel';
 import { FocusedFieldToIdx } from '@/components/workspace/types';
 import { Pokemon } from '@/models/Pokemon';
+import { teamDoc, teamStore } from '@/store';
 import { AppConfig } from '@/utils/AppConfig';
 import { convertStylesStringToObject } from '@/utils/Helpers';
 
@@ -18,12 +18,6 @@ export type WebRTCProviderProps = {
 function Workspace({ roomName }: WebRTCProviderProps) {
   // Connected
   const [connected, setConnected] = useState(false);
-
-  // Define a team state for the current room
-  const teamStore = syncedStore({ team: [] as Pokemon[] });
-
-  // Create a document that syncs automatically using Y-WebRTC
-  const teamDoc = getYjsValue(teamStore);
   const teamState = useSyncedStore(teamStore);
 
   // Tab state and methods
@@ -85,11 +79,15 @@ function Workspace({ roomName }: WebRTCProviderProps) {
         )}
       </div>
       {/* Panel */}
-      <PokemonPanel {...{ focusedField, setFocusedField, tabIdx, teamState }} />
+      {tabIdx < 0 || tabIdx >= teamState.team.length ? (
+        <div className="flex justify-center bg-base-200 px-4 py-16">Please create / select a Pokemon</div>
+      ) : (
+        <PokemonPanel {...{ focusedField, setFocusedField, tabIdx }} />
+      )}
     </DexContextProvider>
   );
 }
 
-Workspace.whyDidYouRender = false;
+Workspace.whyDidYouRender = true;
 
 export default Workspace;

@@ -1,5 +1,6 @@
 import { Item } from '@pkmn/data';
 import { Icons } from '@pkmn/img';
+import { useSyncedStore } from '@syncedstore/react';
 import {
   ColumnFiltersState,
   createTable,
@@ -14,7 +15,7 @@ import { Key, useContext, useMemo, useState } from 'react';
 
 import { DexContext } from '@/components/workspace/DexContext';
 import { OmniFilter } from '@/components/workspace/OmniFilter';
-import { PanelProps } from '@/components/workspace/types';
+import { teamStore } from '@/store';
 import { convertStylesStringToObject } from '@/utils/Helpers';
 
 const table = createTable().setRowType<Item>();
@@ -37,7 +38,8 @@ const defaultColumns = [
   }),
 ];
 
-function ItemsTable({ tabIdx, teamState }: PanelProps) {
+function ItemsTable({ tabIdx }: { tabIdx: number }) {
+  const teamState = useSyncedStore(teamStore);
   // get dex
   const { gen } = useContext(DexContext);
 

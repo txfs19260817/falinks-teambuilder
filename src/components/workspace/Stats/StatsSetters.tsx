@@ -1,9 +1,10 @@
 import { Nature } from '@pkmn/dex-types';
 import { StatsTable } from '@pkmn/types';
+import { useSyncedStore } from '@syncedstore/react';
 import { ChangeEvent, useContext, useEffect, useState } from 'react';
 
 import { DexContext } from '@/components/workspace/DexContext';
-import { PanelProps } from '@/components/workspace/types';
+import { teamStore } from '@/store';
 import { getSingleEvUpperLimit, getStats } from '@/utils/Helpers';
 
 const defaultStats: StatsTable = {
@@ -15,7 +16,8 @@ const defaultStats: StatsTable = {
   spe: 0,
 };
 
-function StatsSetters({ tabIdx, teamState }: PanelProps) {
+function StatsSetters({ tabIdx }: { tabIdx: number }) {
+  const teamState = useSyncedStore(teamStore);
   // get dex
   const { gen } = useContext(DexContext);
   const natures = Array.from(gen.natures);

@@ -1,8 +1,10 @@
+import { useSyncedStore } from '@syncedstore/react';
 import { ChangeEvent, useEffect, useState } from 'react';
 
-import { PanelProps } from '@/components/workspace/types';
+import { teamStore } from '@/store';
 
-function SpeciesInput({ onFocus, teamState, tabIdx }: { onFocus: () => void } & PanelProps) {
+function SpeciesInput({ onFocus, tabIdx }: { onFocus: () => void; tabIdx: number }) {
+  const teamState = useSyncedStore(teamStore);
   const [species, setSpecies] = useState<string>('Pikachu');
 
   // receive changes from other users

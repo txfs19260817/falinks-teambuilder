@@ -1,12 +1,3 @@
-import { MappedTypeDescription } from '@syncedstore/core/types/doc';
-
-import { Pokemon } from '@/models/Pokemon';
-
-export interface PanelProps {
-  tabIdx: number;
-  teamState: MappedTypeDescription<{ team: Pokemon[] }>;
-}
-
 export enum FocusedField {
   Species = 'Species',
   Item = 'Item',

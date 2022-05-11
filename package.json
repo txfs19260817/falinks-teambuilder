@@ -15,9 +15,9 @@
     "test": "jest --coverage"
   },
   "dependencies": {
-    "@pkmn/data": "^0.5.15",
-    "@pkmn/dex": "^0.5.15",
-    "@pkmn/dex-types": "^0.5.15",
+    "@pkmn/data": "^0.5.16",
+    "@pkmn/dex": "^0.5.16",
+    "@pkmn/dex-types": "^0.5.16",
     "@pkmn/img": "^0.1.17",
     "@pkmn/sets": "^3.0.0",
     "@pkmn/types": "^2.0.0",
@@ -31,7 +31,7 @@
     "react-dom": "^17.0.2",
     "react-hook-form": "^7.30.0",
     "y-webrtc": "^10.2.3",
-    "yjs": "^13.5.35"
+    "yjs": "^13.5.36"
   },
   "devDependencies": {
     "@commitlint/cli": "^16.2.3",

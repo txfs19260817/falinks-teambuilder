@@ -1,10 +1,12 @@
 import { Sprites } from '@pkmn/img';
+import { useSyncedStore } from '@syncedstore/react';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
-import { PanelProps } from '@/components/workspace/types';
+import { teamStore } from '@/store';
 
-function SpriteAvatar({ teamState, tabIdx }: PanelProps) {
+function SpriteAvatar({ tabIdx }: { tabIdx: number }) {
+  const teamState = useSyncedStore(teamStore);
   const [spriteUrl, setSpriteUrl] = useState('https://play.pokemonshowdown.com/sprites/ani/pikachu.gif');
   const pm = teamState.team[tabIdx]!;
 
@@ -22,7 +24,7 @@ function SpriteAvatar({ teamState, tabIdx }: PanelProps) {
   return (
     <div className="avatar flex items-center justify-center py-1">
       <div className="w-48 rounded-xl">
-        <Image src={spriteUrl} alt="sprite" layout="fill" objectFit="contain" />
+        <Image src={spriteUrl} alt="sprite" layout="fill" objectFit="contain" priority={true} />
       </div>
     </div>
   );

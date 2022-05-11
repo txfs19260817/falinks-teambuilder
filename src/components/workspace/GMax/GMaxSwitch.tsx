@@ -1,9 +1,11 @@
+import { useSyncedStore } from '@syncedstore/react';
 import { ChangeEvent, useContext, useEffect, useState } from 'react';
 
 import { DexContext } from '@/components/workspace/DexContext';
-import { PanelProps } from '@/components/workspace/types';
+import { teamStore } from '@/store';
 
-function GMaxSwitch({ tabIdx, teamState }: PanelProps) {
+function GMaxSwitch({ tabIdx }: { tabIdx: number }) {
+  const teamState = useSyncedStore(teamStore);
   // get dex
   const { gen } = useContext(DexContext);
 
@@ -24,21 +26,15 @@ function GMaxSwitch({ tabIdx, teamState }: PanelProps) {
     teamState.team[tabIdx].gigantamax = newChecked;
   };
 
-  /*
-   * isChangable is true allows the user to toggle gigantamax
-   * isGigantamax is true <=> gigantamax is always true
-   * */
-
-  // @ts-ignore
-  const { canGigantamax: isChangable, isNonstandard } = gen.species.get(teamState.team[tabIdx]?.species ?? '') ?? {};
-  const isGigantamax = isNonstandard === 'Gigantamax';
+  const { canGigantamax } = gen.species.get(teamState.team[tabIdx]?.species ?? '') ?? {};
+  if (!canGigantamax) return null;
 
   return (
     <div className="md:text-md flex inline-flex space-x-0.5 text-xs">
       <label>GMax</label>
       <div className="whitespace-nowrap">
-        <label className={`swap ${isGigantamax ? 'swap-active' : 'swap-flip'}`}>
-          <input type="checkbox" checked={checked} onChange={(e) => handleChange(e)} disabled={!isChangable} />
+        <label className="swap swap-flip">
+          <input type="checkbox" checked={checked} onChange={(e) => handleChange(e)} />
           <span className="swap-on">🌟</span>
           <span className="swap-off">✖️</span>
         </label>

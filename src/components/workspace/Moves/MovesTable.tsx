@@ -1,12 +1,13 @@
 import { Generation, Move } from '@pkmn/data';
 import { Icons } from '@pkmn/img';
+import { useSyncedStore } from '@syncedstore/react';
 import { ColumnFiltersState, createTable, getCoreRowModelSync, getFilteredRowModelSync, getSortedRowModelSync, useTableInstance } from '@tanstack/react-table';
 import Image from 'next/image';
 import { Key, useContext, useEffect, useMemo, useState } from 'react';
 
 import { DexContext } from '@/components/workspace/DexContext';
 import { OmniFilter } from '@/components/workspace/OmniFilter';
-import { PanelProps } from '@/components/workspace/types';
+import { teamStore } from '@/store';
 import { AppConfig } from '@/utils/AppConfig';
 import { trimGmaxFromName } from '@/utils/Helpers';
 
@@ -58,7 +59,8 @@ const getMovesBySpecie = (gen: Generation, speciesName?: string): Promise<Move[]
   );
 };
 
-function MovesTable({ moveIdx, tabIdx, teamState }: { moveIdx: number } & PanelProps) {
+function MovesTable({ moveIdx, tabIdx }: { moveIdx: number; tabIdx: number }) {
+  const teamState = useSyncedStore(teamStore);
   // get dex & possible moves
   const { gen } = useContext(DexContext);
 

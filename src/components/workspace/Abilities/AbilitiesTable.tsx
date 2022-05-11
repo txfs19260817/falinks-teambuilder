@@ -1,10 +1,11 @@
 import { Ability, Generation } from '@pkmn/data';
+import { useSyncedStore } from '@syncedstore/react';
 import { ColumnFiltersState, createTable, getCoreRowModelSync, getFilteredRowModelSync, getSortedRowModelSync, useTableInstance } from '@tanstack/react-table';
 import { Key, useContext, useEffect, useMemo, useState } from 'react';
 
 import { DexContext } from '@/components/workspace/DexContext';
 import { OmniFilter } from '@/components/workspace/OmniFilter';
-import { PanelProps } from '@/components/workspace/types';
+import { teamStore } from '@/store';
 
 const table = createTable().setRowType<Ability>();
 const defaultColumns = [
@@ -30,7 +31,8 @@ function getAbilitiesBySpecie(gen: Generation, speciesName?: string): Ability[] 
     .filter((a) => a != null) as Ability[];
 }
 
-function AbilitiesTable({ tabIdx, teamState }: PanelProps) {
+function AbilitiesTable({ tabIdx }: { tabIdx: number }) {
+  const teamState = useSyncedStore(teamStore);
   // get dex & possible abilities
   const { gen } = useContext(DexContext);
 

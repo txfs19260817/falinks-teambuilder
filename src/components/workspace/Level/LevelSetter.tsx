@@ -1,8 +1,10 @@
+import { useSyncedStore } from '@syncedstore/react';
 import { ChangeEvent, useEffect, useState } from 'react';
 
-import { PanelProps } from '@/components/workspace/types';
+import { teamStore } from '@/store';
 
-function LevelSetter({ tabIdx, teamState }: PanelProps) {
+function LevelSetter({ tabIdx }: { tabIdx: number }) {
+  const teamState = useSyncedStore(teamStore);
   const [level, setLevel] = useState(50);
 
   // receive changes from other users

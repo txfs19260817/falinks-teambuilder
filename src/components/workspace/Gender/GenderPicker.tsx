@@ -1,9 +1,11 @@
+import { useSyncedStore } from '@syncedstore/react';
 import { ChangeEvent, Fragment, useContext, useEffect, useState } from 'react';
 
 import { DexContext } from '@/components/workspace/DexContext';
-import { PanelProps } from '@/components/workspace/types';
+import { teamStore } from '@/store';
 
-function GenderPicker({ tabIdx, teamState }: PanelProps) {
+function GenderPicker({ tabIdx }: { tabIdx: number }) {
+  const teamState = useSyncedStore(teamStore);
   // get dex
   const { gen } = useContext(DexContext);
   // read species

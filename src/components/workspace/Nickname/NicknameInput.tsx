@@ -1,8 +1,10 @@
+import { useSyncedStore } from '@syncedstore/react';
 import { ChangeEvent, useEffect, useState } from 'react';
 
-import { PanelProps } from '@/components/workspace/types';
+import { teamStore } from '@/store';
 
-function NicknameInput({ tabIdx, teamState }: PanelProps) {
+function NicknameInput({ tabIdx }: { tabIdx: number }) {
+  const teamState = useSyncedStore(teamStore);
   const [nickname, setNickname] = useState<string>('');
 
   // receive changes from other users

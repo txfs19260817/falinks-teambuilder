@@ -1,8 +1,9 @@
 import { StatID, StatsTable } from '@pkmn/types';
+import { useSyncedStore } from '@syncedstore/react';
 import { useContext, useEffect, useState } from 'react';
 
 import { DexContext } from '@/components/workspace/DexContext';
-import { PanelProps } from '@/components/workspace/types';
+import { teamStore } from '@/store';
 import { getStats } from '@/utils/Helpers';
 
 const defaultStats: StatsTable = {
@@ -14,7 +15,8 @@ const defaultStats: StatsTable = {
   spe: 0,
 };
 
-function StatsClickable({ onFocus, teamState, tabIdx }: { onFocus: () => void } & PanelProps) {
+function StatsClickable({ onFocus, tabIdx }: { onFocus: () => void; tabIdx: number }) {
+  const teamState = useSyncedStore(teamStore);
   // get dex
   const { gen } = useContext(DexContext);
   const natures = Array.from(gen.natures);

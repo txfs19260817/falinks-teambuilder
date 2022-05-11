@@ -1,8 +1,10 @@
+import { useSyncedStore } from '@syncedstore/react';
 import { ChangeEvent, useEffect, useState } from 'react';
 
-import { PanelProps } from '@/components/workspace/types';
+import { teamStore } from '@/store';
 
-function ShinyToggle({ tabIdx, teamState }: PanelProps) {
+function ShinyToggle({ tabIdx }: { tabIdx: number }) {
+  const teamState = useSyncedStore(teamStore);
   const [checked, setChecked] = useState(false);
 
   // receive changes from other users

@@ -2,6 +2,7 @@ import { Specie } from '@pkmn/data';
 import { AbilityName, SpeciesAbility } from '@pkmn/dex-types';
 import { Icons } from '@pkmn/img';
 import { StatsTable } from '@pkmn/types';
+import { useSyncedStore } from '@syncedstore/react';
 import {
   ColumnFiltersState,
   createTable,
@@ -19,7 +20,7 @@ import { Key, useContext, useMemo, useState } from 'react';
 
 import { DexContext } from '@/components/workspace/DexContext';
 import { OmniFilter } from '@/components/workspace/OmniFilter';
-import { PanelProps } from '@/components/workspace/types';
+import { teamStore } from '@/store';
 import { getPokemonIconFromLocal } from '@/utils/Helpers';
 
 const table = createTable().setRowType<Specie>();
@@ -105,7 +106,8 @@ const defaultColumns = [
   }),
 ];
 
-function SpeciesTable({ tabIdx, teamState }: PanelProps) {
+function SpeciesTable({ tabIdx }: { tabIdx: number }) {
+  const teamState = useSyncedStore(teamStore);
   // get dex
   const { gen } = useContext(DexContext);
 
