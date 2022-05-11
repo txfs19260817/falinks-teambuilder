@@ -1,36 +1,18 @@
 import { Dispatch, SetStateAction } from 'react';
 
-import { AbilitiesTable, AbilityInput } from '@/components/workspace/AbilitiesTable';
-import { EvsSliders, StatsClickable } from '@/components/workspace/EvsSliders';
-import { GenderPicker } from '@/components/workspace/GenderPicker';
-import { GmaxToggle } from '@/components/workspace/GmaxToggle';
-import { ItemInput, ItemsTable } from '@/components/workspace/ItemsTable';
-import { LevelSetter } from '@/components/workspace/LevelSetter';
-import { MoveInput, MovesTable } from '@/components/workspace/MovesTable';
-import { NicknameInput } from '@/components/workspace/NicknameInput';
-import { PokemonTable, SpeciesInput } from '@/components/workspace/PokemonTable';
-import { ShinyToggle } from '@/components/workspace/ShinyToggle';
-import { SpriteAvatar } from '@/components/workspace/SpriteAvatar';
-import { FocusedField, FocusedFieldToIdx, PanelProps } from '@/components/workspace/types';
-
-const RenderSwitch = ({ focusedField, tabIdx, teamState }: { focusedField: FocusedFieldToIdx } & PanelProps) => {
-  const firstEntry = Object.entries(focusedField)[0];
-  const [field, idx] = firstEntry ?? ['', 0];
-  switch (field) {
-    case FocusedField.Species:
-      return <PokemonTable {...{ tabIdx, teamState }} />;
-    case FocusedField.Item:
-      return <ItemsTable {...{ tabIdx, teamState }} />;
-    case FocusedField.Ability:
-      return <AbilitiesTable {...{ tabIdx, teamState }} />;
-    case FocusedField.Moves:
-      return <MovesTable {...{ tabIdx, teamState }} moveIdx={idx} />;
-    case FocusedField.Stats:
-      return <EvsSliders {...{ tabIdx, teamState }} />;
-    default:
-      return null;
-  }
-};
+import AbilityInput from '@/components/workspace/Abilities/AbilityInput';
+import { AttributeSetterSwitch } from '@/components/workspace/AttributeSetterSwitch';
+import GenderPicker from '@/components/workspace/Gender/GenderPicker';
+import GMaxSwitch from '@/components/workspace/GMax/GMaxSwitch';
+import ItemInput from '@/components/workspace/Items/ItemInput';
+import LevelSetter from '@/components/workspace/Level/LevelSetter';
+import MoveInput from '@/components/workspace/Moves/MoveInput';
+import NicknameInput from '@/components/workspace/Nickname/NicknameInput';
+import SpeciesInput from '@/components/workspace/PokemonSpecies/SpeciesInput';
+import ShinyToggle from '@/components/workspace/Shiny/ShinyToggle';
+import SpriteAvatar from '@/components/workspace/SpriteAvatar/SpriteAvatar';
+import StatsClickable from '@/components/workspace/Stats/StatsClickable';
+import { FocusedFieldToIdx, PanelProps } from '@/components/workspace/types';
 
 const PokemonPanel = ({
   focusedField,
@@ -73,7 +55,7 @@ const PokemonPanel = ({
           {/* Shiny & Gigantamax */}
           <div className="flex">
             <ShinyToggle {...{ tabIdx, teamState }} />
-            <GmaxToggle {...{ tabIdx, teamState }} />
+            <GMaxSwitch {...{ tabIdx, teamState }} />
           </div>
           {/* Item */}
           <ItemInput
@@ -122,7 +104,7 @@ const PokemonPanel = ({
         </div>
         {/* 5. Lower part */}
         <div className="col-start-1 col-end-5 max-h-52 overflow-y-auto border-2 md:max-h-72">
-          <RenderSwitch {...{ focusedField, tabIdx, teamState }} />
+          <AttributeSetterSwitch {...{ focusedField, tabIdx, teamState }} />
         </div>
       </div>
     </div>

@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 
 import { PanelProps } from '@/components/workspace/types';
 
-export function SpriteAvatar({ teamState, tabIdx }: PanelProps) {
+function SpriteAvatar({ teamState, tabIdx }: PanelProps) {
   const [spriteUrl, setSpriteUrl] = useState('https://play.pokemonshowdown.com/sprites/ani/pikachu.gif');
   const pm = teamState.team[tabIdx]!;
 
@@ -27,3 +27,5 @@ export function SpriteAvatar({ teamState, tabIdx }: PanelProps) {
     </div>
   );
 }
+
+export default SpriteAvatar;

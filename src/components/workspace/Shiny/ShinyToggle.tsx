@@ -2,7 +2,7 @@ import { ChangeEvent, useEffect, useState } from 'react';
 
 import { PanelProps } from '@/components/workspace/types';
 
-export function ShinyToggle({ tabIdx, teamState }: PanelProps) {
+function ShinyToggle({ tabIdx, teamState }: PanelProps) {
   const [checked, setChecked] = useState(false);
 
   // receive changes from other users
@@ -33,3 +33,5 @@ export function ShinyToggle({ tabIdx, teamState }: PanelProps) {
     </div>
   );
 }
+
+export default ShinyToggle;

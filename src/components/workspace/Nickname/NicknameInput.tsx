@@ -2,7 +2,7 @@ import { ChangeEvent, useEffect, useState } from 'react';
 
 import { PanelProps } from '@/components/workspace/types';
 
-export function NicknameInput({ tabIdx, teamState }: PanelProps) {
+function NicknameInput({ tabIdx, teamState }: PanelProps) {
   const [nickname, setNickname] = useState<string>('');
 
   // receive changes from other users
@@ -22,3 +22,5 @@ export function NicknameInput({ tabIdx, teamState }: PanelProps) {
 
   return <input type="text" placeholder="Nickname" className="input-bordered input input-xs" value={nickname} onChange={handleChange} />;
 }
+
+export default NicknameInput;

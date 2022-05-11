@@ -3,7 +3,7 @@ import { ChangeEvent, Fragment, useContext, useEffect, useState } from 'react';
 import { DexContext } from '@/components/workspace/DexContext';
 import { PanelProps } from '@/components/workspace/types';
 
-export function GenderPicker({ tabIdx, teamState }: PanelProps) {
+function GenderPicker({ tabIdx, teamState }: PanelProps) {
   // get dex
   const { gen } = useContext(DexContext);
   // read species
@@ -41,3 +41,5 @@ export function GenderPicker({ tabIdx, teamState }: PanelProps) {
     </div>
   );
 }
+
+export default GenderPicker;

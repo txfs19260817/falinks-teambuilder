@@ -1,7 +1,5 @@
-import { Specie } from '@pkmn/data';
-import { AbilityName, SpeciesAbility } from '@pkmn/dex-types';
+import { Item } from '@pkmn/data';
 import { Icons } from '@pkmn/img';
-import { StatsTable } from '@pkmn/types';
 import {
   ColumnFiltersState,
   createTable,
@@ -10,114 +8,47 @@ import {
   getPaginationRowModel,
   getSortedRowModelSync,
   PaginationState,
-  Row,
-  SortingState,
   useTableInstance,
 } from '@tanstack/react-table';
-import Image from 'next/image';
-import { ChangeEvent, Key, useContext, useEffect, useMemo, useState } from 'react';
+import { Key, useContext, useMemo, useState } from 'react';
 
 import { DexContext } from '@/components/workspace/DexContext';
 import { OmniFilter } from '@/components/workspace/OmniFilter';
 import { PanelProps } from '@/components/workspace/types';
-import { getPokemonIconFromLocal } from '@/utils/Helpers';
+import { convertStylesStringToObject } from '@/utils/Helpers';
 
-const table = createTable().setRowType<Specie>();
+const table = createTable().setRowType<Item>();
 const defaultColumns = [
   table.createDataColumn('name', {
     header: 'Name',
-    cell: ({ value, row }) => {
-      return (
-        <span>
-          <span style={getPokemonIconFromLocal(row.original?.num)}></span>
-          {value}
-        </span>
-      );
-    },
-  }),
-  table.createDataColumn('types', {
-    header: 'Types',
-    cell: ({ value }: { value: string[] }) => (
+    cell: ({ value }: { value: string }) => (
       <span>
-        {value.map((type) => (
-          <Image className="inline-block" width={32} height={14} key={type} alt={type} title={type} src={Icons.getType(type).url} loading="lazy" />
-        ))}
+        <span style={convertStylesStringToObject(Icons.getItem(value).style)}></span>
+        {value}
       </span>
     ),
+  }),
+  table.createDataColumn((row) => (row.shortDesc.length ? row.shortDesc : row.desc), {
+    id: 'description',
+    header: 'Description',
+    enableColumnFilter: false,
+    enableGlobalFilter: false,
     enableSorting: false,
-    filterFn: 'arrIncludes',
-  }),
-  table.createDataColumn('abilities', {
-    header: 'Abilities',
-    cell: ({ value }: { value: SpeciesAbility<AbilityName | ''> }) => Object.values(value).join('/'),
-    enableSorting: false,
-    filterFn: (row: Row<any>, columnId: string, filterValue: string) => {
-      return Object.values(row.values[columnId]).join(' ').toLowerCase().includes(filterValue.toLowerCase());
-    },
-  }),
-  table.createDataColumn((row) => row.baseStats.hp, {
-    id: 'hp',
-    header: 'HP',
-    enableColumnFilter: false,
-    enableGlobalFilter: false,
-  }),
-  table.createDataColumn((row) => row.baseStats.atk, {
-    id: 'atk',
-    header: 'ATK',
-    enableColumnFilter: false,
-    enableGlobalFilter: false,
-  }),
-  table.createDataColumn((row) => row.baseStats.def, {
-    id: 'def',
-    header: 'DEF',
-    enableColumnFilter: false,
-    enableGlobalFilter: false,
-  }),
-  table.createDataColumn((row) => row.baseStats.spa, {
-    id: 'spa',
-    header: 'SPA',
-    enableColumnFilter: false,
-    enableGlobalFilter: false,
-  }),
-  table.createDataColumn((row) => row.baseStats.spd, {
-    id: 'spd',
-    header: 'SPD',
-    enableColumnFilter: false,
-    enableGlobalFilter: false,
-  }),
-  table.createDataColumn((row) => row.baseStats.spe, {
-    id: 'spe',
-    header: 'SPE',
-    enableColumnFilter: false,
-    enableGlobalFilter: false,
-  }),
-  table.createDataColumn((row) => row.baseStats, {
-    id: 'total',
-    header: 'Total',
-    cell: ({ value }: { value: StatsTable }) => {
-      return Object.values(value).reduce((acc, curr) => acc + curr, 0);
-    },
-    enableColumnFilter: false,
-    enableGlobalFilter: false,
-    sortingFn: (a: Row<any>, b: Row<any>, columnId: string) =>
-      Object.values<number>(a.values[columnId]).reduce((acc, curr) => acc + curr, 0) -
-      Object.values<number>(b.values[columnId]).reduce((acc, curr) => acc + curr, 0),
   }),
 ];
 
-export function PokemonTable({ tabIdx, teamState }: PanelProps) {
+function ItemsTable({ tabIdx, teamState }: PanelProps) {
   // get dex
   const { gen } = useContext(DexContext);
 
   // table settings
-  const [data] = useState<Specie[]>(() => [...Array.from(gen.species)]);
+  const [data] = useState<Item[]>(() => [...Array.from(gen.items)]);
   const columns = useMemo<typeof defaultColumns>(() => [...defaultColumns], []);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [globalFilter, setGlobalFilter] = useState('');
-  const [sorting, setSorting] = useState<SortingState>([]);
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
-    pageSize: 25,
+    pageSize: 50,
     pageCount: -1, // -1 allows the table to calculate the page count for us via instance.getPageCount()
   });
 
@@ -128,12 +59,10 @@ export function PokemonTable({ tabIdx, teamState }: PanelProps) {
     state: {
       columnFilters,
       globalFilter,
-      sorting,
       pagination,
     },
     onColumnFiltersChange: setColumnFilters,
     onGlobalFilterChange: setGlobalFilter,
-    onSortingChange: setSorting,
     onPaginationChange: setPagination,
     getFilteredRowModel: getFilteredRowModelSync(),
     getCoreRowModel: getCoreRowModelSync(),
@@ -142,25 +71,17 @@ export function PokemonTable({ tabIdx, teamState }: PanelProps) {
   });
 
   // handle table events
-  const handleRowClick = (specie?: Specie) => {
-    if (!specie || !teamState.team[tabIdx]) return;
+  const handleRowClick = (item?: Item) => {
+    if (!item || !teamState.team[tabIdx]) return;
     // @ts-ignore
-    teamState.team[tabIdx].species = specie.name;
-    // @ts-ignore
-    teamState.team[tabIdx].ability = specie.abilities[0]; // eslint-disable-line prefer-destructuring
-    if (specie.requiredItem) {
-      // @ts-ignore
-      teamState.team[tabIdx].item = specie.requiredItem; // eslint-disable-line prefer-destructuring
-    }
-    // @ts-ignore
-    teamState.team[tabIdx].moves.splice(0, 4, ...['', '', '', '']);
+    teamState.team[tabIdx].item = item.name;
   };
 
   // table render
   return (
     <>
       <table className="table-compact relative table w-full">
-        <thead className="sticky z-50">
+        <thead>
           {instance.getHeaderGroups().map((headerGroup: { id?: Key; headers: any[] }) => (
             <tr key={headerGroup.id}>
               {headerGroup.headers.map((header) => (
@@ -188,7 +109,7 @@ export function PokemonTable({ tabIdx, teamState }: PanelProps) {
           ))}
         </thead>
         <tbody>
-          {instance.getRowModel().rows.map((row: { id?: Key; original?: Specie; getVisibleCells: () => any[] }) => (
+          {instance.getRowModel().rows.map((row: { id?: Key; original?: Item; getVisibleCells: () => any[] }) => (
             <tr key={row.id} className="hover" onClick={() => handleRowClick(row.original)}>
               {row.getVisibleCells().map((cell) => (
                 <td key={cell.id}>{cell.renderCell()}</td>
@@ -247,40 +168,4 @@ export function PokemonTable({ tabIdx, teamState }: PanelProps) {
   );
 }
 
-export function SpeciesInput({ onFocus, teamState, tabIdx }: { onFocus: () => void } & PanelProps) {
-  const [species, setSpecies] = useState<string>('Pikachu');
-
-  // receive changes from other users
-  useEffect(() => {
-    if (!teamState.team[tabIdx]) return;
-    setSpecies(teamState.team[tabIdx]?.species || 'Pikachu');
-  }, [teamState.team[tabIdx]?.species]);
-
-  // emit changes to other users
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const newSp = e.target.value;
-    // setSpecies(newSp);
-    if (!teamState.team[tabIdx]) return;
-    // @ts-ignore
-    teamState.team[tabIdx].species = newSp;
-  };
-
-  return (
-    <div className="tooltip" data-tip="Please pick Pokémon below">
-      <label className="input-group-xs input-group input-group-vertical">
-        <span>Species</span>
-        <input
-          type="text"
-          placeholder="Species"
-          className="input-primary input input-sm md:input-md"
-          value={species}
-          onFocus={onFocus}
-          onChange={handleChange}
-          onKeyDown={(event) => {
-            event.preventDefault();
-          }}
-        />
-      </label>
-    </div>
-  );
-}
+export default ItemsTable;

@@ -3,7 +3,7 @@ import { ChangeEvent, useContext, useEffect, useState } from 'react';
 import { DexContext } from '@/components/workspace/DexContext';
 import { PanelProps } from '@/components/workspace/types';
 
-export function GmaxToggle({ tabIdx, teamState }: PanelProps) {
+function GMaxSwitch({ tabIdx, teamState }: PanelProps) {
   // get dex
   const { gen } = useContext(DexContext);
 
@@ -46,3 +46,5 @@ export function GmaxToggle({ tabIdx, teamState }: PanelProps) {
     </div>
   );
 }
+
+export default GMaxSwitch;

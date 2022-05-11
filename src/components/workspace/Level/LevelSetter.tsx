@@ -2,7 +2,7 @@ import { ChangeEvent, useEffect, useState } from 'react';
 
 import { PanelProps } from '@/components/workspace/types';
 
-export function LevelSetter({ tabIdx, teamState }: PanelProps) {
+function LevelSetter({ tabIdx, teamState }: PanelProps) {
   const [level, setLevel] = useState(50);
 
   // receive changes from other users
@@ -27,3 +27,5 @@ export function LevelSetter({ tabIdx, teamState }: PanelProps) {
     </div>
   );
 }
+
+export default LevelSetter;
