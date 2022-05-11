@@ -42,15 +42,15 @@ function Workspace({ roomName }: WebRTCProviderProps) {
   };
 
   useEffect(() => {
+    if (teamState.roomAttributes.name && teamState.roomAttributes.name.length > 0) {
+      setConnected(true);
+      return;
+    }
+    teamState.roomAttributes.name = roomName;
     // Connect to the room via WebRTC
     const webrtcProvider = new WebrtcProvider(roomName, teamDoc as any);
     webrtcProvider.connect();
     setConnected(true);
-
-    return () => {
-      setConnected(false);
-      webrtcProvider.disconnect();
-    };
   }, []);
 
   if (!connected) {
