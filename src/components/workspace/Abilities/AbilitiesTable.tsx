@@ -5,7 +5,7 @@ import { Key, useContext, useEffect, useMemo, useState } from 'react';
 
 import { DexContext } from '@/components/workspace/DexContext';
 import { OmniFilter } from '@/components/workspace/OmniFilter';
-import { teamStore } from '@/store';
+import { StoreContext } from '@/components/workspace/StoreContext';
 
 const table = createTable().setRowType<Ability>();
 const defaultColumns = [
@@ -31,7 +31,8 @@ function getAbilitiesBySpecie(gen: Generation, speciesName?: string): Ability[] 
     .filter((a) => a != null) as Ability[];
 }
 
-function AbilitiesTable({ tabIdx }: { tabIdx: number }) {
+function AbilitiesTable() {
+  const { teamStore, tabIdx } = useContext(StoreContext);
   const teamState = useSyncedStore(teamStore);
   // get dex & possible abilities
   const { gen } = useContext(DexContext);

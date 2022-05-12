@@ -7,7 +7,7 @@ import { Key, useContext, useEffect, useMemo, useState } from 'react';
 
 import { DexContext } from '@/components/workspace/DexContext';
 import { OmniFilter } from '@/components/workspace/OmniFilter';
-import { teamStore } from '@/store';
+import { StoreContext } from '@/components/workspace/StoreContext';
 import { AppConfig } from '@/utils/AppConfig';
 import { trimGmaxFromName } from '@/utils/Helpers';
 
@@ -59,7 +59,8 @@ const getMovesBySpecie = (gen: Generation, speciesName?: string): Promise<Move[]
   );
 };
 
-function MovesTable({ moveIdx, tabIdx }: { moveIdx: number; tabIdx: number }) {
+function MovesTable({ moveIdx }: { moveIdx: number }) {
+  const { teamStore, tabIdx } = useContext(StoreContext);
   const teamState = useSyncedStore(teamStore);
   // get dex & possible moves
   const { gen } = useContext(DexContext);

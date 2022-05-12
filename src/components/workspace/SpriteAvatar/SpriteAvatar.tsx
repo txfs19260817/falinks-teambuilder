@@ -1,12 +1,14 @@
 import { Sprites } from '@pkmn/img';
 import { useSyncedStore } from '@syncedstore/react';
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
-import { teamStore } from '@/store';
+import { StoreContext } from '@/components/workspace/StoreContext';
 
-function SpriteAvatar({ tabIdx }: { tabIdx: number }) {
+function SpriteAvatar() {
+  const { teamStore, tabIdx } = useContext(StoreContext);
   const teamState = useSyncedStore(teamStore);
+
   const [spriteUrl, setSpriteUrl] = useState('https://play.pokemonshowdown.com/sprites/ani/pikachu.gif');
   const pm = teamState.team[tabIdx]!;
 

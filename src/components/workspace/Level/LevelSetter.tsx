@@ -1,9 +1,10 @@
 import { useSyncedStore } from '@syncedstore/react';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useContext, useEffect, useState } from 'react';
 
-import { teamStore } from '@/store';
+import { StoreContext } from '@/components/workspace/StoreContext';
 
-function LevelSetter({ tabIdx }: { tabIdx: number }) {
+function LevelSetter() {
+  const { teamStore, tabIdx } = useContext(StoreContext);
   const teamState = useSyncedStore(teamStore);
   const [level, setLevel] = useState(50);
 

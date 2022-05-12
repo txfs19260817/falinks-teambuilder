@@ -15,7 +15,7 @@ import { Key, useContext, useMemo, useState } from 'react';
 
 import { DexContext } from '@/components/workspace/DexContext';
 import { OmniFilter } from '@/components/workspace/OmniFilter';
-import { teamStore } from '@/store';
+import { StoreContext } from '@/components/workspace/StoreContext';
 import { convertStylesStringToObject } from '@/utils/Helpers';
 
 const table = createTable().setRowType<Item>();
@@ -38,7 +38,8 @@ const defaultColumns = [
   }),
 ];
 
-function ItemsTable({ tabIdx }: { tabIdx: number }) {
+function ItemsTable() {
+  const { teamStore, tabIdx } = useContext(StoreContext);
   const teamState = useSyncedStore(teamStore);
   // get dex
   const { gen } = useContext(DexContext);

@@ -1,5 +1,3 @@
-import { Dispatch, SetStateAction } from 'react';
-
 import AbilityInput from '@/components/workspace/Abilities/AbilityInput';
 import AttributeSetterSwitch from '@/components/workspace/AttributeSetterSwitch';
 import { DexContextProvider } from '@/components/workspace/DexContext';
@@ -13,17 +11,8 @@ import SpeciesInput from '@/components/workspace/PokemonSpecies/SpeciesInput';
 import ShinyToggle from '@/components/workspace/Shiny/ShinyToggle';
 import SpriteAvatar from '@/components/workspace/SpriteAvatar/SpriteAvatar';
 import StatsClickable from '@/components/workspace/Stats/StatsClickable';
-import { FocusedFieldToIdx } from '@/components/workspace/types';
 
-const PokemonPanel = ({
-  focusedField,
-  setFocusedField,
-  tabIdx,
-}: {
-  focusedField: FocusedFieldToIdx;
-  setFocusedField: Dispatch<SetStateAction<FocusedFieldToIdx>>;
-  tabIdx: number;
-}) => {
+const PokemonPanel = () => {
   return (
     <DexContextProvider>
       <div className="mockup-window border bg-base-300">
@@ -31,78 +20,41 @@ const PokemonPanel = ({
           {/* 1. Nickname & Species */}
           <div aria-label="species" className="form-control justify-between">
             {/* Nickname */}
-            <NicknameInput tabIdx={tabIdx} />
+            <NicknameInput />
             {/* Sprite */}
-            <SpriteAvatar tabIdx={tabIdx} />
+            <SpriteAvatar />
             {/* Species */}
-            <SpeciesInput
-              onFocus={() =>
-                setFocusedField({
-                  Species: 0,
-                })
-              }
-              tabIdx={tabIdx}
-            />
+            <SpeciesInput />
           </div>
           {/* 2. Misc */}
           <div aria-label="misc" className="form-control justify-between">
             {/* Level */}
-            <LevelSetter tabIdx={tabIdx} />
+            <LevelSetter />
             {/* Gender */}
-            <GenderPicker tabIdx={tabIdx} />
+            <GenderPicker />
             {/* Shiny & Gigantamax */}
             <div className="flex">
-              <ShinyToggle tabIdx={tabIdx} />
-              <GMaxSwitch tabIdx={tabIdx} />
+              <ShinyToggle />
+              <GMaxSwitch />
             </div>
             {/* Item */}
-            <ItemInput
-              onFocus={() =>
-                setFocusedField({
-                  Item: 0,
-                })
-              }
-              tabIdx={tabIdx}
-            />
+            <ItemInput />
             {/* Ability */}
-            <AbilityInput
-              onFocus={() =>
-                setFocusedField({
-                  Ability: 0,
-                })
-              }
-              tabIdx={tabIdx}
-            />
+            <AbilityInput />
           </div>
           {/* 3. Moves */}
           <div aria-label="moves" className="form-control justify-between">
             {[0, 1, 2, 3].map((i) => (
-              <MoveInput
-                key={i}
-                moveIdx={i}
-                onFocus={() =>
-                  setFocusedField({
-                    Moves: i,
-                  })
-                }
-                tabIdx={tabIdx}
-              />
+              <MoveInput key={i} moveIdx={i} />
             ))}
           </div>
           {/* 4. Stats */}
           <div aria-label="stats" className="form-control justify-start">
-            <StatsClickable
-              onFocus={() =>
-                setFocusedField({
-                  Stats: 0,
-                })
-              }
-              tabIdx={tabIdx}
-            />
+            <StatsClickable />
           </div>
           {/* 5. Lower part */}
           <div className="col-start-1 col-end-5 max-h-52 overflow-y-auto border-2 md:max-h-72">
-            <AttributeSetterSwitch {...{ focusedField, tabIdx }} />
+            <AttributeSetterSwitch />
           </div>
         </div>
       </div>

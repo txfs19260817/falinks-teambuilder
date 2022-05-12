@@ -1,9 +1,10 @@
 import { useSyncedStore } from '@syncedstore/react';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useContext, useEffect, useState } from 'react';
 
-import { teamStore } from '@/store';
+import { StoreContext } from '@/components/workspace/StoreContext';
 
-function ItemInput({ onFocus, tabIdx }: { onFocus: () => void; tabIdx: number }) {
+function ItemInput() {
+  const { teamStore, tabIdx, setFocusedField } = useContext(StoreContext);
   const teamState = useSyncedStore(teamStore);
   const [item, setItem] = useState<string>('');
 
@@ -30,7 +31,7 @@ function ItemInput({ onFocus, tabIdx }: { onFocus: () => void; tabIdx: number })
           placeholder="Item"
           className="input-secondary input input-xs md:input-md"
           value={item}
-          onFocus={onFocus}
+          onFocus={() => setFocusedField({ Item: 0 })}
           onChange={handleChange}
           onKeyDown={(event) => {
             event.preventDefault();

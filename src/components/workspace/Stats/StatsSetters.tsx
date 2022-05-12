@@ -4,7 +4,7 @@ import { useSyncedStore } from '@syncedstore/react';
 import { ChangeEvent, useContext, useEffect, useState } from 'react';
 
 import { DexContext } from '@/components/workspace/DexContext';
-import { teamStore } from '@/store';
+import { StoreContext } from '@/components/workspace/StoreContext';
 import { getSingleEvUpperLimit, getStats } from '@/utils/Helpers';
 
 const defaultStats: StatsTable = {
@@ -16,8 +16,10 @@ const defaultStats: StatsTable = {
   spe: 0,
 };
 
-function StatsSetters({ tabIdx }: { tabIdx: number }) {
+function StatsSetters() {
+  const { teamStore, tabIdx } = useContext(StoreContext);
   const teamState = useSyncedStore(teamStore);
+
   // get dex
   const { gen } = useContext(DexContext);
   const natures = Array.from(gen.natures);
@@ -57,7 +59,7 @@ function StatsSetters({ tabIdx }: { tabIdx: number }) {
   }, [teamState.team[tabIdx]?.nature]);
 
   // emit changes to other users
-  const handleNatureChange = (e: ChangeEvent<HTMLSelectElement>) => {
+  const handleNatureSelectChange = (e: ChangeEvent<HTMLSelectElement>) => {
     const newChecked = natures.find((n) => n.name === e.target.value)!;
     setNature(newChecked);
     if (!teamState.team[tabIdx]) return;
@@ -65,7 +67,7 @@ function StatsSetters({ tabIdx }: { tabIdx: number }) {
     teamState.team[tabIdx].nature = newChecked.name;
   };
 
-  const handleRadioChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleNatureRadioChange = (e: ChangeEvent<HTMLInputElement>) => {
     const [buff, stat] = e.target.name.split('-');
     const curBuff = buff === 'plus' ? 'plus' : 'minus';
     const opposingBuff = buff === 'plus' ? 'minus' : 'plus';
@@ -114,7 +116,7 @@ function StatsSetters({ tabIdx }: { tabIdx: number }) {
                   name={`minus-${stat}`}
                   className="radio-primary radio radio-xs md:radio-sm"
                   checked={nature.minus === stat}
-                  onChange={handleRadioChange}
+                  onChange={handleNatureRadioChange}
                   disabled={stat === 'hp'}
                 />
                 <input
@@ -122,7 +124,7 @@ function StatsSetters({ tabIdx }: { tabIdx: number }) {
                   name={`plus-${stat}`}
                   className="radio-secondary radio radio-xs md:radio-sm"
                   checked={nature.plus === stat}
-                  onChange={handleRadioChange}
+                  onChange={handleNatureRadioChange}
                   disabled={stat === 'hp'}
                 />
                 <span>+</span>
@@ -190,7 +192,7 @@ function StatsSetters({ tabIdx }: { tabIdx: number }) {
         <span className="font-bold uppercase" role="columnheader">
           Nature
         </span>
-        <select id="nature" className="select-bordered select select-xs col-span-2 md:select-sm" value={nature.name} onChange={handleNatureChange}>
+        <select id="nature" className="select-bordered select select-xs col-span-2 md:select-sm" value={nature.name} onChange={handleNatureSelectChange}>
           {natures.map((n) => (
             <option key={n.name} value={n.name}>
               {n.name}

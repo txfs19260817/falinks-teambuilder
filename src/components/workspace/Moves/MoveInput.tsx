@@ -1,9 +1,10 @@
 import { useSyncedStore } from '@syncedstore/react';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useContext, useEffect, useState } from 'react';
 
-import { teamStore } from '@/store';
+import { StoreContext } from '@/components/workspace/StoreContext';
 
-function MoveInput({ onFocus, moveIdx, tabIdx }: { onFocus: () => void; moveIdx: number; tabIdx: number }) {
+function MoveInput({ moveIdx }: { moveIdx: number }) {
+  const { teamStore, tabIdx, setFocusedField } = useContext(StoreContext);
   const teamState = useSyncedStore(teamStore);
   const [move, setMove] = useState<string>('');
 
@@ -30,7 +31,7 @@ function MoveInput({ onFocus, moveIdx, tabIdx }: { onFocus: () => void; moveIdx:
           placeholder="Move"
           className="input-accent input input-xs md:input-md"
           value={move}
-          onFocus={onFocus}
+          onFocus={() => setFocusedField({ Moves: moveIdx })}
           onChange={handleChange}
           onKeyDown={(event) => {
             event.preventDefault();

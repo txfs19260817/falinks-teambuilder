@@ -1,10 +1,12 @@
 import { useSyncedStore } from '@syncedstore/react';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useContext, useEffect, useState } from 'react';
 
-import { teamStore } from '@/store';
+import { StoreContext } from '@/components/workspace/StoreContext';
 
-function SpeciesInput({ onFocus, tabIdx }: { onFocus: () => void; tabIdx: number }) {
+function SpeciesInput() {
+  const { teamStore, tabIdx, setFocusedField } = useContext(StoreContext);
   const teamState = useSyncedStore(teamStore);
+
   const [species, setSpecies] = useState<string>('Pikachu');
 
   // receive changes from other users
@@ -16,7 +18,6 @@ function SpeciesInput({ onFocus, tabIdx }: { onFocus: () => void; tabIdx: number
   // emit changes to other users
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const newSp = e.target.value;
-    // setSpecies(newSp);
     if (!teamState.team[tabIdx]) return;
     // @ts-ignore
     teamState.team[tabIdx].species = newSp;
@@ -31,7 +32,7 @@ function SpeciesInput({ onFocus, tabIdx }: { onFocus: () => void; tabIdx: number
           placeholder="Species"
           className="input-primary input input-sm md:input-md"
           value={species}
-          onFocus={onFocus}
+          onFocus={() => setFocusedField({ Species: 0 })}
           onChange={handleChange}
           onKeyDown={(event) => {
             event.preventDefault();

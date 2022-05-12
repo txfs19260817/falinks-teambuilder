@@ -2,9 +2,10 @@ import { useSyncedStore } from '@syncedstore/react';
 import { ChangeEvent, Fragment, useContext, useEffect, useState } from 'react';
 
 import { DexContext } from '@/components/workspace/DexContext';
-import { teamStore } from '@/store';
+import { StoreContext } from '@/components/workspace/StoreContext';
 
-function GenderPicker({ tabIdx }: { tabIdx: number }) {
+function GenderPicker() {
+  const { teamStore, tabIdx } = useContext(StoreContext);
   const teamState = useSyncedStore(teamStore);
   // get dex
   const { gen } = useContext(DexContext);
@@ -25,6 +26,7 @@ function GenderPicker({ tabIdx }: { tabIdx: number }) {
   // emit changes to other users
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const newPicked = e.target.value;
+    // TODO: rm this
     setGender(newPicked);
     if (!teamState.team[tabIdx]) return;
     // @ts-ignore

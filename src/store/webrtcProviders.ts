@@ -1,15 +1,13 @@
 import { getYjsValue } from '@syncedstore/core';
+import { MappedTypeDescription } from '@syncedstore/core/types/doc';
 import { WebrtcProvider } from 'y-webrtc';
-import { AbstractType, Doc } from 'yjs';
 
-import { teamStore } from '@/store/index';
+import { StoreContextType } from '@/components/workspace/StoreContext';
 
 let instance: WebrtcProviders;
 
 class WebrtcProviders {
   private providers: Map<string, WebrtcProvider>;
-
-  private readonly teamDoc: Doc | AbstractType<any> | undefined;
 
   constructor() {
     if (instance) {
@@ -17,36 +15,16 @@ class WebrtcProviders {
     }
 
     this.providers = new Map();
-    this.teamDoc = getYjsValue(teamStore); // Create a document that syncs automatically using Y-WebRTC
+
     instance = this;
   }
 
-  public getProvider(roomName: string): WebrtcProvider | undefined {
-    return this.providers.get(roomName);
-  }
-
-  public setProvider(roomName: string): void {
-    if (this.providers.has(roomName)) {
-      throw new Error(`Room '${roomName}' 's provider already exists!`);
-    }
-
-    this.providers.set(roomName, new WebrtcProvider(roomName, this.teamDoc as any));
-  }
-
-  public getOrCreateProvider(roomName: string): WebrtcProvider {
+  public getOrCreateProvider(roomName: string, store: MappedTypeDescription<StoreContextType>): WebrtcProvider {
     if (!this.providers.has(roomName)) {
-      this.providers.set(roomName, new WebrtcProvider(roomName, this.teamDoc as any));
+      this.providers.set(roomName, new WebrtcProvider(roomName, getYjsValue(store) as any));
     }
 
     return this.providers.get(roomName)!;
-  }
-
-  public connectByRoomName(roomName: string): void {
-    const provider = this.providers.get(roomName);
-    if (!provider) {
-      throw new Error(`No room '${roomName}' found, please create the WebrtcProvider first`);
-    }
-    provider.connect();
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -60,15 +38,6 @@ class WebrtcProviders {
       throw new Error(`No room '${roomName}' found, please create the WebrtcProvider first`);
     }
     provider.disconnect();
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  public disconnectByProvider(provider: WebrtcProvider): void {
-    provider.disconnect();
-  }
-
-  public deleteProvider(roomName: string): void {
-    this.providers.delete(roomName);
   }
 }
 

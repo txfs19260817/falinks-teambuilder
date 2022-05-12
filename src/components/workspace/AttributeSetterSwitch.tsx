@@ -1,24 +1,28 @@
+import { useContext } from 'react';
+
 import AbilitiesTable from '@/components/workspace/Abilities/AbilitiesTable';
 import ItemsTable from '@/components/workspace/Items/ItemsTable';
 import MovesTable from '@/components/workspace/Moves/MovesTable';
 import SpeciesTable from '@/components/workspace/PokemonSpecies/SpeciesTable';
 import StatsSetters from '@/components/workspace/Stats/StatsSetters';
-import { FocusedField, FocusedFieldToIdx } from '@/components/workspace/types';
+import { StoreContext } from '@/components/workspace/StoreContext';
+import { FocusedField } from '@/components/workspace/types';
 
-const AttributeSetterSwitch = ({ focusedField, tabIdx }: { focusedField: FocusedFieldToIdx; tabIdx: number }) => {
+const AttributeSetterSwitch = () => {
+  const { focusedField } = useContext(StoreContext);
   const firstEntry = Object.entries(focusedField)[0];
-  const [field, idx] = firstEntry ?? ['', 0];
+  const [field, idx] = firstEntry ?? ['', 0]; // idx is only used for switching between moves
   switch (field) {
     case FocusedField.Species:
-      return <SpeciesTable tabIdx={tabIdx} />;
+      return <SpeciesTable />;
     case FocusedField.Item:
-      return <ItemsTable tabIdx={tabIdx} />;
+      return <ItemsTable />;
     case FocusedField.Ability:
-      return <AbilitiesTable tabIdx={tabIdx} />;
+      return <AbilitiesTable />;
     case FocusedField.Moves:
-      return <MovesTable tabIdx={tabIdx} moveIdx={idx} />;
+      return <MovesTable moveIdx={idx} />;
     case FocusedField.Stats:
-      return <StatsSetters tabIdx={tabIdx} />;
+      return <StatsSetters />;
     default:
       return null;
   }

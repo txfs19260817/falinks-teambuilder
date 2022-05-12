@@ -20,7 +20,7 @@ import { Key, useContext, useMemo, useState } from 'react';
 
 import { DexContext } from '@/components/workspace/DexContext';
 import { OmniFilter } from '@/components/workspace/OmniFilter';
-import { teamStore } from '@/store';
+import { StoreContext } from '@/components/workspace/StoreContext';
 import { getPokemonIconFromLocal } from '@/utils/Helpers';
 
 const table = createTable().setRowType<Specie>();
@@ -106,7 +106,8 @@ const defaultColumns = [
   }),
 ];
 
-function SpeciesTable({ tabIdx }: { tabIdx: number }) {
+function SpeciesTable() {
+  const { teamStore, tabIdx } = useContext(StoreContext);
   const teamState = useSyncedStore(teamStore);
   // get dex
   const { gen } = useContext(DexContext);

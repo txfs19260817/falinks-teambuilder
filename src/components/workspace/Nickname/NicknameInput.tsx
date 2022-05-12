@@ -1,10 +1,12 @@
 import { useSyncedStore } from '@syncedstore/react';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useContext, useEffect, useState } from 'react';
 
-import { teamStore } from '@/store';
+import { StoreContext } from '@/components/workspace/StoreContext';
 
-function NicknameInput({ tabIdx }: { tabIdx: number }) {
+function NicknameInput() {
+  const { teamStore, tabIdx } = useContext(StoreContext);
   const teamState = useSyncedStore(teamStore);
+
   const [nickname, setNickname] = useState<string>('');
 
   // receive changes from other users

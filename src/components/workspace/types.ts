@@ -7,5 +7,5 @@ export enum FocusedField {
 }
 
 // FocusedFieldToIdx maps a selected panel to the index of the specific field
-// (if the selected panel is not Moves, then the index is meaningless atm)
+// (if the selected panel is not Moves, then the index is 0, which is meaningless atm)
 export type FocusedFieldToIdx = { [key in FocusedField]?: number };

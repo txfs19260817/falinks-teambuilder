@@ -1,9 +1,10 @@
 import { useSyncedStore } from '@syncedstore/react';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useContext, useEffect, useState } from 'react';
 
-import { teamStore } from '@/store';
+import { StoreContext } from '@/components/workspace/StoreContext';
 
-function ShinyToggle({ tabIdx }: { tabIdx: number }) {
+function ShinyToggle() {
+  const { teamStore, tabIdx } = useContext(StoreContext);
   const teamState = useSyncedStore(teamStore);
   const [checked, setChecked] = useState(false);
 
@@ -16,6 +17,7 @@ function ShinyToggle({ tabIdx }: { tabIdx: number }) {
   // emit changes to other users
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const newChecked = e.target.checked;
+    // TODO: remove this
     setChecked(newChecked);
     if (!teamState.team[tabIdx]) return;
     // @ts-ignore

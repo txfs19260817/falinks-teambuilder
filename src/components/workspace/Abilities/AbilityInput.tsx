@@ -1,9 +1,10 @@
 import { useSyncedStore } from '@syncedstore/react';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useContext, useEffect, useState } from 'react';
 
-import { teamStore } from '@/store';
+import { StoreContext } from '@/components/workspace/StoreContext';
 
-function AbilityInput({ onFocus, tabIdx }: { onFocus: () => void; tabIdx: number }) {
+function AbilityInput() {
+  const { teamStore, tabIdx, setFocusedField } = useContext(StoreContext);
   const teamState = useSyncedStore(teamStore);
   const [ability, setAbility] = useState<string>('');
 
@@ -30,7 +31,7 @@ function AbilityInput({ onFocus, tabIdx }: { onFocus: () => void; tabIdx: number
           placeholder="Ability"
           className="input-secondary input input-xs md:input-md"
           value={ability}
-          onFocus={onFocus}
+          onFocus={() => setFocusedField({ Ability: 0 })}
           onChange={handleChange}
           onKeyDown={(event) => {
             event.preventDefault();

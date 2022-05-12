@@ -3,7 +3,7 @@ import { useSyncedStore } from '@syncedstore/react';
 import { useContext, useEffect, useState } from 'react';
 
 import { DexContext } from '@/components/workspace/DexContext';
-import { teamStore } from '@/store';
+import { StoreContext } from '@/components/workspace/StoreContext';
 import { getStats } from '@/utils/Helpers';
 
 const defaultStats: StatsTable = {
@@ -15,7 +15,8 @@ const defaultStats: StatsTable = {
   spe: 0,
 };
 
-function StatsClickable({ onFocus, tabIdx }: { onFocus: () => void; tabIdx: number }) {
+function StatsClickable() {
+  const { teamStore, tabIdx, setFocusedField } = useContext(StoreContext);
   const teamState = useSyncedStore(teamStore);
   // get dex
   const { gen } = useContext(DexContext);
@@ -46,7 +47,11 @@ function StatsClickable({ onFocus, tabIdx }: { onFocus: () => void; tabIdx: numb
   return (
     <label
       className="input-group-md input-group input-group-vertical rounded-lg border border-base-300 transition-all hover:opacity-80 hover:shadow-xl md:input-group-lg"
-      onClick={onFocus}
+      onClick={() =>
+        setFocusedField({
+          Stats: 0,
+        })
+      }
     >
       <span>Status</span>
       {Object.entries(stats).map(([key, value]) => (
