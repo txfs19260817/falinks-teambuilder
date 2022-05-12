@@ -1,4 +1,4 @@
-import { Sets } from '@pkmn/sets';
+import { Sets, Team } from '@pkmn/sets';
 import { PokemonSet, StatsTable } from '@pkmn/types';
 
 import { S4 } from '@/utils/Helpers';
@@ -69,12 +69,16 @@ export class Pokemon implements PokemonSet {
     this.shiny = shiny;
   }
 
-  static exportSet(p: Pokemon | Partial<PokemonSet>): string {
+  static exportSetToPaste(p: Pokemon | PokemonSet): string {
     return Sets.exportSet(p);
   }
 
   static importSet(s: string): Pokemon {
     const { species, name, item, ability, moves, nature, evs, gender, ivs, level, gigantamax, happiness, shiny } = Sets.importSet(s);
     return new Pokemon(species as string, name, item, ability, moves, nature, evs, gender, ivs, level, gigantamax, happiness, shiny);
+  }
+
+  static convertPasteToJSON(s: string): string {
+    return Team.import(s)?.toJSON() ?? '';
   }
 }
