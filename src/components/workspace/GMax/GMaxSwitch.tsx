@@ -1,12 +1,10 @@
-import { useSyncedStore } from '@syncedstore/react';
 import { ChangeEvent, useContext, useEffect, useState } from 'react';
 
 import { DexContext } from '@/components/workspace/DexContext';
 import { StoreContext } from '@/components/workspace/StoreContext';
 
 function GMaxSwitch() {
-  const { teamStore, tabIdx } = useContext(StoreContext);
-  const teamState = useSyncedStore(teamStore);
+  const { teamState, tabIdx } = useContext(StoreContext);
   // get dex
   const { gen } = useContext(DexContext);
 
@@ -21,8 +19,6 @@ function GMaxSwitch() {
   // emit changes to other users
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const newChecked = e.target.checked;
-    // TODO: remove this
-    setChecked(newChecked);
     if (!teamState.team[tabIdx]) return;
     // @ts-ignore
     teamState.team[tabIdx].gigantamax = newChecked;

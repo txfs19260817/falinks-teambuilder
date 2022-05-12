@@ -1,6 +1,5 @@
 import { Item } from '@pkmn/data';
 import { Icons } from '@pkmn/img';
-import { useSyncedStore } from '@syncedstore/react';
 import {
   ColumnFiltersState,
   createTable,
@@ -39,8 +38,7 @@ const defaultColumns = [
 ];
 
 function ItemsTable() {
-  const { teamStore, tabIdx } = useContext(StoreContext);
-  const teamState = useSyncedStore(teamStore);
+  const { teamState, tabIdx } = useContext(StoreContext);
   // get dex
   const { gen } = useContext(DexContext);
 

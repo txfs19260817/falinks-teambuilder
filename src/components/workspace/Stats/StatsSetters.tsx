@@ -1,6 +1,5 @@
 import { Nature } from '@pkmn/dex-types';
 import { StatsTable } from '@pkmn/types';
-import { useSyncedStore } from '@syncedstore/react';
 import { ChangeEvent, useContext, useEffect, useState } from 'react';
 
 import { DexContext } from '@/components/workspace/DexContext';
@@ -17,8 +16,7 @@ const defaultStats: StatsTable = {
 };
 
 function StatsSetters() {
-  const { teamStore, tabIdx } = useContext(StoreContext);
-  const teamState = useSyncedStore(teamStore);
+  const { teamState, tabIdx } = useContext(StoreContext);
 
   // get dex
   const { gen } = useContext(DexContext);
@@ -61,7 +59,6 @@ function StatsSetters() {
   // emit changes to other users
   const handleNatureSelectChange = (e: ChangeEvent<HTMLSelectElement>) => {
     const newChecked = natures.find((n) => n.name === e.target.value)!;
-    setNature(newChecked);
     if (!teamState.team[tabIdx]) return;
     // @ts-ignore
     teamState.team[tabIdx].nature = newChecked.name;
@@ -75,7 +72,6 @@ function StatsSetters() {
       natures.find((n) => n[curBuff] === stat && n[opposingBuff] === nature[opposingBuff]) ??
       natures.find((n) => n[curBuff] === stat && n[opposingBuff] === (stat === 'atk' ? 'def' : 'atk')) ??
       nature;
-    setNature(newChecked);
     if (!teamState.team[tabIdx]) return;
     // @ts-ignore
     teamState.team[tabIdx].nature = newChecked.name;

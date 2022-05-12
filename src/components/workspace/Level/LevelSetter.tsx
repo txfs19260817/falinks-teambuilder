@@ -1,11 +1,9 @@
-import { useSyncedStore } from '@syncedstore/react';
 import { ChangeEvent, useContext, useEffect, useState } from 'react';
 
 import { StoreContext } from '@/components/workspace/StoreContext';
 
 function LevelSetter() {
-  const { teamStore, tabIdx } = useContext(StoreContext);
-  const teamState = useSyncedStore(teamStore);
+  const { teamState, tabIdx } = useContext(StoreContext);
   const [level, setLevel] = useState(50);
 
   // receive changes from other users

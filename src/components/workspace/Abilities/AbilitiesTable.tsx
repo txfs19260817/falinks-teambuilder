@@ -1,5 +1,4 @@
 import { Ability, Generation } from '@pkmn/data';
-import { useSyncedStore } from '@syncedstore/react';
 import { ColumnFiltersState, createTable, getCoreRowModelSync, getFilteredRowModelSync, getSortedRowModelSync, useTableInstance } from '@tanstack/react-table';
 import { Key, useContext, useEffect, useMemo, useState } from 'react';
 
@@ -32,8 +31,7 @@ function getAbilitiesBySpecie(gen: Generation, speciesName?: string): Ability[] 
 }
 
 function AbilitiesTable() {
-  const { teamStore, tabIdx } = useContext(StoreContext);
-  const teamState = useSyncedStore(teamStore);
+  const { teamState, tabIdx } = useContext(StoreContext);
   // get dex & possible abilities
   const { gen } = useContext(DexContext);
 

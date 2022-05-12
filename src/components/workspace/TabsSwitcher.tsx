@@ -1,5 +1,4 @@
 import { Icons } from '@pkmn/img';
-import { useSyncedStore } from '@syncedstore/react';
 import React, { useContext } from 'react';
 
 import { StoreContext } from '@/components/workspace/StoreContext';
@@ -8,8 +7,7 @@ import { AppConfig } from '@/utils/AppConfig';
 import { convertStylesStringToObject } from '@/utils/Helpers';
 
 function TabsSwitcher() {
-  const { teamStore, tabIdx, setTabIdx, setFocusedField } = useContext(StoreContext);
-  const teamState = useSyncedStore(teamStore);
+  const { teamState, tabIdx, setTabIdx, setFocusedField } = useContext(StoreContext);
 
   const newTab = () => {
     const newLen = teamState.team.push(new Pokemon('Bulbasaur'));

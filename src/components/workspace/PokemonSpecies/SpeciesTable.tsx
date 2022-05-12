@@ -2,7 +2,6 @@ import { Specie } from '@pkmn/data';
 import { AbilityName, SpeciesAbility } from '@pkmn/dex-types';
 import { Icons } from '@pkmn/img';
 import { StatsTable } from '@pkmn/types';
-import { useSyncedStore } from '@syncedstore/react';
 import {
   ColumnFiltersState,
   createTable,
@@ -107,8 +106,7 @@ const defaultColumns = [
 ];
 
 function SpeciesTable() {
-  const { teamStore, tabIdx } = useContext(StoreContext);
-  const teamState = useSyncedStore(teamStore);
+  const { teamState, tabIdx } = useContext(StoreContext);
   // get dex
   const { gen } = useContext(DexContext);
 

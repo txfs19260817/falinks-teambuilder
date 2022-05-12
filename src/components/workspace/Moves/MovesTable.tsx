@@ -1,6 +1,5 @@
 import { Generation, Move } from '@pkmn/data';
 import { Icons } from '@pkmn/img';
-import { useSyncedStore } from '@syncedstore/react';
 import { ColumnFiltersState, createTable, getCoreRowModelSync, getFilteredRowModelSync, getSortedRowModelSync, useTableInstance } from '@tanstack/react-table';
 import Image from 'next/image';
 import { Key, useContext, useEffect, useMemo, useState } from 'react';
@@ -60,8 +59,7 @@ const getMovesBySpecie = (gen: Generation, speciesName?: string): Promise<Move[]
 };
 
 function MovesTable({ moveIdx }: { moveIdx: number }) {
-  const { teamStore, tabIdx } = useContext(StoreContext);
-  const teamState = useSyncedStore(teamStore);
+  const { teamState, tabIdx } = useContext(StoreContext);
   // get dex & possible moves
   const { gen } = useContext(DexContext);
 

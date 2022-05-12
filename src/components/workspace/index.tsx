@@ -29,7 +29,6 @@ function Workspace({ roomName }: WebRTCProviderProps) {
   useEffect(() => {
     // Connect to the room via WebRTC
     const webrtcProvider = WebrtcProviders.getOrCreateProvider(roomName, teamStore);
-    console.log(webrtcProvider);
     WebrtcProviders.connectByProvider(webrtcProvider);
     setConnected(true);
 
@@ -45,7 +44,7 @@ function Workspace({ roomName }: WebRTCProviderProps) {
   }
 
   return (
-    <StoreContextProvider value={{ teamStore, tabIdx, setTabIdx, focusedField, setFocusedField }}>
+    <StoreContextProvider value={{ teamState, tabIdx, setTabIdx, focusedField, setFocusedField }}>
       {/* Tab header */}
       <TabsSwitcher />
       {/* Panel */}

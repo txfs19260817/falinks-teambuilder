@@ -1,11 +1,9 @@
-import { useSyncedStore } from '@syncedstore/react';
 import { ChangeEvent, useContext, useEffect, useState } from 'react';
 
 import { StoreContext } from '@/components/workspace/StoreContext';
 
 function SpeciesInput() {
-  const { teamStore, tabIdx, setFocusedField } = useContext(StoreContext);
-  const teamState = useSyncedStore(teamStore);
+  const { teamState, tabIdx, setFocusedField } = useContext(StoreContext);
 
   const [species, setSpecies] = useState<string>('Pikachu');
 

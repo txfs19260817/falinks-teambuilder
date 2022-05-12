@@ -1,11 +1,9 @@
-import { useSyncedStore } from '@syncedstore/react';
 import { ChangeEvent, useContext, useEffect, useState } from 'react';
 
 import { StoreContext } from '@/components/workspace/StoreContext';
 
 function MoveInput({ moveIdx }: { moveIdx: number }) {
-  const { teamStore, tabIdx, setFocusedField } = useContext(StoreContext);
-  const teamState = useSyncedStore(teamStore);
+  const { teamState, tabIdx, setFocusedField } = useContext(StoreContext);
   const [move, setMove] = useState<string>('');
 
   // receive changes from other users

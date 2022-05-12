@@ -1,5 +1,4 @@
 import { StatID, StatsTable } from '@pkmn/types';
-import { useSyncedStore } from '@syncedstore/react';
 import { useContext, useEffect, useState } from 'react';
 
 import { DexContext } from '@/components/workspace/DexContext';
@@ -16,8 +15,7 @@ const defaultStats: StatsTable = {
 };
 
 function StatsClickable() {
-  const { teamStore, tabIdx, setFocusedField } = useContext(StoreContext);
-  const teamState = useSyncedStore(teamStore);
+  const { teamState, tabIdx, setFocusedField } = useContext(StoreContext);
   // get dex
   const { gen } = useContext(DexContext);
   const natures = Array.from(gen.natures);

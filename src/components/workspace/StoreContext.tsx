@@ -9,7 +9,7 @@ export type StoreContextType = {
 };
 
 interface StoreContextInterface {
-  teamStore: MappedTypeDescription<StoreContextType>;
+  teamState: MappedTypeDescription<StoreContextType>;
   tabIdx: number;
   setTabIdx: (tab: number) => void;
   focusedField: FocusedFieldToIdx;
@@ -22,7 +22,7 @@ type StoreContextProviderProps = {
 };
 
 const defaultStore: StoreContextInterface = {
-  teamStore: {} as MappedTypeDescription<StoreContextType>,
+  teamState: {} as MappedTypeDescription<StoreContextType>,
   tabIdx: 0,
   setTabIdx: (_tab: number) => {},
   focusedField: { Species: 0 },
