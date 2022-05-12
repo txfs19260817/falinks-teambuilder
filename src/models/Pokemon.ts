@@ -1,7 +1,7 @@
 import { Sets } from '@pkmn/sets';
 import { PokemonSet, StatsTable } from '@pkmn/types';
 
-import { guidGenerator } from '@/utils/Helpers';
+import { S4 } from '@/utils/Helpers';
 
 export class Pokemon implements PokemonSet {
   /**
@@ -53,7 +53,7 @@ export class Pokemon implements PokemonSet {
     happiness?: number,
     shiny?: boolean
   ) {
-    this.id = guidGenerator();
+    this.id = `${S4()}${S4()}`;
     this.species = species;
     this.name = name || '';
     this.item = item || '';

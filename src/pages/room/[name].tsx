@@ -7,6 +7,7 @@ const Workspace = dynamic(() => import('@/components/workspace/index'), {
   ssr: false,
 });
 
+// Known issue: if you access this page via go back, it might cause a series of warnings regarding update some unmounted components.
 const Room = () => {
   // Get the room name from the params
   const { isReady, query } = useRouter();

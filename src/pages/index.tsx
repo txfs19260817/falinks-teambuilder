@@ -1,11 +1,9 @@
-import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 
 import { Main } from '@/templates/Main';
 import { S4 } from '@/utils/Helpers';
 
 const Index = () => {
-  const router = useRouter();
   const { register, handleSubmit } = useForm({
     defaultValues: {
       roomName: `room_${S4()}`,
@@ -13,7 +11,7 @@ const Index = () => {
   });
 
   const gotoRoom = (data: { roomName: string }) => {
-    router.push(`/room/${encodeURIComponent(data.roomName)}`);
+    window.open(`/room/${encodeURIComponent(data.roomName)}`, '_self');
   };
 
   return (

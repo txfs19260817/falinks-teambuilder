@@ -2,11 +2,10 @@ import { Icons } from '@pkmn/img';
 import { useSyncedStore } from '@syncedstore/react';
 import React, { useEffect, useState } from 'react';
 
-import { DexContextProvider } from '@/components/workspace/DexContext';
 import { PokemonPanel } from '@/components/workspace/PokemonPanel';
 import { FocusedFieldToIdx } from '@/components/workspace/types';
 import { Pokemon } from '@/models/Pokemon';
-import { teamDoc, teamStore } from '@/store';
+import { teamStore } from '@/store';
 import WebrtcProviders from '@/store/webrtcProviders';
 import { AppConfig } from '@/utils/AppConfig';
 import { convertStylesStringToObject } from '@/utils/Helpers';
@@ -43,7 +42,7 @@ function Workspace({ roomName }: WebRTCProviderProps) {
 
   useEffect(() => {
     // Connect to the room via WebRTC
-    const webrtcProvider = WebrtcProviders.getOrCreateProvider(roomName, teamDoc as any);
+    const webrtcProvider = WebrtcProviders.getOrCreateProvider(roomName);
     WebrtcProviders.connectByProvider(webrtcProvider);
     setConnected(true);
 
@@ -59,7 +58,7 @@ function Workspace({ roomName }: WebRTCProviderProps) {
   }
 
   return (
-    <DexContextProvider>
+    <>
       {/* Tab header */}
       <div className="tabs tabs-boxed">
         {teamState.team.map((p, i) => (
@@ -85,10 +84,10 @@ function Workspace({ roomName }: WebRTCProviderProps) {
       ) : (
         <PokemonPanel {...{ focusedField, setFocusedField, tabIdx }} />
       )}
-    </DexContextProvider>
+    </>
   );
 }
 
-Workspace.whyDidYouRender = true;
+Workspace.whyDidYouRender = false;
 
 export default Workspace;

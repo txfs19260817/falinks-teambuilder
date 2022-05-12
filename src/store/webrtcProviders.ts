@@ -1,24 +1,23 @@
+import { getYjsValue } from '@syncedstore/core';
 import { WebrtcProvider } from 'y-webrtc';
 import { AbstractType, Doc } from 'yjs';
 
-type WebrtcProviderOptions = {
-  signaling: Array<string> | null;
-  password: string | null;
-  awareness: null;
-  maxConns: number | null;
-  filterBcConns: boolean | null;
-  peerOpts: any | null;
-};
+import { teamStore } from '@/store/index';
+
 let instance: WebrtcProviders;
 
 class WebrtcProviders {
   private providers: Map<string, WebrtcProvider>;
 
+  private readonly teamDoc: Doc | AbstractType<any> | undefined;
+
   constructor() {
     if (instance) {
       throw new Error('You can only create one instance!');
     }
+
     this.providers = new Map();
+    this.teamDoc = getYjsValue(teamStore); // Create a document that syncs automatically using Y-WebRTC
     instance = this;
   }
 
@@ -26,39 +25,19 @@ class WebrtcProviders {
     return this.providers.get(roomName);
   }
 
-  public setProvider(roomName: string, doc: Doc | AbstractType<any>): void {
+  public setProvider(roomName: string): void {
     if (this.providers.has(roomName)) {
       throw new Error(`Room '${roomName}' 's provider already exists!`);
     }
 
-    this.providers.set(
-      roomName,
-      new WebrtcProvider(
-        roomName,
-        doc as any,
-        {
-          signaling: ['wss://y-webrtc-signaling-us.herokuapp.com'],
-        } as WebrtcProviderOptions
-      )
-    );
+    this.providers.set(roomName, new WebrtcProvider(roomName, this.teamDoc as any));
   }
 
-  public getOrCreateProvider(roomName: string, doc?: Doc | AbstractType<any>): WebrtcProvider {
+  public getOrCreateProvider(roomName: string): WebrtcProvider {
     if (!this.providers.has(roomName)) {
-      if (!doc) {
-        throw new Error(`No room '${roomName}' found so you need to pass a doc`);
-      }
-      this.providers.set(
-        roomName,
-        new WebrtcProvider(
-          roomName,
-          doc as any,
-          {
-            signaling: ['wss://y-webrtc-signaling-us.herokuapp.com'],
-          } as WebrtcProviderOptions
-        )
-      );
+      this.providers.set(roomName, new WebrtcProvider(roomName, this.teamDoc as any));
     }
+
     return this.providers.get(roomName)!;
   }
 
@@ -94,4 +73,5 @@ class WebrtcProviders {
 }
 
 const singletonWebrtcProviders = Object.freeze(new WebrtcProviders());
+
 export default singletonWebrtcProviders;
