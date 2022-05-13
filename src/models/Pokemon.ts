@@ -81,4 +81,14 @@ export class Pokemon implements PokemonSet {
   static convertPasteToJSON(s: string): string {
     return Team.import(s)?.toJSON() ?? '';
   }
+
+  static convertPasteToTeam(s: string): Pokemon[] | undefined {
+    return Team.import(s)?.team.map(
+      (p) => new Pokemon(p.species!, p.name, p.item, p.ability, p.moves, p.nature, p.evs, p.gender, p.ivs, p.level, p.gigantamax, p.happiness, p.shiny)
+    );
+  }
+
+  static convertTeamToPaste(t: Pokemon[]): string {
+    return new Team(t).export();
+  }
 }

@@ -1,5 +1,6 @@
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
+import { Toaster } from 'react-hot-toast';
 
 import { Main } from '@/templates/Main';
 
@@ -13,7 +14,12 @@ const Room = () => {
   const { isReady, query } = useRouter();
   const roomName = (query.name as string) || 'Loading...';
 
-  return <Main title={`Room - ${roomName}`}>{isReady ? <Workspace roomName={roomName} /> : <h1>Loading...</h1>}</Main>;
+  return (
+    <Main title={`Room - ${roomName}`}>
+      <Toaster />
+      {isReady ? <Workspace roomName={roomName} /> : <h1>Loading...</h1>}
+    </Main>
+  );
 };
 
 export default Room;
