@@ -1,5 +1,6 @@
 import { DocumentDownloadIcon, LinkIcon, PaperAirplaneIcon, UploadIcon } from '@heroicons/react/solid';
 import { useContext, useRef } from 'react';
+import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
 
 import { StoreContext } from '@/components/workspace/StoreContext';
@@ -95,7 +96,7 @@ Impish Nature
 
   return (
     <>
-      <label htmlFor="import-ps-modal" className="modal-button btn btn-sm rounded-none md:btn-md" title="Import a team from Showdown paste">
+      <label htmlFor="import-ps-modal" className="modal-button btn btn-sm md:btn-md" title="Import a team from Showdown paste">
         <UploadIcon className="h-4 w-4 md:h-6 md:w-6" />
         <span className="hidden md:inline-block">Import</span>
       </label>
@@ -139,7 +140,7 @@ function ExportDialog() {
 
   return (
     <>
-      <label htmlFor="export-ps-modal" className="modal-button btn btn-sm rounded-none md:btn-md" title="Export a team to Showdown paste">
+      <label htmlFor="export-ps-modal" className="modal-button btn btn-sm md:btn-md" title="Export this team to Showdown paste">
         <DocumentDownloadIcon className="h-4 w-4 md:h-6 md:w-6" />
         <span className="hidden md:inline-block">Export</span>
       </label>
@@ -198,14 +199,70 @@ function PostPokepaste() {
   );
 }
 
+function SetMetadata() {
+  const { register, handleSubmit } = useForm({
+    defaultValues: {
+      title: '',
+      author: '',
+      notes: '',
+    },
+  });
+
+  return (
+    <>
+      <label htmlFor="set-metadata-modal" className="modal-button btn btn-sm md:btn-md" title="Set author, title, and notes for the current team">
+        <DocumentDownloadIcon className="h-4 w-4 md:h-6 md:w-6" />
+        <span className="hidden md:inline-block">Metadata</span>
+      </label>
+      <input type="checkbox" id="set-metadata-modal" className="modal-toggle" />
+      <div className="modal modal-bottom sm:modal-middle">
+        <form
+          className="modal-box"
+          onSubmit={handleSubmit((data) => {
+            alert(JSON.stringify(data)); // todo: set metadata
+          })}
+        >
+          <div className="form-control">
+            <label htmlFor="title" className="text-sm">
+              Title
+            </label>
+            <input id="title" className="input-secondary input" {...register('title')} />
+          </div>
+          <div className="form-control">
+            <label htmlFor="author" className="text-sm">
+              Author(s)
+            </label>
+            <input id="author" className="input-secondary input" {...register('author')} />
+          </div>
+          <div className="form-control">
+            <label htmlFor="notes" className="text-sm">
+              Notes
+            </label>
+            <input id="notes" className="input-secondary input" {...register('notes')} />
+          </div>
+          <div className="modal-action">
+            <button type="submit" className="btn btn-primary">
+              Save
+            </button>
+            <label htmlFor="set-metadata-modal" className="btn">
+              Close
+            </label>
+          </div>
+        </form>
+      </div>
+    </>
+  );
+}
+
 function Menu() {
   return (
-    <div className="btn-group">
+    <>
+      <SetMetadata />
       <CopyLink />
       <ExportDialog />
       <ImportDialog />
       <PostPokepaste />
-    </div>
+    </>
   );
 }
 

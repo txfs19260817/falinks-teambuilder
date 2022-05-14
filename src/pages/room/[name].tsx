@@ -15,7 +15,7 @@ const Room = () => {
   const roomName = (query.name as string) || 'Loading...';
 
   return (
-    <Main title={`Room - ${roomName}`}>
+    <Main title={`Room - ${roomName}`} disableNavbar={true}>
       <Toaster />
       {isReady ? <Workspace roomName={roomName} /> : <h1>Loading...</h1>}
     </Main>

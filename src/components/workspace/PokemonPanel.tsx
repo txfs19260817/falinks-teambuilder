@@ -11,7 +11,8 @@ import SpeciesInput from '@/components/workspace/PokemonSpecies/SpeciesInput';
 import ShinyToggle from '@/components/workspace/Shiny/ShinyToggle';
 import SpriteAvatar from '@/components/workspace/SpriteAvatar/SpriteAvatar';
 import StatsClickable from '@/components/workspace/Stats/StatsClickable';
-
+// TODO: 1. auto move to next input when input is filled
+// TODO: 2. sync input values with filters
 const PokemonPanel = () => {
   return (
     <DexContextProvider>
