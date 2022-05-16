@@ -5,8 +5,8 @@ import Image from 'next/image';
 import { Key, useContext, useEffect, useMemo, useState } from 'react';
 
 import { DexContext } from '@/components/workspace/DexContext';
-import { OmniFilter } from '@/components/workspace/OmniFilter';
 import { StoreContext } from '@/components/workspace/StoreContext';
+import { OmniFilter } from '@/components/workspace/Table/OmniFilter';
 import { AppConfig } from '@/utils/AppConfig';
 import { trimGmaxFromName } from '@/utils/Helpers';
 
