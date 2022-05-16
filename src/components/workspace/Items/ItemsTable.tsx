@@ -10,12 +10,11 @@ import {
   PaginationState,
   useTableInstance,
 } from '@tanstack/react-table';
-import { Key, useContext, useMemo, useState } from 'react';
+import { useContext, useMemo, useState } from 'react';
 
 import { DexContext } from '@/components/workspace/DexContext';
 import { StoreContext } from '@/components/workspace/StoreContext';
-import OmniFilter from '@/components/workspace/Table/OmniFilter';
-import Paginator from '@/components/workspace/Table/Paginator';
+import Table from '@/components/workspace/Table';
 import { convertStylesStringToObject } from '@/utils/Helpers';
 
 const table = createTable().setRowType<Item>();
@@ -80,50 +79,7 @@ function ItemsTable() {
   };
 
   // table render
-  return (
-    <>
-      <table className="table-compact relative table w-full">
-        <thead>
-          {instance.getHeaderGroups().map((headerGroup: { id?: Key; headers: any[] }) => (
-            <tr key={headerGroup.id}>
-              {headerGroup.headers.map((header) => (
-                <th key={header.id} colSpan={header.colSpan} className="sticky top-0">
-                  {header.isPlaceholder ? null : (
-                    <>
-                      <div
-                        {...{
-                          className: header.column.getCanSort() ? 'cursor-pointer select-none' : '',
-                          onClick: header.column.getToggleSortingHandler(),
-                        }}
-                      >
-                        {header.renderHeader()}
-                        {{
-                          asc: '↑',
-                          desc: '↓',
-                        }[header.column.getIsSorted() as string] ?? (header.column.getCanSort() ? '⇵' : null)}
-                      </div>
-                      <OmniFilter column={header.column} instance={instance} />
-                    </>
-                  )}
-                </th>
-              ))}
-            </tr>
-          ))}
-        </thead>
-        <tbody>
-          {instance.getRowModel().rows.map((row: { id?: Key; original?: Item; getVisibleCells: () => any[] }) => (
-            <tr key={row.id} className="hover" onClick={() => handleRowClick(row.original)}>
-              {row.getVisibleCells().map((cell) => (
-                <td key={cell.id}>{cell.renderCell()}</td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <div className="h-2" />
-      <Paginator instance={instance} />
-    </>
-  );
+  return <Table<Item> instance={instance} handleRowClick={handleRowClick} enablePagination={true} />;
 }
 
 export default ItemsTable;
