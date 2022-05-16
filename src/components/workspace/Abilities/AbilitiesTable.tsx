@@ -4,7 +4,7 @@ import { Key, useContext, useEffect, useMemo, useState } from 'react';
 
 import { DexContext } from '@/components/workspace/DexContext';
 import { StoreContext } from '@/components/workspace/StoreContext';
-import { OmniFilter } from '@/components/workspace/Table/OmniFilter';
+import OmniFilter from '@/components/workspace/Table/OmniFilter';
 
 const table = createTable().setRowType<Ability>();
 const defaultColumns = [
@@ -31,6 +31,7 @@ function getAbilitiesBySpecie(gen: Generation, speciesName?: string): Ability[] 
 }
 
 function AbilitiesTable() {
+  const { globalFilter, setGlobalFilter } = useContext(DexContext);
   const { teamState, tabIdx } = useContext(StoreContext);
   // get dex & possible abilities
   const { gen } = useContext(DexContext);
@@ -42,7 +43,6 @@ function AbilitiesTable() {
   }, [teamState.team[tabIdx]?.species]);
   const columns = useMemo<typeof defaultColumns>(() => [...defaultColumns], []);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-  const [globalFilter, setGlobalFilter] = useState('');
 
   // table instance
   const instance = useTableInstance(table, {

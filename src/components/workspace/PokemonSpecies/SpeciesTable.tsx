@@ -19,7 +19,7 @@ import { Key, useContext, useMemo, useState } from 'react';
 
 import { DexContext } from '@/components/workspace/DexContext';
 import { StoreContext } from '@/components/workspace/StoreContext';
-import { OmniFilter } from '@/components/workspace/Table/OmniFilter';
+import OmniFilter from '@/components/workspace/Table/OmniFilter';
 import Paginator from '@/components/workspace/Table/Paginator';
 import { getPokemonIconFromLocal } from '@/utils/Helpers';
 
@@ -107,6 +107,7 @@ const defaultColumns = [
 ];
 
 function SpeciesTable() {
+  const { globalFilter, setGlobalFilter } = useContext(DexContext);
   const { teamState, tabIdx } = useContext(StoreContext);
   // get dex
   const { gen } = useContext(DexContext);
@@ -115,7 +116,6 @@ function SpeciesTable() {
   const data = useMemo<Specie[]>(() => [...Array.from(gen.species)], []);
   const columns = useMemo<typeof defaultColumns>(() => [...defaultColumns], []);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-  const [globalFilter, setGlobalFilter] = useState('');
   const [sorting, setSorting] = useState<SortingState>([]);
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,

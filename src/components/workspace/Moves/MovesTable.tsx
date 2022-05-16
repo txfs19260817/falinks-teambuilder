@@ -6,7 +6,7 @@ import { Key, useContext, useEffect, useMemo, useState } from 'react';
 
 import { DexContext } from '@/components/workspace/DexContext';
 import { StoreContext } from '@/components/workspace/StoreContext';
-import { OmniFilter } from '@/components/workspace/Table/OmniFilter';
+import OmniFilter from '@/components/workspace/Table/OmniFilter';
 import { AppConfig } from '@/utils/AppConfig';
 import { trimGmaxFromName } from '@/utils/Helpers';
 
@@ -59,6 +59,7 @@ const getMovesBySpecie = (gen: Generation, speciesName?: string): Promise<Move[]
 };
 
 function MovesTable({ moveIdx }: { moveIdx: number }) {
+  const { globalFilter, setGlobalFilter } = useContext(DexContext);
   const { teamState, tabIdx } = useContext(StoreContext);
   // get dex & possible moves
   const { gen } = useContext(DexContext);
@@ -70,7 +71,6 @@ function MovesTable({ moveIdx }: { moveIdx: number }) {
   }, [teamState.team[tabIdx]?.species]);
   const columns = useMemo<typeof defaultColumns>(() => [...defaultColumns], []);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-  const [globalFilter, setGlobalFilter] = useState('');
 
   // table instance
   const instance = useTableInstance(table, {

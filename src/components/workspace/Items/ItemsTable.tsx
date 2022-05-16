@@ -14,7 +14,7 @@ import { Key, useContext, useMemo, useState } from 'react';
 
 import { DexContext } from '@/components/workspace/DexContext';
 import { StoreContext } from '@/components/workspace/StoreContext';
-import { OmniFilter } from '@/components/workspace/Table/OmniFilter';
+import OmniFilter from '@/components/workspace/Table/OmniFilter';
 import Paginator from '@/components/workspace/Table/Paginator';
 import { convertStylesStringToObject } from '@/utils/Helpers';
 
@@ -39,6 +39,7 @@ const defaultColumns = [
 ];
 
 function ItemsTable() {
+  const { globalFilter, setGlobalFilter } = useContext(DexContext);
   const { teamState, tabIdx } = useContext(StoreContext);
   // get dex
   const { gen } = useContext(DexContext);
@@ -47,7 +48,6 @@ function ItemsTable() {
   const [data] = useState<Item[]>(() => [...Array.from(gen.items)]);
   const columns = useMemo<typeof defaultColumns>(() => [...defaultColumns], []);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-  const [globalFilter, setGlobalFilter] = useState('');
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
     pageSize: 50,

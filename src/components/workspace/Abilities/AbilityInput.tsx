@@ -1,8 +1,10 @@
 import { ChangeEvent, useContext, useEffect, useState } from 'react';
 
+import { DexContext } from '@/components/workspace/DexContext';
 import { StoreContext } from '@/components/workspace/StoreContext';
 
 function AbilityInput() {
+  const { setGlobalFilter } = useContext(DexContext);
   const { teamState, tabIdx, setFocusedField } = useContext(StoreContext);
   const [ability, setAbility] = useState<string>('');
 
@@ -15,28 +17,27 @@ function AbilityInput() {
   // emit changes to other users
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const newAbility = e.target.value;
+    setGlobalFilter(newAbility);
     if (!teamState.team[tabIdx]) return;
     // @ts-ignore
     teamState.team[tabIdx].ability = newAbility;
   };
 
   return (
-    <div className="tooltip" data-tip="Please pick an ability below">
-      <label className="input-group-xs input-group input-group-vertical md:input-group-md">
-        <span>Ability</span>
-        <input
-          type="text"
-          placeholder="Ability"
-          className="input-secondary input input-xs md:input-md"
-          value={ability}
-          onFocus={() => setFocusedField({ Ability: 0 })}
-          onChange={handleChange}
-          onKeyDown={(event) => {
-            event.preventDefault();
-          }}
-        />
-      </label>
-    </div>
+    <label className="input-group-xs input-group input-group-vertical md:input-group-md">
+      <span>Ability</span>
+      <input
+        type="search"
+        placeholder="Ability"
+        className="input-secondary input input-xs md:input-md"
+        value={ability}
+        onFocus={() => {
+          setGlobalFilter('');
+          setFocusedField({ Ability: 0 });
+        }}
+        onChange={handleChange}
+      />
+    </label>
   );
 }
 
