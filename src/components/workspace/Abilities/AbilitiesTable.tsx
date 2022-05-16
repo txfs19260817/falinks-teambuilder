@@ -32,7 +32,7 @@ function getAbilitiesBySpecie(gen: Generation, speciesName?: string): Ability[] 
 
 function AbilitiesTable() {
   const { globalFilter, setGlobalFilter } = useContext(DexContext);
-  const { teamState, tabIdx } = useContext(StoreContext);
+  const { teamState, tabIdx, focusedFieldState, focusedFieldDispatch } = useContext(StoreContext);
   // get dex & possible abilities
   const { gen } = useContext(DexContext);
 
@@ -64,6 +64,8 @@ function AbilitiesTable() {
     if (!ability || !teamState.team[tabIdx]) return;
     // @ts-ignore
     teamState.team[tabIdx].ability = ability.name;
+
+    focusedFieldDispatch({ type: 'next', payload: focusedFieldState });
   };
 
   // table render

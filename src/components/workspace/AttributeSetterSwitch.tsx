@@ -9,8 +9,8 @@ import { StoreContext } from '@/components/workspace/StoreContext';
 import { FocusedField } from '@/components/workspace/types';
 
 const AttributeSetterSwitch = () => {
-  const { focusedField } = useContext(StoreContext);
-  const firstEntry = Object.entries(focusedField)[0];
+  const { focusedFieldState } = useContext(StoreContext);
+  const firstEntry = Object.entries(focusedFieldState)[0];
   const [field, idx] = firstEntry ?? ['', 0]; // idx is only used for switching between moves
   switch (field) {
     case FocusedField.Species:

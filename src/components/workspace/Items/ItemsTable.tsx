@@ -39,7 +39,7 @@ const defaultColumns = [
 
 function ItemsTable() {
   const { globalFilter, setGlobalFilter } = useContext(DexContext);
-  const { teamState, tabIdx } = useContext(StoreContext);
+  const { teamState, tabIdx, focusedFieldState, focusedFieldDispatch } = useContext(StoreContext);
   // get dex
   const { gen } = useContext(DexContext);
 
@@ -76,6 +76,8 @@ function ItemsTable() {
     if (!item || !teamState.team[tabIdx]) return;
     // @ts-ignore
     teamState.team[tabIdx].item = item.name;
+
+    focusedFieldDispatch({ type: 'next', payload: focusedFieldState });
   };
 
   // table render

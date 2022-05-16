@@ -60,7 +60,7 @@ const getMovesBySpecie = (gen: Generation, speciesName?: string): Promise<Move[]
 
 function MovesTable({ moveIdx }: { moveIdx: number }) {
   const { globalFilter, setGlobalFilter } = useContext(DexContext);
-  const { teamState, tabIdx } = useContext(StoreContext);
+  const { teamState, tabIdx, focusedFieldState, focusedFieldDispatch } = useContext(StoreContext);
   // get dex & possible moves
   const { gen } = useContext(DexContext);
 
@@ -92,6 +92,8 @@ function MovesTable({ moveIdx }: { moveIdx: number }) {
     if (!move || !teamState.team[tabIdx]) return;
     // @ts-ignore
     teamState.team[tabIdx].moves.splice(moveIdx, 1, move.name);
+
+    focusedFieldDispatch({ type: 'next', payload: focusedFieldState });
   };
 
   // table render

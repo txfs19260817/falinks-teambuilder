@@ -1,12 +1,12 @@
 import { syncedStore } from '@syncedstore/core';
 import { useSyncedStore } from '@syncedstore/react';
-import React, { useEffect, useState } from 'react';
+import React, { Reducer, useEffect, useReducer, useState } from 'react';
 
 import Menu from '@/components/workspace/Menu';
 import { PokemonPanel } from '@/components/workspace/PokemonPanel';
 import { StoreContextProvider, StoreContextType } from '@/components/workspace/StoreContext';
 import TabsSwitcher from '@/components/workspace/Tabs/TabsSwitcher';
-import { FocusedFieldToIdx } from '@/components/workspace/types';
+import { FocusedField, FocusedFieldAction, FocusedFieldToIdx } from '@/components/workspace/types';
 import { Pokemon } from '@/models/Pokemon';
 import WebrtcProviders from '@/store/webrtcProviders';
 
@@ -16,6 +16,35 @@ export type WebRTCProviderProps = {
 
 const teamStore = syncedStore<StoreContextType>({ team: [] as Pokemon[] });
 
+function reducer(state: FocusedFieldToIdx, action: FocusedFieldAction) {
+  const { type, payload } = action;
+  switch (type) {
+    case 'set':
+      return payload;
+    case 'next': {
+      const [field, idx] = (Object.entries(state)[0] ?? ['', 0]) as [FocusedField, number]; // idx is only used for switching between moves
+      if (field === FocusedField.Species) {
+        return { Item: 0 };
+      }
+      if (field === FocusedField.Item) {
+        return { Ability: 0 };
+      }
+      if (field === FocusedField.Ability) {
+        return { Moves: 0 };
+      }
+      if (field === FocusedField.Moves) {
+        if (idx <= 2) {
+          return { Moves: idx + 1 };
+        }
+        return { Stats: 0 };
+      }
+      return payload;
+    }
+    default:
+      throw new Error();
+  }
+}
+
 function Workspace({ roomName }: WebRTCProviderProps) {
   // Initialize synced store
   const teamState = useSyncedStore(teamStore);
@@ -23,7 +52,7 @@ function Workspace({ roomName }: WebRTCProviderProps) {
   // States
   const [connected, setConnected] = useState(false);
   const [tabIdx, setTabIdx] = useState<number>(0);
-  const [focusedField, setFocusedField] = useState<FocusedFieldToIdx>({
+  const [focusedFieldState, focusedFieldDispatch] = useReducer<Reducer<FocusedFieldToIdx, FocusedFieldAction>>(reducer, {
     Species: 0,
   });
 
@@ -45,7 +74,15 @@ function Workspace({ roomName }: WebRTCProviderProps) {
   }
 
   return (
-    <StoreContextProvider value={{ teamState, tabIdx, setTabIdx, focusedField, setFocusedField }}>
+    <StoreContextProvider
+      value={{
+        teamState,
+        tabIdx,
+        setTabIdx,
+        focusedFieldState,
+        focusedFieldDispatch,
+      }}
+    >
       {/* Menu */}
       <Menu />
       {/* Tab header */}

@@ -17,7 +17,6 @@ import ShinyToggle from '@/components/workspace/Shiny/ShinyToggle';
 import SpriteAvatar from '@/components/workspace/SpriteAvatar/SpriteAvatar';
 import StatsClickable from '@/components/workspace/Stats/StatsClickable';
 import { AppConfig } from '@/utils/AppConfig';
-// TODO: 1. auto move to next input when input is filled
 
 const gen = new Generations(Dex, (d: Data) => {
   if (!d.exists) return false;

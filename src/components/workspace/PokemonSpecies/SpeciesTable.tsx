@@ -107,7 +107,7 @@ const defaultColumns = [
 
 function SpeciesTable() {
   const { globalFilter, setGlobalFilter } = useContext(DexContext);
-  const { teamState, tabIdx } = useContext(StoreContext);
+  const { teamState, tabIdx, focusedFieldState, focusedFieldDispatch } = useContext(StoreContext);
   // get dex
   const { gen } = useContext(DexContext);
 
@@ -147,14 +147,14 @@ function SpeciesTable() {
     if (!specie || !teamState.team[tabIdx]) return;
     // @ts-ignore
     teamState.team[tabIdx].species = specie.name;
-    // @ts-ignore
-    teamState.team[tabIdx].ability = specie.abilities[0]; // eslint-disable-line prefer-destructuring
     if (specie.requiredItem) {
       // @ts-ignore
       teamState.team[tabIdx].item = specie.requiredItem; // eslint-disable-line prefer-destructuring
     }
     // @ts-ignore
     teamState.team[tabIdx].moves.splice(0, 4, ...['', '', '', '']);
+
+    focusedFieldDispatch({ type: 'next', payload: focusedFieldState });
   };
 
   // table render

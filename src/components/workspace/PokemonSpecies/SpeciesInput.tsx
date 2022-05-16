@@ -2,10 +2,12 @@ import { ChangeEvent, useContext, useEffect, useState } from 'react';
 
 import { DexContext } from '@/components/workspace/DexContext';
 import { StoreContext } from '@/components/workspace/StoreContext';
+import { compareFocusedFieldToIdx, FocusedFieldToIdx } from '@/components/workspace/types';
 
 function SpeciesInput() {
+  const thisFocusedFieldState: FocusedFieldToIdx = { Species: 0 };
   const { setGlobalFilter } = useContext(DexContext);
-  const { teamState, tabIdx, setFocusedField } = useContext(StoreContext);
+  const { teamState, tabIdx, focusedFieldState, focusedFieldDispatch } = useContext(StoreContext);
 
   const [species, setSpecies] = useState('');
 
@@ -24,18 +26,22 @@ function SpeciesInput() {
     teamState.team[tabIdx].species = newSp;
   };
 
+  const handleFocus = () => {
+    setGlobalFilter('');
+    focusedFieldDispatch({ type: 'set', payload: thisFocusedFieldState });
+  };
+
   return (
     <label className="input-group-xs input-group input-group-vertical">
       <span>Species</span>
       <input
         type="search"
         placeholder="Species"
-        className="input-primary input input-sm md:input-md"
+        className={`input-primary input input-sm md:input-md ${
+          compareFocusedFieldToIdx(focusedFieldState, thisFocusedFieldState) ? 'outline outline-2 outline-offset-2 outline-primary' : ''
+        }`}
         value={species}
-        onFocus={() => {
-          setGlobalFilter('');
-          setFocusedField({ Species: 0 });
-        }}
+        onFocus={handleFocus}
         onChange={handleChange}
       />
     </label>

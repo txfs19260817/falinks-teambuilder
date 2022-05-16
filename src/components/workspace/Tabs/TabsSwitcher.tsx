@@ -7,12 +7,17 @@ import { AppConfig } from '@/utils/AppConfig';
 import { convertStylesStringToObject } from '@/utils/Helpers';
 
 function TabsSwitcher() {
-  const { teamState, tabIdx, setTabIdx, setFocusedField } = useContext(StoreContext);
+  const { teamState, tabIdx, setTabIdx, focusedFieldDispatch } = useContext(StoreContext);
 
   const newTab = () => {
     const newLen = teamState.team.push(new Pokemon('Bulbasaur'));
     setTabIdx(newLen - 1);
-    setFocusedField({ Species: 0 });
+    focusedFieldDispatch({
+      type: 'set',
+      payload: {
+        Species: 0,
+      },
+    });
   };
 
   const removeTab = (index: number) => {
