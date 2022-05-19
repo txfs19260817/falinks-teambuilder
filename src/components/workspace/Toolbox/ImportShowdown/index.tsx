@@ -69,41 +69,36 @@ Impish Nature
 
 `;
 
-function ImportShowdown() {
+export function ImportShowdownDialog() {
   const { teamState } = useContext(StoreContext);
 
-  const importTextarea = useRef<HTMLTextAreaElement>(null);
+  const importTextareaRef = useRef<HTMLTextAreaElement>(null);
 
   const loadExampleHandler = () => {
-    if (importTextarea.current) {
-      importTextarea.current.value = exampleText;
+    if (importTextareaRef.current) {
+      importTextareaRef.current.value = exampleText;
     }
   };
 
   const importHandler = () => {
-    const newTeam = Pokemon.convertPasteToTeam(importTextarea.current?.value ?? '');
+    const newTeam = Pokemon.convertPasteToTeam(importTextareaRef.current?.value ?? '');
     if (newTeam) {
       teamState.team.splice(0, teamState.team.length, ...newTeam);
     } else {
       toast.error('Invalid paste');
     }
     // clear the textarea
-    if (importTextarea.current) {
-      importTextarea.current.value = '';
+    if (importTextareaRef.current) {
+      importTextareaRef.current.value = '';
     }
   };
-
   return (
     <>
-      <label htmlFor="import-ps-modal" className="modal-button rounded" title="Import a team from Showdown paste">
-        <UploadIcon className="h-4 w-4 md:h-6 md:w-6" />
-        <span>Import</span>
-      </label>
       <input type="checkbox" id="import-ps-modal" className="modal-toggle" />
       <div className="modal modal-bottom sm:modal-middle">
         <div className="modal-box">
-          <h3 className="text-lg font-bold">Please leave your Showdown paste here ↓</h3>
-          <textarea className="textarea-secondary textarea w-full" ref={importTextarea}></textarea>
+          <h3 className="font-bold md:text-lg">Please leave your Showdown paste here ↓</h3>
+          <textarea className="textarea-secondary textarea w-full" ref={importTextareaRef}></textarea>
           <div className="modal-action">
             <button className="btn btn-secondary btn-sm" onClick={loadExampleHandler}>
               Load Example
@@ -118,6 +113,15 @@ function ImportShowdown() {
         </div>
       </div>
     </>
+  );
+}
+
+function ImportShowdown() {
+  return (
+    <label htmlFor="import-ps-modal" className="modal-button rounded" title="Import a team from Showdown paste">
+      <UploadIcon className="h-4 w-4 md:h-6 md:w-6" />
+      <span>Import</span>
+    </label>
   );
 }
 

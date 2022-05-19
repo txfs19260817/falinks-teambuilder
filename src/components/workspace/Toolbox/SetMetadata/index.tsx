@@ -1,7 +1,7 @@
 import { InformationCircleIcon } from '@heroicons/react/solid';
 import { useForm } from 'react-hook-form';
 
-function SetMetadata() {
+export function SetMetadataDialog() {
   const { register, handleSubmit } = useForm({
     defaultValues: {
       title: '',
@@ -12,12 +12,8 @@ function SetMetadata() {
 
   return (
     <>
-      <label htmlFor="set-metadata-modal" className="rounded" title="Set author, title, and notes for the current team">
-        <InformationCircleIcon className="h-4 w-4 md:h-6 md:w-6" />
-        <span>Metadata</span>
-      </label>
       <input type="checkbox" id="set-metadata-modal" className="modal-toggle" />
-      <div className="modal modal-bottom rounded sm:modal-middle">
+      <div className="modal modal-bottom sm:modal-middle">
         <form
           className="modal-box"
           onSubmit={handleSubmit((data) => {
@@ -53,6 +49,15 @@ function SetMetadata() {
         </form>
       </div>
     </>
+  );
+}
+
+function SetMetadata() {
+  return (
+    <label htmlFor="set-metadata-modal" className="rounded" title="Set author, title, and notes for the current team">
+      <InformationCircleIcon className="h-4 w-4 md:h-6 md:w-6" />
+      <span>Set Metadata</span>
+    </label>
   );
 }
 

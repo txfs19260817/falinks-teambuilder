@@ -1,9 +1,12 @@
+import { ExternalLinkIcon } from '@heroicons/react/solid';
+import Link from 'next/link';
+
 import CopyLink from '@/components/workspace/Toolbox/Copylink';
-import DamageCalc from '@/components/workspace/Toolbox/DamageCalc';
 import ExportShowdown from '@/components/workspace/Toolbox/ExportShowdown';
 import ImportShowdown from '@/components/workspace/Toolbox/ImportShowdown';
 import PostPokepaste from '@/components/workspace/Toolbox/PostPokepaste';
 import SetMetadata from '@/components/workspace/Toolbox/SetMetadata';
+import { AppConfig } from '@/utils/AppConfig';
 
 const Toolbox = () => {
   return (
@@ -12,7 +15,7 @@ const Toolbox = () => {
         ⚙️
         <span className="hidden text-primary-content md:inline-block">Tools</span>
       </label>
-      <ul tabIndex={0} className="dropdown-content menu rounded-box w-[90vw] border border-current bg-base-100 p-4 text-base-content">
+      <ul tabIndex={0} className="dropdown-content menu rounded-box w-60 border border-current bg-base-100 p-2 text-base-content">
         <li>
           <CopyLink />
         </li>
@@ -28,8 +31,22 @@ const Toolbox = () => {
         <li>
           <PostPokepaste />
         </li>
-        <li>
-          <DamageCalc />
+        <li tabIndex={0}>
+          <span>
+            <ExternalLinkIcon className="inline-block h-4 w-4 md:h-6 md:w-6" />
+            Useful links 🡆
+          </span>
+          <ul className="rounded-box menu-compact border border-current bg-base-100 p-1">
+            {AppConfig.usefulLinks.map((link) => (
+              <li key={link.name}>
+                <Link href={link.url}>
+                  <a target="_blank" className="border-none">
+                    {link.name}
+                  </a>
+                </Link>
+              </li>
+            ))}
+          </ul>
         </li>
       </ul>
     </div>

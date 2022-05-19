@@ -1,3 +1,18 @@
+const usefulLinks = [
+  {
+    name: '🕹️ Showdown',
+    url: 'https://play.pokemonshowdown.com/',
+  },
+  {
+    name: '📟 DamageCalc',
+    url: 'https://www.pikalytics.com/calc',
+  },
+  {
+    name: '📈 Pikalytics',
+    url: 'https://www.pikalytics.com/',
+  },
+];
+
 export const AppConfig = {
   site_name: 'Falinks Teambuilder',
   title: 'Falinks Teambuilder',
@@ -5,4 +20,5 @@ export const AppConfig = {
   locale: 'en',
   maxPokemonPerTeam: 6,
   defaultGen: 8,
+  usefulLinks,
 };

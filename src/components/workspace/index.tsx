@@ -3,6 +3,7 @@ import { useSyncedStore } from '@syncedstore/react';
 import React, { Reducer, useEffect, useReducer, useState } from 'react';
 
 import { StoreContextProvider, StoreContextType } from '@/components/workspace/Contexts/StoreContext';
+import { Dialogs } from '@/components/workspace/Dialogs';
 import { PokemonPanel } from '@/components/workspace/PokemonPanel';
 import TabsSwitcher from '@/components/workspace/Tabs/TabsSwitcher';
 import Toolbox from '@/components/workspace/Toolbox';
@@ -93,6 +94,7 @@ function Workspace({ roomName }: WebRTCProviderProps) {
       ) : (
         <PokemonPanel />
       )}
+      <Dialogs />
     </StoreContextProvider>
   );
 }
