@@ -1,14 +1,20 @@
 import { InformationCircleIcon } from '@heroicons/react/solid';
+import { useContext, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'react-hot-toast';
+
+import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
+import { Metadata } from '@/components/workspace/types';
 
 export function SetMetadataDialog() {
-  const { register, handleSubmit } = useForm({
-    defaultValues: {
-      title: '',
-      author: '',
-      notes: '',
-    },
+  const { teamState } = useContext(StoreContext);
+  const { register, handleSubmit, reset } = useForm<Metadata>({
+    defaultValues: teamState.metadata,
   });
+
+  useEffect(() => {
+    reset(teamState.metadata);
+  }, [teamState.metadata.title, teamState.metadata.author, teamState.metadata.notes]);
 
   return (
     <>
@@ -17,7 +23,10 @@ export function SetMetadataDialog() {
         <form
           className="modal-box"
           onSubmit={handleSubmit((data) => {
-            alert(JSON.stringify(data)); // todo: set metadata
+            teamState.metadata.title = data.title;
+            teamState.metadata.author = data.author;
+            teamState.metadata.notes = data.notes;
+            toast.success('Your metadata has been updated');
           })}
         >
           <div className="form-control">

@@ -1,11 +1,12 @@
 import { MappedTypeDescription } from '@syncedstore/core/types/doc';
 import { createContext, Dispatch, ReactNode } from 'react';
 
-import { FocusedFieldAction, FocusedFieldToIdx } from '@/components/workspace/types';
+import { FocusedFieldAction, FocusedFieldToIdx, Metadata } from '@/components/workspace/types';
 import { Pokemon } from '@/models/Pokemon';
 
 export type StoreContextType = {
   team: Pokemon[];
+  metadata: Metadata;
 };
 
 interface StoreContextInterface {

@@ -7,7 +7,7 @@ import { Dialogs } from '@/components/workspace/Dialogs';
 import { PokemonPanel } from '@/components/workspace/PokemonPanel';
 import TabsSwitcher from '@/components/workspace/Tabs/TabsSwitcher';
 import Toolbox from '@/components/workspace/Toolbox';
-import { FocusedField, FocusedFieldAction, FocusedFieldToIdx } from '@/components/workspace/types';
+import { FocusedField, FocusedFieldAction, FocusedFieldToIdx, Metadata } from '@/components/workspace/types';
 import { Pokemon } from '@/models/Pokemon';
 import WebrtcProviders from '@/store/webrtcProviders';
 
@@ -15,7 +15,10 @@ export type WebRTCProviderProps = {
   roomName: string;
 };
 
-const teamStore = syncedStore<StoreContextType>({ team: [] as Pokemon[] });
+const teamStore = syncedStore<StoreContextType>({
+  metadata: {} as Metadata,
+  team: [] as Pokemon[],
+});
 
 function reducer(state: FocusedFieldToIdx, action: FocusedFieldAction) {
   const { type, payload } = action;

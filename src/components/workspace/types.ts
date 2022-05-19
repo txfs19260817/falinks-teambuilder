@@ -1,3 +1,9 @@
+export type Metadata = {
+  title: string;
+  author: string;
+  notes: string;
+};
+
 export enum FocusedField {
   Species = 'Species',
   Item = 'Item',
