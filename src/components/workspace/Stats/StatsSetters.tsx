@@ -2,8 +2,8 @@ import { Nature } from '@pkmn/dex-types';
 import { StatsTable } from '@pkmn/types';
 import { ChangeEvent, useContext, useEffect, useState } from 'react';
 
-import { DexContext } from '@/components/workspace/DexContext';
-import { StoreContext } from '@/components/workspace/StoreContext';
+import { DexContext } from '@/components/workspace/Contexts/DexContext';
+import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
 import { getSingleEvUpperLimit, getStats } from '@/utils/Helpers';
 
 const defaultStats: StatsTable = {

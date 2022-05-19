@@ -1,11 +1,11 @@
 import { useContext } from 'react';
 
 import AbilitiesTable from '@/components/workspace/Abilities/AbilitiesTable';
+import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
 import ItemsTable from '@/components/workspace/Items/ItemsTable';
 import MovesTable from '@/components/workspace/Moves/MovesTable';
 import SpeciesTable from '@/components/workspace/PokemonSpecies/SpeciesTable';
 import StatsSetters from '@/components/workspace/Stats/StatsSetters';
-import { StoreContext } from '@/components/workspace/StoreContext';
 import { FocusedField } from '@/components/workspace/types';
 
 const AttributeSetterSwitch = () => {

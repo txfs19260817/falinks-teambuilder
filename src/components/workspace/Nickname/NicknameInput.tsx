@@ -1,6 +1,6 @@
 import { ChangeEvent, useContext, useEffect, useState } from 'react';
 
-import { StoreContext } from '@/components/workspace/StoreContext';
+import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
 
 function NicknameInput() {
   const { teamState, tabIdx } = useContext(StoreContext);

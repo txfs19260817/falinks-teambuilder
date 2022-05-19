@@ -1,7 +1,7 @@
 import { ChangeEvent, Fragment, useContext, useEffect, useState } from 'react';
 
-import { DexContext } from '@/components/workspace/DexContext';
-import { StoreContext } from '@/components/workspace/StoreContext';
+import { DexContext } from '@/components/workspace/Contexts/DexContext';
+import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
 
 function GenderPicker() {
   const { teamState, tabIdx } = useContext(StoreContext);

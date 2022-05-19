@@ -2,10 +2,10 @@ import { syncedStore } from '@syncedstore/core';
 import { useSyncedStore } from '@syncedstore/react';
 import React, { Reducer, useEffect, useReducer, useState } from 'react';
 
-import Menu from '@/components/workspace/Menu';
+import { StoreContextProvider, StoreContextType } from '@/components/workspace/Contexts/StoreContext';
 import { PokemonPanel } from '@/components/workspace/PokemonPanel';
-import { StoreContextProvider, StoreContextType } from '@/components/workspace/StoreContext';
 import TabsSwitcher from '@/components/workspace/Tabs/TabsSwitcher';
+import Toolbox from '@/components/workspace/Toolbox';
 import { FocusedField, FocusedFieldAction, FocusedFieldToIdx } from '@/components/workspace/types';
 import { Pokemon } from '@/models/Pokemon';
 import WebrtcProviders from '@/store/webrtcProviders';
@@ -83,10 +83,10 @@ function Workspace({ roomName }: WebRTCProviderProps) {
         focusedFieldDispatch,
       }}
     >
-      {/* Menu */}
-      <Menu />
       {/* Tab header */}
-      <TabsSwitcher />
+      <TabsSwitcher>
+        <Toolbox />
+      </TabsSwitcher>
       {/* Pokemon panel */}
       {tabIdx < 0 || tabIdx >= teamState.team.length ? (
         <div className="flex justify-center bg-base-200 px-4 py-16">Please create / select a Pokemon</div>

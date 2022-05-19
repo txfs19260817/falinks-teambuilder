@@ -5,7 +5,7 @@ import { useState } from 'react';
 
 import AbilityInput from '@/components/workspace/Abilities/AbilityInput';
 import AttributeSetterSwitch from '@/components/workspace/AttributeSetterSwitch';
-import { DexContextProvider } from '@/components/workspace/DexContext';
+import { DexContextProvider } from '@/components/workspace/Contexts/DexContext';
 import GenderPicker from '@/components/workspace/Gender/GenderPicker';
 import GMaxSwitch from '@/components/workspace/GMax/GMaxSwitch';
 import ItemInput from '@/components/workspace/Items/ItemInput';

@@ -8,16 +8,15 @@ type IMainProps = {
   title: string;
   description?: string;
   canonical?: string;
-  disableNavbar?: boolean; // TODO: → override navbar
   children: ReactNode;
 };
 
-const Main = ({ title, description, children, canonical, disableNavbar }: IMainProps) => (
+const Main = ({ title, description, children, canonical }: IMainProps) => (
   <div className="w-full antialiased">
     <Meta title={`${AppConfig.title} - ${title}`} description={description || AppConfig.description} canonical={canonical} />
-    {!disableNavbar && <Navbar />}
-    <div className="mx-auto max-w-screen-xl">
-      <div className="content py-5">{children}</div>
+    <Navbar />
+    <div className="mx-auto">
+      <div>{children}</div>
     </div>
   </div>
 );

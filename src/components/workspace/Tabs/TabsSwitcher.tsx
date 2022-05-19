@@ -1,12 +1,12 @@
 import { Icons } from '@pkmn/img';
-import React, { useContext } from 'react';
+import React, { ReactNode, useContext } from 'react';
 
-import { StoreContext } from '@/components/workspace/StoreContext';
+import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
 import { Pokemon } from '@/models/Pokemon';
 import { AppConfig } from '@/utils/AppConfig';
 import { convertStylesStringToObject } from '@/utils/Helpers';
 
-function TabsSwitcher() {
+function TabsSwitcher({ children }: { children?: ReactNode }) {
   const { teamState, tabIdx, setTabIdx, focusedFieldDispatch } = useContext(StoreContext);
 
   const newTab = () => {
@@ -27,6 +27,7 @@ function TabsSwitcher() {
 
   return (
     <div className="tabs tabs-boxed">
+      {children}
       {teamState.team.map((p, i) => (
         <div key={p.id} className="indicator">
           <span className="badge indicator-item badge-secondary" onClick={() => removeTab(i)}>

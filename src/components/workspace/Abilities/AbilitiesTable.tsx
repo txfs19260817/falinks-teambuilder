@@ -2,8 +2,8 @@ import { Ability, Generation } from '@pkmn/data';
 import { ColumnFiltersState, createTable, getCoreRowModelSync, getFilteredRowModelSync, getSortedRowModelSync, useTableInstance } from '@tanstack/react-table';
 import { useContext, useEffect, useMemo, useState } from 'react';
 
-import { DexContext } from '@/components/workspace/DexContext';
-import { StoreContext } from '@/components/workspace/StoreContext';
+import { DexContext } from '@/components/workspace/Contexts/DexContext';
+import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
 import Table from '@/components/workspace/Table';
 
 const table = createTable().setRowType<Ability>();

@@ -17,8 +17,8 @@ import {
 import Image from 'next/image';
 import { useContext, useMemo, useState } from 'react';
 
-import { DexContext } from '@/components/workspace/DexContext';
-import { StoreContext } from '@/components/workspace/StoreContext';
+import { DexContext } from '@/components/workspace/Contexts/DexContext';
+import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
 import Table from '@/components/workspace/Table';
 import { getPokemonIcon } from '@/utils/Helpers';
 
