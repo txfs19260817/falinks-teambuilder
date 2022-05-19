@@ -10,11 +10,11 @@ import {
   PaginationState,
   useTableInstance,
 } from '@tanstack/react-table';
-import { Key, useContext, useMemo, useState } from 'react';
+import { useContext, useMemo, useState } from 'react';
 
-import { DexContext } from '@/components/workspace/DexContext';
-import { OmniFilter } from '@/components/workspace/OmniFilter';
-import { StoreContext } from '@/components/workspace/StoreContext';
+import { DexContext } from '@/components/workspace/Contexts/DexContext';
+import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
+import Table from '@/components/workspace/Table';
 import { convertStylesStringToObject } from '@/utils/Helpers';
 
 const table = createTable().setRowType<Item>();
@@ -38,7 +38,8 @@ const defaultColumns = [
 ];
 
 function ItemsTable() {
-  const { teamState, tabIdx } = useContext(StoreContext);
+  const { globalFilter, setGlobalFilter } = useContext(DexContext);
+  const { teamState, tabIdx, focusedFieldState, focusedFieldDispatch } = useContext(StoreContext);
   // get dex
   const { gen } = useContext(DexContext);
 
@@ -46,7 +47,6 @@ function ItemsTable() {
   const [data] = useState<Item[]>(() => [...Array.from(gen.items)]);
   const columns = useMemo<typeof defaultColumns>(() => [...defaultColumns], []);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-  const [globalFilter, setGlobalFilter] = useState('');
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
     pageSize: 50,
@@ -76,97 +76,12 @@ function ItemsTable() {
     if (!item || !teamState.team[tabIdx]) return;
     // @ts-ignore
     teamState.team[tabIdx].item = item.name;
+
+    focusedFieldDispatch({ type: 'next', payload: focusedFieldState });
   };
 
   // table render
-  return (
-    <>
-      <table className="table-compact relative table w-full">
-        <thead>
-          {instance.getHeaderGroups().map((headerGroup: { id?: Key; headers: any[] }) => (
-            <tr key={headerGroup.id}>
-              {headerGroup.headers.map((header) => (
-                <th key={header.id} colSpan={header.colSpan} className="sticky top-0">
-                  {header.isPlaceholder ? null : (
-                    <>
-                      <div
-                        {...{
-                          className: header.column.getCanSort() ? 'cursor-pointer select-none' : '',
-                          onClick: header.column.getToggleSortingHandler(),
-                        }}
-                      >
-                        {header.renderHeader()}
-                        {{
-                          asc: '↑',
-                          desc: '↓',
-                        }[header.column.getIsSorted() as string] ?? (header.column.getCanSort() ? '⇵' : null)}
-                      </div>
-                      <OmniFilter column={header.column} instance={instance} />
-                    </>
-                  )}
-                </th>
-              ))}
-            </tr>
-          ))}
-        </thead>
-        <tbody>
-          {instance.getRowModel().rows.map((row: { id?: Key; original?: Item; getVisibleCells: () => any[] }) => (
-            <tr key={row.id} className="hover" onClick={() => handleRowClick(row.original)}>
-              {row.getVisibleCells().map((cell) => (
-                <td key={cell.id}>{cell.renderCell()}</td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <div className="h-2" />
-      <div className="btn-group w-full items-center justify-center" aria-label="paginator">
-        <button className="btn btn-sm" onClick={() => instance.setPageIndex(0)} disabled={!instance.getCanPreviousPage()}>
-          {'<<'}
-        </button>
-        <button className="btn btn-sm" onClick={() => instance.previousPage()} disabled={!instance.getCanPreviousPage()}>
-          {'<'}
-        </button>
-        <button className="btn btn-sm">
-          {instance.getState().pagination.pageIndex + 1} / {instance.getPageCount()}
-        </button>
-        <button className="btn btn-sm" onClick={() => instance.nextPage()} disabled={!instance.getCanNextPage()}>
-          {'>'}
-        </button>
-        <button className="btn btn-sm" onClick={() => instance.setPageIndex(instance.getPageCount() - 1)} disabled={!instance.getCanNextPage()}>
-          {'>>'}
-        </button>
-        <div className="divider divider-horizontal" />
-        <span className="flex items-center gap-1">
-          Go to page:
-          <input
-            className="input input-sm w-16"
-            type="number"
-            min={1}
-            defaultValue={instance.getState().pagination.pageIndex + 1}
-            onChange={(e) => {
-              const page = e.target.value ? Number(e.target.value) - 1 : 0;
-              instance.setPageIndex(page);
-            }}
-          />
-        </span>
-        <div className="divider divider-horizontal" />
-        <select
-          className="select select-sm"
-          value={instance.getState().pagination.pageSize}
-          onChange={(e) => {
-            instance.setPageSize(Number(e.target.value));
-          }}
-        >
-          {[10, 25, 50].map((pageSize) => (
-            <option key={pageSize} value={pageSize}>
-              Show {pageSize}
-            </option>
-          ))}
-        </select>
-      </div>
-    </>
-  );
+  return <Table<Item> instance={instance} handleRowClick={handleRowClick} enablePagination={true} />;
 }
 
 export default ItemsTable;

@@ -2,7 +2,7 @@ import { Sprites } from '@pkmn/img';
 import Image from 'next/image';
 import { useContext, useEffect, useState } from 'react';
 
-import { StoreContext } from '@/components/workspace/StoreContext';
+import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
 
 function SpriteAvatar() {
   const { teamState, tabIdx } = useContext(StoreContext);

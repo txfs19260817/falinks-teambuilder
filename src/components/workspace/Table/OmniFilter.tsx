@@ -1,6 +1,6 @@
 import { Column, TableInstance } from '@tanstack/react-table';
 
-export function OmniFilter({ column, instance }: { column: Column<any>; instance: TableInstance<any> }) {
+function OmniFilter({ column, instance }: { column: Column<any>; instance: TableInstance<any> }) {
   if (!column.getCanFilter()) return null;
   const firstValue = instance.getPreFilteredRowModel().flatRows[0]?.values[column.id];
   const columnFilterValue = column.getFilterValue();
@@ -87,3 +87,5 @@ export function OmniFilter({ column, instance }: { column: Column<any>; instance
     />
   );
 }
+
+export default OmniFilter;

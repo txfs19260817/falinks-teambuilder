@@ -1,4 +1,5 @@
 import { Nature } from '@pkmn/dex-types';
+import { Icons } from '@pkmn/img';
 import { StatsTable } from '@pkmn/types';
 import { CSSProperties } from 'react';
 
@@ -27,7 +28,16 @@ export const convertStylesStringToObject = (stringStyles: string) =>
     return value ? { ...acc, [camelCaseProperty]: value } : acc;
   }, {});
 
-export const getPokemonIconFromLocal = (pokeNum?: number): CSSProperties => {
+/**
+ * Returns the icon for the given Pokémon.
+ * @param {number} pokeNum - The No. of the Pokémon. Only required if fetching from local (fromPS = false).
+ * @param {string} pokeName - The name of the Pokémon. Only required if fetching from Pokémon Showdown site (fromPS = true).
+ * @param {boolean} fromPS - Fetch icons from the Pokémon Showdown site if true, otherwise from this site.
+ */
+export const getPokemonIcon = (pokeNum?: number, pokeName?: string, fromPS?: boolean): CSSProperties => {
+  if (fromPS && pokeName) {
+    return Icons.getPokemon(pokeName).css;
+  }
   let num = pokeNum ?? 0;
   if (num < 0 || num > 898) num = 0;
 

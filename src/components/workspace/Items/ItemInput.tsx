@@ -1,9 +1,13 @@
 import { ChangeEvent, useContext, useEffect, useState } from 'react';
 
-import { StoreContext } from '@/components/workspace/StoreContext';
+import { DexContext } from '@/components/workspace/Contexts/DexContext';
+import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
+import { compareFocusedFieldToIdx, FocusedFieldToIdx } from '@/components/workspace/types';
 
 function ItemInput() {
-  const { teamState, tabIdx, setFocusedField } = useContext(StoreContext);
+  const thisFocusedFieldState: FocusedFieldToIdx = { Item: 0 };
+  const { setGlobalFilter } = useContext(DexContext);
+  const { teamState, tabIdx, focusedFieldState, focusedFieldDispatch } = useContext(StoreContext);
   const [item, setItem] = useState<string>('');
 
   // receive changes from other users
@@ -15,28 +19,31 @@ function ItemInput() {
   // emit changes to other users
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const newItem = e.target.value;
+    setGlobalFilter(newItem);
     if (!teamState.team[tabIdx]) return;
     // @ts-ignore
     teamState.team[tabIdx].item = newItem;
   };
 
+  const handleFocus = () => {
+    setGlobalFilter('');
+    focusedFieldDispatch({ type: 'set', payload: thisFocusedFieldState });
+  };
+
   return (
-    <div className="tooltip" data-tip="Please pick an item below">
-      <label className="input-group-xs input-group input-group-vertical md:input-group-md">
-        <span>Item</span>
-        <input
-          type="text"
-          placeholder="Item"
-          className="input-secondary input input-xs md:input-md"
-          value={item}
-          onFocus={() => setFocusedField({ Item: 0 })}
-          onChange={handleChange}
-          onKeyDown={(event) => {
-            event.preventDefault();
-          }}
-        />
-      </label>
-    </div>
+    <label className="input-group-xs input-group input-group-vertical md:input-group-md">
+      <span>Item</span>
+      <input
+        type="search"
+        placeholder="Item"
+        className={`input-primary input input-sm md:input-md ${
+          compareFocusedFieldToIdx(focusedFieldState, thisFocusedFieldState) ? 'outline outline-2 outline-offset-2 outline-primary' : ''
+        }`}
+        value={item}
+        onFocus={handleFocus}
+        onChange={handleChange}
+      />
+    </label>
   );
 }
 

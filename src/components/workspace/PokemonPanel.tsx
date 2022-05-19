@@ -1,6 +1,11 @@
+import { GenerationNum, Generations } from '@pkmn/data';
+import { Dex } from '@pkmn/dex';
+import { Data } from '@pkmn/dex-types';
+import { useState } from 'react';
+
 import AbilityInput from '@/components/workspace/Abilities/AbilityInput';
 import AttributeSetterSwitch from '@/components/workspace/AttributeSetterSwitch';
-import { DexContextProvider } from '@/components/workspace/DexContext';
+import { DexContextProvider } from '@/components/workspace/Contexts/DexContext';
 import GenderPicker from '@/components/workspace/Gender/GenderPicker';
 import GMaxSwitch from '@/components/workspace/GMax/GMaxSwitch';
 import ItemInput from '@/components/workspace/Items/ItemInput';
@@ -11,10 +16,20 @@ import SpeciesInput from '@/components/workspace/PokemonSpecies/SpeciesInput';
 import ShinyToggle from '@/components/workspace/Shiny/ShinyToggle';
 import SpriteAvatar from '@/components/workspace/SpriteAvatar/SpriteAvatar';
 import StatsClickable from '@/components/workspace/Stats/StatsClickable';
+import { AppConfig } from '@/utils/AppConfig';
+
+const gen = new Generations(Dex, (d: Data) => {
+  if (!d.exists) return false;
+  if ('isNonstandard' in d && d.isNonstandard) return d.isNonstandard === 'Gigantamax';
+  if (d.kind === 'Ability' && d.id === 'noability') return false;
+  return !('tier' in d && ['Illegal', 'Unreleased'].includes(d.tier));
+}).get(AppConfig.defaultGen as GenerationNum);
 
 const PokemonPanel = () => {
+  const [globalFilter, setGlobalFilter] = useState('');
+
   return (
-    <DexContextProvider>
+    <DexContextProvider value={{ gen, globalFilter, setGlobalFilter }}>
       <div className="mockup-window border bg-base-300">
         <div className="grid grid-cols-4 grid-rows-2 gap-y-2 gap-x-1 bg-base-200 py-2 px-1">
           {/* 1. Nickname & Species */}

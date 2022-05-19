@@ -2,11 +2,11 @@ import { Generation, Move } from '@pkmn/data';
 import { Icons } from '@pkmn/img';
 import { ColumnFiltersState, createTable, getCoreRowModelSync, getFilteredRowModelSync, getSortedRowModelSync, useTableInstance } from '@tanstack/react-table';
 import Image from 'next/image';
-import { Key, useContext, useEffect, useMemo, useState } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 
-import { DexContext } from '@/components/workspace/DexContext';
-import { OmniFilter } from '@/components/workspace/OmniFilter';
-import { StoreContext } from '@/components/workspace/StoreContext';
+import { DexContext } from '@/components/workspace/Contexts/DexContext';
+import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
+import Table from '@/components/workspace/Table';
 import { AppConfig } from '@/utils/AppConfig';
 import { trimGmaxFromName } from '@/utils/Helpers';
 
@@ -59,7 +59,8 @@ const getMovesBySpecie = (gen: Generation, speciesName?: string): Promise<Move[]
 };
 
 function MovesTable({ moveIdx }: { moveIdx: number }) {
-  const { teamState, tabIdx } = useContext(StoreContext);
+  const { globalFilter, setGlobalFilter } = useContext(DexContext);
+  const { teamState, tabIdx, focusedFieldState, focusedFieldDispatch } = useContext(StoreContext);
   // get dex & possible moves
   const { gen } = useContext(DexContext);
 
@@ -70,7 +71,6 @@ function MovesTable({ moveIdx }: { moveIdx: number }) {
   }, [teamState.team[tabIdx]?.species]);
   const columns = useMemo<typeof defaultColumns>(() => [...defaultColumns], []);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-  const [globalFilter, setGlobalFilter] = useState('');
 
   // table instance
   const instance = useTableInstance(table, {
@@ -92,51 +92,12 @@ function MovesTable({ moveIdx }: { moveIdx: number }) {
     if (!move || !teamState.team[tabIdx]) return;
     // @ts-ignore
     teamState.team[tabIdx].moves.splice(moveIdx, 1, move.name);
+
+    focusedFieldDispatch({ type: 'next', payload: focusedFieldState });
   };
 
   // table render
-  return (
-    <>
-      <table className="table-compact relative table w-full">
-        <thead className="sticky z-50">
-          {instance.getHeaderGroups().map((headerGroup: { id?: Key; headers: any[] }) => (
-            <tr key={headerGroup.id}>
-              {headerGroup.headers.map((header) => (
-                <th key={header.id} colSpan={header.colSpan} className="sticky top-0">
-                  {header.isPlaceholder ? null : (
-                    <>
-                      <div
-                        {...{
-                          className: header.column.getCanSort() ? 'cursor-pointer select-none' : '',
-                          onClick: header.column.getToggleSortingHandler(),
-                        }}
-                      >
-                        {header.renderHeader()}
-                        {{
-                          asc: '↑',
-                          desc: '↓',
-                        }[header.column.getIsSorted() as string] ?? (header.column.getCanSort() ? '⇵' : null)}
-                      </div>
-                      <OmniFilter column={header.column} instance={instance} />
-                    </>
-                  )}
-                </th>
-              ))}
-            </tr>
-          ))}
-        </thead>
-        <tbody>
-          {instance.getRowModel().rows.map((row: { id?: Key; original?: Move; getVisibleCells: () => any[] }) => (
-            <tr key={row.id} className="hover" onClick={() => handleRowClick(row.original)}>
-              {row.getVisibleCells().map((cell) => (
-                <td key={cell.id}>{cell.renderCell()}</td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </>
-  );
+  return <Table<Move> instance={instance} handleRowClick={handleRowClick} enablePagination={false} />;
 }
 
 export default MovesTable;

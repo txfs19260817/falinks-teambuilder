@@ -1,8 +1,9 @@
 import { StatID, StatsTable } from '@pkmn/types';
 import { useContext, useEffect, useState } from 'react';
 
-import { DexContext } from '@/components/workspace/DexContext';
-import { StoreContext } from '@/components/workspace/StoreContext';
+import { DexContext } from '@/components/workspace/Contexts/DexContext';
+import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
+import { compareFocusedFieldToIdx, FocusedFieldToIdx } from '@/components/workspace/types';
 import { getStats } from '@/utils/Helpers';
 
 const defaultStats: StatsTable = {
@@ -15,7 +16,8 @@ const defaultStats: StatsTable = {
 };
 
 function StatsClickable() {
-  const { teamState, tabIdx, setFocusedField } = useContext(StoreContext);
+  const thisFocusedFieldState: FocusedFieldToIdx = { Stats: 0 };
+  const { teamState, tabIdx, focusedFieldState, focusedFieldDispatch } = useContext(StoreContext);
   // get dex
   const { gen } = useContext(DexContext);
   const natures = Array.from(gen.natures);
@@ -44,21 +46,31 @@ function StatsClickable() {
 
   return (
     <label
-      className="input-group-md input-group input-group-vertical rounded-lg border border-base-300 transition-all hover:opacity-80 hover:shadow-xl md:input-group-lg"
+      className={`input-group-md input-group input-group-vertical rounded-lg border border-base-300 transition-all hover:opacity-80 hover:shadow-xl md:input-group-lg `}
       onClick={() =>
-        setFocusedField({
-          Stats: 0,
+        focusedFieldDispatch({
+          type: 'set',
+          payload: {
+            Stats: 0,
+          },
         })
       }
     >
       <span>Status</span>
-      {Object.entries(stats).map(([key, value]) => (
-        <div key={key} className="flex flex-wrap items-center justify-between bg-base-100 px-1 hover:bg-base-200 md:py-1">
-          <label className="w-10 flex-none uppercase">{key}: </label>
-          <meter className="invisible w-full flex-1 sm:visible" min={0} max={300} low={100} high={150} optimum={200} value={value} title={`${value}`} />
-          <label className="text-xs md:w-10 md:text-lg">{value}</label>
-        </div>
-      ))}
+      <div
+        role="rowgroup"
+        className={`border border-primary bg-base-100 hover:bg-base-200 ${
+          compareFocusedFieldToIdx(focusedFieldState, thisFocusedFieldState) ? 'outline outline-2 outline-offset-2 outline-primary' : ''
+        }`}
+      >
+        {Object.entries(stats).map(([key, value]) => (
+          <div role="progressbar" key={key} className="flex flex-wrap items-center justify-between px-1 md:py-1">
+            <label className="w-10 flex-none uppercase">{key}: </label>
+            <meter className="invisible w-full flex-1 sm:visible" min={0} max={300} low={100} high={150} optimum={200} value={value} title={`${value}`} />
+            <label className="text-xs md:w-10 md:text-lg">{value}</label>
+          </div>
+        ))}
+      </div>
     </label>
   );
 }
