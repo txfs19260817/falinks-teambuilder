@@ -1,5 +1,5 @@
 import { Ability, Generation } from '@pkmn/data';
-import { ColumnFiltersState, createTable, getCoreRowModelSync, getFilteredRowModelSync, getSortedRowModelSync, useTableInstance } from '@tanstack/react-table';
+import { ColumnFiltersState, createTable, getCoreRowModel, getFilteredRowModel, getSortedRowModel, useTableInstance } from '@tanstack/react-table';
 import { useContext, useEffect, useMemo, useState } from 'react';
 
 import { DexContext } from '@/components/workspace/Contexts/DexContext';
@@ -54,9 +54,9 @@ function AbilitiesTable() {
     },
     onColumnFiltersChange: setColumnFilters,
     onGlobalFilterChange: setGlobalFilter,
-    getFilteredRowModel: getFilteredRowModelSync(),
-    getCoreRowModel: getCoreRowModelSync(),
-    getSortedRowModel: getSortedRowModelSync(),
+    getFilteredRowModel: getFilteredRowModel(),
+    getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
   });
 
   // handle table events

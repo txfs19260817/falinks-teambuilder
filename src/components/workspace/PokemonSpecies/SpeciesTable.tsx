@@ -1,21 +1,22 @@
 import { Specie } from '@pkmn/data';
-import { AbilityName, SpeciesAbility } from '@pkmn/dex-types';
 import { Icons } from '@pkmn/img';
-import { StatsTable } from '@pkmn/types';
 import {
   ColumnFiltersState,
   createTable,
-  getCoreRowModelSync,
-  getFilteredRowModelSync,
+  getCoreRowModel,
+  getFacetedMinMaxValues,
+  getFacetedRowModel,
+  getFacetedUniqueValues,
+  getFilteredRowModel,
   getPaginationRowModel,
-  getSortedRowModelSync,
+  getSortedRowModel,
   PaginationState,
   Row,
   SortingState,
   useTableInstance,
 } from '@tanstack/react-table';
 import Image from 'next/image';
-import { useContext, useMemo, useState } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 
 import { DexContext } from '@/components/workspace/Contexts/DexContext';
 import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
@@ -26,7 +27,8 @@ const table = createTable().setRowType<Specie>();
 const defaultColumns = [
   table.createDataColumn('name', {
     header: 'Name',
-    cell: ({ value }) => {
+    cell: (info) => {
+      const value = info.getValue();
       return (
         <span>
           <span style={getPokemonIcon(undefined, value, true)}></span>
@@ -37,9 +39,9 @@ const defaultColumns = [
   }),
   table.createDataColumn('types', {
     header: 'Types',
-    cell: ({ value }: { value: string[] }) => (
+    cell: (info) => (
       <span>
-        {value.map((type) => (
+        {info.getValue().map((type) => (
           <Image className="inline-block" width={32} height={14} key={type} alt={type} title={type} src={Icons.getType(type).url} loading="lazy" />
         ))}
       </span>
@@ -49,10 +51,10 @@ const defaultColumns = [
   }),
   table.createDataColumn('abilities', {
     header: 'Abilities',
-    cell: ({ value }: { value: SpeciesAbility<AbilityName | ''> }) => Object.values(value).join('/'),
+    cell: (info) => Object.values(info.getValue()).join('/'),
     enableSorting: false,
-    filterFn: (row: Row<any>, columnId: string, filterValue: string) => {
-      return Object.values(row.values[columnId]).join(' ').toLowerCase().includes(filterValue.toLowerCase());
+    filterFn: (row, columnId, filterValue) => {
+      return Object.values(row.getValue(columnId)).join(' ').toLowerCase().includes(filterValue.toLowerCase());
     },
   }),
   table.createDataColumn((row) => row.baseStats.hp, {
@@ -94,33 +96,40 @@ const defaultColumns = [
   table.createDataColumn((row) => row.baseStats, {
     id: 'total',
     header: 'Total',
-    cell: ({ value }: { value: StatsTable }) => {
-      return Object.values(value).reduce((acc, curr) => acc + curr, 0);
+    cell: (info) => {
+      return Object.values(info.getValue()).reduce((acc, curr) => acc + curr, 0);
     },
     enableColumnFilter: false,
     enableGlobalFilter: false,
     sortingFn: (a: Row<any>, b: Row<any>, columnId: string) =>
-      Object.values<number>(a.values[columnId]).reduce((acc, curr) => acc + curr, 0) -
-      Object.values<number>(b.values[columnId]).reduce((acc, curr) => acc + curr, 0),
+      Object.values<number>(a.getValue(columnId)).reduce((acc, curr) => acc + curr, 0) -
+      Object.values<number>(b.getValue(columnId)).reduce((acc, curr) => acc + curr, 0),
   }),
 ];
 
 function SpeciesTable() {
-  const { globalFilter, setGlobalFilter } = useContext(DexContext);
+  const { gen, usages, globalFilter, setGlobalFilter } = useContext(DexContext);
   const { teamState, tabIdx, focusedFieldState, focusedFieldDispatch } = useContext(StoreContext);
-  // get dex
-  const { gen } = useContext(DexContext);
 
   // table settings
-  const data = useMemo<Specie[]>(() => [...Array.from(gen.species)], []);
+  const [data, setData] = useState<Specie[]>(() => [...Array.from(gen.species)]);
   const columns = useMemo<typeof defaultColumns>(() => [...defaultColumns], []);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = useState<SortingState>([]);
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
     pageSize: 25,
-    pageCount: -1, // -1 allows the table to calculate the page count for us via instance.getPageCount()
+    pageCount: undefined, // undefined allows the table to calculate the page count for us via instance.getPageCount()
   });
+
+  // sorting by usages
+  useEffect(() => {
+    if (usages.length > 0) {
+      const usageSorted = usages.flatMap((u) => gen.species.get(u.name) || []);
+      usageSorted.push(...Array.from(gen.species).filter((s) => !usageSorted.includes(s)));
+      setData(usageSorted);
+    }
+  }, [usages]);
 
   // table instance
   const instance = useTableInstance(table, {
@@ -136,9 +145,12 @@ function SpeciesTable() {
     onGlobalFilterChange: setGlobalFilter,
     onSortingChange: setSorting,
     onPaginationChange: setPagination,
-    getFilteredRowModel: getFilteredRowModelSync(),
-    getCoreRowModel: getCoreRowModelSync(),
-    getSortedRowModel: getSortedRowModelSync(),
+    getFilteredRowModel: getFilteredRowModel(),
+    getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getFacetedRowModel: getFacetedRowModel(),
+    getFacetedUniqueValues: getFacetedUniqueValues(),
+    getFacetedMinMaxValues: getFacetedMinMaxValues(),
     getPaginationRowModel: getPaginationRowModel(),
   });
 
@@ -147,14 +159,15 @@ function SpeciesTable() {
     if (!specie || !teamState.team[tabIdx]) return;
     // @ts-ignore
     teamState.team[tabIdx].species = specie.name;
-    if (specie.requiredItem) {
-      // @ts-ignore
-      teamState.team[tabIdx].item = specie.requiredItem; // eslint-disable-line prefer-destructuring
-    }
+    // @ts-ignore
+    teamState.team[tabIdx].ability = '';
+    // @ts-ignore
+    teamState.team[tabIdx].item = specie.requiredItem ?? ''; // eslint-disable-line prefer-destructuring
     // @ts-ignore
     teamState.team[tabIdx].moves.splice(0, 4, ...['', '', '', '']);
 
     focusedFieldDispatch({ type: 'next', payload: focusedFieldState });
+    setGlobalFilter('');
   };
 
   // table render

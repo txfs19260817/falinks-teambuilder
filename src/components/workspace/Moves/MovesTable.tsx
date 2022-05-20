@@ -1,6 +1,6 @@
 import { Generation, Move } from '@pkmn/data';
 import { Icons } from '@pkmn/img';
-import { ColumnFiltersState, createTable, getCoreRowModelSync, getFilteredRowModelSync, getSortedRowModelSync, useTableInstance } from '@tanstack/react-table';
+import { ColumnFiltersState, createTable, getCoreRowModel, getFilteredRowModel, getSortedRowModel, useTableInstance } from '@tanstack/react-table';
 import Image from 'next/image';
 import { useContext, useEffect, useMemo, useState } from 'react';
 
@@ -17,22 +17,29 @@ const defaultColumns = [
   }),
   table.createDataColumn('type', {
     header: 'Type',
-    cell: ({ value: type }: { value: string }) => (
-      <Image className="inline-block" width={32} height={14} key={type} alt={type} title={type} src={Icons.getType(type).url} loading="lazy" />
-    ),
+    cell: (info) => {
+      const type = info.getValue();
+      return <Image className="inline-block" width={32} height={14} key={type} alt={type} title={type} src={Icons.getType(type).url} loading="lazy" />;
+    },
   }),
   table.createDataColumn('category', {
     header: 'Category',
   }),
   table.createDataColumn('basePower', {
     header: 'Power',
-    cell: ({ value }: { value: number }) => <span>{value === 0 ? '-' : value}</span>,
+    cell: (info) => {
+      const power = info.getValue();
+      return <span>{power === 0 ? '-' : power}</span>;
+    },
     enableColumnFilter: false,
     enableGlobalFilter: false,
   }),
   table.createDataColumn('accuracy', {
     header: 'Accuracy',
-    cell: ({ value }: { value: true | number }) => <span>{value === true ? '-' : value}</span>,
+    cell: (info) => {
+      const accuracy = info.getValue();
+      return <span>{accuracy === true ? '-' : accuracy}</span>;
+    },
     enableColumnFilter: false,
     enableGlobalFilter: false,
   }),
@@ -82,9 +89,9 @@ function MovesTable({ moveIdx }: { moveIdx: number }) {
     },
     onColumnFiltersChange: setColumnFilters,
     onGlobalFilterChange: setGlobalFilter,
-    getFilteredRowModel: getFilteredRowModelSync(),
-    getCoreRowModel: getCoreRowModelSync(),
-    getSortedRowModel: getSortedRowModelSync(),
+    getFilteredRowModel: getFilteredRowModel(),
+    getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
   });
 
   // handle table events

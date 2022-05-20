@@ -3,10 +3,10 @@ import { Icons } from '@pkmn/img';
 import {
   ColumnFiltersState,
   createTable,
-  getCoreRowModelSync,
-  getFilteredRowModelSync,
+  getCoreRowModel,
+  getFilteredRowModel,
   getPaginationRowModel,
-  getSortedRowModelSync,
+  getSortedRowModel,
   PaginationState,
   useTableInstance,
 } from '@tanstack/react-table';
@@ -15,18 +15,22 @@ import { useContext, useMemo, useState } from 'react';
 import { DexContext } from '@/components/workspace/Contexts/DexContext';
 import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
 import Table from '@/components/workspace/Table';
+import { AppConfig } from '@/utils/AppConfig';
 import { convertStylesStringToObject } from '@/utils/Helpers';
 
 const table = createTable().setRowType<Item>();
 const defaultColumns = [
   table.createDataColumn('name', {
     header: 'Name',
-    cell: ({ value }: { value: string }) => (
-      <span>
-        <span style={convertStylesStringToObject(Icons.getItem(value).style)}></span>
-        {value}
-      </span>
-    ),
+    cell: (info) => {
+      const value = info.getValue();
+      return (
+        <span>
+          <span style={convertStylesStringToObject(Icons.getItem(value).style)}></span>
+          {value}
+        </span>
+      );
+    },
   }),
   table.createDataColumn((row) => (row.shortDesc.length ? row.shortDesc : row.desc), {
     id: 'description',
@@ -38,19 +42,21 @@ const defaultColumns = [
 ];
 
 function ItemsTable() {
-  const { globalFilter, setGlobalFilter } = useContext(DexContext);
+  const { gen, globalFilter, setGlobalFilter } = useContext(DexContext);
   const { teamState, tabIdx, focusedFieldState, focusedFieldDispatch } = useContext(StoreContext);
-  // get dex
-  const { gen } = useContext(DexContext);
 
   // table settings
-  const [data] = useState<Item[]>(() => [...Array.from(gen.items)]);
+  const data = useMemo<Item[]>(
+    () =>
+      AppConfig.popularItems.flatMap((i) => gen.items.get(i) || []).concat(Array.from(gen.items).filter(({ name }) => !AppConfig.popularItems.includes(name))),
+    []
+  );
   const columns = useMemo<typeof defaultColumns>(() => [...defaultColumns], []);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
     pageSize: 50,
-    pageCount: -1, // -1 allows the table to calculate the page count for us via instance.getPageCount()
+    pageCount: undefined, // undefined allows the table to calculate the page count for us via instance.getPageCount()
   });
 
   // table instance
@@ -65,9 +71,9 @@ function ItemsTable() {
     onColumnFiltersChange: setColumnFilters,
     onGlobalFilterChange: setGlobalFilter,
     onPaginationChange: setPagination,
-    getFilteredRowModel: getFilteredRowModelSync(),
-    getCoreRowModel: getCoreRowModelSync(),
-    getSortedRowModel: getSortedRowModelSync(),
+    getFilteredRowModel: getFilteredRowModel(),
+    getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
   });
 

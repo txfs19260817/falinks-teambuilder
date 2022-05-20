@@ -2,6 +2,8 @@ import { GenerationNum, Generations } from '@pkmn/data';
 import { Dex } from '@pkmn/dex';
 import { Data } from '@pkmn/dex-types';
 import { useState } from 'react';
+import { toast } from 'react-hot-toast';
+import useSWR from 'swr';
 
 import AbilityInput from '@/components/workspace/Abilities/AbilityInput';
 import AttributeSetterSwitch from '@/components/workspace/AttributeSetterSwitch';
@@ -16,6 +18,7 @@ import SpeciesInput from '@/components/workspace/PokemonSpecies/SpeciesInput';
 import ShinyToggle from '@/components/workspace/Shiny/ShinyToggle';
 import SpriteAvatar from '@/components/workspace/SpriteAvatar/SpriteAvatar';
 import StatsClickable from '@/components/workspace/Stats/StatsClickable';
+import { Usage } from '@/components/workspace/types';
 import { AppConfig } from '@/utils/AppConfig';
 
 const gen = new Generations(Dex, (d: Data) => {
@@ -28,8 +31,15 @@ const gen = new Generations(Dex, (d: Data) => {
 const PokemonPanel = () => {
   const [globalFilter, setGlobalFilter] = useState('');
 
+  // @ts-ignore
+  const { data, error } = useSWR<Usage[]>(AppConfig.usageAPI, (...args) => fetch(...args).then((res) => res.json()));
+  if (error) {
+    toast.error(error);
+  }
+  const usages = Array.from<Usage>(data ?? []);
+
   return (
-    <DexContextProvider value={{ gen, globalFilter, setGlobalFilter }}>
+    <DexContextProvider value={{ gen, globalFilter, setGlobalFilter, usages }}>
       <div className="mockup-window border bg-base-300">
         <div className="grid grid-cols-4 grid-rows-2 gap-y-2 gap-x-1 bg-base-200 py-2 px-1">
           {/* 1. Nickname & Species */}

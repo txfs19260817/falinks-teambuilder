@@ -2,7 +2,7 @@ import { Column, TableInstance } from '@tanstack/react-table';
 
 function OmniFilter({ column, instance }: { column: Column<any>; instance: TableInstance<any> }) {
   if (!column.getCanFilter()) return null;
-  const firstValue = instance.getPreFilteredRowModel().flatRows[0]?.values[column.id];
+  const firstValue = instance.getPreFilteredRowModel().flatRows[0]?.getValue(column.id);
   const columnFilterValue = column.getFilterValue();
 
   if (column.id === 'types' || column.id === 'type') {
@@ -57,20 +57,20 @@ function OmniFilter({ column, instance }: { column: Column<any>; instance: Table
       <div className="flex space-x-1">
         <input
           type="number"
-          min={Number(column.getFacetedMinMaxValues()[0])}
-          max={Number(column.getFacetedMinMaxValues()[1])}
+          min={Number(column.getFacetedMinMaxValues()?.[0])}
+          max={Number(column.getFacetedMinMaxValues()?.[1])}
           value={(columnFilterValue as [number, number])?.[0] ?? ''}
           onChange={(e) => column.setFilterValue((old: [number, number]) => [e.target.value, old?.[1]])}
-          placeholder={`↓ (${column.getFacetedMinMaxValues()[0]})`}
+          placeholder="↓"
           className="input input-xs w-16 shadow"
         />
         <input
           type="number"
-          min={Number(column.getFacetedMinMaxValues()[0])}
-          max={Number(column.getFacetedMinMaxValues()[1])}
+          min={Number(column.getFacetedMinMaxValues()?.[0])}
+          max={Number(column.getFacetedMinMaxValues()?.[1])}
           value={(columnFilterValue as [number, number])?.[1] ?? ''}
           onChange={(e) => column.setFilterValue((old: [number, number]) => [old?.[0], e.target.value])}
-          placeholder={`↑ (${column.getFacetedMinMaxValues()[1]})`}
+          placeholder="↑"
           className="input input-xs w-16 shadow"
         />
       </div>
