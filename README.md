@@ -4,6 +4,9 @@
 
 ## Roadmap
 
+- [ ] About & Readme
+- [ ] Suggested EVs spread
+- [ ] Single import/export
 - [ ] Team Gallery
 - [ ] Usage sorting
 - [ ] Matrix CRDT protocol
