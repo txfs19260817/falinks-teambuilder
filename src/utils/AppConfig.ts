@@ -1,3 +1,18 @@
+const routes = [
+  {
+    name: 'Home',
+    path: '/',
+  },
+  {
+    name: 'About',
+    path: '/about',
+  },
+  {
+    name: 'Github',
+    path: 'https://github.com/txfs19260817/falinks-teambuilder',
+  },
+];
+
 const usefulLinks = [
   {
     name: '🕹️ Showdown',
@@ -44,4 +59,5 @@ export const AppConfig = {
     'Wiki Berry',
   ],
   usefulLinks,
+  routes,
 };

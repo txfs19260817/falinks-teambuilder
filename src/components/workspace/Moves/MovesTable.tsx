@@ -8,7 +8,6 @@ import { DexContext } from '@/components/workspace/Contexts/DexContext';
 import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
 import Table from '@/components/workspace/Table';
 import { AppConfig } from '@/utils/AppConfig';
-import { trimGmaxFromName } from '@/utils/Helpers';
 
 const table = createTable().setRowType<Move>();
 const defaultColumns = [
@@ -24,6 +23,21 @@ const defaultColumns = [
   }),
   table.createDataColumn('category', {
     header: 'Category',
+    cell: (info) => {
+      const category = info.getValue();
+      return (
+        <Image
+          className="inline-block"
+          width={32}
+          height={14}
+          key={category}
+          alt={category}
+          title={category}
+          src={`/assets/moves/categories/${category}.png`}
+          loading="lazy"
+        />
+      );
+    },
   }),
   table.createDataColumn('basePower', {
     header: 'Power',
@@ -58,11 +72,16 @@ const defaultColumns = [
 ];
 
 const getMovesBySpecie = (gen: Generation, speciesName?: string): Promise<Move[]> => {
-  return gen.learnsets.get(trimGmaxFromName(speciesName || '')).then((l) =>
-    Object.entries(l?.learnset ?? [])
+  return gen.learnsets.get(speciesName || '').then(async (l) => {
+    const res = Object.entries(l?.learnset ?? [])
       .filter((e) => e[1].some((v) => v.startsWith(AppConfig.defaultGen.toString())))
-      .flatMap((e) => gen.moves.get(e[0]) ?? [])
-  );
+      .flatMap((e) => gen.moves.get(e[0]) ?? []);
+    const baseSpecies = gen.species.get(speciesName || '')?.baseSpecies ?? '';
+    if (baseSpecies !== speciesName && baseSpecies !== '') {
+      return res.concat(await getMovesBySpecie(gen, baseSpecies));
+    }
+    return res;
+  });
 };
 
 function MovesTable({ moveIdx }: { moveIdx: number }) {
