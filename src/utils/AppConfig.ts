@@ -8,7 +8,7 @@ const routes = [
     path: '/about',
   },
   {
-    name: 'Github',
+    name: 'GitHub',
     path: 'https://github.com/txfs19260817/falinks-teambuilder',
   },
 ];

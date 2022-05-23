@@ -4,6 +4,7 @@
 
 ## Roadmap
 
+- [ ] Collaborate text editor
 - [ ] About & Readme
 - [ ] Suggested EVs spread
 - [ ] Single import/export
