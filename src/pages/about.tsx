@@ -15,7 +15,9 @@ const About = () => (
       </p>
       <p>Known issues:</p>
       <ul>
-        <li>Sometimes it does not work.</li>
+        <li>
+          <b>Sometimes it does not work.</b>
+        </li>
         <li>
           No support for{' '}
           <a href="https://github.com/yjs/y-webrtc/issues/19" target="_blank" rel="noopener noreferrer">

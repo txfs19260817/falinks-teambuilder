@@ -7,7 +7,7 @@ import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
 function SpriteAvatar() {
   const { teamState, tabIdx } = useContext(StoreContext);
 
-  const [spriteUrl, setSpriteUrl] = useState('https://play.pokemonshowdown.com/sprites/ani/pikachu.gif');
+  const [spriteUrl, setSpriteUrl] = useState('https://play.pokemonshowdown.com/sprites/ani/incineroar.gif');
   const pm = teamState.team[tabIdx]!;
 
   useEffect(() => {
