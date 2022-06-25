@@ -30,7 +30,7 @@ function TabsSwitcher({ children }: { children?: ReactNode }) {
       {children}
       {teamState.team.map((p, i) => (
         <div key={p.id} className="indicator">
-          <span className="badge indicator-item badge-secondary" onClick={() => removeTab(i)}>
+          <span className={`badge indicator-item badge-secondary ${teamState.team.length <= 1 ? 'hidden' : ''}`} onClick={() => removeTab(i)}>
             ×
           </span>
           <a className={`tab tab-lifted tab-md md:tab-lg ${i === tabIdx ? 'tab-active' : ''}`} onClick={() => setTabIdx(i)}>
@@ -40,9 +40,11 @@ function TabsSwitcher({ children }: { children?: ReactNode }) {
         </div>
       ))}
       {teamState.team.length < AppConfig.maxPokemonPerTeam && (
-        <button className="tab tab-lifted tab-active tab-md md:tab-lg" onClick={() => newTab()}>
-          +
-        </button>
+        <div className={`tooltip-right ${teamState.team.length === 0 ? 'tooltip tooltip-open' : ''}`} data-tip="Add the first Pokémon">
+          <button className="tab tab-lifted tab-active tab-md md:tab-lg" onClick={() => newTab()}>
+            +
+          </button>
+        </div>
       )}
     </div>
   );
