@@ -30,7 +30,7 @@ const Toolbox = () => {
         <li tabIndex={0}>
           <span>
             <ExternalLinkIcon className="inline-block h-4 w-4 md:h-6 md:w-6" />
-            Useful links 🡆
+            Links (New tab) 🡆
           </span>
           <ul className="rounded-box menu-compact border border-current bg-base-100 p-1">
             {AppConfig.usefulLinks.map((link) => (

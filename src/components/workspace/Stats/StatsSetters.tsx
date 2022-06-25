@@ -15,6 +15,79 @@ const defaultStats: StatsTable = {
   spe: 0,
 };
 
+const suggestedSpreadsMap = new Map<string, { nature: string; evs: StatsTable }>([
+  [
+    'fps',
+    {
+      nature: 'Jolly',
+      evs: {
+        hp: 4,
+        atk: 252,
+        def: 0,
+        spa: 0,
+        spd: 0,
+        spe: 252,
+      },
+    },
+  ],
+  [
+    'fss',
+    {
+      nature: 'Timid',
+      evs: {
+        hp: 4,
+        atk: 0,
+        def: 0,
+        spa: 252,
+        spd: 0,
+        spe: 252,
+      },
+    },
+  ],
+  [
+    'bps',
+    {
+      nature: 'Modest',
+      evs: {
+        hp: 252,
+        atk: 252,
+        def: 0,
+        spa: 0,
+        spd: 4,
+        spe: 0,
+      },
+    },
+  ],
+  [
+    'bss',
+    {
+      nature: 'Modest',
+      evs: {
+        hp: 252,
+        atk: 0,
+        def: 0,
+        spa: 252,
+        spd: 4,
+        spe: 0,
+      },
+    },
+  ],
+  [
+    'sd',
+    {
+      nature: 'Calm',
+      evs: {
+        hp: 252,
+        atk: 0,
+        def: 4,
+        spa: 0,
+        spd: 252,
+        spe: 0,
+      },
+    },
+  ],
+]);
+
 function StatsSetters() {
   const { teamState, tabIdx } = useContext(StoreContext);
 
@@ -77,6 +150,16 @@ function StatsSetters() {
     teamState.team[tabIdx].nature = newChecked.name;
   };
 
+  const handleSuggestionSelectChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    const option = e.target.value;
+    if (!teamState.team[tabIdx] || !suggestedSpreadsMap.has(option)) return;
+    const { nature: newNature, evs: newEvs } = suggestedSpreadsMap.get(option)!;
+    // @ts-ignore
+    teamState.team[tabIdx].nature = newNature;
+    // @ts-ignore
+    teamState.team[tabIdx].evs = newEvs;
+  };
+
   return (
     <>
       {/* Header */}
@@ -106,15 +189,7 @@ function StatsSetters() {
             {/* Nature radio */}
             <div className="flex space-x-0.5">
               <>
-                <span>-</span>
-                <input
-                  type="radio"
-                  name={`minus-${stat}`}
-                  className="radio-primary radio radio-xs md:radio-sm"
-                  checked={nature.minus === stat}
-                  onChange={handleNatureRadioChange}
-                  disabled={stat === 'hp'}
-                />
+                <span>+</span>
                 <input
                   type="radio"
                   name={`plus-${stat}`}
@@ -123,7 +198,15 @@ function StatsSetters() {
                   onChange={handleNatureRadioChange}
                   disabled={stat === 'hp'}
                 />
-                <span>+</span>
+                <input
+                  type="radio"
+                  name={`minus-${stat}`}
+                  className="radio-primary radio radio-xs md:radio-sm"
+                  checked={nature.minus === stat}
+                  onChange={handleNatureRadioChange}
+                  disabled={stat === 'hp'}
+                />
+                <span>-</span>
               </>
             </div>
             {/* EVs - number input */}
@@ -186,14 +269,29 @@ function StatsSetters() {
       {/* Nature */}
       <div className="grid grid-cols-12 items-center overflow-hidden px-4 py-1 text-xs md:text-sm">
         <span className="font-bold uppercase" role="columnheader">
-          Nature
+          Nature:
         </span>
         <select id="nature" className="select-bordered select select-xs col-span-2 md:select-sm" value={nature.name} onChange={handleNatureSelectChange}>
           {natures.map((n) => (
             <option key={n.name} value={n.name}>
               {n.name}
+              {n.plus && ` (+${n.plus} / -${n.minus})`}
             </option>
           ))}
+        </select>
+        {/* Suggestion Selector */}
+        <span className="col-span-2 text-center font-bold uppercase" role="columnheader">
+          Suggestions:
+        </span>
+        <select className="select-bordered select select-xs col-span-6 md:select-sm" defaultValue="" onChange={handleSuggestionSelectChange}>
+          <option value="" disabled>
+            Suggested EVs spreads
+          </option>
+          <option value="fps">Fast Physical Sweeper: 4 HP / 252 Atk / 252 Spe / (+Spe, -SpA)</option>
+          <option value="fss">Fast Special Sweeper: 4 HP / 252 SpA / 252 Spe / (+SpA, -Atk)</option>
+          <option value="bps">Bulky Physical Sweeper: 252 HP / 252 Atk / 4 SpD / (+Atk, -SpA)</option>
+          <option value="bss">Bulky Special Sweeper: 252 HP / 252 SpA / 4 SpD / (+SpA, -Atk)</option>
+          <option value="sd">Specially Defensive: 252 HP / 4 Def / 252 SpD / (+SpD, -Atk)</option>
         </select>
       </div>
     </>

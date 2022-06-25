@@ -8,7 +8,7 @@ function PostPokepaste() {
   const { teamState } = useContext(StoreContext);
   const { title, author, notes } = teamState.metadata;
   return (
-    <form className="inline" method="post" action="https://pokepast.es/create" target="_blank">
+    <form className="inline text-left" method="post" action="https://pokepast.es/create" target="_blank">
       <input type="hidden" name="title" value={title} />
       <input type="hidden" name="paste" value={Pokemon.convertTeamToPaste(teamState.team)} />
       <input type="hidden" name="author" value={author} />
