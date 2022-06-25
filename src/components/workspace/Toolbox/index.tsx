@@ -5,7 +5,6 @@ import CopyLink from '@/components/workspace/Toolbox/Copylink';
 import ExportShowdown from '@/components/workspace/Toolbox/ExportShowdown';
 import ImportShowdown from '@/components/workspace/Toolbox/ImportShowdown';
 import PostPokepaste from '@/components/workspace/Toolbox/PostPokepaste';
-import SetMetadata from '@/components/workspace/Toolbox/SetMetadata';
 import { AppConfig } from '@/utils/AppConfig';
 
 const Toolbox = () => {
@@ -24,9 +23,6 @@ const Toolbox = () => {
         </li>
         <li>
           <ExportShowdown />
-        </li>
-        <li>
-          <SetMetadata />
         </li>
         <li>
           <PostPokepaste />

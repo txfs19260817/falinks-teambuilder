@@ -4,6 +4,7 @@ export type Metadata = {
   title: string;
   author: string;
   notes: string;
+  roomName: string;
 };
 
 export enum FocusedField {

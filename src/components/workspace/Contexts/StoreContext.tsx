@@ -7,6 +7,7 @@ import { Pokemon } from '@/models/Pokemon';
 export type StoreContextType = {
   team: Pokemon[];
   metadata: Metadata;
+  notes: any;
 };
 
 interface StoreContextInterface {

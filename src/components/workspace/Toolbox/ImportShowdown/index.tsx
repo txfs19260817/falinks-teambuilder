@@ -100,12 +100,12 @@ export function ImportShowdownDialog() {
           <h3 className="font-bold md:text-lg">Please leave your Showdown paste here ↓</h3>
           <textarea className="textarea-secondary textarea w-full" ref={importTextareaRef}></textarea>
           <div className="modal-action">
-            <button className="btn btn-secondary btn-sm" onClick={loadExampleHandler}>
-              Load Example
-            </button>
             <label htmlFor="import-ps-modal" className="btn btn-primary btn-sm" onClick={importHandler}>
               Import
             </label>
+            <button className="btn btn-secondary btn-sm" onClick={loadExampleHandler}>
+              Load Example
+            </button>
             <label htmlFor="import-ps-modal" className="btn btn-sm">
               Cancel
             </label>
