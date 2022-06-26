@@ -86,25 +86,28 @@ export function ImportShowdownDialog() {
 
   const importHandler = () => {
     const text = importTextareaRef.current?.value ?? '';
-    if (single) {
-      const newMon = Pokemon.importSet(text);
-      if (newMon) {
-        teamState.team.splice(tabIdx, 1, newMon);
-      } else {
-        toast.error('Invalid set paste');
-      }
-    } else {
-      const newTeam = Pokemon.convertPasteToTeam(text);
-      if (newTeam) {
-        teamState.team.splice(0, teamState.team.length, ...newTeam);
-      } else {
-        toast.error('Invalid team paste');
-      }
-    }
-
     // clear the textarea
     if (importTextareaRef.current) {
       importTextareaRef.current.value = '';
+    }
+    if (single) {
+      if (teamState.team.length === 0) {
+        toast.error('No Pokémon in team');
+        return;
+      }
+      const newMon = Pokemon.importSet(text);
+      if (!newMon) {
+        toast.error('Invalid set paste');
+        return;
+      }
+      teamState.team.splice(tabIdx, 1, newMon);
+    } else {
+      const newTeam = Pokemon.convertPasteToTeam(text);
+      if (!newTeam) {
+        toast.error('Invalid team paste');
+        return;
+      }
+      teamState.team.splice(0, teamState.team.length, ...newTeam);
     }
   };
   return (
