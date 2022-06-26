@@ -4,11 +4,11 @@
 
 ## Roadmap
 
-- [ ] Collaborate text editor
+- [X] Collaborate text editor
 - [ ] About & Readme
-- [ ] Suggested EVs spread
+- [X] Suggested EVs spreads
 - [ ] Single import/export
 - [ ] Team Gallery
-- [ ] Usage sorting
+- [X] Usage sorting
 - [ ] Matrix CRDT protocol
 - [ ] I18n
