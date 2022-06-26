@@ -7,7 +7,7 @@
 - [X] Collaborate text editor
 - [ ] About & Readme
 - [X] Suggested EVs spreads
-- [ ] Single import/export
+- [X] Single import/export
 - [ ] Team Gallery
 - [X] Usage sorting
 - [ ] Matrix CRDT protocol

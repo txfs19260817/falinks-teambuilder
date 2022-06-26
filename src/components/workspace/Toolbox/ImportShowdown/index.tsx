@@ -1,5 +1,5 @@
 import { UploadIcon } from '@heroicons/react/solid';
-import { useContext, useRef } from 'react';
+import { useContext, useRef, useState } from 'react';
 import { toast } from 'react-hot-toast';
 
 import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
@@ -66,11 +66,11 @@ Impish Nature
 - Light Screen  
 - Reflect  
 - Scary Face  
-
 `;
 
 export function ImportShowdownDialog() {
-  const { teamState } = useContext(StoreContext);
+  const { teamState, tabIdx } = useContext(StoreContext);
+  const [single, setSingle] = useState(false);
 
   const importTextareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -80,13 +80,28 @@ export function ImportShowdownDialog() {
     }
   };
 
+  const singleSetHandler = () => {
+    setSingle(!single);
+  };
+
   const importHandler = () => {
-    const newTeam = Pokemon.convertPasteToTeam(importTextareaRef.current?.value ?? '');
-    if (newTeam) {
-      teamState.team.splice(0, teamState.team.length, ...newTeam);
+    const text = importTextareaRef.current?.value ?? '';
+    if (single) {
+      const newMon = Pokemon.importSet(text);
+      if (newMon) {
+        teamState.team.splice(tabIdx, 1, newMon);
+      } else {
+        toast.error('Invalid set paste');
+      }
     } else {
-      toast.error('Invalid paste');
+      const newTeam = Pokemon.convertPasteToTeam(text);
+      if (newTeam) {
+        teamState.team.splice(0, teamState.team.length, ...newTeam);
+      } else {
+        toast.error('Invalid team paste');
+      }
     }
+
     // clear the textarea
     if (importTextareaRef.current) {
       importTextareaRef.current.value = '';
@@ -99,6 +114,10 @@ export function ImportShowdownDialog() {
         <div className="modal-box">
           <h3 className="font-bold md:text-lg">Please leave your Showdown paste here ↓</h3>
           <textarea className="textarea-secondary textarea w-full" ref={importTextareaRef}></textarea>
+          <label className="label cursor-pointer">
+            <span className="label-text">Only swap the current Pokémon set</span>
+            <input type="checkbox" className="checkbox" checked={single} onChange={singleSetHandler} />
+          </label>
           <div className="modal-action">
             <label htmlFor="import-ps-modal" className="btn btn-primary btn-sm" onClick={importHandler}>
               Import
