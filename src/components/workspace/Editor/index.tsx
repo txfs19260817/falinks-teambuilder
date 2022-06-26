@@ -20,8 +20,7 @@ export const NoteEditor = ({ teamStore }: { teamStore: MappedTypeDescription<Sto
   const editor = useEditor({
     editorProps: {
       attributes: {
-        class: 'textarea textarea-accent focus:outline-none',
-        placeholder: 'Write something …',
+        class: 'textarea textarea-secondary border-2 focus:outline-none',
       },
     },
     extensions: [
@@ -34,6 +33,7 @@ export const NoteEditor = ({ teamStore }: { teamStore: MappedTypeDescription<Sto
         user: { name: getRandomName(), color: getRandomColor() },
       }),
     ],
+    content: `Write something …`,
   });
 
   if (!editor) {

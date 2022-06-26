@@ -7,7 +7,6 @@ import { useContext, useEffect, useMemo, useState } from 'react';
 import { DexContext } from '@/components/workspace/Contexts/DexContext';
 import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
 import Table from '@/components/workspace/Table';
-import { AppConfig } from '@/utils/AppConfig';
 
 const table = createTable().setRowType<Move>();
 const defaultColumns = [
@@ -73,9 +72,7 @@ const defaultColumns = [
 
 const getMovesBySpecie = (gen: Generation, speciesName?: string): Promise<Move[]> => {
   return gen.learnsets.get(speciesName || '').then(async (l) => {
-    const res = Object.entries(l?.learnset ?? [])
-      .filter((e) => e[1].some((v) => v.startsWith(AppConfig.defaultGen.toString())))
-      .flatMap((e) => gen.moves.get(e[0]) ?? []);
+    const res = Object.entries(l?.learnset ?? []).flatMap((e) => gen.moves.get(e[0]) ?? []);
     const baseSpecies = gen.species.get(speciesName || '')?.baseSpecies ?? '';
     if (baseSpecies !== speciesName && baseSpecies !== '') {
       return res.concat(await getMovesBySpecie(gen, baseSpecies));
