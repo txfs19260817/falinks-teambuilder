@@ -5,13 +5,13 @@ const routes = [
     target: '_self',
   },
   {
-    name: 'About',
-    path: '/about',
+    name: 'Pastes',
+    path: '/pastes',
     target: '_self',
   },
   {
-    name: 'Pastes',
-    path: '/pastes',
+    name: 'About',
+    path: '/about',
     target: '_self',
   },
   {

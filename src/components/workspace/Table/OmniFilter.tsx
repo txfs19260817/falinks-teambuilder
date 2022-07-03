@@ -1,4 +1,25 @@
 import { Column, Table } from '@tanstack/react-table';
+import React from 'react';
+import Select, { components, OptionProps } from 'react-select';
+
+import { Pokemon } from '@/models/Pokemon';
+import { getPokemonIcon } from '@/utils/Helpers';
+
+const TailwindStyledInput = ({ children, innerProps, ...props }: OptionProps) => {
+  const species = (props.data as { value: string }).value;
+  return (
+    <components.Option
+      {...props}
+      innerProps={{
+        ...innerProps,
+        className: 'select w-full',
+      }}
+    >
+      {children}
+      <span key={species} title={species} style={getPokemonIcon(undefined, species, true)}></span>
+    </components.Option>
+  );
+};
 
 function OmniFilter({ column, instance }: { column: Column<any>; instance: Table<any> }) {
   if (!column.getCanFilter()) return null;
@@ -49,6 +70,34 @@ function OmniFilter({ column, instance }: { column: Column<any>; instance: Table
         <option value="Special">Special</option>
         <option value="Status">Status</option>
       </select>
+    );
+  }
+
+  if (column.id === 'team') {
+    const options = Array.from(
+      new Set(
+        instance
+          .getPreFilteredRowModel()
+          .flatRows.map((row) => row.getValue(column.id))
+          .flat()
+          .map((p: Pokemon) => p.species)
+      )
+    )
+      .sort((a, b) => a.localeCompare(b))
+      .map((e) => ({ value: e, label: e }));
+    return (
+      <Select
+        isMulti
+        id="team-member-select"
+        instanceId="team-member-select"
+        name="team"
+        options={options}
+        onChange={(e) => {
+          column.setFilterValue(e.map((p: any) => p.value));
+        }}
+        // @ts-ignore
+        components={{ Option: TailwindStyledInput }}
+      />
     );
   }
 

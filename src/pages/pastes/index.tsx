@@ -63,12 +63,13 @@ const Pastes = ({ pastes }: InferGetStaticPropsType<typeof getStaticProps>) => {
         </span>
       ),
       filterFn: (row, columnId, filterValue) => {
-        return row
-          .getValue(columnId)
-          .map((p: Pokemon) => p.species)
-          .join(' ')
-          .toLowerCase()
-          .includes(filterValue.toLowerCase());
+        return !filterValue.some(
+          (val: string) =>
+            !row
+              .getValue(columnId)
+              .map((p: Pokemon) => p.species)
+              .includes(val)
+        );
       },
     },
     {
