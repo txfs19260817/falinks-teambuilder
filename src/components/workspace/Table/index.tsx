@@ -6,11 +6,11 @@ import Paginator from '@/components/workspace/Table/Paginator';
 
 type TableProps<D> = {
   instance: Table<any>;
-  handleRowClick: (d?: D) => void;
   enablePagination?: boolean;
+  handleRowClick?: (d?: D) => void;
 };
 
-function TableWrapper<D>({ instance, handleRowClick, enablePagination }: TableProps<D>) {
+function TableWrapper<D>({ instance, enablePagination, handleRowClick = () => {} }: TableProps<D>) {
   return (
     <>
       <table className="table-compact relative table w-full">

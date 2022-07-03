@@ -54,8 +54,6 @@ export const getPokemonIcon = (pokeNum?: number, pokeName?: string, fromPS?: boo
   };
 };
 
-export const trimGmaxFromName = (name: string): string => name.replace(/-Gmax$/, '');
-
 export const getStats = (stat: string, base: number, ev: number, iv: number, nature: Nature, level: number = 50): number => {
   return stat === 'hp'
     ? Math.floor((Math.floor(2 * base + iv + Math.floor(ev / 4) + 100) * level) / 100 + 10)
