@@ -1,23 +1,10 @@
 import { Ability, Generation } from '@pkmn/data';
-import { ColumnFiltersState, createTable, getCoreRowModel, getFilteredRowModel, getSortedRowModel, useTableInstance } from '@tanstack/react-table';
-import { useContext, useEffect, useMemo, useState } from 'react';
+import { ColumnDef, ColumnFiltersState, getCoreRowModel, getFilteredRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table';
+import { useContext, useEffect, useState } from 'react';
 
 import { DexContext } from '@/components/workspace/Contexts/DexContext';
 import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
-import Table from '@/components/workspace/Table';
-
-const table = createTable().setRowType<Ability>();
-const defaultColumns = [
-  table.createDataColumn('name', {
-    header: 'Name',
-  }),
-  table.createDataColumn('shortDesc', {
-    header: 'Description',
-    enableColumnFilter: false,
-    enableGlobalFilter: false,
-    enableSorting: false,
-  }),
-];
+import TableWrapper from '@/components/workspace/Table';
 
 function getAbilitiesBySpecie(gen: Generation, speciesName?: string): Ability[] {
   const abilitiesMap = gen.species.get(speciesName ?? '')?.abilities;
@@ -31,21 +18,29 @@ function getAbilitiesBySpecie(gen: Generation, speciesName?: string): Ability[] 
 }
 
 function AbilitiesTable() {
-  const { globalFilter, setGlobalFilter } = useContext(DexContext);
-  const { teamState, tabIdx, focusedFieldState, focusedFieldDispatch } = useContext(StoreContext);
   // get dex & possible abilities
-  const { gen } = useContext(DexContext);
+  const { gen, globalFilter, setGlobalFilter } = useContext(DexContext);
+  const { teamState, tabIdx, focusedFieldState, focusedFieldDispatch } = useContext(StoreContext);
 
   // table settings
   const [data, setData] = useState<Ability[]>([]);
   useEffect(() => {
     setData(() => [...getAbilitiesBySpecie(gen, teamState.team[tabIdx]?.species)]);
   }, [teamState.team[tabIdx]?.species]);
-  const columns = useMemo<typeof defaultColumns>(() => [...defaultColumns], []);
+  const columns: ColumnDef<Ability>[] = [
+    { header: 'Name', accessorKey: 'name' },
+    {
+      header: 'Description',
+      accessorKey: 'shortDesc',
+      enableColumnFilter: false,
+      enableGlobalFilter: false,
+      enableSorting: false,
+    },
+  ];
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 
   // table instance
-  const instance = useTableInstance(table, {
+  const instance = useReactTable<Ability>({
     data,
     columns,
     state: {
@@ -69,7 +64,7 @@ function AbilitiesTable() {
   };
 
   // table render
-  return <Table<Ability> instance={instance} handleRowClick={handleRowClick} enablePagination={false} />;
+  return <TableWrapper<Ability> instance={instance} handleRowClick={handleRowClick} enablePagination={false} />;
 }
 
 export default AbilitiesTable;

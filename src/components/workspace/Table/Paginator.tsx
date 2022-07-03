@@ -1,6 +1,6 @@
-import { TableInstance } from '@tanstack/react-table';
+import { Table } from '@tanstack/react-table';
 
-function Paginator({ instance }: { instance: TableInstance<any> }) {
+function Paginator({ instance }: { instance: Table<any> }) {
   return (
     <div className="btn-group w-full items-center justify-center" aria-label="paginator">
       <button className="btn btn-sm" onClick={() => instance.setPageIndex(0)} disabled={!instance.getCanPreviousPage()}>

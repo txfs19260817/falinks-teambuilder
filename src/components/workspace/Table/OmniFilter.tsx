@@ -1,6 +1,6 @@
-import { Column, TableInstance } from '@tanstack/react-table';
+import { Column, Table } from '@tanstack/react-table';
 
-function OmniFilter({ column, instance }: { column: Column<any>; instance: TableInstance<any> }) {
+function OmniFilter({ column, instance }: { column: Column<any>; instance: Table<any> }) {
   if (!column.getCanFilter()) return null;
   const firstValue = instance.getPreFilteredRowModel().flatRows[0]?.getValue(column.id);
   const columnFilterValue = column.getFilterValue();

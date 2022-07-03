@@ -1,74 +1,12 @@
 import { Generation, Move } from '@pkmn/data';
 import { Icons } from '@pkmn/img';
-import { ColumnFiltersState, createTable, getCoreRowModel, getFilteredRowModel, getSortedRowModel, useTableInstance } from '@tanstack/react-table';
+import { ColumnDef, ColumnFiltersState, getCoreRowModel, getFilteredRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table';
 import Image from 'next/image';
-import { useContext, useEffect, useMemo, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
 import { DexContext } from '@/components/workspace/Contexts/DexContext';
 import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
 import Table from '@/components/workspace/Table';
-
-const table = createTable().setRowType<Move>();
-const defaultColumns = [
-  table.createDataColumn('name', {
-    header: 'Name',
-  }),
-  table.createDataColumn('type', {
-    header: 'Type',
-    cell: (info) => {
-      const type = info.getValue();
-      return <Image className="inline-block" width={32} height={14} key={type} alt={type} title={type} src={Icons.getType(type).url} loading="lazy" />;
-    },
-  }),
-  table.createDataColumn('category', {
-    header: 'Category',
-    cell: (info) => {
-      const category = info.getValue();
-      return (
-        <Image
-          className="inline-block"
-          width={32}
-          height={14}
-          key={category}
-          alt={category}
-          title={category}
-          src={`/assets/moves/categories/${category}.png`}
-          loading="lazy"
-        />
-      );
-    },
-  }),
-  table.createDataColumn('basePower', {
-    header: 'Power',
-    cell: (info) => {
-      const power = info.getValue();
-      return <span>{power === 0 ? '-' : power}</span>;
-    },
-    enableColumnFilter: false,
-    enableGlobalFilter: false,
-  }),
-  table.createDataColumn('accuracy', {
-    header: 'Accuracy',
-    cell: (info) => {
-      const accuracy = info.getValue();
-      return <span>{accuracy === true ? '-' : accuracy}</span>;
-    },
-    enableColumnFilter: false,
-    enableGlobalFilter: false,
-  }),
-  table.createDataColumn('pp', {
-    header: 'PP',
-    enableColumnFilter: false,
-    enableGlobalFilter: false,
-  }),
-  table.createDataColumn((row) => (row.shortDesc.length ? row.shortDesc : row.desc), {
-    id: 'description',
-    header: 'Description',
-    enableColumnFilter: false,
-    enableGlobalFilter: false,
-    enableSorting: false,
-  }),
-];
 
 const getMovesBySpecie = (gen: Generation, speciesName?: string): Promise<Move[]> => {
   return gen.learnsets.get(speciesName || '').then(async (l) => {
@@ -92,11 +30,74 @@ function MovesTable({ moveIdx }: { moveIdx: number }) {
   useEffect(() => {
     getMovesBySpecie(gen, teamState.team[tabIdx]?.species).then((moves) => setData(moves));
   }, [teamState.team[tabIdx]?.species]);
-  const columns = useMemo<typeof defaultColumns>(() => [...defaultColumns], []);
+  const columns: ColumnDef<Move>[] = [
+    { header: 'Name', accessorKey: 'name' },
+    {
+      header: 'Type',
+      accessorKey: 'type',
+      cell: (info) => {
+        const type: string = info.getValue();
+        return <Image className="inline-block" width={32} height={14} key={type} alt={type} title={type} src={Icons.getType(type).url} loading="lazy" />;
+      },
+    },
+    {
+      header: 'Category',
+      accessorKey: 'category',
+      cell: (info) => {
+        const category = info.getValue();
+        return (
+          <Image
+            className="inline-block"
+            width={32}
+            height={14}
+            key={category}
+            alt={category}
+            title={category}
+            src={`/assets/moves/categories/${category}.png`}
+            loading="lazy"
+          />
+        );
+      },
+    },
+    {
+      header: 'Power',
+      accessorKey: 'basePower',
+      cell: (info) => {
+        const power = info.getValue();
+        return <span>{power === 0 ? '-' : power}</span>;
+      },
+      enableColumnFilter: false,
+      enableGlobalFilter: false,
+    },
+    {
+      header: 'Accuracy',
+      accessorKey: 'accuracy',
+      cell: (info) => {
+        const accuracy = info.getValue();
+        return <span>{accuracy === true ? '-' : accuracy}</span>;
+      },
+      enableColumnFilter: false,
+      enableGlobalFilter: false,
+    },
+    {
+      header: 'PP',
+      accessorKey: 'pp',
+      enableColumnFilter: false,
+      enableGlobalFilter: false,
+    },
+    {
+      id: 'description',
+      header: 'Description',
+      accessorFn: (row) => (row.shortDesc.length ? row.shortDesc : row.desc),
+      enableColumnFilter: false,
+      enableGlobalFilter: false,
+      enableSorting: false,
+    },
+  ];
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 
   // table instance
-  const instance = useTableInstance(table, {
+  const instance = useReactTable<Move>({
     data,
     columns,
     state: {

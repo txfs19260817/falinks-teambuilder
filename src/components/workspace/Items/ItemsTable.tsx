@@ -1,14 +1,14 @@
 import { Item } from '@pkmn/data';
 import { Icons } from '@pkmn/img';
 import {
+  ColumnDef,
   ColumnFiltersState,
-  createTable,
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
   PaginationState,
-  useTableInstance,
+  useReactTable,
 } from '@tanstack/react-table';
 import { useContext, useMemo, useState } from 'react';
 
@@ -17,29 +17,6 @@ import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
 import Table from '@/components/workspace/Table';
 import { AppConfig } from '@/utils/AppConfig';
 import { convertStylesStringToObject } from '@/utils/Helpers';
-
-const table = createTable().setRowType<Item>();
-const defaultColumns = [
-  table.createDataColumn('name', {
-    header: 'Name',
-    cell: (info) => {
-      const value = info.getValue();
-      return (
-        <span>
-          <span style={convertStylesStringToObject(Icons.getItem(value).style)}></span>
-          {value}
-        </span>
-      );
-    },
-  }),
-  table.createDataColumn((row) => (row.shortDesc.length ? row.shortDesc : row.desc), {
-    id: 'description',
-    header: 'Description',
-    enableColumnFilter: false,
-    enableGlobalFilter: false,
-    enableSorting: false,
-  }),
-];
 
 function ItemsTable() {
   const { gen, globalFilter, setGlobalFilter } = useContext(DexContext);
@@ -51,16 +28,37 @@ function ItemsTable() {
       AppConfig.popularItems.flatMap((i) => gen.items.get(i) || []).concat(Array.from(gen.items).filter(({ name }) => !AppConfig.popularItems.includes(name))),
     []
   );
-  const columns = useMemo<typeof defaultColumns>(() => [...defaultColumns], []);
+  const columns: ColumnDef<Item>[] = [
+    {
+      header: 'Name',
+      accessorKey: 'name',
+      cell: (info) => {
+        const value = info.getValue();
+        return (
+          <span>
+            <span style={convertStylesStringToObject(Icons.getItem(value).style)}></span>
+            {value}
+          </span>
+        );
+      },
+    },
+    {
+      id: 'description',
+      header: 'Description',
+      accessorFn: (row) => (row.shortDesc.length ? row.shortDesc : row.desc),
+      enableColumnFilter: false,
+      enableGlobalFilter: false,
+      enableSorting: false,
+    },
+  ];
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
     pageSize: 50,
-    pageCount: undefined, // undefined allows the table to calculate the page count for us via instance.getPageCount()
   });
 
   // table instance
-  const instance = useTableInstance(table, {
+  const instance = useReactTable<Item>({
     data,
     columns,
     state: {

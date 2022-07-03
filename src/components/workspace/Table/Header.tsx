@@ -1,9 +1,9 @@
-import { TableInstance } from '@tanstack/react-table';
+import { flexRender, Table } from '@tanstack/react-table';
 import { Key } from 'react';
 
 import OmniFilter from '@/components/workspace/Table/OmniFilter';
 
-function Header({ instance }: { instance: TableInstance<any> }) {
+function Header({ instance }: { instance: Table<any> }) {
   return (
     <thead className="sticky z-50">
       {instance.getHeaderGroups().map((headerGroup: { id?: Key; headers: any[] }) => (
@@ -18,7 +18,7 @@ function Header({ instance }: { instance: TableInstance<any> }) {
                       onClick: header.column.getToggleSortingHandler(),
                     }}
                   >
-                    {header.renderHeader()}
+                    {flexRender(header.column.columnDef.header, header.getContext())}
                     {{
                       asc: '↑',
                       desc: '↓',

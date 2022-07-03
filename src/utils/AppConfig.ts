@@ -35,7 +35,7 @@ export const AppConfig = {
   locale: 'en',
   maxPokemonPerTeam: 6,
   defaultGen: 8,
-  usageAPI: 'https://www.pikalytics.com/api/l/2022-05/ss-1500',
+  usageAPI: 'https://www.pikalytics.com/api/l/2022-06/ss-1500',
   popularItems: [
     'Aguav Berry',
     'Assault Vest',

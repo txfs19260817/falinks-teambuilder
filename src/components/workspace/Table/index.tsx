@@ -1,16 +1,16 @@
-import { TableInstance } from '@tanstack/react-table';
+import { flexRender, Table } from '@tanstack/react-table';
 import { Key } from 'react';
 
 import Header from '@/components/workspace/Table/Header';
 import Paginator from '@/components/workspace/Table/Paginator';
 
 type TableProps<D> = {
-  instance: TableInstance<any>;
+  instance: Table<any>;
   handleRowClick: (d?: D) => void;
   enablePagination?: boolean;
 };
 
-function Table<D>({ instance, handleRowClick, enablePagination }: TableProps<D>) {
+function TableWrapper<D>({ instance, handleRowClick, enablePagination }: TableProps<D>) {
   return (
     <>
       <table className="table-compact relative table w-full">
@@ -19,7 +19,7 @@ function Table<D>({ instance, handleRowClick, enablePagination }: TableProps<D>)
           {instance.getRowModel().rows.map((row: { id?: Key; original?: D; getVisibleCells: () => any[] }) => (
             <tr key={row.id} className="hover" onClick={() => handleRowClick(row.original)}>
               {row.getVisibleCells().map((cell) => (
-                <td key={cell.id}>{cell.renderCell()}</td>
+                <td key={cell.id}> {flexRender(cell.column.columnDef.cell, cell.getContext())}</td>
               ))}
             </tr>
           ))}
@@ -35,4 +35,4 @@ function Table<D>({ instance, handleRowClick, enablePagination }: TableProps<D>)
   );
 }
 
-export default Table;
+export default TableWrapper;
