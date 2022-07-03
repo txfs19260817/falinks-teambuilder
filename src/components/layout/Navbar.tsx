@@ -16,7 +16,7 @@ const Navbar = () => {
             {AppConfig.routes.map((route) => (
               <li key={route.path}>
                 <Link href={route.path} passHref>
-                  <a target="_blank" rel="noopener noreferrer" className="border-none">
+                  <a target={route.target} rel="noopener noreferrer" className="border-none">
                     {route.name}
                   </a>
                 </Link>
@@ -33,7 +33,7 @@ const Navbar = () => {
           {AppConfig.routes.map((route) => (
             <li key={route.path}>
               <Link href={route.path} passHref>
-                <a target="_blank" rel="noopener noreferrer" className="border-none">
+                <a target={route.target} rel="noopener noreferrer" className="border-none">
                   {route.name}
                 </a>
               </Link>

@@ -14,30 +14,21 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 import { InferGetStaticPropsType } from 'next';
+import { useRouter } from 'next/router';
 import React, { useContext, useState } from 'react';
 import { toast, Toaster } from 'react-hot-toast';
 
 import { DexContext } from '@/components/workspace/Contexts/DexContext';
 import Table from '@/components/workspace/Table';
+import { Paste } from '@/models/Paste';
 import { Pokemon } from '@/models/Pokemon';
 import { Main } from '@/templates/Main';
 import { getPokemonIcon } from '@/utils/Helpers';
 import clientPromise from '@/utils/MongoDB';
 
-interface Paste {
-  author: string;
-
-  notes: string;
-
-  paste: string;
-
-  title: string;
-
-  team: Pokemon[];
-}
-
 const Pastes = ({ pastes }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const { globalFilter, setGlobalFilter } = useContext(DexContext);
+  const router = useRouter();
 
   // table settings
   const [data] = useState<Paste[]>(() => [...Array.from(pastes)]);
@@ -98,6 +89,25 @@ const Pastes = ({ pastes }: InferGetStaticPropsType<typeof getStaticProps>) => {
           <span>Copy</span>
         </button>
       ),
+    },
+    {
+      header: 'Details',
+      accessorKey: '_id',
+      cell: ({ getValue }) => (
+        <button
+          className="btn btn-secondary btn-xs"
+          onClick={(e) => {
+            e.preventDefault();
+            router.push(`/pastes/${getValue()}`);
+          }}
+        >
+          Details
+        </button>
+      ),
+      enableColumnFilter: false,
+      enableGlobalFilter: false,
+      enableSorting: false,
+      enableMultiSort: false,
     },
   ];
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);

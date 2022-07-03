@@ -2,18 +2,22 @@ const routes = [
   {
     name: 'Home',
     path: '/',
+    target: '_self',
   },
   {
     name: 'About',
     path: '/about',
+    target: '_self',
   },
   {
     name: 'Pastes',
     path: '/pastes',
+    target: '_self',
   },
   {
     name: 'GitHub',
     path: 'https://github.com/txfs19260817/falinks-teambuilder',
+    target: '_blank',
   },
 ];
 
