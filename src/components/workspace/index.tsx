@@ -91,11 +91,8 @@ function Workspace({ roomName }: WebRTCProviderProps) {
       }}
     >
       {/* Tab header */}
-      <TabsSwitcher>
-        <div className={`tooltip-bottom tooltip-primary ${teamState.team.length === 0 ? 'tooltip tooltip-open' : ''}`} data-tip="Import one">
-          <Toolbox />
-        </div>
-      </TabsSwitcher>
+      <Toolbox />
+      <TabsSwitcher />
       {/* Pokemon panel */}
       {tabIdx < 0 || tabIdx >= teamState.team.length ? (
         <div className="flex justify-center bg-base-200 px-4 py-16">Please create / select a Pokemon</div>

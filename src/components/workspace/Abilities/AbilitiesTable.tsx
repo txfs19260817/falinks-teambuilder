@@ -1,6 +1,6 @@
 import { Ability, Generation } from '@pkmn/data';
 import { ColumnDef, ColumnFiltersState, getCoreRowModel, getFilteredRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 
 import { DexContext } from '@/components/workspace/Contexts/DexContext';
 import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
@@ -27,16 +27,19 @@ function AbilitiesTable() {
   useEffect(() => {
     setData(() => [...getAbilitiesBySpecie(gen, teamState.team[tabIdx]?.species)]);
   }, [teamState.team[tabIdx]?.species]);
-  const columns: ColumnDef<Ability>[] = [
-    { header: 'Name', accessorKey: 'name' },
-    {
-      header: 'Description',
-      accessorKey: 'shortDesc',
-      enableColumnFilter: false,
-      enableGlobalFilter: false,
-      enableSorting: false,
-    },
-  ];
+  const columns = useMemo<ColumnDef<Ability>[]>(
+    () => [
+      { header: 'Name', accessorKey: 'name' },
+      {
+        header: 'Description',
+        accessorKey: 'shortDesc',
+        enableColumnFilter: false,
+        enableGlobalFilter: false,
+        enableSorting: false,
+      },
+    ],
+    []
+  );
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 
   // table instance

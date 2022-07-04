@@ -1,5 +1,5 @@
-import { ExternalLinkIcon } from '@heroicons/react/solid';
 import Link from 'next/link';
+import React from 'react';
 
 import CopyLink from '@/components/workspace/Toolbox/Copylink';
 import ExportShowdown from '@/components/workspace/Toolbox/ExportShowdown';
@@ -9,42 +9,42 @@ import { AppConfig } from '@/utils/AppConfig';
 
 const Toolbox = () => {
   return (
-    <div className="dropdown">
-      <label tabIndex={0} className="tab tab-lifted tab-md rounded-lg bg-base-content md:tab-lg">
-        ⚙️
-        <span className="hidden text-primary-content md:inline-block">Tools</span>
-      </label>
-      <ul tabIndex={0} className="dropdown-content menu rounded-box w-60 border border-current bg-base-100 p-2 text-base-content">
-        <li>
-          <CopyLink />
-        </li>
-        <li>
-          <ImportShowdown />
-        </li>
-        <li>
-          <ExportShowdown />
-        </li>
-        <li>
-          <PostPokepaste />
-        </li>
-        <li tabIndex={0}>
-          <span>
-            <ExternalLinkIcon className="inline-block h-4 w-4 md:h-6 md:w-6" />
-            Links (New tab) 🡆
-          </span>
-          <ul className="rounded-box menu-compact border border-current bg-base-100 p-1">
-            {AppConfig.usefulLinks.map((link) => (
-              <li key={link.name}>
-                <Link href={link.url}>
-                  <a target="_blank" className="border-none">
-                    {link.name}
-                  </a>
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </li>
-      </ul>
+    <div className="navbar bg-base-100">
+      <div className="navbar-center flex">
+        <ul className="menu menu-horizontal p-0">
+          <li>
+            <CopyLink />
+          </li>
+          <li>
+            <ImportShowdown />
+          </li>
+          <li>
+            <ExportShowdown />
+          </li>
+          <li>
+            <PostPokepaste />
+          </li>
+          <li tabIndex={1}>
+            <a>
+              Links (New tab)
+              <svg className="fill-current" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
+                <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" />
+              </svg>
+            </a>
+            <ul className="z-40 bg-base-100 p-2">
+              {AppConfig.usefulLinks.map((link) => (
+                <li key={link.name}>
+                  <Link href={link.url}>
+                    <a target="_blank" className="border-none">
+                      {link.name}
+                    </a>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </li>
+        </ul>
+      </div>
     </div>
   );
 };

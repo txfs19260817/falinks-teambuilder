@@ -71,25 +71,30 @@ const Pastes = ({ pastes }: InferGetStaticPropsType<typeof getStaticProps>) => {
               .includes(val)
         );
       },
+      enableSorting: false,
+      enableMultiSort: false,
     },
     {
+      id: 'paste',
       header: 'Paste',
-      accessorKey: 'paste',
+      accessorKey: 'team',
       enableColumnFilter: false,
       enableGlobalFilter: false,
       enableSorting: false,
       enableMultiSort: false,
-      cell: ({ getValue }) => (
-        <button
-          className="btn btn-primary btn-xs"
-          onClick={() => {
-            navigator.clipboard.writeText(getValue()).then(() => toast('📋 Copied!'));
-          }}
-        >
-          <ClipboardCopyIcon className="h-4 w-4" />
-          <span>Copy</span>
-        </button>
-      ),
+      cell: ({ getValue }) => {
+        return (
+          <button
+            className="btn btn-primary btn-xs"
+            onClick={() => {
+              navigator.clipboard.writeText(Pokemon.convertTeamToPaste(getValue())).then(() => toast('📋 Copied!'));
+            }}
+          >
+            <ClipboardCopyIcon className="h-4 w-4" />
+            <span>Copy</span>
+          </button>
+        );
+      },
     },
     {
       header: 'Details',
@@ -158,7 +163,7 @@ export const getStaticProps: () => Promise<{
   const db = client.db('pastes');
   const collection = db.collection('teams');
 
-  const pastes = await collection.find({}).toArray();
+  const pastes: Paste[] = await collection.find({}).project({ paste: 0 }).toArray();
 
   return {
     props: {

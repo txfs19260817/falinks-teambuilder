@@ -1,5 +1,6 @@
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 import { Toaster } from 'react-hot-toast';
 
 import { Main } from '@/templates/Main';
@@ -13,6 +14,18 @@ const Room = () => {
   // Get the room name from the params
   const { isReady, query } = useRouter();
   const roomName = (query.name as string) || 'Loading...';
+
+  // prompt the user if they try and leave with unsaved changes
+  useEffect(() => {
+    const handleWindowClose = (e: BeforeUnloadEvent) => {
+      e.preventDefault();
+      e.returnValue = '';
+    };
+    window.addEventListener('beforeunload', handleWindowClose);
+    return () => {
+      window.removeEventListener('beforeunload', handleWindowClose);
+    };
+  }, []);
 
   return (
     <Main title={`Room - ${roomName}`}>

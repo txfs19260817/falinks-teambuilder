@@ -28,29 +28,29 @@ function ItemsTable() {
       AppConfig.popularItems.flatMap((i) => gen.items.get(i) || []).concat(Array.from(gen.items).filter(({ name }) => !AppConfig.popularItems.includes(name))),
     []
   );
-  const columns: ColumnDef<Item>[] = [
-    {
-      header: 'Name',
-      accessorKey: 'name',
-      cell: (info) => {
-        const value = info.getValue();
-        return (
+  const columns = useMemo<ColumnDef<Item>[]>(
+    () => [
+      {
+        header: 'Name',
+        accessorKey: 'name',
+        cell: ({ getValue }) => (
           <span>
-            <span style={convertStylesStringToObject(Icons.getItem(value).style)}></span>
-            {value}
+            <span style={convertStylesStringToObject(Icons.getItem(getValue()).style)}></span>
+            {getValue()}
           </span>
-        );
+        ),
       },
-    },
-    {
-      id: 'description',
-      header: 'Description',
-      accessorFn: (row) => (row.shortDesc.length ? row.shortDesc : row.desc),
-      enableColumnFilter: false,
-      enableGlobalFilter: false,
-      enableSorting: false,
-    },
-  ];
+      {
+        id: 'description',
+        header: 'Description',
+        accessorFn: (row) => (row.shortDesc.length ? row.shortDesc : row.desc),
+        enableColumnFilter: false,
+        enableGlobalFilter: false,
+        enableSorting: false,
+      },
+    ],
+    []
+  );
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
