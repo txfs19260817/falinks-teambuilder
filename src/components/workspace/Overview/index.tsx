@@ -22,7 +22,7 @@ function Overview() {
   return (
     <div className="mockup-window border bg-base-300">
       <div className="grid grid-cols-3 grid-rows-2 gap-y-2 gap-x-2 bg-base-200 py-2 px-1">
-        {Array.from(Array(6).keys()).map((i) => {
+        {[0, 1, 2, 3, 4, 5].map((i) => {
           const pm = teamState.team[i];
 
           return (
@@ -53,6 +53,7 @@ function Overview() {
                         .map((e) => e.join(':').toUpperCase())
                         .join(' ') || 'All 31'}
                     </li>
+                    <li>{pm.nature || 'Hardy'} Nature</li>
                   </ul>
                   <ul className="list-inside list-disc text-sm">
                     {pm.moves.map((m, j) => (
