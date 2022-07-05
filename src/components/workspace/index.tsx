@@ -4,7 +4,7 @@ import React, { Reducer, useEffect, useReducer, useState } from 'react';
 
 import { StoreContextProvider, StoreContextType } from '@/components/workspace/Contexts/StoreContext';
 import { Dialogs } from '@/components/workspace/Dialogs';
-import { NoteEditor } from '@/components/workspace/Editor';
+import Overview, { OverviewTabBtn } from '@/components/workspace/Overview';
 import { PokemonPanel } from '@/components/workspace/PokemonPanel';
 import TabsSwitcher from '@/components/workspace/Tabs/TabsSwitcher';
 import Toolbox from '@/components/workspace/Toolbox';
@@ -90,18 +90,15 @@ function Workspace({ roomName }: WebRTCProviderProps) {
         focusedFieldDispatch,
       }}
     >
-      {/* Tab header */}
+      {/* Toolbox menu bar */}
       <Toolbox />
-      <TabsSwitcher />
+      {/* Tab header */}
+      <TabsSwitcher>
+        <OverviewTabBtn />
+      </TabsSwitcher>
+      {/* <NoteEditor teamStore={teamStore} /> */}
       {/* Pokemon panel */}
-      {tabIdx < 0 || tabIdx >= teamState.team.length ? (
-        <div className="flex justify-center bg-base-200 px-4 py-16">Please create / select a Pokemon</div>
-      ) : (
-        <>
-          <PokemonPanel />
-          <NoteEditor teamStore={teamStore} />
-        </>
-      )}
+      {tabIdx < 0 || tabIdx >= teamState.team.length ? <Overview /> : <PokemonPanel />}
       <Dialogs />
     </StoreContextProvider>
   );

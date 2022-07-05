@@ -1,6 +1,6 @@
 import { ObjectId } from 'mongodb';
 
-import { Paste } from '@/models/Paste';
+import { Paste } from '@/components/workspace/types';
 import { Main } from '@/templates/Main';
 import clientPromise from '@/utils/MongoDB';
 

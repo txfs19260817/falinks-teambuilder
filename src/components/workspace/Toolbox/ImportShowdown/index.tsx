@@ -1,4 +1,4 @@
-import { UploadIcon } from '@heroicons/react/solid';
+import { DocumentAddIcon } from '@heroicons/react/solid';
 import { useContext, useRef, useState } from 'react';
 import { toast } from 'react-hot-toast';
 
@@ -117,10 +117,12 @@ export function ImportShowdownDialog() {
         <div className="modal-box">
           <h3 className="font-bold md:text-lg">Please leave your Showdown paste here ↓</h3>
           <textarea className="textarea-secondary textarea w-full" ref={importTextareaRef}></textarea>
-          <label className="label cursor-pointer">
-            <span className="label-text">Only swap the current Pokémon set</span>
-            <input type="checkbox" className="checkbox" checked={single} onChange={singleSetHandler} />
-          </label>
+          {tabIdx >= 0 && tabIdx < teamState.team.length && (
+            <label className="label cursor-pointer">
+              <span className="label-text">Only swap the current Pokémon set</span>
+              <input type="checkbox" className="checkbox" checked={single} onChange={singleSetHandler} />
+            </label>
+          )}
           <div className="modal-action">
             <label htmlFor="import-ps-modal" className="btn btn-primary btn-sm" onClick={importHandler}>
               Import
@@ -141,7 +143,7 @@ export function ImportShowdownDialog() {
 function ImportShowdown() {
   return (
     <label htmlFor="import-ps-modal" className="modal-button rounded" title="Import a team from Showdown paste">
-      <UploadIcon className="h-4 w-4 md:h-6 md:w-6" />
+      <DocumentAddIcon className="h-4 w-4 md:h-6 md:w-6" />
       <span>Import</span>
     </label>
   );

@@ -63,3 +63,11 @@ export const getStats = (stat: string, base: number, ev: number, iv: number, nat
 export const getSingleEvUpperLimit = (evs: StatsTable, oldEv: number): number => {
   return Math.min(maxTotalEvs - Object.values(evs).reduce((x, y) => x + y) + oldEv, maxSingleEvs);
 };
+
+export const removeEntriesByValue = (item: object, value = 0) =>
+  Object.keys(item)
+    .filter((key) => item[key as keyof typeof item] !== value)
+    .reduce((newObj, key) => {
+      newObj[key as keyof typeof newObj] = item[key as keyof typeof item];
+      return newObj;
+    }, {});

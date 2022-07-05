@@ -4,14 +4,23 @@ import { useContext, useEffect, useState } from 'react';
 
 import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
 
-function SpriteAvatar() {
+type SpriteAvatarProps = {
+  idx?: number;
+};
+
+const placeholderUrl = 'https://play.pokemonshowdown.com/sprites/ani/substitute.gif';
+
+function SpriteAvatar({ idx }: SpriteAvatarProps) {
   const { teamState, tabIdx } = useContext(StoreContext);
 
   const [spriteUrl, setSpriteUrl] = useState('https://play.pokemonshowdown.com/sprites/ani/incineroar.gif');
-  const pm = teamState.team[tabIdx]!;
+  const pm = teamState.team[idx ?? tabIdx]!;
 
   useEffect(() => {
-    if (!pm) return;
+    if (!pm) {
+      setSpriteUrl(placeholderUrl);
+      return;
+    }
     const { species, shiny } = pm;
     const { url } = Sprites.getPokemon(species, {
       gen: 8,
@@ -19,12 +28,14 @@ function SpriteAvatar() {
       // gender: gender as GenderName,
     });
     setSpriteUrl(url);
-  }, [pm, pm.species, pm.shiny]);
+  }, [pm, pm?.species, pm?.shiny]);
 
   return (
     <div className="avatar flex items-center justify-center py-1">
       <div className="w-48 rounded-xl">
-        <Image src={spriteUrl} alt="sprite" layout="fill" objectFit="contain" priority={true} />
+        <figure>
+          <Image src={spriteUrl} alt="sprite" layout="fill" objectFit="contain" priority={true} />
+        </figure>
       </div>
     </div>
   );

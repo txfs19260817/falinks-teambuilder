@@ -15,7 +15,7 @@ function PostPokepaste() {
       <input type="hidden" name="notes" value={notes} />
       <button type="submit" className="rounded" title="Upload the current team to PokéPaste">
         <PaperAirplaneIcon className="mr-3 inline-block h-4 w-4 md:h-6 md:w-6" />
-        <span>PokéPaste 🔗</span>
+        <span>PokéPaste</span>
       </button>
     </form>
   );

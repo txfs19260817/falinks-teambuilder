@@ -20,7 +20,7 @@ import { toast, Toaster } from 'react-hot-toast';
 
 import { DexContext } from '@/components/workspace/Contexts/DexContext';
 import Table from '@/components/workspace/Table';
-import { Paste } from '@/models/Paste';
+import { Paste } from '@/components/workspace/types';
 import { Pokemon } from '@/models/Pokemon';
 import { Main } from '@/templates/Main';
 import { getPokemonIcon } from '@/utils/Helpers';
