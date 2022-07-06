@@ -10,11 +10,9 @@ import TabsSwitcher from '@/components/workspace/Tabs/TabsSwitcher';
 import Toolbox from '@/components/workspace/Toolbox';
 import { FocusedField, FocusedFieldAction, FocusedFieldToIdx, Metadata } from '@/components/workspace/types';
 import { Pokemon } from '@/models/Pokemon';
-import WebrtcProviders from '@/store/webrtcProviders';
+import WebsocketProviders from '@/providers/websocketProviders';
 
-export type WebRTCProviderProps = {
-  roomName: string;
-};
+const Providers = WebsocketProviders;
 
 const teamStore = syncedStore<StoreContextType>({
   metadata: {} as Metadata,
@@ -51,12 +49,11 @@ function reducer(state: FocusedFieldToIdx, action: FocusedFieldAction) {
   }
 }
 
-function Workspace({ roomName }: WebRTCProviderProps) {
+function Workspace({ roomName }: { roomName: string }) {
   // Initialize synced store
   const teamState = useSyncedStore(teamStore);
 
   // States
-  const [connected, setConnected] = useState(false);
   const [tabIdx, setTabIdx] = useState<number>(0);
   const [focusedFieldState, focusedFieldDispatch] = useReducer<Reducer<FocusedFieldToIdx, FocusedFieldAction>>(reducer, {
     Species: 0,
@@ -65,20 +62,14 @@ function Workspace({ roomName }: WebRTCProviderProps) {
   useEffect(() => {
     teamState.metadata.roomName = roomName;
     // Connect to the room via WebRTC
-    const webrtcProvider = WebrtcProviders.getOrCreateProvider(roomName, teamStore);
-    WebrtcProviders.connectByProvider(webrtcProvider);
-    setConnected(true);
+    const providerInstance = Providers.getOrCreateProvider(roomName, teamStore);
+    Providers.connectByProvider(providerInstance);
 
     // Disconnect on unmount
     return () => {
-      WebrtcProviders.disconnectByRoomName(roomName);
-      setConnected(false);
+      Providers.disconnectByRoomName(roomName);
     };
   }, []);
-
-  if (!connected) {
-    return <h1>Connecting...</h1>;
-  }
 
   return (
     <StoreContextProvider
@@ -103,7 +94,5 @@ function Workspace({ roomName }: WebRTCProviderProps) {
     </StoreContextProvider>
   );
 }
-
-Workspace.whyDidYouRender = false;
 
 export default Workspace;

@@ -1,0 +1,33 @@
+import { getYjsValue } from '@syncedstore/core';
+import { MappedTypeDescription } from '@syncedstore/core/types/doc';
+import { WebsocketProvider } from 'y-websocket';
+
+import { StoreContextType } from '@/components/workspace/Contexts/StoreContext';
+import { Providers } from '@/providers/index';
+
+const serverUrl = 'ws://falinks-teambuilder.herokuapp.com';
+
+let instance: WebsocketProviders;
+
+class WebsocketProviders extends Providers {
+  constructor() {
+    super();
+    if (instance) {
+      throw new Error('You can only create one instance!');
+    }
+
+    instance = this;
+  }
+
+  public getOrCreateProvider(roomName: string, store: MappedTypeDescription<StoreContextType>): WebsocketProvider {
+    if (!this.providers.has(roomName)) {
+      this.providers.set(roomName, new WebsocketProvider(serverUrl, roomName, getYjsValue(store) as any));
+    }
+
+    return this.providers.get(roomName)! as WebsocketProvider;
+  }
+}
+
+const singletonWebsocketProviders = Object.freeze(new WebsocketProviders());
+
+export default singletonWebsocketProviders;

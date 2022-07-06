@@ -3,18 +3,16 @@ import { MappedTypeDescription } from '@syncedstore/core/types/doc';
 import { WebrtcProvider } from 'y-webrtc';
 
 import { StoreContextType } from '@/components/workspace/Contexts/StoreContext';
+import { Providers } from '@/providers/index';
 
 let instance: WebrtcProviders;
 
-class WebrtcProviders {
-  private providers: Map<string, WebrtcProvider>;
-
+class WebrtcProviders extends Providers {
   constructor() {
+    super();
     if (instance) {
       throw new Error('You can only create one instance!');
     }
-
-    this.providers = new Map();
 
     instance = this;
   }
@@ -24,20 +22,7 @@ class WebrtcProviders {
       this.providers.set(roomName, new WebrtcProvider(roomName, getYjsValue(store) as any));
     }
 
-    return this.providers.get(roomName)!;
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  public connectByProvider(provider: WebrtcProvider): void {
-    provider.connect();
-  }
-
-  public disconnectByRoomName(roomName: string): void {
-    const provider = this.providers.get(roomName);
-    if (!provider) {
-      throw new Error(`No room '${roomName}' found, please create the WebrtcProvider first`);
-    }
-    provider.disconnect();
+    return this.providers.get(roomName)! as WebrtcProvider;
   }
 }
 
