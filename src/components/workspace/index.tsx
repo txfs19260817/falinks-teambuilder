@@ -2,6 +2,7 @@ import { syncedStore } from '@syncedstore/core';
 import { useSyncedStore } from '@syncedstore/react';
 import React, { Reducer, useEffect, useReducer, useState } from 'react';
 
+import { NoteEditor } from '@/components/editor';
 import { StoreContextProvider, StoreContextType } from '@/components/workspace/Contexts/StoreContext';
 import { Dialogs } from '@/components/workspace/Dialogs';
 import Overview, { OverviewTabBtn } from '@/components/workspace/Overview';
@@ -11,6 +12,7 @@ import Toolbox from '@/components/workspace/Toolbox';
 import { FocusedField, FocusedFieldAction, FocusedFieldToIdx, Metadata } from '@/components/workspace/types';
 import { Pokemon } from '@/models/Pokemon';
 import { getProvidersByProtocolName, SupportedProtocolProvider } from '@/providers';
+import { BaseProvider } from '@/providers/baseProviders';
 
 export type WorkspaceProps = {
   roomName: string;
@@ -57,6 +59,7 @@ function Workspace({ roomName, protocolName }: WorkspaceProps) {
   const teamState = useSyncedStore(teamStore);
 
   // States
+  const [providerInstance, setProviderInstance] = useState<BaseProvider | undefined>();
   const [tabIdx, setTabIdx] = useState<number>(0);
   const [focusedFieldState, focusedFieldDispatch] = useReducer<Reducer<FocusedFieldToIdx, FocusedFieldAction>>(reducer, {
     Species: 0,
@@ -66,8 +69,9 @@ function Workspace({ roomName, protocolName }: WorkspaceProps) {
     teamState.metadata.roomName = roomName;
     const providers = getProvidersByProtocolName(protocolName);
     // Connect to the room via WebRTC
-    const providerInstance = providers.getOrCreateProvider(roomName, teamStore);
-    providers.connectByProvider(providerInstance);
+    const pi = providers.getOrCreateProvider(roomName, teamStore);
+    setProviderInstance(pi);
+    providers.connectByProvider(pi);
 
     // Disconnect on unmount
     return () => {
@@ -91,7 +95,8 @@ function Workspace({ roomName, protocolName }: WorkspaceProps) {
       <TabsSwitcher>
         <OverviewTabBtn />
       </TabsSwitcher>
-      {/* <NoteEditor teamStore={teamStore} /> */}
+      {/* Text Editor */}
+      {providerInstance && <NoteEditor store={teamStore} provider={providerInstance} />}
       {/* Pokemon panel */}
       {tabIdx < 0 || tabIdx >= teamState.team.length ? <Overview /> : <PokemonPanel />}
       <Dialogs />

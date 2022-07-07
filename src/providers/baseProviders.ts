@@ -2,7 +2,7 @@ import { MappedTypeDescription } from '@syncedstore/core/types/doc';
 
 import { StoreContextType } from '@/components/workspace/Contexts/StoreContext';
 
-type BaseProvider = {
+export type BaseProvider = {
   connect: () => void;
   disconnect: () => void;
 };
