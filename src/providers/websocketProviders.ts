@@ -3,13 +3,13 @@ import { MappedTypeDescription } from '@syncedstore/core/types/doc';
 import { WebsocketProvider } from 'y-websocket';
 
 import { StoreContextType } from '@/components/workspace/Contexts/StoreContext';
-import { Providers } from '@/providers/index';
+import { Providers } from '@/providers/baseProviders';
 
 const serverUrl = 'wss://falinks-teambuilder.herokuapp.com';
 
 let instance: WebsocketProviders;
 
-class WebsocketProviders extends Providers {
+class WebsocketProviders extends Providers<WebsocketProvider> {
   constructor() {
     super();
     if (instance) {
@@ -24,10 +24,10 @@ class WebsocketProviders extends Providers {
       this.providers.set(roomName, new WebsocketProvider(serverUrl, roomName, getYjsValue(store) as any));
     }
 
-    return this.providers.get(roomName)! as WebsocketProvider;
+    return this.providers.get(roomName)!;
   }
 }
 
 const singletonWebsocketProviders = Object.freeze(new WebsocketProviders());
 
-export default singletonWebsocketProviders;
+export { singletonWebsocketProviders };

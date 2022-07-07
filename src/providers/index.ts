@@ -1,26 +1,16 @@
-import { MappedTypeDescription } from '@syncedstore/core/types/doc';
-import { WebrtcProvider } from 'y-webrtc';
-import { WebsocketProvider } from 'y-websocket';
+import { Providers } from '@/providers/baseProviders';
+import { singletonWebrtcProviders } from '@/providers/webrtcProviders';
+import { singletonWebsocketProviders } from '@/providers/websocketProviders';
 
-import { StoreContextType } from '@/components/workspace/Contexts/StoreContext';
+export const supportedProtocols = ['WebRTC', 'WebSocket'] as const;
 
-type SupportedProviders = WebsocketProvider | WebrtcProvider;
-
-export abstract class Providers {
-  protected providers: Map<string, SupportedProviders> = new Map();
-
-  public abstract getOrCreateProvider(roomName: string, store: MappedTypeDescription<StoreContextType>): SupportedProviders;
-
-  // eslint-disable-next-line class-methods-use-this
-  public connectByProvider(provider: SupportedProviders): void {
-    provider.connect();
+export type SupportedProtocolProvider = typeof supportedProtocols[number];
+export function getProvidersByProtocolName(protocolName: SupportedProtocolProvider): Readonly<Providers<any>> {
+  if (protocolName === 'WebRTC') {
+    return singletonWebrtcProviders;
   }
-
-  public disconnectByRoomName(roomName: string): void {
-    const provider = this.providers.get(roomName);
-    if (!provider) {
-      throw new Error(`No room '${roomName}' found, please create the WebsocketProvider first`);
-    }
-    provider.disconnect();
+  if (protocolName === 'WebSocket') {
+    return singletonWebsocketProviders;
   }
+  throw new Error(`Unknown protocol name: ${protocolName}`);
 }

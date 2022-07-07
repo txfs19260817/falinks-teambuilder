@@ -10,9 +10,12 @@ import TabsSwitcher from '@/components/workspace/Tabs/TabsSwitcher';
 import Toolbox from '@/components/workspace/Toolbox';
 import { FocusedField, FocusedFieldAction, FocusedFieldToIdx, Metadata } from '@/components/workspace/types';
 import { Pokemon } from '@/models/Pokemon';
-import WebsocketProviders from '@/providers/websocketProviders';
+import { getProvidersByProtocolName, SupportedProtocolProvider } from '@/providers';
 
-const Providers = WebsocketProviders;
+export type WorkspaceProps = {
+  roomName: string;
+  protocolName: SupportedProtocolProvider;
+};
 
 const teamStore = syncedStore<StoreContextType>({
   metadata: {} as Metadata,
@@ -49,7 +52,7 @@ function reducer(state: FocusedFieldToIdx, action: FocusedFieldAction) {
   }
 }
 
-function Workspace({ roomName }: { roomName: string }) {
+function Workspace({ roomName, protocolName }: WorkspaceProps) {
   // Initialize synced store
   const teamState = useSyncedStore(teamStore);
 
@@ -61,13 +64,14 @@ function Workspace({ roomName }: { roomName: string }) {
 
   useEffect(() => {
     teamState.metadata.roomName = roomName;
+    const providers = getProvidersByProtocolName(protocolName);
     // Connect to the room via WebRTC
-    const providerInstance = Providers.getOrCreateProvider(roomName, teamStore);
-    Providers.connectByProvider(providerInstance);
+    const providerInstance = providers.getOrCreateProvider(roomName, teamStore);
+    providers.connectByProvider(providerInstance);
 
     // Disconnect on unmount
     return () => {
-      Providers.disconnectByRoomName(roomName);
+      providers.disconnectByRoomName(roomName);
     };
   }, []);
 
