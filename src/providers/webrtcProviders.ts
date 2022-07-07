@@ -3,11 +3,11 @@ import { MappedTypeDescription } from '@syncedstore/core/types/doc';
 import { WebrtcProvider } from 'y-webrtc';
 
 import { StoreContextType } from '@/components/workspace/Contexts/StoreContext';
-import { Providers } from '@/providers/index';
+import { Providers } from '@/providers/baseProviders';
 
 let instance: WebrtcProviders;
 
-class WebrtcProviders extends Providers {
+class WebrtcProviders extends Providers<WebrtcProvider> {
   constructor() {
     super();
     if (instance) {
@@ -22,10 +22,10 @@ class WebrtcProviders extends Providers {
       this.providers.set(roomName, new WebrtcProvider(roomName, getYjsValue(store) as any));
     }
 
-    return this.providers.get(roomName)! as WebrtcProvider;
+    return this.providers.get(roomName)!;
   }
 }
 
 const singletonWebrtcProviders = Object.freeze(new WebrtcProviders());
 
-export default singletonWebrtcProviders;
+export { singletonWebrtcProviders };

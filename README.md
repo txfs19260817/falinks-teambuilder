@@ -8,7 +8,6 @@
 - [ ] About & Readme
 - [X] Suggested EVs spreads
 - [X] Single import/export
-- [ ] Team Gallery
+- [X] Team Gallery
 - [X] Usage sorting
-- [ ] Matrix CRDT protocol
 - [ ] I18n

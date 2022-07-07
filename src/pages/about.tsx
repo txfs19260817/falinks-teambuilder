@@ -16,14 +16,11 @@ const About = () => (
       <p>Known issues:</p>
       <ul>
         <li>
-          <b>Sometimes it does not work.</b>
-        </li>
-        <li>
-          No support for{' '}
+          If you select WebRTC provider, no support for{' '}
           <a href="https://github.com/yjs/y-webrtc/issues/19" target="_blank" rel="noopener noreferrer">
             Safari and Chrome browsers to work together
           </a>{' '}
-          on the same team.
+          on the same team. In this case, you can try WebSocket provider.
         </li>
         <li>Please do not use Back and Forward button to enter a room.</li>
       </ul>

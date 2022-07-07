@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { Toaster } from 'react-hot-toast';
 
+import { SupportedProtocolProvider, supportedProtocols } from '@/providers';
 import { Main } from '@/templates/Main';
 
 const Workspace = dynamic(() => import('@/components/workspace/index'), {
@@ -13,7 +14,11 @@ const Workspace = dynamic(() => import('@/components/workspace/index'), {
 const Room = () => {
   // Get the room name from the params
   const { isReady, query } = useRouter();
-  const roomName = (query.name as string) || 'Loading...';
+  const { name: roomName, protocol } = query as {
+    name: string;
+    protocol: SupportedProtocolProvider;
+  };
+  const protocolName = supportedProtocols.includes(protocol) ? protocol : 'WebSocket';
 
   // prompt the user if they try and leave with unsaved changes
   useEffect(() => {
@@ -30,7 +35,7 @@ const Room = () => {
   return (
     <Main title={`Room - ${roomName}`}>
       <Toaster />
-      {isReady ? <Workspace roomName={roomName} /> : <h1>Loading...</h1>}
+      {isReady && roomName ? <Workspace roomName={roomName} protocolName={protocolName} /> : <h1>Loading...</h1>}
     </Main>
   );
 };
