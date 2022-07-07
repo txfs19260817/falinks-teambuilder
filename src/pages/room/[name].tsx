@@ -35,7 +35,7 @@ const Room = () => {
   return (
     <Main title={`Room - ${roomName}`}>
       <Toaster />
-      {isReady && roomName ? <Workspace roomName={roomName} protocolName={protocolName} /> : <h1>Loading...</h1>}
+      {isReady ? <Workspace roomName={roomName} protocolName={protocolName} /> : <h1>Loading...</h1>}
     </Main>
   );
 };
