@@ -5,7 +5,6 @@ import { toast } from 'react-hot-toast';
 import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
 import SpriteAvatar from '@/components/workspace/SpriteAvatar/SpriteAvatar';
 import { Pokemon } from '@/models/Pokemon';
-import { removeEntriesByValue } from '@/utils/Helpers';
 
 export function OverviewTabBtn() {
   const { tabIdx, setTabIdx } = useContext(StoreContext);
@@ -24,6 +23,7 @@ function Overview() {
       <div className="grid grid-cols-3 grid-rows-2 gap-y-2 gap-x-2 bg-base-200 py-2 px-1">
         {[0, 1, 2, 3, 4, 5].map((i) => {
           const pm = teamState.team[i];
+          const pmPaste: string = pm ? Pokemon.exportSetToPaste(pm) : '';
 
           return (
             <div key={i} className="card bg-base-100 shadow-xl lg:card-side">
@@ -35,36 +35,12 @@ function Overview() {
                 </div>
               ) : (
                 <div className="card-body">
-                  <h2 className="card-title">
-                    {pm.species} @ {pm.item || 'No Item'}
-                  </h2>
-                  <ul className="text-sm">
-                    <li>Ability: {pm.ability || 'Unknown'}</li>
-                    <li>Level: {pm.level || 50}</li>
-                    <li>
-                      EVs:{' '}
-                      {Object.entries(removeEntriesByValue(pm.evs))
-                        .map((e) => e.join(':').toUpperCase())
-                        .join(' ') || 'No EVs'}
-                    </li>
-                    <li>
-                      IVs:{' '}
-                      {Object.entries(removeEntriesByValue(pm.ivs, 31))
-                        .map((e) => e.join(':').toUpperCase())
-                        .join(' ') || 'All 31'}
-                    </li>
-                    <li>{pm.nature || 'Hardy'} Nature</li>
-                  </ul>
-                  <ul className="list-inside list-disc text-sm">
-                    {pm.moves.map((m, j) => (
-                      <li key={i * 6 + j}>{m}</li>
-                    ))}
-                  </ul>
-                  <div className="card-actions justify-end">
+                  <pre className="whitespace-pre-wrap">{pmPaste}</pre>
+                  <div className="card-actions justify-self-end">
                     <button
                       className="btn btn-primary btn-sm"
                       onClick={() => {
-                        navigator.clipboard.writeText(Pokemon.exportSetToPaste(pm)).then(() => toast('📋 Copied!'));
+                        navigator.clipboard.writeText(pmPaste).then(() => toast('📋 Copied!'));
                       }}
                     >
                       <ClipboardCopyIcon className="h-4 w-4" />

@@ -64,10 +64,22 @@ export const getSingleEvUpperLimit = (evs: StatsTable, oldEv: number): number =>
   return Math.min(maxTotalEvs - Object.values(evs).reduce((x, y) => x + y) + oldEv, maxSingleEvs);
 };
 
-export const removeEntriesByValue = (item: object, value = 0) =>
-  Object.keys(item)
-    .filter((key) => item[key as keyof typeof item] !== value)
-    .reduce((newObj, key) => {
-      newObj[key as keyof typeof newObj] = item[key as keyof typeof item];
-      return newObj;
-    }, {});
+// https://stackoverflow.com/a/35970186
+export function invertColor(hex: string): string {
+  if (hex.indexOf('#') === 0) {
+    hex = hex.slice(1);
+  }
+  // convert 3-digit hex to 6-digits.
+  if (hex.length === 3) {
+    // @ts-ignore
+    hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
+  }
+  if (hex.length !== 6) {
+    return '#000000';
+  }
+  const r = parseInt(hex.slice(0, 2), 16);
+  const g = parseInt(hex.slice(2, 4), 16);
+  const b = parseInt(hex.slice(4, 6), 16);
+  // https://stackoverflow.com/a/3943023/112731
+  return r * 0.299 + g * 0.587 + b * 0.114 > 186 ? '#000000' : '#FFFFFF';
+}

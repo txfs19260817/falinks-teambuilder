@@ -6,16 +6,103 @@ import { BubbleMenu, EditorContent, FloatingMenu, useEditor } from '@tiptap/reac
 import StarterKit from '@tiptap/starter-kit';
 
 import { BaseProvider } from '@/providers/baseProviders';
+import { invertColor } from '@/utils/Helpers';
 
 type EditorProps = {
   store: MappedTypeDescription<any>;
   provider: BaseProvider;
 };
 
-const colors = ['#958DF1', '#F98181', '#FBBC88', '#FAF594', '#70CFF8', '#94FADB', '#B9F18D', '#4C8BF5'];
-const names = ['Cristiano Ronaldo', 'Zhuge Liang', 'Murasaki Shikibu', 'Alan Turing', 'Albert Einstein', 'Frédéric Chopin', 'Vincent Van Gogh', 'Keanu Reeves'];
+const names = [
+  'alligator',
+  'anteater',
+  'armadillo',
+  'auroch',
+  'axolotl',
+  'badger',
+  'bat',
+  'bear',
+  'beaver',
+  'blobfish',
+  'buffalo',
+  'camel',
+  'chameleon',
+  'cheetah',
+  'chipmunk',
+  'chinchilla',
+  'chupacabra',
+  'cormorant',
+  'coyote',
+  'crow',
+  'dingo',
+  'dinosaur',
+  'dog',
+  'dolphin',
+  'dragon',
+  'duck',
+  'dumbo octopus',
+  'elephant',
+  'ferret',
+  'fox',
+  'frog',
+  'giraffe',
+  'goose',
+  'gopher',
+  'grizzly',
+  'hamster',
+  'hedgehog',
+  'hippo',
+  'hyena',
+  'jackal',
+  'jackalope',
+  'ibex',
+  'ifrit',
+  'iguana',
+  'kangaroo',
+  'kiwi',
+  'koala',
+  'kraken',
+  'lemur',
+  'leopard',
+  'liger',
+  'lion',
+  'llama',
+  'manatee',
+  'mink',
+  'monkey',
+  'moose',
+  'narwhal',
+  'nyan cat',
+  'orangutan',
+  'otter',
+  'panda',
+  'penguin',
+  'platypus',
+  'python',
+  'pumpkin',
+  'quagga',
+  'quokka',
+  'rabbit',
+  'raccoon',
+  'rhino',
+  'sheep',
+  'shrew',
+  'skunk',
+  'slow loris',
+  'squirrel',
+  'tiger',
+  'turtle',
+  'unicorn',
+  'walrus',
+  'wolf',
+  'wolverine',
+  'wombat',
+];
 const getRandomElement = (list: string[]) => list[Math.floor(Math.random() * list.length)];
-const getRandomColor = () => getRandomElement(colors);
+const getRandomColor = () =>
+  `#${Math.floor(Math.random() * 0x1000000)
+    .toString(16)
+    .padStart(6, '0')}`;
 const getRandomName = () => getRandomElement(names);
 
 export const NoteEditor = ({ store, provider }: EditorProps) => {
@@ -35,7 +122,23 @@ export const NoteEditor = ({ store, provider }: EditorProps) => {
       }),
       CollaborationCursor.configure({
         provider,
-        user: { name: getRandomName(), color: getRandomColor() },
+        user: { name: `Anonymous ${getRandomName()}`, color: getRandomColor() },
+        render: (user) => {
+          const cursor = document.createElement('span');
+
+          cursor.classList.add('collaboration-cursor__caret');
+          cursor.setAttribute('style', `border-color: ${user.color}`);
+
+          const label = document.createElement('div');
+
+          label.classList.add('collaboration-cursor__label');
+          label.style.color = invertColor(user.color);
+          label.style.backgroundColor = user.color;
+          label.insertBefore(document.createTextNode(user.name), null);
+          cursor.insertBefore(label, null);
+
+          return cursor;
+        },
       }),
     ],
   });
@@ -92,7 +195,7 @@ export const NoteEditor = ({ store, provider }: EditorProps) => {
 
       <div className="collapse collapse-arrow">
         <input type="checkbox" defaultChecked={true} />
-        <div className="collapse-title rounded bg-base-100 text-sm font-bold">Notes</div>
+        <div className="collapse-title rounded bg-base-100 text-sm font-bold">Notes (Click to hide)</div>
         <div className="collapse-content">
           <EditorContent editor={editor} />
         </div>

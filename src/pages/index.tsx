@@ -45,7 +45,7 @@ const Index = () => {
                     className="tooltip tooltip-info flex"
                     data-tip={`${protocol} Communication Protocol. Try another if one is not working.`}
                   >
-                    <label className="badge badge-accent flex items-center" htmlFor={protocol}>
+                    <label className="badge-accent badge flex items-center" htmlFor={protocol}>
                       {protocol}
                     </label>
                     <input {...register('protocolName')} className="radio-accent radio" type="radio" id={protocol} key={protocol} value={protocol} />
