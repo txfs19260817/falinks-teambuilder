@@ -37,7 +37,7 @@ function MovesTable({ moveIdx }: { moveIdx: number }) {
         header: 'Type',
         accessorKey: 'type',
         cell: (info) => {
-          const type: string = info.getValue();
+          const type: string = info.getValue<string>();
           return <Image className="inline-block" width={32} height={14} key={type} alt={type} title={type} src={Icons.getType(type).url} loading="lazy" />;
         },
       },
@@ -45,7 +45,7 @@ function MovesTable({ moveIdx }: { moveIdx: number }) {
         header: 'Category',
         accessorKey: 'category',
         cell: (info) => {
-          const category = info.getValue();
+          const category = info.getValue<string>();
           return (
             <Image
               className="inline-block"
@@ -64,7 +64,7 @@ function MovesTable({ moveIdx }: { moveIdx: number }) {
         header: 'Power',
         accessorKey: 'basePower',
         cell: (info) => {
-          const power = info.getValue();
+          const power = info.getValue<number>();
           return <span>{power === 0 ? '-' : power}</span>;
         },
         enableColumnFilter: false,
@@ -74,7 +74,7 @@ function MovesTable({ moveIdx }: { moveIdx: number }) {
         header: 'Accuracy',
         accessorKey: 'accuracy',
         cell: (info) => {
-          const accuracy = info.getValue();
+          const accuracy = info.getValue<number | true>();
           return <span>{accuracy === true ? '-' : accuracy}</span>;
         },
         enableColumnFilter: false,

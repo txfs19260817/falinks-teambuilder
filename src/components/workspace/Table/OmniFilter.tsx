@@ -78,7 +78,7 @@ function OmniFilter({ column, instance }: { column: Column<any>; instance: Table
       new Set(
         instance
           .getPreFilteredRowModel()
-          .flatRows.map((row) => row.getValue(column.id))
+          .flatRows.map((row) => row.getValue<Pokemon[]>(column.id))
           .flat()
           .map((p: Pokemon) => p.species)
       )

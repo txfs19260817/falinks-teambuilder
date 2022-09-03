@@ -36,17 +36,17 @@ const Pastes = ({ pastes }: InferGetStaticPropsType<typeof getStaticProps>) => {
     {
       header: 'Title',
       accessorKey: 'title',
-      cell: ({ getValue }) => <span title={getValue()}>{`${getValue().substring(0, 32)}`}</span>,
+      cell: ({ getValue }) => <span title={getValue<string>()}>{`${getValue<string>().substring(0, 32)}`}</span>,
     },
     {
       header: 'Author',
       accessorKey: 'author',
-      cell: ({ getValue }) => <span title={getValue()}>{`${getValue().substring(0, 16)}`}</span>,
+      cell: ({ getValue }) => <span title={getValue<string>()}>{`${getValue<string>().substring(0, 16)}`}</span>,
     },
     {
       header: 'Notes',
       accessorKey: 'notes',
-      cell: ({ getValue }) => <span title={getValue()}>{`${getValue().substring(0, 20)}`}</span>,
+      cell: ({ getValue }) => <span title={getValue<string>()}>{`${getValue<string>().substring(0, 20)}`}</span>,
       enableColumnFilter: false,
       enableGlobalFilter: false,
       enableSorting: false,
@@ -57,7 +57,7 @@ const Pastes = ({ pastes }: InferGetStaticPropsType<typeof getStaticProps>) => {
       accessorKey: 'team',
       cell: ({ getValue }) => (
         <span>
-          {getValue().map((p: Pokemon) => (
+          {getValue<Pokemon[]>().map((p: Pokemon) => (
             <span key={p.species} title={p.species} style={getPokemonIcon(undefined, p.species, true)}></span>
           ))}
         </span>
@@ -66,7 +66,7 @@ const Pastes = ({ pastes }: InferGetStaticPropsType<typeof getStaticProps>) => {
         return !filterValue.some(
           (val: string) =>
             !row
-              .getValue(columnId)
+              .getValue<Pokemon[]>(columnId)
               .map((p: Pokemon) => p.species)
               .includes(val)
         );
@@ -87,7 +87,7 @@ const Pastes = ({ pastes }: InferGetStaticPropsType<typeof getStaticProps>) => {
           <button
             className="btn btn-primary btn-xs"
             onClick={() => {
-              navigator.clipboard.writeText(Pokemon.convertTeamToPaste(getValue())).then(() => toast('📋 Copied!'));
+              navigator.clipboard.writeText(Pokemon.convertTeamToPaste(getValue<Pokemon[]>())).then(() => toast('📋 Copied!'));
             }}
           >
             <ClipboardCopyIcon className="h-4 w-4" />
@@ -104,7 +104,7 @@ const Pastes = ({ pastes }: InferGetStaticPropsType<typeof getStaticProps>) => {
           className="btn btn-secondary btn-xs"
           onClick={(e) => {
             e.preventDefault();
-            router.push(`/pastes/${getValue()}`);
+            router.push(`/pastes/${getValue<string>()}`);
           }}
         >
           Details

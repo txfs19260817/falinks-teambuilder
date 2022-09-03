@@ -35,8 +35,8 @@ function ItemsTable() {
         accessorKey: 'name',
         cell: ({ getValue }) => (
           <span>
-            <span style={convertStylesStringToObject(Icons.getItem(getValue()).style)}></span>
-            {getValue()}
+            <span style={convertStylesStringToObject(Icons.getItem(getValue<string>()).style)}></span>
+            {getValue<string>()}
           </span>
         ),
       },

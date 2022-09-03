@@ -1,5 +1,6 @@
 import { Specie } from '@pkmn/data';
 import { Icons } from '@pkmn/img';
+import { StatsTable } from '@pkmn/types';
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -36,8 +37,8 @@ function SpeciesTable() {
         accessorKey: 'name',
         cell: ({ getValue }) => (
           <span>
-            <span style={getPokemonIcon(undefined, getValue(), true)}></span>
-            {getValue()}
+            <span style={getPokemonIcon(undefined, getValue<string>(), true)}></span>
+            {getValue<string>()}
           </span>
         ),
       },
@@ -46,7 +47,7 @@ function SpeciesTable() {
         accessorKey: 'types',
         cell: (info) => (
           <span>
-            {info.getValue().map((type: string) => (
+            {info.getValue<string[]>().map((type) => (
               <Image className="inline-block" width={32} height={14} key={type} alt={type} title={type} src={Icons.getType(type).url} loading="lazy" />
             ))}
           </span>
@@ -57,10 +58,10 @@ function SpeciesTable() {
       {
         header: 'Abilities',
         accessorKey: 'abilities',
-        cell: (info) => Object.values(info.getValue()).join('/'),
+        cell: (info) => Object.values(info.getValue<object>()).join('/'),
         enableSorting: false,
         filterFn: (row, columnId, filterValue) => {
-          return Object.values(row.getValue(columnId)).join(' ').toLowerCase().includes(filterValue.toLowerCase());
+          return Object.values(row.getValue<object>(columnId)).join(' ').toLowerCase().includes(filterValue.toLowerCase());
         },
       },
       {
@@ -110,7 +111,7 @@ function SpeciesTable() {
         header: 'Total',
         accessorFn: (row) => row.baseStats,
         cell: (info) => {
-          return Object.values<number>(info.getValue()).reduce((acc, curr) => acc + curr, 0);
+          return Object.values<number>(info.getValue<StatsTable>()).reduce((acc, curr) => acc + curr, 0);
         },
         enableColumnFilter: false,
         enableGlobalFilter: false,
