@@ -4,6 +4,8 @@ import { toast } from 'react-hot-toast';
 
 import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
 import { Pokemon } from '@/models/Pokemon';
+import { PokePaste } from '@/models/PokePaste';
+import { validPokePasteURL } from '@/utils/Helpers';
 
 const exampleText = `Dog (Zacian-Crowned) @ Rusted Sword  
 Ability: Intrepid Sword  
@@ -90,6 +92,21 @@ export function ImportShowdownDialog() {
     if (importTextareaRef.current) {
       importTextareaRef.current.value = '';
     }
+    // check if it's a PokePaste link
+    if (validPokePasteURL(text)) {
+      fetch(`${text}/json`)
+        .then((res) => res.json())
+        .then((data) => {
+          const newTeam = new PokePaste(data).extractPokemonFromPaste();
+          if (!newTeam) {
+            toast.error('Invalid team paste fetched from PokePaste');
+            return;
+          }
+          teamState.team.splice(0, teamState.team.length, ...newTeam);
+        });
+      return;
+    }
+    // check if it's a single set
     if (single) {
       if (teamState.team.length === 0) {
         toast.error('No Pokémon in team');
@@ -102,6 +119,7 @@ export function ImportShowdownDialog() {
       }
       teamState.team.splice(tabIdx, 1, newMon);
     } else {
+      // it's a team paste
       const newTeam = Pokemon.convertPasteToTeam(text);
       if (!newTeam) {
         toast.error('Invalid team paste');
@@ -115,7 +133,7 @@ export function ImportShowdownDialog() {
       <input type="checkbox" id="import-ps-modal" className="modal-toggle" />
       <div className="modal modal-bottom sm:modal-middle">
         <div className="modal-box">
-          <h3 className="font-bold md:text-lg">Please leave your Showdown paste here ↓</h3>
+          <h3 className="font-bold md:text-lg">Please leave your Showdown paste (or PokePaste link) here ↓</h3>
           <textarea className="textarea-secondary textarea w-full" ref={importTextareaRef}></textarea>
           {tabIdx >= 0 && tabIdx < teamState.team.length && (
             <label className="label cursor-pointer">

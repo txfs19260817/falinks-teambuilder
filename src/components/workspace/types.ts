@@ -2,6 +2,7 @@ import { StatsTable } from '@pkmn/types';
 import { ObjectId } from 'mongodb';
 
 import { Pokemon } from '@/models/Pokemon';
+import { PokePaste } from '@/models/PokePaste';
 
 export type Metadata = {
   title: string;
@@ -72,11 +73,7 @@ export interface Usage {
   id?: number;
 }
 
-export interface Paste {
+export interface Paste extends PokePaste {
   _id: ObjectId;
-  author: string;
-  notes: string;
-  paste: string;
-  title: string;
   team: Pokemon[];
 }

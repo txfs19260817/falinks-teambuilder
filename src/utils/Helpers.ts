@@ -83,3 +83,18 @@ export function invertColor(hex: string): string {
   // https://stackoverflow.com/a/3943023/112731
   return r * 0.299 + g * 0.587 + b * 0.114 > 186 ? '#000000' : '#FFFFFF';
 }
+
+// https://stackoverflow.com/a/5717133
+const urlPattern = new RegExp(
+  '^(https?:\\/\\/)?' +
+    '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' +
+    '((\\d{1,3}\\.){3}\\d{1,3}))' +
+    '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' +
+    '(\\?[;&a-z\\d%_.~+=-]*)?' +
+    '(\\#[-a-z\\d_]*)?$',
+  'i'
+);
+
+export function validPokePasteURL(str: string) {
+  return urlPattern.test(str) && str.includes('pokepast.es');
+}

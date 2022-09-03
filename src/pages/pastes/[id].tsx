@@ -5,12 +5,9 @@ import { Main } from '@/templates/Main';
 import clientPromise from '@/utils/MongoDB';
 
 export default function PasteId({ paste }: { paste: Paste }) {
-  if (!paste) {
-    return <div>Loading...</div>;
-  }
-
   return (
     <Main title={'Paste'}>
+      {/* WIP Alert */}
       <div className="alert alert-info shadow-lg">
         <div>
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="h-6 w-6 flex-shrink-0 stroke-current">
@@ -19,7 +16,7 @@ export default function PasteId({ paste }: { paste: Paste }) {
           <span>WIP</span>
         </div>
       </div>
-      {JSON.stringify(paste, null, '\t')}
+      <pre>{paste.paste}</pre>
     </Main>
   );
 }
