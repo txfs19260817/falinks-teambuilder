@@ -6,7 +6,9 @@
 > Use Falinks Teambuilder to create, and collaborate on Pokémon teams.
 > Build together with real-time sharing and from any device.
 
-![Falinks Teambuilder](public/assets/images/hero.png?raw=true)
+## Usage
+
+![Usage](usage.gif?raw=true)
 
 ## Development
 
