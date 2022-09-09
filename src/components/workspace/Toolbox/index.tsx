@@ -5,6 +5,7 @@ import React from 'react';
 import CopyLink from '@/components/workspace/Toolbox/Copylink';
 import ExportShowdown from '@/components/workspace/Toolbox/ExportShowdown';
 import ImportShowdown from '@/components/workspace/Toolbox/ImportShowdown';
+import NotesToggler from '@/components/workspace/Toolbox/Notes';
 import PostPokepaste from '@/components/workspace/Toolbox/PostPokepaste';
 import { AppConfig } from '@/utils/AppConfig';
 
@@ -15,6 +16,9 @@ const Toolbox = () => {
         <ul className="menu menu-horizontal p-0">
           <li>
             <CopyLink />
+          </li>
+          <li>
+            <NotesToggler />
           </li>
           <li>
             <ImportShowdown />

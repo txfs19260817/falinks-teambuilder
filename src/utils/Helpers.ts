@@ -3,11 +3,21 @@ import { Icons } from '@pkmn/img';
 import { StatsTable } from '@pkmn/types';
 import { CSSProperties } from 'react';
 
+import { trainerNames } from '@/utils/AppConfig';
+
 const maxTotalEvs = 508;
 
 const maxSingleEvs = 252;
 
 export const S4 = (): string => (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1); // eslint-disable-line no-bitwise
+
+export const removeItem = <T>(arr: Array<T>, value: T): Array<T> => {
+  const index = arr.indexOf(value);
+  if (index > -1) {
+    arr.splice(index, 1);
+  }
+  return arr;
+};
 
 // https://gist.github.com/goldhand/70de06a3bdbdb51565878ad1ee37e92b?permalink_comment_id=3621492#gistcomment-3621492
 export const convertStylesStringToObject = (stringStyles: string) =>
@@ -64,6 +74,11 @@ export const getSingleEvUpperLimit = (evs: StatsTable, oldEv: number): number =>
   return Math.min(maxTotalEvs - Object.values(evs).reduce((x, y) => x + y) + oldEv, maxSingleEvs);
 };
 
+export const getRandomColor = () =>
+  `#${Math.floor(Math.random() * 0x1000000)
+    .toString(16)
+    .padStart(6, '0')}`;
+
 // https://stackoverflow.com/a/35970186
 export function invertColor(hex: string): string {
   if (hex.indexOf('#') === 0) {
@@ -98,3 +113,7 @@ const urlPattern = new RegExp(
 export function validPokePasteURL(str: string) {
   return urlPattern.test(str) && str.includes('pokepast.es');
 }
+
+export const getRandomElement = (list: string[]) => list[Math.floor(Math.random() * list.length)];
+
+export const getRandomTrainerName = () => getRandomElement(trainerNames) || 'Trainer';

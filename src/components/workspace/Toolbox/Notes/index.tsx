@@ -1,116 +1,31 @@
+import { DocumentDownloadIcon } from '@heroicons/react/solid';
 import { MappedTypeDescription } from '@syncedstore/core/types/doc';
 import Collaboration from '@tiptap/extension-collaboration';
 import CollaborationCursor from '@tiptap/extension-collaboration-cursor';
 import { Placeholder } from '@tiptap/extension-placeholder';
 import { BubbleMenu, EditorContent, FloatingMenu, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
+import { useContext } from 'react';
 
-import { BaseProvider } from '@/providers/baseProviders';
+import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
+import { Client } from '@/models/Client';
 import { invertColor } from '@/utils/Helpers';
 
 type EditorProps = {
   store: MappedTypeDescription<any>;
-  provider: BaseProvider;
+  client: Client;
 };
 
-const names = [
-  'alligator',
-  'anteater',
-  'armadillo',
-  'auroch',
-  'axolotl',
-  'badger',
-  'bat',
-  'bear',
-  'beaver',
-  'blobfish',
-  'buffalo',
-  'camel',
-  'chameleon',
-  'cheetah',
-  'chipmunk',
-  'chinchilla',
-  'chupacabra',
-  'cormorant',
-  'coyote',
-  'crow',
-  'dingo',
-  'dinosaur',
-  'dog',
-  'dolphin',
-  'dragon',
-  'duck',
-  'dumbo octopus',
-  'elephant',
-  'ferret',
-  'fox',
-  'frog',
-  'giraffe',
-  'goose',
-  'gopher',
-  'grizzly',
-  'hamster',
-  'hedgehog',
-  'hippo',
-  'hyena',
-  'jackal',
-  'jackalope',
-  'ibex',
-  'ifrit',
-  'iguana',
-  'kangaroo',
-  'kiwi',
-  'koala',
-  'kraken',
-  'lemur',
-  'leopard',
-  'liger',
-  'lion',
-  'llama',
-  'manatee',
-  'mink',
-  'monkey',
-  'moose',
-  'narwhal',
-  'nyan cat',
-  'orangutan',
-  'otter',
-  'panda',
-  'penguin',
-  'platypus',
-  'python',
-  'pumpkin',
-  'quagga',
-  'quokka',
-  'rabbit',
-  'raccoon',
-  'rhino',
-  'sheep',
-  'shrew',
-  'skunk',
-  'slow loris',
-  'squirrel',
-  'tiger',
-  'turtle',
-  'unicorn',
-  'walrus',
-  'wolf',
-  'wolverine',
-  'wombat',
-];
-const getRandomElement = (list: string[]) => list[Math.floor(Math.random() * list.length)];
-const getRandomColor = () =>
-  `#${Math.floor(Math.random() * 0x1000000)
-    .toString(16)
-    .padStart(6, '0')}`;
-const getRandomName = () => getRandomElement(names);
-
-export const NoteEditor = ({ store, provider }: EditorProps) => {
+export function NotesDialog({ store, client }: EditorProps) {
+  const { teamState } = useContext(StoreContext);
   const editor = useEditor({
     editorProps: {
       attributes: {
         class: 'textarea textarea-accent border-2 focus:outline-none prose max-w-full',
       },
+    },
+    onUpdate: (props) => {
+      teamState.metadata.notes = props.editor.getText();
     },
     extensions: [
       StarterKit,
@@ -121,8 +36,8 @@ export const NoteEditor = ({ store, provider }: EditorProps) => {
         fragment: store.notes,
       }),
       CollaborationCursor.configure({
-        provider,
-        user: { name: `Anonymous ${getRandomName()}`, color: getRandomColor() },
+        provider: client.provider,
+        user: client.clientInfo.user,
         render: (user) => {
           const cursor = document.createElement('span');
 
@@ -193,13 +108,29 @@ export const NoteEditor = ({ store, provider }: EditorProps) => {
         </button>
       </BubbleMenu>
 
-      <div className="collapse collapse-arrow">
-        <input type="checkbox" defaultChecked={true} />
-        <div className="collapse-title rounded bg-base-100 text-sm font-bold">Notes (Click to hide)</div>
-        <div className="collapse-content">
+      <input type="checkbox" id="notes-modal" className="modal-toggle" />
+      <div className="modal modal-bottom">
+        <div className="modal-box">
+          <h3 className="text-lg font-bold">Exported Showdown paste here ↓</h3>
           <EditorContent editor={editor} />
+          <div className="modal-action">
+            <label htmlFor="notes-modal" className="btn btn-sm">
+              Hide
+            </label>
+          </div>
         </div>
       </div>
     </>
   );
-};
+}
+
+function NotesToggler() {
+  return (
+    <label htmlFor="notes-modal" className="modal-button rounded" title="Export this team to Showdown paste">
+      <DocumentDownloadIcon className="h-4 w-4 md:h-6 md:w-6" />
+      <span>Notes</span>
+    </label>
+  );
+}
+
+export default NotesToggler;

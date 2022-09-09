@@ -6,8 +6,8 @@ import { PokePaste } from '@/models/PokePaste';
 
 export type Metadata = {
   title: string;
-  author: string;
   notes: string;
+  authors: string[];
   roomName: string;
 };
 

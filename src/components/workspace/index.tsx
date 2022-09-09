@@ -2,21 +2,24 @@ import { syncedStore } from '@syncedstore/core';
 import { useSyncedStore } from '@syncedstore/react';
 import React, { Reducer, useEffect, useReducer, useState } from 'react';
 
-import { NoteEditor } from '@/components/editor';
 import { StoreContextProvider, StoreContextType } from '@/components/workspace/Contexts/StoreContext';
-import { Dialogs } from '@/components/workspace/Dialogs';
 import Overview, { OverviewTabBtn } from '@/components/workspace/Overview';
 import { PokemonPanel } from '@/components/workspace/PokemonPanel';
 import TabsSwitcher from '@/components/workspace/Tabs/TabsSwitcher';
 import Toolbox from '@/components/workspace/Toolbox';
+import { ExportShowdownDialog } from '@/components/workspace/Toolbox/ExportShowdown';
+import { ImportShowdownDialog } from '@/components/workspace/Toolbox/ImportShowdown';
+import { NotesDialog } from '@/components/workspace/Toolbox/Notes';
+import { PostPokepasteDialog } from '@/components/workspace/Toolbox/PostPokepaste';
 import { FocusedField, FocusedFieldAction, FocusedFieldToIdx, Metadata } from '@/components/workspace/types';
+import { Client, ClientInfo } from '@/models/Client';
 import { Pokemon } from '@/models/Pokemon';
 import { getProvidersByProtocolName, SupportedProtocolProvider } from '@/providers';
 import { BaseProvider } from '@/providers/baseProviders';
 
 export type WorkspaceProps = {
-  roomName: string;
   protocolName: SupportedProtocolProvider;
+  roomName: string;
 };
 
 const teamStore = syncedStore<StoreContextType>({
@@ -55,23 +58,32 @@ function reducer(state: FocusedFieldToIdx, action: FocusedFieldAction) {
 }
 
 function Workspace({ roomName, protocolName }: WorkspaceProps) {
-  // Initialize synced store
-  const teamState = useSyncedStore(teamStore);
-
   // States
-  const [providerInstance, setProviderInstance] = useState<BaseProvider | undefined>();
+  const [client, setClient] = useState<Client | undefined>();
   const [tabIdx, setTabIdx] = useState<number>(0);
   const [focusedFieldState, focusedFieldDispatch] = useReducer<Reducer<FocusedFieldToIdx, FocusedFieldAction>>(reducer, {
     Species: 0,
   });
 
-  useEffect(() => {
+  // Initialize synced store
+  const teamState = useSyncedStore(teamStore);
+  if (teamState.metadata.roomName !== roomName) {
     teamState.metadata.roomName = roomName;
+    teamState.metadata.title = roomName;
+  }
+
+  useEffect(() => {
+    // set up provider
     const providers = getProvidersByProtocolName(protocolName);
-    // Connect to the room via WebRTC
-    const pi = providers.getOrCreateProvider(roomName, teamStore);
-    setProviderInstance(pi);
-    providers.connectByProvider(pi);
+    const providerInstance: BaseProvider = providers.getOrCreateProvider(roomName, teamStore);
+    providerInstance.connect();
+    // create client
+    const clientInstance = new Client(providerInstance, localStorage.getItem('username') || undefined);
+    setClient(clientInstance);
+    providerInstance.awareness.on('change', (_: any, origin: BaseProvider) => {
+      if (origin && origin.awareness)
+        teamState.metadata.authors = Array.from(origin.awareness.getStates().values() as Iterable<ClientInfo>).map((c) => c.user.name);
+    });
 
     // Disconnect on unmount
     return () => {
@@ -95,11 +107,13 @@ function Workspace({ roomName, protocolName }: WorkspaceProps) {
       <TabsSwitcher>
         <OverviewTabBtn />
       </TabsSwitcher>
-      {/* Text Editor */}
-      {providerInstance && <NoteEditor store={teamStore} provider={providerInstance} />}
       {/* Pokemon panel */}
       {tabIdx < 0 || tabIdx >= teamState.team.length ? <Overview /> : <PokemonPanel />}
-      <Dialogs />
+      {/* Dialogs */}
+      <ImportShowdownDialog />
+      <ExportShowdownDialog />
+      <PostPokepasteDialog />
+      {client && <NotesDialog store={teamStore} client={client} />}
     </StoreContextProvider>
   );
 }

@@ -4,17 +4,23 @@ import { WorkspaceProps } from '@/components/workspace';
 import { supportedProtocols } from '@/providers';
 import { Main } from '@/templates/Main';
 import { AppConfig } from '@/utils/AppConfig';
-import { S4 } from '@/utils/Helpers';
+import { getRandomTrainerName, S4 } from '@/utils/Helpers';
+
+type RoomForm = WorkspaceProps & {
+  userName: string;
+};
 
 const Index = () => {
-  const { register, handleSubmit } = useForm<WorkspaceProps>({
+  const { register, handleSubmit, setValue } = useForm<RoomForm>({
     defaultValues: {
       roomName: `room_name_${S4()}`,
       protocolName: 'WebSocket',
     },
   });
 
-  const gotoRoom = ({ roomName, protocolName }: WorkspaceProps) => {
+  const gotoRoom = ({ roomName, protocolName, userName }: RoomForm) => {
+    localStorage.setItem('username', userName);
+    // use window.open instead of next/router to disable go back
     window.open(`/room/${encodeURIComponent(roomName)}?protocol=${encodeURIComponent(protocolName)}`, '_self');
   };
 
@@ -52,7 +58,27 @@ const Index = () => {
                   </div>
                 ))}
               </div>
-              <div className="form-control tooltip tooltip-bottom tooltip-info flex-row" data-tip="Give your room a name and click to create/join">
+              <div className="form-control tooltip tooltip-bottom tooltip-info flex-row" data-tip="Will be used in authors field">
+                <input
+                  type="text"
+                  placeholder="Author Name"
+                  required={true}
+                  maxLength={50}
+                  className="input-bordered input rounded-r-none text-base-content"
+                  {...register('userName', { required: true })}
+                />
+                <button
+                  className="btn rounded-l-none"
+                  role="button"
+                  type="button"
+                  onClick={() => {
+                    setValue('userName', getRandomTrainerName());
+                  }}
+                >
+                  Draw a name
+                </button>
+              </div>
+              <div className="form-control tooltip tooltip-bottom tooltip-info flex-row" data-tip="Give the room a name to create/join">
                 <input
                   type="text"
                   placeholder="Room name here"
@@ -61,8 +87,8 @@ const Index = () => {
                   className="input-bordered input rounded-r-none text-base-content"
                   {...register('roomName', { required: true })}
                 />
-                <button className="btn btn-primary rounded-l-none" role="button">
-                  Create/Join
+                <button className="btn btn-primary rounded-l-none" role="button" type="submit">
+                  Create / Join
                 </button>
               </div>
             </form>
