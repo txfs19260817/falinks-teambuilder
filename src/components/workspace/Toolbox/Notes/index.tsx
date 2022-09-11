@@ -21,7 +21,7 @@ export function NotesDialog({ store, client }: EditorProps) {
   const editor = useEditor({
     editorProps: {
       attributes: {
-        class: 'textarea textarea-accent border-2 focus:outline-none prose max-w-full',
+        class: 'textarea textarea-accent border-2 focus:outline-none prose max-w-full h-96',
       },
     },
     onUpdate: (props) => {
@@ -111,7 +111,7 @@ export function NotesDialog({ store, client }: EditorProps) {
       <input type="checkbox" id="notes-modal" className="modal-toggle" />
       <div className="modal modal-bottom">
         <div className="modal-box">
-          <h3 className="text-lg font-bold">Exported Showdown paste here ↓</h3>
+          <h3 className="text-lg font-bold">Notes</h3>
           <EditorContent editor={editor} />
           <div className="modal-action">
             <label htmlFor="notes-modal" className="btn btn-sm">

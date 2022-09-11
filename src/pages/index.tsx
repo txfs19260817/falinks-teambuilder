@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { WorkspaceProps } from '@/components/workspace';
@@ -13,7 +14,7 @@ type RoomForm = WorkspaceProps & {
 const Index = () => {
   const { register, handleSubmit, setValue } = useForm<RoomForm>({
     defaultValues: {
-      roomName: `room_name_${S4()}`,
+      roomName: `room_name_${S4()}${S4()}`,
       protocolName: 'WebSocket',
     },
   });
@@ -23,6 +24,10 @@ const Index = () => {
     // use window.open instead of next/router to disable go back
     window.open(`/room/${encodeURIComponent(roomName)}?protocol=${encodeURIComponent(protocolName)}`, '_self');
   };
+
+  useEffect(() => {
+    setValue('userName', localStorage.getItem('username') || '');
+  }, []);
 
   return (
     <Main title={'Home'}>
