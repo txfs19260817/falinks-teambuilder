@@ -1,6 +1,7 @@
 import { syncedStore } from '@syncedstore/core';
 import { useSyncedStore } from '@syncedstore/react';
 import React, { Reducer, useEffect, useReducer, useState } from 'react';
+import { toast } from 'react-hot-toast';
 
 import { StoreContextProvider, StoreContextType } from '@/components/workspace/Contexts/StoreContext';
 import Overview, { OverviewTabBtn } from '@/components/workspace/Overview';
@@ -83,10 +84,36 @@ function Workspace({ roomName, protocolName, basePokePaste }: WorkspaceProps) {
     // create client
     const clientInstance = new Client(providerInstance, localStorage.getItem('username') || undefined);
     setClient(clientInstance);
-    providerInstance.awareness.on('change', (_: any, origin: BaseProvider) => {
-      if (origin && origin.awareness)
-        teamState.metadata.authors = Array.from(origin.awareness.getStates().values() as Iterable<ClientInfo>).map((c) => c.user.name);
-    });
+    // add a listener to update members in this room
+    providerInstance.awareness.on(
+      'change',
+      ({ added, removed }: { added: Array<any>; updated: Array<any>; removed: Array<any> }, origin: BaseProvider | 'local') => {
+        if (!origin) return;
+        if (origin === 'local') {
+          // it can be 'local' when the client is initialized
+          teamState.metadata.authors = [localStorage.getItem('username') || 'Trainer'];
+          return;
+        }
+        if (origin.awareness) {
+          // connected with others, update members to metadata
+          const membersMap = origin.awareness.getStates();
+          teamState.metadata.authors = Array.from(membersMap.values() as Iterable<ClientInfo>).map((c) => c.user.name);
+          // show a notification if someone joined/leaved
+          if (added.length > 0) {
+            toast(`${(membersMap.get(added[0]) as ClientInfo)?.user?.name || 'A trainer'} (${added[0]}) joined the room, welcome!`, {
+              icon: '👏',
+              position: 'bottom-right',
+            });
+          }
+          if (removed.length > 0) {
+            toast(`A trainer (${removed[0]}) left the room, bye!`, {
+              icon: '👋',
+              position: 'bottom-right',
+            });
+          }
+        }
+      }
+    );
 
     // Disconnect on unmount
     return () => {
@@ -94,7 +121,7 @@ function Workspace({ roomName, protocolName, basePokePaste }: WorkspaceProps) {
     };
   }, []);
 
-  // Set up base Pokémon
+  // Set up base Pokémon if a PokePaste link is provided
   useEffect(() => {
     if (!basePokePaste) return;
     const baseTeam = basePokePaste.extractPokemonFromPaste() ?? undefined;

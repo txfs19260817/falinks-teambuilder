@@ -20,13 +20,13 @@ function Overview() {
 
   return (
     <div className="mockup-window border bg-base-300">
-      <div className="grid grid-cols-3 grid-rows-2 gap-y-2 gap-x-2 bg-base-200 py-2 px-1">
+      <div className="grid gap-y-2 gap-x-2 bg-base-200 py-2 px-1 md:grid-cols-2 md:grid-rows-3 lg:grid-cols-3 lg:grid-rows-2">
         {[0, 1, 2, 3, 4, 5].map((i) => {
           const pm = teamState.team[i];
           const pmPaste: string = pm ? Pokemon.exportSetToPaste(pm) : '';
 
           return (
-            <div key={i} className="card bg-base-100 shadow-xl lg:card-side">
+            <div key={i} className="card bg-base-100 pt-6 shadow-xl">
               <SpriteAvatar idx={i} />
               {!pm ? (
                 <div className="card-body">
@@ -36,7 +36,7 @@ function Overview() {
               ) : (
                 <div className="card-body">
                   <pre className="whitespace-pre-wrap">{pmPaste}</pre>
-                  <div className="card-actions justify-self-end">
+                  <div className="card-actions justify-end">
                     <button
                       className="btn btn-primary btn-sm"
                       onClick={() => {

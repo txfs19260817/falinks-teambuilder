@@ -32,7 +32,7 @@ function SpriteAvatar({ idx }: SpriteAvatarProps) {
 
   return (
     <div className="avatar flex items-center justify-center py-1">
-      <div className="w-48 rounded-xl">
+      <div className="w-32">
         <figure>
           <Image src={spriteUrl} alt="sprite" layout="fill" objectFit="contain" priority={true} />
         </figure>
