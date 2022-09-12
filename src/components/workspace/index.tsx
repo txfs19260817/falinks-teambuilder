@@ -14,12 +14,14 @@ import { PostPokepasteDialog } from '@/components/workspace/Toolbox/PostPokepast
 import { FocusedField, FocusedFieldAction, FocusedFieldToIdx, Metadata } from '@/components/workspace/types';
 import { Client, ClientInfo } from '@/models/Client';
 import { Pokemon } from '@/models/Pokemon';
+import { PokePaste } from '@/models/PokePaste';
 import { getProvidersByProtocolName, SupportedProtocolProvider } from '@/providers';
 import { BaseProvider } from '@/providers/baseProviders';
 
 export type WorkspaceProps = {
   protocolName: SupportedProtocolProvider;
   roomName: string;
+  basePokePaste?: PokePaste;
 };
 
 const teamStore = syncedStore<StoreContextType>({
@@ -57,7 +59,7 @@ function reducer(state: FocusedFieldToIdx, action: FocusedFieldAction) {
   }
 }
 
-function Workspace({ roomName, protocolName }: WorkspaceProps) {
+function Workspace({ roomName, protocolName, basePokePaste }: WorkspaceProps) {
   // States
   const [client, setClient] = useState<Client | undefined>();
   const [tabIdx, setTabIdx] = useState<number>(0);
@@ -72,6 +74,7 @@ function Workspace({ roomName, protocolName }: WorkspaceProps) {
     teamState.metadata.title = roomName;
   }
 
+  // Set up the connection
   useEffect(() => {
     // set up provider
     const providers = getProvidersByProtocolName(protocolName);
@@ -90,6 +93,27 @@ function Workspace({ roomName, protocolName }: WorkspaceProps) {
       providers.disconnectByRoomName(roomName);
     };
   }, []);
+
+  // Set up base Pokémon
+  useEffect(() => {
+    if (!basePokePaste) return;
+    const baseTeam = basePokePaste.extractPokemonFromPaste() ?? undefined;
+    const { title, author, notes } = basePokePaste;
+    if (baseTeam) {
+      teamState.team.splice(0, teamState.team.length);
+      teamState.team.push(...baseTeam);
+      teamState.metadata.title = title;
+      teamState.metadata.notes = notes;
+      teamState.metadata.authors = [author];
+    }
+
+    // remove PokePaste link from URL to allow for sharing
+    const url = new URL(window.location.href);
+    const params = new URLSearchParams(url.search);
+    params.delete('pokepaste');
+    url.search = params.toString();
+    window.history.replaceState({}, document.title, url.toString());
+  }, [basePokePaste]);
 
   return (
     <StoreContextProvider

@@ -40,7 +40,7 @@ export function ExportShowdownDialog() {
       <div className="modal modal-bottom sm:modal-middle">
         <div className="modal-box">
           <h3 className="text-lg font-bold">Exported Showdown paste here ↓</h3>
-          <textarea className="textarea-secondary textarea w-full" readOnly={true} ref={exportTextareaRef}></textarea>
+          <textarea className="textarea-secondary textarea w-full" rows={10} readOnly={true} ref={exportTextareaRef}></textarea>
           <div className="modal-action">
             <button className="btn btn-primary btn-sm" onClick={exportHandler}>
               Copy

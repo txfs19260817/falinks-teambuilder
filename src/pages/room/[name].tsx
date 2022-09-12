@@ -1,8 +1,9 @@
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Toaster } from 'react-hot-toast';
 
+import { PokePaste } from '@/models/PokePaste';
 import { SupportedProtocolProvider, supportedProtocols } from '@/providers';
 import { Main } from '@/templates/Main';
 
@@ -14,13 +15,29 @@ const Workspace = dynamic(() => import('@/components/workspace/index'), {
 const Room = () => {
   // Get the room name from the params
   const { isReady, query } = useRouter();
-  const { name: roomName, protocol } = query as {
+  const {
+    name: roomName,
+    protocol,
+    pokepaste,
+  } = query as {
     name: string;
     protocol: SupportedProtocolProvider;
+    pokepaste: string;
   };
   const protocolName = supportedProtocols.includes(protocol) ? protocol : 'WebSocket';
 
-  // prompt the user if they try and leave with unsaved changes
+  // Set up the initial team if the pokepaste url is given and valid
+  const [basePokePaste, setBasePokePaste] = useState<PokePaste | undefined>();
+
+  useEffect(() => {
+    if (pokepaste && PokePaste.isValidPokePasteURL(pokepaste)) {
+      PokePaste.pokePasteURLFetcher(pokepaste).then((data) => {
+        setBasePokePaste(data);
+      });
+    }
+  }, [pokepaste]);
+
+  // Prompt the user if they try and leave with unsaved changes
   useEffect(() => {
     const handleWindowClose = (e: BeforeUnloadEvent) => {
       e.preventDefault();
@@ -35,7 +52,7 @@ const Room = () => {
   return (
     <Main title={`Room - ${roomName}`}>
       <Toaster />
-      {isReady ? <Workspace roomName={roomName} protocolName={protocolName} /> : <h1>Loading...</h1>}
+      {isReady ? <Workspace roomName={roomName} protocolName={protocolName} basePokePaste={basePokePaste} /> : <h1>Loading...</h1>}
     </Main>
   );
 };

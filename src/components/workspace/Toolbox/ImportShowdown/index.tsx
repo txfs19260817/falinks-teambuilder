@@ -5,7 +5,6 @@ import { toast } from 'react-hot-toast';
 import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
 import { Pokemon } from '@/models/Pokemon';
 import { PokePaste } from '@/models/PokePaste';
-import { validPokePasteURL } from '@/utils/Helpers';
 
 const exampleText = `Dog (Zacian-Crowned) @ Rusted Sword  
 Ability: Intrepid Sword  
@@ -93,16 +92,18 @@ export function ImportShowdownDialog() {
       importTextareaRef.current.value = '';
     }
     // check if it's a PokePaste link
-    if (validPokePasteURL(text)) {
-      fetch(`${text}/json`)
-        .then((res) => res.json())
+    if (PokePaste.isValidPokePasteURL(text)) {
+      PokePaste.pokePasteURLFetcher(text)
         .then((data) => {
-          const newTeam = new PokePaste(data).extractPokemonFromPaste();
+          const newTeam = data.extractPokemonFromPaste();
           if (!newTeam) {
             toast.error('Invalid team paste fetched from PokePaste');
             return;
           }
           teamState.team.splice(0, teamState.team.length, ...newTeam);
+        })
+        .catch((err) => {
+          toast.error(`Error fetching team from PokePaste: ${err}`);
         });
       return;
     }
@@ -134,7 +135,7 @@ export function ImportShowdownDialog() {
       <div className="modal modal-bottom sm:modal-middle">
         <div className="modal-box">
           <h3 className="font-bold md:text-lg">Please leave your Showdown paste (or PokePaste link) here ↓</h3>
-          <textarea className="textarea-secondary textarea w-full" ref={importTextareaRef}></textarea>
+          <textarea className="textarea-secondary textarea w-full" rows={10} ref={importTextareaRef}></textarea>
           {tabIdx >= 0 && tabIdx < teamState.team.length && (
             <label className="label cursor-pointer">
               <span className="label-text">Only swap the current Pokémon set</span>
