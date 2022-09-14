@@ -1,6 +1,8 @@
+import { Dex } from '@pkmn/dex';
 import { Team } from '@pkmn/sets';
 
 import { Pokemon } from '@/models/Pokemon';
+import { AppConfig } from '@/utils/AppConfig';
 import { urlPattern } from '@/utils/Helpers';
 
 export class PokePaste {
@@ -23,8 +25,9 @@ export class PokePaste {
     return Pokemon.convertPasteToTeam(this.paste);
   }
 
+  // Note:packedTeam should not start with format and team name
   static fromPackedTeam(packedTeam: string): PokePaste | undefined {
-    const unpacked = Team.unpack(packedTeam);
+    const unpacked = Team.unpack(packedTeam, Dex.forGen(AppConfig.defaultGen));
     if (!unpacked) return undefined;
     return new PokePaste({
       author: '',
