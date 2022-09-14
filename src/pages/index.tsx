@@ -92,11 +92,6 @@ const Index = () => {
                   placeholder="https://pokepast.es/a00ca5bc26cda7e9"
                   maxLength={72}
                   className="input-bordered input text-base-content"
-                  onClick={(e) => {
-                    if (e.detail === 2) {
-                      e.currentTarget.value = 'https://pokepast.es/a00ca5bc26cda7e9';
-                    }
-                  }}
                   {...register('pokePasteUrl')}
                 />
                 <p className="text-xs text-base-content/50">Start your team with a PokéPaste link.</p>

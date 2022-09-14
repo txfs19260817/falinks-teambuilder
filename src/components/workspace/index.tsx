@@ -133,13 +133,6 @@ function Workspace({ roomName, protocolName, basePokePaste }: WorkspaceProps) {
       teamState.metadata.notes = notes;
       teamState.metadata.authors = [author];
     }
-
-    // remove PokePaste link from URL to allow for sharing
-    const url = new URL(window.location.href);
-    const params = new URLSearchParams(url.search);
-    params.delete('pokepaste');
-    url.search = params.toString();
-    window.history.replaceState({}, document.title, url.toString());
   }, [basePokePaste]);
 
   return (
