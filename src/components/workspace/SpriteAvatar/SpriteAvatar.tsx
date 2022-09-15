@@ -3,18 +3,32 @@ import Image from 'next/image';
 import { useContext, useEffect, useState } from 'react';
 
 import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
+import { Pokemon } from '@/models/Pokemon';
 
 type SpriteAvatarProps = {
-  idx?: number;
+  idx?: number; // index in `teamState.team`
+  pokemon?: Pokemon;
 };
 
 const placeholderUrl = 'https://play.pokemonshowdown.com/sprites/ani/substitute.gif';
 
-function SpriteAvatar({ idx }: SpriteAvatarProps) {
+export function PureSpriteAvatar({ url, width }: { url: string; width: number }) {
+  return (
+    <div className="avatar flex items-center justify-center py-1">
+      <div className={`w-${width}`}>
+        <figure>
+          <Image src={url} alt="sprite" layout="fill" objectFit="contain" priority={true} />
+        </figure>
+      </div>
+    </div>
+  );
+}
+
+function SpriteAvatar({ idx, pokemon }: SpriteAvatarProps) {
   const { teamState, tabIdx } = useContext(StoreContext);
 
   const [spriteUrl, setSpriteUrl] = useState('https://play.pokemonshowdown.com/sprites/ani/incineroar.gif');
-  const pm = teamState.team[idx ?? tabIdx]!;
+  const pm = pokemon ?? teamState.team[idx ?? tabIdx]!;
 
   useEffect(() => {
     if (!pm) {
@@ -30,15 +44,7 @@ function SpriteAvatar({ idx }: SpriteAvatarProps) {
     setSpriteUrl(url);
   }, [pm, pm?.species, pm?.shiny]);
 
-  return (
-    <div className="avatar flex items-center justify-center py-1">
-      <div className="w-32">
-        <figure>
-          <Image src={spriteUrl} alt="sprite" layout="fill" objectFit="contain" priority={true} />
-        </figure>
-      </div>
-    </div>
-  );
+  return <PureSpriteAvatar url={spriteUrl} width={32} />;
 }
 
 export default SpriteAvatar;

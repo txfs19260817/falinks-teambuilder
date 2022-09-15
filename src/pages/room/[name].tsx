@@ -1,7 +1,6 @@
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { Toaster } from 'react-hot-toast';
 
 import { PokePaste } from '@/models/PokePaste';
 import { SupportedProtocolProvider, supportedProtocols } from '@/providers';
@@ -64,7 +63,6 @@ const Room = () => {
 
   return (
     <Main title={`Room - ${roomName}`}>
-      <Toaster />
       {isReady ? <Workspace roomName={roomName} protocolName={protocolName} basePokePaste={basePokePaste} /> : <h1>Loading...</h1>}
     </Main>
   );

@@ -1,5 +1,5 @@
 import { Dex } from '@pkmn/dex';
-import { Team } from '@pkmn/sets';
+import { Sets, Team } from '@pkmn/sets';
 
 import { Pokemon } from '@/models/Pokemon';
 import { AppConfig } from '@/utils/AppConfig';
@@ -23,6 +23,11 @@ export class PokePaste {
 
   extractPokemonFromPaste(): Pokemon[] | undefined {
     return Pokemon.convertPasteToTeam(this.paste);
+  }
+
+  toPackedTeam(): string {
+    const team = this.extractPokemonFromPaste() || [];
+    return team.map((p) => Sets.packSet(p)).join(']');
   }
 
   // Note:packedTeam should not start with format and team name

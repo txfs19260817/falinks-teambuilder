@@ -1,4 +1,5 @@
 import { ReactNode } from 'react';
+import { Toaster } from 'react-hot-toast';
 
 import { Footer } from '@/components/layout/Footer';
 import { Meta } from '@/components/layout/Meta';
@@ -14,6 +15,7 @@ type IMainProps = {
 
 const Main = ({ title, description, children, canonical }: IMainProps) => (
   <div className="w-full antialiased">
+    <Toaster />
     <Meta title={`${AppConfig.title} - ${title}`} description={description || AppConfig.description} canonical={canonical} />
     <Navbar />
     <div className="mx-auto">{children}</div>

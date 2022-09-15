@@ -1,4 +1,3 @@
-import { ClipboardCopyIcon } from '@heroicons/react/solid';
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -13,26 +12,27 @@ import {
   SortingState,
   useReactTable,
 } from '@tanstack/react-table';
+import { WithId } from 'mongodb';
 import { InferGetStaticPropsType } from 'next';
-import { useRouter } from 'next/router';
+import Link from 'next/link';
 import React, { useContext, useState } from 'react';
-import { toast, Toaster } from 'react-hot-toast';
+import { Toaster } from 'react-hot-toast';
 
 import { DexContext } from '@/components/workspace/Contexts/DexContext';
 import Table from '@/components/workspace/Table';
-import { Paste } from '@/components/workspace/types';
 import { Pokemon } from '@/models/Pokemon';
+import { PokePaste } from '@/models/PokePaste';
 import { Main } from '@/templates/Main';
+import { AppConfig } from '@/utils/AppConfig';
 import { getPokemonIcon } from '@/utils/Helpers';
 import clientPromise from '@/utils/MongoDB';
 
 const Pastes = ({ pastes }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const { globalFilter, setGlobalFilter } = useContext(DexContext);
-  const router = useRouter();
 
   // table settings
-  const [data] = useState<Paste[]>(() => [...Array.from(pastes)]);
-  const columns: ColumnDef<Paste>[] = [
+  const [data] = useState<WithId<PokePaste>[]>(() => [...Array.from(pastes)]);
+  const columns: ColumnDef<WithId<PokePaste>>[] = [
     {
       header: 'Title',
       accessorKey: 'title',
@@ -46,7 +46,7 @@ const Pastes = ({ pastes }: InferGetStaticPropsType<typeof getStaticProps>) => {
     {
       header: 'Notes',
       accessorKey: 'notes',
-      cell: ({ getValue }) => <span title={getValue<string>()}>{`${getValue<string>().substring(0, 20)}`}</span>,
+      cell: ({ getValue }) => <span title={getValue<string>()}>{`${getValue<string>().substring(0, 48)}`}</span>,
       enableColumnFilter: false,
       enableGlobalFilter: false,
       enableSorting: false,
@@ -54,10 +54,10 @@ const Pastes = ({ pastes }: InferGetStaticPropsType<typeof getStaticProps>) => {
     },
     {
       header: 'Team',
-      accessorKey: 'team',
+      accessorKey: 'paste',
       cell: ({ getValue }) => (
         <span>
-          {getValue<Pokemon[]>().map((p: Pokemon) => (
+          {(Pokemon.convertPasteToTeam(getValue<string>()) || []).map((p) => (
             <span key={p.species} title={p.species} style={getPokemonIcon(undefined, p.species, true)}></span>
           ))}
         </span>
@@ -75,40 +75,12 @@ const Pastes = ({ pastes }: InferGetStaticPropsType<typeof getStaticProps>) => {
       enableMultiSort: false,
     },
     {
-      id: 'paste',
-      header: 'Paste',
-      accessorKey: 'team',
-      enableColumnFilter: false,
-      enableGlobalFilter: false,
-      enableSorting: false,
-      enableMultiSort: false,
-      cell: ({ getValue }) => {
-        return (
-          <button
-            className="btn btn-primary btn-xs"
-            onClick={() => {
-              navigator.clipboard.writeText(Pokemon.convertTeamToPaste(getValue<Pokemon[]>())).then(() => toast('📋 Copied!'));
-            }}
-          >
-            <ClipboardCopyIcon className="h-4 w-4" />
-            <span>Copy</span>
-          </button>
-        );
-      },
-    },
-    {
       header: 'Details',
       accessorKey: '_id',
       cell: ({ getValue }) => (
-        <button
-          className="btn btn-secondary btn-xs"
-          onClick={(e) => {
-            e.preventDefault();
-            router.push(`/pastes/${getValue<string>()}`);
-          }}
-        >
-          Details
-        </button>
+        <Link href={`/pastes/${getValue<string>()}`}>
+          <a className="btn btn-secondary btn-xs">Details</a>
+        </Link>
       ),
       enableColumnFilter: false,
       enableGlobalFilter: false,
@@ -124,7 +96,7 @@ const Pastes = ({ pastes }: InferGetStaticPropsType<typeof getStaticProps>) => {
   });
 
   // table instance
-  const instance = useReactTable<Paste>({
+  const instance = useReactTable<WithId<PokePaste>>({
     data,
     columns,
     state: {
@@ -150,24 +122,25 @@ const Pastes = ({ pastes }: InferGetStaticPropsType<typeof getStaticProps>) => {
       <Toaster />
       <div className="tabs">
         <a className={`tab tab-lifted tab-md md:tab-lg tab-active`}>Pastes</a>
-        <Table<Paste> instance={instance} enablePagination={true} />
+        <Table<WithId<PokePaste>> instance={instance} enablePagination={true} />
       </div>
     </Main>
   );
 };
 
 export const getStaticProps: () => Promise<{
-  props: { pastes: Paste[] };
+  props: { pastes: WithId<PokePaste>[] };
 }> = async () => {
   const client = await clientPromise;
-  const db = client.db('pastes');
-  const collection = db.collection('teams');
+  const db = client.db(AppConfig.dbName);
+  const collection = db.collection<PokePaste>(AppConfig.collectionName.vgcPastes);
+  const cursor = collection.find({});
 
-  const pastes: Paste[] = await collection.find({}).project({ paste: 0 }).toArray();
-
+  const pastes: WithId<PokePaste>[] = await cursor.toArray();
+  await cursor.close();
   return {
     props: {
-      pastes: JSON.parse(JSON.stringify(pastes)) as Paste[],
+      pastes: JSON.parse(JSON.stringify(pastes)) as WithId<PokePaste>[],
     },
   };
 };

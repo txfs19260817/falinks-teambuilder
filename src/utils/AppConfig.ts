@@ -44,6 +44,10 @@ export const AppConfig = {
   maxPokemonPerTeam: 6,
   defaultGen: 8,
   usageAPI: `https://www.pikalytics.com/api/l/2022-${`${new Date().getMonth()}`.padStart(2, '0')}/ss-1500`,
+  dbName: 'falinks',
+  collectionName: {
+    vgcPastes: 'vgc_pastes',
+  },
   popularItems: [
     'Aguav Berry',
     'Assault Vest',
