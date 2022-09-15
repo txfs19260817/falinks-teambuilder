@@ -1,4 +1,4 @@
-import { Sprites } from '@pkmn/img';
+import { Icons, Sprites } from '@pkmn/img';
 import { WithId } from 'mongodb';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -8,19 +8,15 @@ import useSWR from 'swr';
 import { PureSpriteAvatar } from '@/components/workspace/SpriteAvatar/SpriteAvatar';
 import { Pokemon } from '@/models/Pokemon';
 import { PokePaste } from '@/models/PokePaste';
+import Loading from '@/templates/Loading';
 import { Main } from '@/templates/Main';
-import { S4 } from '@/utils/Helpers';
+import { convertStylesStringToObject, S4 } from '@/utils/Helpers';
 
 export default function PasteId() {
   const { isReady, query } = useRouter();
   const id = query.id as string;
   const { data, error } = useSWR<WithId<PokePaste>>(`/api/pastes/${id}`, (input) => fetch(input).then((res) => res.json()));
-  if (!data || !isReady)
-    return (
-      <Main title={`Paste`}>
-        <div>Loading...</div>
-      </Main>
-    );
+  if (!data || !isReady) return <Loading title={`Paste`} />;
   if (error)
     return (
       <Main title={`Paste`}>
@@ -32,20 +28,25 @@ export default function PasteId() {
   const team = Pokemon.convertPasteToTeam(data.paste) || [];
   return (
     <Main title={`Paste - ${data.title}`}>
-      <div className="grid grid-cols-3">
+      <div className="grid grid-flow-row md:grid-flow-col md:grid-cols-3">
         {/* avatars */}
-        <div className="grid grid-rows-6">
+        <div className="hidden grid-rows-6 md:grid">
           {team.map((p) => (
             <PureSpriteAvatar key={p.species} url={Sprites.getPokemon(p.species).url} />
           ))}
         </div>
+        <div className="grid grid-cols-3 grid-rows-2 justify-items-center align-middle md:hidden">
+          {team.map((p) => (
+            <span key={p.species} style={convertStylesStringToObject(Icons.getPokemon(p.species).style)}></span>
+          ))}
+        </div>
         {/* paste */}
-        <pre className="whitespace-pre-wrap">{data.paste}</pre>
+        <pre className="w-4/5 whitespace-pre-wrap">{data.paste}</pre>
         {/* metadata */}
-        <div className="prose">
+        <div className="prose w-4/5 py-6">
           <h1>{data.title}</h1>
           <h3>Author: {data.author}</h3>
-          <p>Notes: {data.notes}</p>
+          <p className="break-all">Notes: {data.notes}</p>
           <div className="flex justify-around">
             <button
               className="btn btn-primary btn-sm"
