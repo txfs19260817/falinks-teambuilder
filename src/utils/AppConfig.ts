@@ -47,6 +47,7 @@ export const AppConfig = {
   dbName: 'falinks',
   collectionName: {
     vgcPastes: 'vgc_pastes',
+    userPastes: 'user_pastes',
   },
   popularItems: [
     'Aguav Berry',

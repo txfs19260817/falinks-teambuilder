@@ -16,7 +16,6 @@ import { WithId } from 'mongodb';
 import { InferGetStaticPropsType } from 'next';
 import Link from 'next/link';
 import React, { useContext, useState } from 'react';
-import { Toaster } from 'react-hot-toast';
 
 import { DexContext } from '@/components/workspace/Contexts/DexContext';
 import Table from '@/components/workspace/Table';
@@ -119,9 +118,12 @@ const Pastes = ({ pastes }: InferGetStaticPropsType<typeof getStaticProps>) => {
   });
   return (
     <Main title="Pastes">
-      <Toaster />
       <div className="tabs">
-        <a className={`tab tab-lifted tab-md md:tab-lg tab-active`}>Pastes</a>
+        <Link href="/pastes/create">
+          <a className="btn btn-primary m-1">Create Paste</a>
+        </Link>
+        <a className={`tab tab-lifted tab-md md:tab-lg tab-active`}>VGC Pastes</a>
+        {/* <a className={`tab tab-lifted tab-md md:tab-lg tab-active`}>User Pastes</a> */}
         <Table<WithId<PokePaste>> instance={instance} enablePagination={true} />
       </div>
     </Main>
