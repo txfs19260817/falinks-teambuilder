@@ -44,7 +44,7 @@ const Create = () => {
           >
             <div className="form-control">
               <label className="label" htmlFor="title">
-                <span className="label-text after:text-error after:content-['_*']">Author Name</span>
+                <span className="label-text after:text-error after:content-['_*']">Title</span>
               </label>
               <input
                 id="title"
