@@ -12,10 +12,10 @@ type SpriteAvatarProps = {
 
 const placeholderUrl = 'https://play.pokemonshowdown.com/sprites/ani/substitute.gif';
 
-export function PureSpriteAvatar({ url, width }: { url: string; width: number }) {
+export function PureSpriteAvatar({ url }: { url: string }) {
   return (
     <div className="avatar flex items-center justify-center py-1">
-      <div className={`w-${width}`}>
+      <div className="w-32">
         <figure>
           <Image src={url} alt="sprite" layout="fill" objectFit="contain" priority={true} />
         </figure>
@@ -44,7 +44,7 @@ function SpriteAvatar({ idx, pokemon }: SpriteAvatarProps) {
     setSpriteUrl(url);
   }, [pm, pm?.species, pm?.shiny]);
 
-  return <PureSpriteAvatar url={spriteUrl} width={32} />;
+  return <PureSpriteAvatar url={spriteUrl} />;
 }
 
 export default SpriteAvatar;

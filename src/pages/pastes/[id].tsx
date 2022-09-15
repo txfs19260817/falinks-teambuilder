@@ -19,7 +19,7 @@ export default function PasteId({ paste, team }: { paste: WithId<PokePaste>; tea
         {/* avatars */}
         <div className="grid grid-rows-6">
           {team.map((p) => (
-            <PureSpriteAvatar key={p.species} url={Sprites.getPokemon(p.species).url} width={32} />
+            <PureSpriteAvatar key={p.species} url={Sprites.getPokemon(p.species).url} />
           ))}
         </div>
         {/* paste */}
