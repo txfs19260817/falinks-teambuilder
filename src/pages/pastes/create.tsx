@@ -33,6 +33,7 @@ const Create = () => {
                 body: JSON.stringify(data),
               })
                 .then((res) => {
+                  console.log(res);
                   if (res.url) {
                     window.location.href = res.url;
                   }
