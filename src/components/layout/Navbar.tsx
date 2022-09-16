@@ -1,6 +1,24 @@
 import Link from 'next/link';
+import { useEffect } from 'react';
+import { themeChange } from 'theme-change';
 
 import { AppConfig } from '@/utils/AppConfig';
+
+const ThemePicker = () => {
+  useEffect(() => {
+    themeChange(false);
+    // 👆 false parameter is required for react project
+  }, []);
+  return (
+    <select className="w-sm select-primary select select-sm bg-neutral capitalize" data-choose-theme>
+      {AppConfig.themes.map((theme) => (
+        <option key={theme} value={theme}>
+          {theme}
+        </option>
+      ))}
+    </select>
+  );
+};
 
 const Navbar = () => {
   return (
@@ -41,7 +59,9 @@ const Navbar = () => {
           ))}
         </ul>
       </div>
-      <div className="navbar-end" />
+      <div className="navbar-end">
+        <ThemePicker />
+      </div>
     </div>
   );
 };

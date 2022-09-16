@@ -39,7 +39,7 @@ const Index = () => {
       <div
         className="hero min-h-[88vh]"
         style={{
-          backgroundImage: 'url(assets/images/hero.png)',
+          backgroundImage: 'url(assets/images/hero.jpg)',
         }}
       >
         <div className="hero-overlay bg-opacity-75"></div>

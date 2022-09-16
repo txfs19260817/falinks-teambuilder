@@ -1,3 +1,7 @@
+// @ts-ignore
+// eslint-disable-next-line import/extensions
+import tailwindConfig from '../../tailwind.config.js';
+
 const routes = [
   {
     name: 'Home',
@@ -44,6 +48,7 @@ export const AppConfig = {
   maxPokemonPerTeam: 6,
   defaultGen: 8,
   usageAPI: `https://www.pikalytics.com/api/l/2022-${`${new Date().getMonth()}`.padStart(2, '0')}/ss-1500`,
+  themes: tailwindConfig.daisyui.themes as string[],
   dbName: 'falinks',
   collectionName: {
     vgcPastes: 'vgc_pastes',

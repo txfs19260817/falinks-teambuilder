@@ -73,18 +73,17 @@ function OmniFilter({ column, instance }: { column: Column<any>; instance: Table
     );
   }
 
-  if (column.id === 'team') {
-    const options = Array.from(
-      new Set(
-        instance
-          .getPreFilteredRowModel()
-          .flatRows.map((row) => row.getValue<Pokemon[]>(column.id))
-          .flat()
-          .map((p: Pokemon) => p.species)
-      )
-    )
+  if (column.id === 'paste') {
+    // all teams
+    const teams = instance
+      .getPreFilteredRowModel()
+      .flatRows.map((row) => row.getValue<string>(column.id))
+      .map((paste) => Pokemon.convertPasteToTeam(paste) || []);
+    // get all unique pokemon
+    const options = Array.from(new Set(teams.flat().map((p: Pokemon) => p.species)))
       .sort((a, b) => a.localeCompare(b))
       .map((e) => ({ value: e, label: e }));
+    // return a select component
     return (
       <Select
         isMulti

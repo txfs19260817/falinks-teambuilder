@@ -53,6 +53,7 @@ const Pastes = ({ pastes }: InferGetStaticPropsType<typeof getStaticProps>) => {
     },
     {
       header: 'Team',
+      id: 'paste',
       accessorKey: 'paste',
       cell: ({ getValue }) => (
         <span>
@@ -62,13 +63,8 @@ const Pastes = ({ pastes }: InferGetStaticPropsType<typeof getStaticProps>) => {
         </span>
       ),
       filterFn: (row, columnId, filterValue) => {
-        return !filterValue.some(
-          (val: string) =>
-            !row
-              .getValue<Pokemon[]>(columnId)
-              .map((p: Pokemon) => p.species)
-              .includes(val)
-        );
+        const team = Pokemon.convertPasteToTeam(row.getValue<string>(columnId)) || [];
+        return !filterValue.some((val: string) => !team.map((p: Pokemon) => p.species).includes(val));
       },
       enableSorting: false,
       enableMultiSort: false,

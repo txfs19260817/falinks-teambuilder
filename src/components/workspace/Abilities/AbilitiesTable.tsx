@@ -4,7 +4,7 @@ import { useContext, useEffect, useMemo, useState } from 'react';
 
 import { DexContext } from '@/components/workspace/Contexts/DexContext';
 import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
-import TableWrapper from '@/components/workspace/Table';
+import Table from '@/components/workspace/Table';
 
 function getAbilitiesBySpecie(gen: Generation, speciesName?: string): Ability[] {
   const abilitiesMap = gen.species.get(speciesName ?? '')?.abilities;
@@ -67,7 +67,7 @@ function AbilitiesTable() {
   };
 
   // table render
-  return <TableWrapper<Ability> instance={instance} handleRowClick={handleRowClick} enablePagination={false} />;
+  return <Table<Ability> instance={instance} handleRowClick={handleRowClick} enablePagination={false} />;
 }
 
 export default AbilitiesTable;
