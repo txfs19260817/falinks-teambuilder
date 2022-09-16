@@ -14,11 +14,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
   }
   const client = await clientPromise;
   const db = client.db(AppConfig.dbName);
-  const collection = db.collection<PokePaste>(AppConfig.collectionName.userPastes);
+  const collection = db.collection<PokePaste>(AppConfig.collectionName.publicPastes);
   const paste = req.body as PokePaste;
   const result = await collection.insertOne(paste);
 
-  return res.redirect(302, `/pastes/${result.insertedId.toHexString()}`);
+  return res.redirect(302, `/pastes/public/${result.insertedId.toHexString()}`);
 };
 
 export default handler;

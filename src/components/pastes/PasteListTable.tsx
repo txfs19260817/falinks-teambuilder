@@ -13,7 +13,6 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 import { WithId } from 'mongodb';
-import { InferGetStaticPropsType } from 'next';
 import Link from 'next/link';
 import React, { useContext, useState } from 'react';
 
@@ -21,12 +20,14 @@ import { DexContext } from '@/components/workspace/Contexts/DexContext';
 import Table from '@/components/workspace/Table';
 import { Pokemon } from '@/models/Pokemon';
 import { PokePaste } from '@/models/PokePaste';
-import { Main } from '@/templates/Main';
-import { AppConfig } from '@/utils/AppConfig';
 import { getPokemonIcon } from '@/utils/Helpers';
-import clientPromise from '@/utils/MongoDB';
 
-const Pastes = ({ pastes }: InferGetStaticPropsType<typeof getStaticProps>) => {
+type PasteListTableProps = {
+  pastes: WithId<PokePaste>[];
+  detailSubPath: string | 'vgc' | 'public';
+};
+
+const PastesTable = ({ pastes, detailSubPath }: PasteListTableProps) => {
   const { globalFilter, setGlobalFilter } = useContext(DexContext);
 
   // table settings
@@ -73,7 +74,7 @@ const Pastes = ({ pastes }: InferGetStaticPropsType<typeof getStaticProps>) => {
       header: 'Details',
       accessorKey: '_id',
       cell: ({ getValue }) => (
-        <Link href={`/pastes/${getValue<string>()}`}>
+        <Link href={`/pastes/${detailSubPath}/${getValue<string>()}`}>
           <a className="btn btn-secondary btn-xs">Details</a>
         </Link>
       ),
@@ -112,28 +113,7 @@ const Pastes = ({ pastes }: InferGetStaticPropsType<typeof getStaticProps>) => {
     getFacetedMinMaxValues: getFacetedMinMaxValues(),
     getPaginationRowModel: getPaginationRowModel(),
   });
-  return (
-    <Main title="Pastes">
-      <Table<WithId<PokePaste>> instance={instance} enablePagination={true} />
-    </Main>
-  );
+  return <Table<WithId<PokePaste>> instance={instance} enablePagination={true} />;
 };
 
-export const getStaticProps: () => Promise<{
-  props: { pastes: WithId<PokePaste>[] };
-}> = async () => {
-  const client = await clientPromise;
-  const db = client.db(AppConfig.dbName);
-  const collection = db.collection<PokePaste>(AppConfig.collectionName.vgcPastes);
-  const cursor = collection.find({});
-
-  const pastes: WithId<PokePaste>[] = await cursor.toArray();
-  await cursor.close();
-  return {
-    props: {
-      pastes: JSON.parse(JSON.stringify(pastes)) as WithId<PokePaste>[],
-    },
-  };
-};
-
-export default Pastes;
+export default PastesTable;

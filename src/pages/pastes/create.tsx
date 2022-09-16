@@ -17,6 +17,28 @@ const Create = () => {
     },
   });
 
+  const onSubmit = (data: PokePaste) => {
+    const promise = fetch('/api/pastes/create', {
+      method: 'POST',
+      redirect: 'follow',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
+    toast
+      .promise(promise, {
+        loading: 'Creating Paste...',
+        success: 'Paste Created! Redirecting...',
+        error: (e) => `Error when creating your paste: ${e}`,
+      })
+      .then((r) => {
+        if (r.url) {
+          window.location.href = r.url;
+        }
+      });
+  };
+
   return (
     <Main title="Create Pastes">
       <div className="flex h-full w-full flex-col items-center justify-center">
@@ -24,22 +46,7 @@ const Create = () => {
           <form
             className="card-body"
             onSubmit={handleSubmit((data) => {
-              fetch('/api/pastes/create', {
-                method: 'POST',
-                redirect: 'follow',
-                headers: {
-                  'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(data),
-              })
-                .then((res) => {
-                  if (res.url) {
-                    window.location.href = res.url;
-                  }
-                })
-                .catch((err) => {
-                  toast.error(err.message);
-                });
+              onSubmit(data);
             })}
           >
             <div className="form-control">

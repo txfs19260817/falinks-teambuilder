@@ -21,8 +21,13 @@ const routes: Route[] = [
     target: '',
     children: [
       {
+        name: 'User Paste',
+        path: '/pastes/public',
+        target: '_self',
+      },
+      {
         name: 'VGC Paste',
-        path: '/pastes',
+        path: '/pastes/vgc',
         target: '_self',
       },
       {
@@ -71,7 +76,7 @@ export const AppConfig = {
   dbName: 'falinks',
   collectionName: {
     vgcPastes: 'vgc_pastes',
-    userPastes: 'user_pastes',
+    publicPastes: 'public_pastes',
   },
   popularItems: [
     'Aguav Berry',
