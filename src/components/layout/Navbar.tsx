@@ -20,6 +20,39 @@ const ThemePicker = () => {
   );
 };
 
+const RoutesList = ({ className }: { className: string }) => {
+  return (
+    <ul className={className}>
+      {AppConfig.routes.map((route) =>
+        route.children ? (
+          <li key={route.name} className="dropdown-hover dropdown">
+            <a className="hover:border-none">{route.name}</a>
+            <ul className="dropdown-content menu rounded-box bg-neutral p-2 shadow">
+              {route.children.map((cr) => (
+                <li key={cr.name}>
+                  <Link href={cr.path} passHref>
+                    <a target={cr.target} rel="noopener noreferrer" className="border-none">
+                      {cr.name}
+                    </a>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </li>
+        ) : (
+          <li key={route.name}>
+            <Link href={route.path} passHref>
+              <a target={route.target} rel="noopener noreferrer" className="border-none">
+                {route.name}
+              </a>
+            </Link>
+          </li>
+        )
+      )}
+    </ul>
+  );
+};
+
 const Navbar = () => {
   return (
     <div className="navbar bg-neutral text-neutral-content">
@@ -30,34 +63,14 @@ const Navbar = () => {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h8m-8 6h16" />
             </svg>
           </label>
-          <ul tabIndex={0} className="dropdown-content menu rounded-box bg-neutral p-2 text-neutral-content shadow">
-            {AppConfig.routes.map((route) => (
-              <li key={route.path}>
-                <Link href={route.path} passHref>
-                  <a target={route.target} rel="noopener noreferrer" className="border-none">
-                    {route.name}
-                  </a>
-                </Link>
-              </li>
-            ))}
-          </ul>
+          <RoutesList className="dropdown-content menu rounded-box bg-neutral p-2 text-neutral-content shadow" />
         </div>
         <Link href="/">
           <a className="btn btn-ghost text-xl normal-case">{AppConfig.title}</a>
         </Link>
       </div>
       <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal">
-          {AppConfig.routes.map((route) => (
-            <li key={route.path}>
-              <Link href={route.path} passHref>
-                <a target={route.target} rel="noopener noreferrer" className="border-none">
-                  {route.name}
-                </a>
-              </Link>
-            </li>
-          ))}
-        </ul>
+        <RoutesList className="menu menu-horizontal" />
       </div>
       <div className="navbar-end">
         <ThemePicker />

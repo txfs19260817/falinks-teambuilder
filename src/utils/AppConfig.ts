@@ -2,7 +2,14 @@
 // eslint-disable-next-line import/extensions
 import tailwindConfig from '../../tailwind.config.js';
 
-const routes = [
+type Route = {
+  path: string;
+  name: string;
+  target: string;
+  children?: Route[];
+};
+
+const routes: Route[] = [
   {
     name: 'Home',
     path: '/',
@@ -10,8 +17,20 @@ const routes = [
   },
   {
     name: 'Pastes',
-    path: '/pastes',
-    target: '_self',
+    path: '',
+    target: '',
+    children: [
+      {
+        name: 'VGC Paste',
+        path: '/pastes',
+        target: '_self',
+      },
+      {
+        name: 'Create',
+        path: '/pastes/create',
+        target: '_self',
+      },
+    ],
   },
   {
     name: 'About',
@@ -79,92 +98,6 @@ export const AppConfig = {
   usefulLinks,
   routes,
 };
-
-export const animalNames = [
-  'alligator',
-  'anteater',
-  'armadillo',
-  'auroch',
-  'axolotl',
-  'badger',
-  'bat',
-  'bear',
-  'beaver',
-  'blobfish',
-  'buffalo',
-  'camel',
-  'chameleon',
-  'cheetah',
-  'chipmunk',
-  'chinchilla',
-  'chupacabra',
-  'cormorant',
-  'coyote',
-  'crow',
-  'dingo',
-  'dinosaur',
-  'dog',
-  'dolphin',
-  'dragon',
-  'duck',
-  'dumbo octopus',
-  'elephant',
-  'ferret',
-  'fox',
-  'frog',
-  'giraffe',
-  'goose',
-  'gopher',
-  'grizzly',
-  'hamster',
-  'hedgehog',
-  'hippo',
-  'hyena',
-  'jackal',
-  'jackalope',
-  'ibex',
-  'ifrit',
-  'iguana',
-  'kangaroo',
-  'kiwi',
-  'koala',
-  'kraken',
-  'lemur',
-  'leopard',
-  'liger',
-  'lion',
-  'llama',
-  'manatee',
-  'mink',
-  'monkey',
-  'moose',
-  'narwhal',
-  'nyan cat',
-  'orangutan',
-  'otter',
-  'panda',
-  'penguin',
-  'platypus',
-  'python',
-  'pumpkin',
-  'quagga',
-  'quokka',
-  'rabbit',
-  'raccoon',
-  'rhino',
-  'sheep',
-  'shrew',
-  'skunk',
-  'slow loris',
-  'squirrel',
-  'tiger',
-  'turtle',
-  'unicorn',
-  'walrus',
-  'wolf',
-  'wolverine',
-  'wombat',
-];
 
 export const trainerNames = [
   'Acerola',

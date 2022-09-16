@@ -114,14 +114,7 @@ const Pastes = ({ pastes }: InferGetStaticPropsType<typeof getStaticProps>) => {
   });
   return (
     <Main title="Pastes">
-      <div className="tabs">
-        <Link href="/pastes/create">
-          <a className="btn btn-primary m-1">Create Paste</a>
-        </Link>
-        <a className={`tab tab-lifted tab-md md:tab-lg tab-active`}>VGC Pastes</a>
-        {/* <a className={`tab tab-lifted tab-md md:tab-lg tab-active`}>User Pastes</a> */}
-        <Table<WithId<PokePaste>> instance={instance} enablePagination={true} />
-      </div>
+      <Table<WithId<PokePaste>> instance={instance} enablePagination={true} />
     </Main>
   );
 };

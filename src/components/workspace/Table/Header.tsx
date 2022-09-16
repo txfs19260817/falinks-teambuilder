@@ -5,7 +5,7 @@ import OmniFilter from '@/components/workspace/Table/OmniFilter';
 
 function Header({ instance }: { instance: Table<any> }) {
   return (
-    <thead className="sticky z-50">
+    <thead className="sticky z-10">
       {instance.getHeaderGroups().map((headerGroup: { id?: Key; headers: any[] }) => (
         <tr key={headerGroup.id}>
           {headerGroup.headers.map((header) => (
