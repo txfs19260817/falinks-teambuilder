@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## 1.0.5 (2022-09-16)
+
+### Features
+
+- Add: Post a paste to Falinks Teambuilder in room
+
 ## 1.0.4 (2022-09-16)
 
 ### Features
