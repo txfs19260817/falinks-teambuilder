@@ -1,4 +1,3 @@
-import { ClipboardCopyIcon } from '@heroicons/react/solid';
 import React, { useContext } from 'react';
 import { toast } from 'react-hot-toast';
 
@@ -38,12 +37,12 @@ function Overview() {
                   <pre className="whitespace-pre-wrap">{pmPaste}</pre>
                   <div className="card-actions justify-end">
                     <button
-                      className="btn btn-primary btn-sm"
+                      className="btn-primary btn-sm btn"
                       onClick={() => {
                         navigator.clipboard.writeText(pmPaste).then(() => toast('📋 Copied!'));
                       }}
                     >
-                      <ClipboardCopyIcon className="h-4 w-4" />
+                      <span>📋</span>
                       <span>Copy</span>
                     </button>
                   </div>

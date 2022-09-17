@@ -16,7 +16,6 @@
     "test": "jest --coverage"
   },
   "dependencies": {
-    "@heroicons/react": "^1.0.6",
     "@pkmn/data": "^0.5.26",
     "@pkmn/dex": "^0.5.26",
     "@pkmn/dex-types": "^0.5.26",

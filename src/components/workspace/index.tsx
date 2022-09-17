@@ -154,10 +154,14 @@ function Workspace({ roomName, protocolName, basePokePaste }: WorkspaceProps) {
       {/* Pokemon panel */}
       {tabIdx < 0 || tabIdx >= teamState.team.length ? <Overview /> : <PokemonPanel />}
       {/* Dialogs */}
-      <ImportShowdownDialog />
-      <ExportShowdownDialog />
-      <PostPokepasteDialog />
-      {client && <NotesDialog store={teamStore} client={client} />}
+      {client && (
+        <>
+          <ImportShowdownDialog />
+          <ExportShowdownDialog />
+          <PostPokepasteDialog />
+          <NotesDialog store={teamStore} client={client} />
+        </>
+      )}
     </StoreContextProvider>
   );
 }

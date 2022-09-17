@@ -1,4 +1,3 @@
-import { DocumentAddIcon } from '@heroicons/react/solid';
 import { useContext, useRef, useState } from 'react';
 import { toast } from 'react-hot-toast';
 
@@ -143,13 +142,13 @@ export function ImportShowdownDialog() {
             </label>
           )}
           <div className="modal-action">
-            <label htmlFor="import-ps-modal" className="btn btn-primary btn-sm" onClick={importHandler}>
+            <label htmlFor="import-ps-modal" className="btn-primary btn-sm btn" onClick={importHandler}>
               Import
             </label>
-            <button className="btn btn-secondary btn-sm" onClick={loadExampleHandler}>
+            <button className="btn-secondary btn-sm btn" onClick={loadExampleHandler}>
               Load Example
             </button>
-            <label htmlFor="import-ps-modal" className="btn btn-sm">
+            <label htmlFor="import-ps-modal" className="btn-sm btn">
               Cancel
             </label>
           </div>
@@ -158,14 +157,3 @@ export function ImportShowdownDialog() {
     </>
   );
 }
-
-function ImportShowdown() {
-  return (
-    <label htmlFor="import-ps-modal" className="modal-button rounded" title="Import a team from Showdown paste">
-      <DocumentAddIcon className="h-4 w-4 md:h-6 md:w-6" />
-      <span>Import</span>
-    </label>
-  );
-}
-
-export default ImportShowdown;

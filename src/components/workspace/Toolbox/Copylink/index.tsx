@@ -1,4 +1,3 @@
-import { LinkIcon } from '@heroicons/react/solid';
 import { toast } from 'react-hot-toast';
 
 function CopyLink() {
@@ -10,7 +9,7 @@ function CopyLink() {
         navigator.clipboard.writeText(window.location.href).then(() => toast('📋 Copied!'));
       }}
     >
-      <LinkIcon className="h-4 w-4 md:h-6 md:w-6" />
+      <span>🔗</span>
       <span>Copy Link</span>
     </button>
   );

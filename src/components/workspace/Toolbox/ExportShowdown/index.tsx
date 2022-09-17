@@ -1,4 +1,3 @@
-import { DocumentDownloadIcon } from '@heroicons/react/solid';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { toast } from 'react-hot-toast';
 
@@ -42,10 +41,10 @@ export function ExportShowdownDialog() {
           <h3 className="text-lg font-bold">Exported Showdown paste here ↓</h3>
           <textarea className="textarea-secondary textarea w-full" rows={10} readOnly={true} ref={exportTextareaRef}></textarea>
           <div className="modal-action">
-            <button className="btn btn-primary btn-sm" onClick={exportHandler}>
+            <button className="btn-primary btn-sm btn" onClick={exportHandler}>
               Copy
             </button>
-            <label htmlFor="export-ps-modal" className="btn btn-sm">
+            <label htmlFor="export-ps-modal" className="btn-sm btn">
               Close
             </label>
           </div>
@@ -54,14 +53,3 @@ export function ExportShowdownDialog() {
     </>
   );
 }
-
-function ExportShowdown() {
-  return (
-    <label htmlFor="export-ps-modal" className="modal-button rounded" title="Export this team to Showdown paste">
-      <DocumentDownloadIcon className="h-4 w-4 md:h-6 md:w-6" />
-      <span>Export</span>
-    </label>
-  );
-}
-
-export default ExportShowdown;

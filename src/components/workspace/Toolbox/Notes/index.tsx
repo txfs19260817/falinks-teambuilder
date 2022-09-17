@@ -1,4 +1,3 @@
-import { DocumentDownloadIcon } from '@heroicons/react/solid';
 import { MappedTypeDescription } from '@syncedstore/core/types/doc';
 import Collaboration from '@tiptap/extension-collaboration';
 import CollaborationCursor from '@tiptap/extension-collaboration-cursor';
@@ -88,10 +87,10 @@ export function NotesDialog({ store, client }: EditorProps) {
             {`H${lv}`}
           </button>
         ))}
-        <button onClick={() => editor.chain().focus().toggleBulletList().run()} className="btn btn-xs">
+        <button onClick={() => editor.chain().focus().toggleBulletList().run()} className="btn-xs btn">
           Bullet list
         </button>
-        <button onClick={() => editor.chain().focus().toggleOrderedList().run()} className="btn btn-xs">
+        <button onClick={() => editor.chain().focus().toggleOrderedList().run()} className="btn-xs btn">
           Ordered list
         </button>
       </FloatingMenu>
@@ -114,7 +113,7 @@ export function NotesDialog({ store, client }: EditorProps) {
           <h3 className="text-lg font-bold">Notes</h3>
           <EditorContent editor={editor} />
           <div className="modal-action">
-            <label htmlFor="notes-modal" className="btn btn-sm">
+            <label htmlFor="notes-modal" className="btn-sm btn">
               Hide
             </label>
           </div>
@@ -123,14 +122,3 @@ export function NotesDialog({ store, client }: EditorProps) {
     </>
   );
 }
-
-function NotesToggler() {
-  return (
-    <label htmlFor="notes-modal" className="modal-button rounded" title="Export this team to Showdown paste">
-      <DocumentDownloadIcon className="h-4 w-4 md:h-6 md:w-6" />
-      <span>Notes</span>
-    </label>
-  );
-}
-
-export default NotesToggler;

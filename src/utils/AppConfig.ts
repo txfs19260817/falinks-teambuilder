@@ -49,6 +49,33 @@ const routes: Route[] = [
   },
 ];
 
+const dialogProps = [
+  {
+    id: 'notes-modal',
+    emoji: '📝',
+    text: 'Notes',
+    title: 'Add notes to your team with a rich-text editor',
+  },
+  {
+    id: 'import-ps-modal',
+    emoji: '📥',
+    text: 'Import',
+    title: 'Import a team from Showdown paste or PokePaste link',
+  },
+  {
+    id: 'export-ps-modal',
+    emoji: '📤',
+    text: 'Export',
+    title: 'Export this team to Showdown paste',
+  },
+  {
+    id: 'post-pokepaste-modal',
+    emoji: '✈️',
+    text: 'Post',
+    title: 'Post your team to PokePaste or this site',
+  },
+];
+
 const usefulLinks = [
   {
     name: '🕹️ Showdown',
@@ -62,6 +89,29 @@ const usefulLinks = [
     name: '📈 Pikalytics',
     url: 'https://www.pikalytics.com/',
   },
+];
+
+const popularItems = [
+  'Aguav Berry',
+  'Assault Vest',
+  'Choice Band',
+  'Choice Scarf',
+  'Choice Specs',
+  'Eviolite',
+  'Expert Belt',
+  'Figy Berry',
+  'Focus Sash',
+  'Iapapa Berry',
+  'Leftovers',
+  'Life Orb',
+  'Mago Berry',
+  'Mental Herb',
+  'Power Herb',
+  'Rocky Helmet',
+  'Shuca Berry',
+  'Sitrus Berry',
+  'Weakness Policy',
+  'Wiki Berry',
 ];
 
 export const AppConfig = {
@@ -78,28 +128,8 @@ export const AppConfig = {
     vgcPastes: 'vgc_pastes',
     publicPastes: 'public_pastes',
   },
-  popularItems: [
-    'Aguav Berry',
-    'Assault Vest',
-    'Choice Band',
-    'Choice Scarf',
-    'Choice Specs',
-    'Eviolite',
-    'Expert Belt',
-    'Figy Berry',
-    'Focus Sash',
-    'Iapapa Berry',
-    'Leftovers',
-    'Life Orb',
-    'Mago Berry',
-    'Mental Herb',
-    'Power Herb',
-    'Rocky Helmet',
-    'Shuca Berry',
-    'Sitrus Berry',
-    'Weakness Policy',
-    'Wiki Berry',
-  ],
+  popularItems,
+  dialogProps,
   usefulLinks,
   routes,
 };

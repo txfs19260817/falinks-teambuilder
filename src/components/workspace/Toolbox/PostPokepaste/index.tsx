@@ -1,6 +1,6 @@
-import { PaperAirplaneIcon } from '@heroicons/react/solid';
 import { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'react-hot-toast';
 
 import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
 import { Pokemon } from '@/models/Pokemon';
@@ -9,7 +9,8 @@ import { PokePaste } from '@/models/PokePaste';
 export function PostPokepasteDialog() {
   const { teamState } = useContext(StoreContext);
   const [isOpen, setIsOpen] = useState(false);
-  const { register, setValue } = useForm<PokePaste>();
+  const { register, setValue, getValues } = useForm<PokePaste>();
+
   useEffect(() => {
     // @ts-ignore
     setValue('author', (teamState.metadata.authors?.toJSON() || []).join(', '));
@@ -17,6 +18,28 @@ export function PostPokepasteDialog() {
     setValue('paste', Pokemon.convertTeamToPaste(teamState.team));
     setValue('title', teamState.metadata.roomName || 'Falinks-teambuilder');
   }, [isOpen]);
+
+  const handleSubmitToFalinks = () => {
+    const promise = fetch('/api/pastes/create', {
+      method: 'POST',
+      redirect: 'follow',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(getValues()),
+    });
+    toast
+      .promise(promise, {
+        loading: 'Creating Paste...',
+        success: 'Paste Created! Being show you in a new window...',
+        error: (e) => `Error when creating your paste: ${e}`,
+      })
+      .then((r) => {
+        if (r.url) {
+          window.open(r.url, '_blank');
+        }
+      });
+  };
 
   return (
     <>
@@ -54,11 +77,15 @@ export function PostPokepasteDialog() {
             </label>
             <textarea className="textarea-secondary textarea w-full" {...register('paste')} />
           </div>
-          <div className="modal-action">
-            <button type="submit" className="btn btn-secondary btn-sm">
-              Submit
+          <div className="modal-action flex-col justify-center md:flex-row">
+            <span className="hidden" />
+            <button type="submit" className="btn-secondary btn-sm btn my-1">
+              To PokéPaste
             </button>
-            <label htmlFor="post-pokepaste-modal" className="btn btn-sm">
+            <button type="button" className="btn-secondary btn-sm btn my-1" onClick={handleSubmitToFalinks}>
+              To Falinks Teambuilder
+            </button>
+            <label htmlFor="post-pokepaste-modal" className="btn-sm btn my-1">
               Cancel
             </label>
           </div>
@@ -67,14 +94,3 @@ export function PostPokepasteDialog() {
     </>
   );
 }
-
-function PostPokepaste() {
-  return (
-    <label htmlFor="post-pokepaste-modal" className="modal-button rounded" title="Import a team from Showdown paste">
-      <PaperAirplaneIcon className="h-4 w-4 md:h-6 md:w-6" />
-      <span>PokéPaste</span>
-    </label>
-  );
-}
-
-export default PostPokepaste;

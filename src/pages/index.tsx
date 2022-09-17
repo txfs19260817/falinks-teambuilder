@@ -70,7 +70,7 @@ const Index = () => {
                     {...register('userName', { required: true })}
                   />
                   <button
-                    className="btn text-2xs rounded-l-none"
+                    className="text-2xs btn rounded-l-none"
                     role="button"
                     type="button"
                     onClick={() => {
@@ -128,7 +128,7 @@ const Index = () => {
                 <p className="text-xs text-base-content/50">Communication Protocol. Try another if one is not working.</p>
               </div>
               <div className="form-control mt-6">
-                <button className="btn btn-primary">Create / Join</button>
+                <button className="btn-primary btn">Create / Join</button>
               </div>
             </form>
           </div>
