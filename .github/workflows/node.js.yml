@@ -14,12 +14,17 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        node-version: [ 14.x, 16.x ]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
     steps:
       - uses: actions/checkout@v3
-      - name: Use Node.js 16.x
+      - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
-          node-version: 16.x
+          node-version: ${{ matrix.node-version }}
           cache: 'npm'
       - run: npm ci
       - name: Build
@@ -27,6 +32,3 @@ jobs:
         env:
           MONGODB_URI: ${{secrets.MONGODB_URI}}
       - run: npm test
-      - run: npx changelogithub # or changelogithub@0.12 if ensure the stable result
-        env:
-          GITHUB_TOKEN: ${{secrets.CHANGELOGITHUB_TOKEN}}
