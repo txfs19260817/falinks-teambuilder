@@ -27,13 +27,26 @@ const Meta = (props: IMetaProps) => {
       <NextSeo
         title={props.title}
         description={props.description}
-        canonical={props.canonical}
+        canonical={AppConfig.canonical}
         openGraph={{
           title: props.title,
           description: props.description,
           url: props.canonical,
           locale: AppConfig.locale,
+          images: [
+            {
+              url: `${AppConfig.canonical}/assets/images/hero.jpg`,
+              width: 1200,
+              height: 628,
+              alt: props.title,
+            },
+          ],
           site_name: AppConfig.site_name,
+        }}
+        twitter={{
+          handle: '@dora_865',
+          site: '@FalinksT',
+          cardType: 'summary_large_image',
         }}
       />
     </>
