@@ -1,8 +1,7 @@
 /** @type {import('next-sitemap').IConfig} */
-import { AppConfig } from './src/utils/AppConfig';
 
 const config = {
-  siteUrl: process.env.SITE_URL || AppConfig.canonical,
+  siteUrl: 'https://www.falinks-teambuilder.com',
   changefreq: 'daily',
   priority: 0.7,
   generateRobotsTxt: true,
