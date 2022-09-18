@@ -31,7 +31,7 @@ const PasteLayout = ({ paste }: { paste: PokePaste }) => {
         <p className="break-all">Notes: {paste.notes}</p>
         <div className="flex justify-around">
           <button
-            className="btn btn-primary btn-sm"
+            className="btn-primary btn-sm btn"
             type="button"
             onClick={() => {
               navigator.clipboard.writeText(paste.paste).then(() => toast('📋 Copied!'));
@@ -41,7 +41,7 @@ const PasteLayout = ({ paste }: { paste: PokePaste }) => {
           </button>
           {/* eslint-disable-next-line no-underscore-dangle */}
           <Link href={`/room/room_${S4()}${S4()}/?protocol=WebSocket&packed=${paste.toPackedTeam()}`}>
-            <a className="btn btn-secondary btn-sm">Open in Room</a>
+            <a className="btn-secondary btn-sm btn">Open in Room</a>
           </Link>
         </div>
       </div>

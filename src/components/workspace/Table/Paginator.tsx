@@ -3,19 +3,19 @@ import { Table } from '@tanstack/react-table';
 function Paginator({ instance }: { instance: Table<any> }) {
   return (
     <div className="btn-group w-full items-center justify-center" aria-label="paginator">
-      <button className="btn btn-sm" onClick={() => instance.setPageIndex(0)} disabled={!instance.getCanPreviousPage()}>
+      <button className="btn-sm btn" onClick={() => instance.setPageIndex(0)} disabled={!instance.getCanPreviousPage()}>
         {'<<'}
       </button>
-      <button className="btn btn-sm" onClick={() => instance.previousPage()} disabled={!instance.getCanPreviousPage()}>
+      <button className="btn-sm btn" onClick={() => instance.previousPage()} disabled={!instance.getCanPreviousPage()}>
         {'<'}
       </button>
-      <button className="btn btn-sm">
+      <button className="btn-sm btn">
         {instance.getState().pagination.pageIndex + 1} / {instance.getPageCount()}
       </button>
-      <button className="btn btn-sm" onClick={() => instance.nextPage()} disabled={!instance.getCanNextPage()}>
+      <button className="btn-sm btn" onClick={() => instance.nextPage()} disabled={!instance.getCanNextPage()}>
         {'>'}
       </button>
-      <button className="btn btn-sm" onClick={() => instance.setPageIndex(instance.getPageCount() - 1)} disabled={!instance.getCanNextPage()}>
+      <button className="btn-sm btn" onClick={() => instance.setPageIndex(instance.getPageCount() - 1)} disabled={!instance.getCanNextPage()}>
         {'>>'}
       </button>
       <div className="divider divider-horizontal" />

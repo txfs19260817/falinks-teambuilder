@@ -3,7 +3,21 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true'
 });
 
-module.exports = withBundleAnalyzer({
+const withPWA = require('next-pwa')({
+  dest: 'public',
+  runtimeCaching: require('next-pwa/cache')
+});
+
+/**
+ * @template {import('next').NextConfig} T
+ * @param {T} config - A generic parameter that flows through the return type
+ * @constraint {{import('next').NextConfig}}
+ */
+function defineNextConfig(config) {
+  return config;
+}
+
+const nextConfig = defineNextConfig({
   eslint: {
     dirs: ['.']
   },
@@ -16,3 +30,5 @@ module.exports = withBundleAnalyzer({
   // You can remove `basePath` if you don't need it.
   reactStrictMode: false
 });
+
+module.exports = withBundleAnalyzer(withPWA(nextConfig));

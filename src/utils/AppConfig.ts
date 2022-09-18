@@ -117,7 +117,7 @@ const popularItems = [
 export const AppConfig = {
   site_name: 'Falinks Teambuilder',
   title: 'Falinks Teambuilder',
-  description: 'Falinks Teambuilder is a collaborative Pokémon team building platform.',
+  description: 'Falinks Teambuilder is a collaborative Pokémon team building application.',
   canonical: 'https://www.falinks-teambuilder.com',
   locale: 'en',
   maxPokemonPerTeam: 6,

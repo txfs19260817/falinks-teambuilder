@@ -75,7 +75,7 @@ const PastesTable = ({ pastes, detailSubPath }: PasteListTableProps) => {
       accessorKey: '_id',
       cell: ({ getValue }) => (
         <Link href={`/pastes/${detailSubPath}/${getValue<string>()}`}>
-          <a className="btn btn-secondary btn-xs">Details</a>
+          <a className="btn-secondary btn-xs btn">Details</a>
         </Link>
       ),
       enableColumnFilter: false,

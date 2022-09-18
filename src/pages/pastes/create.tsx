@@ -101,7 +101,7 @@ const Create = () => {
               <textarea id="notes" className="textarea-bordered textarea" rows={3} {...register('notes')} />
             </div>
             <div className="form-control mt-6">
-              <button className="btn btn-primary">Create Paste</button>
+              <button className="btn-primary btn">Create Paste</button>
             </div>
           </form>
         </div>
