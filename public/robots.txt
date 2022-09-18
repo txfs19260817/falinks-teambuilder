@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://www.falinks-teambuilder.com
+
+# Sitemaps
+Sitemap: https://www.falinks-teambuilder.com/sitemap.xml

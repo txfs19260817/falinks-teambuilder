@@ -39,6 +39,8 @@ Feel free to check [issues page](https://github.com/txfs19260817/falinks-teambui
 ## Roadmap
 
 - [X] Collaborate text editor
+- [ ] Usage Tour
+- [ ] Statistics
 - [ ] Save & Load
 - [ ] Integrate with [Pokémon Showdown](https://play.pokemonshowdown.com/)
 - [X] Suggested EVs spreads
