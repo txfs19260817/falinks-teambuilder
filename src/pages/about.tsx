@@ -1,3 +1,5 @@
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+
 import { Main } from '@/templates/Main';
 
 const About = () => (
@@ -38,5 +40,13 @@ const About = () => (
     </article>
   </Main>
 );
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ['common'])),
+    },
+  };
+}
 
 export default About;

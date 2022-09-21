@@ -1,4 +1,6 @@
 import { Filter, FindOptions, ObjectId } from 'mongodb';
+import { GetStaticPaths } from 'next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import PasteLayout from '@/components/pastes/PasteLayout';
 import { PokePaste } from '@/models/PokePaste';
@@ -14,7 +16,7 @@ export default function PasteId({ data }: { data: PokePaste }) {
   );
 }
 
-export async function getStaticProps({ params }: { params: { id: string } }) {
+export async function getStaticProps({ params, locale }: { params: { id: string }; locale: string }) {
   const client = await clientPromise;
   const db = client.db(AppConfig.dbName);
   const data = await db
@@ -25,6 +27,7 @@ export async function getStaticProps({ params }: { params: { id: string } }) {
     ? {
         props: {
           data: JSON.parse(JSON.stringify(data)) as PokePaste,
+          ...(await serverSideTranslations(locale, ['common'])),
         },
       }
     : {
@@ -32,7 +35,7 @@ export async function getStaticProps({ params }: { params: { id: string } }) {
       };
 }
 
-export async function getStaticPaths() {
+export const getStaticPaths: GetStaticPaths = async () => {
   const client = await clientPromise;
   const db = client.db(AppConfig.dbName);
   const collection = db.collection<PokePaste>(AppConfig.collectionName.vgcPastes); // only generate static pages for vgc pastes
@@ -46,4 +49,4 @@ export async function getStaticPaths() {
     paths: paths || [],
     fallback: false,
   };
-}
+};

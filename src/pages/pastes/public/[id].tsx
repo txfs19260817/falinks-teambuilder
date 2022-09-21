@@ -1,13 +1,14 @@
 import { Filter, FindOptions, ObjectId } from 'mongodb';
-import { GetServerSideProps } from 'next';
+import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 
 import PasteLayout from '@/components/pastes/PasteLayout';
 import { PokePaste } from '@/models/PokePaste';
 import { Main } from '@/templates/Main';
 import { AppConfig } from '@/utils/AppConfig';
 import clientPromise from '@/utils/MongoDB';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
-export default function PasteId({ data }: { data: PokePaste }) {
+export default function PasteId({ data }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   return (
     <Main title={`Paste - ${data.title}`}>
       <PasteLayout paste={new PokePaste(data)} />
@@ -15,11 +16,11 @@ export default function PasteId({ data }: { data: PokePaste }) {
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getServerSideProps: GetServerSideProps<{ data: PokePaste }> = async (context) => {
   const { id } = context.query;
   if (typeof id !== 'string') {
     return {
-      notFound: true,
+      notFound: true
     };
   }
 
@@ -31,11 +32,12 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   return data
     ? {
-        props: {
-          data: JSON.parse(JSON.stringify(data)) as PokePaste,
-        },
+      props: {
+        data: JSON.parse(JSON.stringify(data)) as PokePaste,
+        ...(await serverSideTranslations(context.locale ?? 'en', ['common']))
       }
+    }
     : {
-        notFound: true,
-      };
+      notFound: true
+    };
 };

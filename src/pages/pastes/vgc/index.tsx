@@ -1,5 +1,6 @@
 import { WithId } from 'mongodb';
 import { InferGetStaticPropsType } from 'next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import React from 'react';
 
 import PastesTable from '@/components/pastes/PasteListTable';
@@ -16,9 +17,9 @@ const VGCPastes = ({ pastes }: InferGetStaticPropsType<typeof getStaticProps>) =
   );
 };
 
-export const getStaticProps: () => Promise<{
+export const getStaticProps: ({ locale }: { locale: string }) => Promise<{
   props: { pastes: WithId<PokePaste>[] };
-}> = async () => {
+}> = async ({ locale }) => {
   const client = await clientPromise;
   const db = client.db(AppConfig.dbName);
   const collection = db.collection<PokePaste>(AppConfig.collectionName.vgcPastes);
@@ -29,6 +30,7 @@ export const getStaticProps: () => Promise<{
   return {
     props: {
       pastes: JSON.parse(JSON.stringify(pastes)) as WithId<PokePaste>[],
+      ...(await serverSideTranslations(locale, ['common'])),
     },
   };
 };

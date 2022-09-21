@@ -1,5 +1,5 @@
 import { WithId } from 'mongodb';
-import { InferGetServerSidePropsType } from 'next';
+import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import React from 'react';
 
 import PastesTable from '@/components/pastes/PasteListTable';
@@ -7,18 +7,17 @@ import { PokePaste } from '@/models/PokePaste';
 import { Main } from '@/templates/Main';
 import { AppConfig } from '@/utils/AppConfig';
 import clientPromise from '@/utils/MongoDB';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 const PublicPastes = ({ pastes }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   return (
-    <Main title="Pastes">
-      <PastesTable pastes={pastes} detailSubPath="public" />
+    <Main title='Pastes'>
+      <PastesTable pastes={pastes} detailSubPath='public' />
     </Main>
   );
 };
 
-export const getServerSideProps: () => Promise<{
-  props: { pastes: WithId<PokePaste>[] };
-}> = async () => {
+export const getServerSideProps: GetServerSideProps<{ pastes: WithId<PokePaste>[] }> = async (context) => {
   const client = await clientPromise;
   const db = client.db(AppConfig.dbName);
   const collection = db.collection<PokePaste>(AppConfig.collectionName.publicPastes);
@@ -29,7 +28,8 @@ export const getServerSideProps: () => Promise<{
   return {
     props: {
       pastes: JSON.parse(JSON.stringify(pastes)) as WithId<PokePaste>[],
-    },
+      ...(await serverSideTranslations(context.locale ?? 'en', ['common']))
+    }
   };
 };
 
