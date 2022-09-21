@@ -1,5 +1,7 @@
+import { GetStaticPaths } from 'next';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useEffect, useState } from 'react';
 
 import { PokePaste } from '@/models/PokePaste';
@@ -66,6 +68,21 @@ const Room = () => {
       {isReady ? <Workspace roomName={roomName} protocolName={protocolName} basePokePaste={basePokePaste} /> : <h1>Loading...</h1>}
     </Main>
   );
+};
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ['common'])),
+    },
+  };
+}
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  return {
+    paths: [], // no page needs be created at build time for dynamic pages
+    fallback: 'blocking', // other routes should be resolved by the server
+  };
 };
 
 export default Room;
