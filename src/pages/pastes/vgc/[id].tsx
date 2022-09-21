@@ -35,15 +35,23 @@ export async function getStaticProps({ params, locale }: { params: { id: string 
       };
 }
 
-export const getStaticPaths: GetStaticPaths = async () => {
+export const getStaticPaths: GetStaticPaths = async (context) => {
   const client = await clientPromise;
   const db = client.db(AppConfig.dbName);
   const collection = db.collection<PokePaste>(AppConfig.collectionName.vgcPastes); // only generate static pages for vgc pastes
   const cursor = collection.find({}, { projection: { _id: 1, title: 0, author: 0, paste: 0, notes: 0 } });
 
   const data = await collection.find().toArray();
-  const paths = data.map(({ _id }: { _id: ObjectId }) => `/pastes/vgc/${_id.toString()}`);
+  const basePaths = data.map(({ _id }: { _id: ObjectId }) => `/pastes/vgc/${_id.toString()}`);
   await cursor.close();
+
+  const paths: string[] = [];
+
+  context.locales?.forEach((locale) => {
+    basePaths.forEach((basePath) => {
+      paths.push(`/${locale}${basePath}`);
+    });
+  });
 
   return {
     paths: paths || [],

@@ -23,13 +23,13 @@ const ThemePicker = () => {
 };
 
 const LanguagePicker = () => {
-  const { push, locale, locales, pathname } = useRouter();
+  const { push, locale, locales, asPath } = useRouter();
   const localeMap: Map<string, string> = new Map([
     ['en', 'English'],
     ['zh-Hans', '简体中文'],
   ]);
   const handleLanguageChange: ChangeEventHandler<HTMLSelectElement> = (e) => {
-    push(pathname, pathname, { locale: e.target.value });
+    push(asPath, asPath, { locale: e.target.value });
   };
   return (
     <select className="w-sm select-primary select select-sm bg-neutral capitalize" onChange={handleLanguageChange} defaultValue={locale}>
