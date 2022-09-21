@@ -87,6 +87,4 @@ const PokemonPanel = () => {
   );
 };
 
-PokemonPanel.whyDidYouRender = false;
-
 export { PokemonPanel };

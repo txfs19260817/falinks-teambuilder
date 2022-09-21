@@ -3,6 +3,7 @@
 import tailwindConfig from '../../tailwind.config.js';
 
 type Route = {
+  id: string;
   path: string;
   name: string;
   target: string;
@@ -11,26 +12,31 @@ type Route = {
 
 const routes: Route[] = [
   {
+    id: 'home',
     name: 'Home',
     path: '/',
     target: '_self',
   },
   {
+    id: 'paste',
     name: 'Pastes',
     path: '',
     target: '',
     children: [
       {
+        id: 'user_paste',
         name: 'User Paste',
         path: '/pastes/public',
         target: '_self',
       },
       {
+        id: 'vgc_paste',
         name: 'VGC Paste',
         path: '/pastes/vgc',
         target: '_self',
       },
       {
+        id: 'create_paste',
         name: 'Create',
         path: '/pastes/create',
         target: '_self',
@@ -38,11 +44,13 @@ const routes: Route[] = [
     ],
   },
   {
+    id: 'about',
     name: 'About',
     path: '/about',
     target: '_self',
   },
   {
+    id: 'github',
     name: 'GitHub',
     path: 'https://github.com/txfs19260817/falinks-teambuilder',
     target: '_blank',
@@ -119,7 +127,8 @@ export const AppConfig = {
   title: 'Falinks Teambuilder',
   description: 'Falinks Teambuilder is a collaborative Pokémon team building application.',
   canonical: 'https://www.falinks-teambuilder.com',
-  locale: 'en',
+  defaultLocale: 'en',
+  locales: ['en', 'zh-Hans'],
   maxPokemonPerTeam: 6,
   defaultGen: 8,
   usageAPI: `https://www.pikalytics.com/api/l/2022-${`${new Date().getMonth()}`.padStart(2, '0')}/ss-1500`,

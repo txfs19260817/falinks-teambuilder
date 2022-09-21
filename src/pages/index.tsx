@@ -1,3 +1,6 @@
+import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
@@ -14,6 +17,9 @@ type RoomForm = WorkspaceProps & {
 };
 
 const Index = () => {
+  const router = useRouter();
+  const { t } = useTranslation(['common', 'home']);
+
   const { register, handleSubmit, setValue } = useForm<RoomForm>({
     defaultValues: {
       roomName: `room_name_${S4()}${S4()}`,
@@ -24,7 +30,7 @@ const Index = () => {
   const gotoRoom = ({ roomName, protocolName, userName, pokePasteUrl }: RoomForm) => {
     localStorage.setItem('username', userName);
     // use window.open instead of next/router to disable go back
-    const targetRoomRoute = `/room/${encodeURIComponent(roomName)}?protocol=${encodeURIComponent(protocolName)}${
+    const targetRoomRoute = `/${router.locale}/room/${encodeURIComponent(roomName)}?protocol=${encodeURIComponent(protocolName)}${
       pokePasteUrl && PokePaste.isValidPokePasteURL(pokePasteUrl) ? `&pokepaste=${encodeURIComponent(pokePasteUrl)}` : ''
     }`;
     window.open(targetRoomRoute, '_self');
@@ -35,18 +41,18 @@ const Index = () => {
   }, []);
 
   return (
-    <Main title={'Home'}>
+    <Main title={t('home')}>
       <div
         className="hero min-h-[88vh]"
         style={{
-          backgroundImage: 'url(assets/images/hero.jpg)',
+          backgroundImage: 'url(/assets/images/hero.jpg)',
         }}
       >
         <div className="hero-overlay bg-opacity-75"></div>
         <div className="hero-content flex-col text-neutral-content lg:flex-row">
           <div className="text-center lg:text-left">
             <h1 className="text-5xl font-bold">{AppConfig.title}</h1>
-            <p className="py-6">Build the next sweeping Pokémon team with the power of collaborative </p>
+            <p className="py-6">{t('home:slogan')}</p>
           </div>
           <div className="card w-full max-w-sm flex-shrink-0 bg-base-100 shadow-2xl">
             <form
@@ -57,19 +63,20 @@ const Index = () => {
             >
               <div className="form-control">
                 <label className="label" htmlFor={'userName'}>
-                  <span className="label-text after:text-error after:content-['_*']">Author Name</span>
+                  <span className="label-text after:text-error after:content-['_*']">{t('home:form.author.label')}</span>
                 </label>
                 <div className="flex">
                   <input
                     id={'userName'}
                     type="text"
-                    placeholder="Author Name"
+                    placeholder={t('home:form.author.placeholder')}
                     required={true}
                     maxLength={18}
                     className="input-bordered input rounded-r-none text-base-content"
                     {...register('userName', { required: true })}
                   />
                   <button
+                    title="Draw a name randomly"
                     className="text-2xs btn rounded-l-none"
                     role="button"
                     type="button"
@@ -77,14 +84,14 @@ const Index = () => {
                       setValue('userName', getRandomTrainerName());
                     }}
                   >
-                    Draw a name
+                    {t('home:form.author.button')}
                   </button>
                 </div>
-                <p className="text-xs text-base-content/50">No registration required. It will be used to identify you in the room.</p>
+                <p className="text-xs text-base-content/50">{t('home:form.author.description')}</p>
               </div>
               <div className="form-control">
                 <label className="label" htmlFor={'pokePasteUrl'}>
-                  <span className="label-text">PokéPaste Link</span>
+                  <span className="label-text">{t('home:form.pokepaste.label')}</span>
                 </label>
                 <input
                   id={'pokePasteUrl'}
@@ -94,26 +101,26 @@ const Index = () => {
                   className="input-bordered input text-base-content"
                   {...register('pokePasteUrl')}
                 />
-                <p className="text-xs text-base-content/50">Start your team with a PokéPaste link.</p>
+                <p className="text-xs text-base-content/50">{t('home:form.pokepaste.description')}</p>
               </div>
               <div className="form-control">
                 <label className="label" htmlFor={'roomName'}>
-                  <span className="label-text after:text-error after:content-['_*']">Room Name</span>
+                  <span className="label-text after:text-error after:content-['_*']">{t('home:form.room.label')}</span>
                 </label>
                 <input
                   id={'roomName'}
                   type="text"
-                  placeholder="Room name here"
+                  placeholder={t('home:form.room.placeholder')}
                   required={true}
                   maxLength={50}
                   className="input-bordered input text-base-content"
                   {...register('roomName', { required: true })}
                 />
-                <p className="text-xs text-base-content/50">You can share this room name to invite others.</p>
+                <p className="text-xs text-base-content/50">{t('home:form.room.description')}</p>
               </div>
               <div className="form-control">
                 <label className="label" htmlFor={'Protocol'}>
-                  <span className="label-text after:text-error after:content-['_*']">Protocol</span>
+                  <span className="label-text after:text-error after:content-['_*']">{t('home:form.protocol.label')}</span>
                 </label>
                 <div id={'Protocol'} className="form-control flex-row-reverse justify-between">
                   {supportedProtocols.map((protocol) => (
@@ -125,10 +132,10 @@ const Index = () => {
                     </div>
                   ))}
                 </div>
-                <p className="text-xs text-base-content/50">Communication Protocol. Try another if one is not working.</p>
+                <p className="text-xs text-base-content/50">{t('home:form.protocol.description')}</p>
               </div>
               <div className="form-control mt-6">
-                <button className="btn-primary btn">Create / Join</button>
+                <button className="btn-primary btn">{t('home:form.submit')}</button>
               </div>
             </form>
           </div>
@@ -137,5 +144,13 @@ const Index = () => {
     </Main>
   );
 };
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ['common', 'home'])),
+    },
+  };
+}
 
 export default Index;

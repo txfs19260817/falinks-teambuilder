@@ -1,5 +1,7 @@
 import Link from 'next/link';
-import { useEffect } from 'react';
+import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
+import { ChangeEventHandler, useEffect } from 'react';
 import { themeChange } from 'theme-change';
 
 import { AppConfig } from '@/utils/AppConfig';
@@ -20,19 +22,40 @@ const ThemePicker = () => {
   );
 };
 
+const LanguagePicker = () => {
+  const { push, locale, locales, pathname } = useRouter();
+  const localeMap: Map<string, string> = new Map([
+    ['en', 'English'],
+    ['zh-Hans', '简体中文'],
+  ]);
+  const handleLanguageChange: ChangeEventHandler<HTMLSelectElement> = (e) => {
+    push(pathname, pathname, { locale: e.target.value });
+  };
+  return (
+    <select className="w-sm select-primary select select-sm bg-neutral capitalize" onChange={handleLanguageChange} defaultValue={locale}>
+      {locales?.map((l) => (
+        <option key={l} value={l}>
+          {localeMap.get(l)}
+        </option>
+      ))}
+    </select>
+  );
+};
+
 const RoutesList = ({ className }: { className: string }) => {
+  const { t } = useTranslation('common');
   return (
     <ul className={className}>
       {AppConfig.routes.map((route) =>
         route.children ? (
-          <li key={route.name} className="dropdown-hover dropdown">
-            <a className="hover:border-none">{route.name}</a>
+          <li key={route.id} className="dropdown-hover dropdown">
+            <a className="hover:border-none">{t(route.id, { defaultValue: route.name })}</a>
             <ul className="dropdown-content menu rounded-box bg-neutral p-2 shadow">
               {route.children.map((cr) => (
-                <li key={cr.name}>
+                <li key={cr.id}>
                   <Link href={cr.path} passHref>
                     <a target={cr.target} rel="noopener noreferrer" className="border-none">
-                      {cr.name}
+                      {t(cr.id, { defaultValue: cr.name })}
                     </a>
                   </Link>
                 </li>
@@ -40,10 +63,10 @@ const RoutesList = ({ className }: { className: string }) => {
             </ul>
           </li>
         ) : (
-          <li key={route.name}>
+          <li key={route.id}>
             <Link href={route.path} passHref>
               <a target={route.target} rel="noopener noreferrer" className="border-none">
-                {route.name}
+                {t(route.id, { defaultValue: route.name })}
               </a>
             </Link>
           </li>
@@ -72,7 +95,8 @@ const Navbar = () => {
       <div className="navbar-center hidden lg:flex">
         <RoutesList className="menu menu-horizontal" />
       </div>
-      <div className="navbar-end">
+      <div className="navbar-end gap-x-2">
+        <LanguagePicker />
         <ThemePicker />
       </div>
     </div>
