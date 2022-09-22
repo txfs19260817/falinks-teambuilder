@@ -70,6 +70,7 @@ export const getStats = (stat: string, base: number, ev: number, iv: number, nat
     : Math.floor(((Math.floor(2 * base + iv + Math.floor(ev / 4)) * level) / 100 + 5) * (nature.plus === stat ? 1.1 : nature.minus === stat ? 0.9 : 1));
 };
 
+// 252 or left over EVs
 export const getSingleEvUpperLimit = (evs: StatsTable, oldEv: number): number => {
   return Math.min(maxTotalEvs - Object.values(evs).reduce((x, y) => x + y) + oldEv, maxSingleEvs);
 };

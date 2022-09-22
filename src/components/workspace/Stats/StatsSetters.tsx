@@ -1,6 +1,6 @@
 import { Nature } from '@pkmn/dex-types';
 import { StatsTable } from '@pkmn/types';
-import { ChangeEvent, useContext, useEffect, useState } from 'react';
+import { ChangeEvent, FocusEvent, KeyboardEvent, MouseEvent, TouchEvent, useContext, useEffect, useState } from 'react';
 
 import { DexContext } from '@/components/workspace/Contexts/DexContext';
 import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
@@ -160,6 +160,36 @@ function StatsSetters() {
     teamState.team[tabIdx].evs = newEvs;
   };
 
+  const handleEVInputChange = (e: ChangeEvent<HTMLInputElement>, ev: number, stat: string) => {
+    let newEv = e.target.value === '' ? 0 : parseInt(e.target.value, 10);
+    newEv = Number.isNaN(newEv) ? (evs as unknown as { [s: string]: number })[stat] ?? 0 : Math.min(newEv, getSingleEvUpperLimit(evs, ev));
+    setEvs((old) => ({ ...old, [stat]: newEv }));
+  };
+
+  // mouse up or on blur
+  const handleEVInputDone = (
+    e: MouseEvent<HTMLInputElement> | FocusEvent<HTMLInputElement> | KeyboardEvent<HTMLInputElement> | TouchEvent<HTMLInputElement>,
+    stat: string
+  ) => {
+    // @ts-ignore
+    if (e.key && !['ArrowDown', 'ArrowUp', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'Backspace', 'Delete', 'Enter'].includes(e.key)) return;
+    // @ts-ignore
+    teamState.team[tabIdx].evs = {
+      ...evs,
+      [stat]: Number((e.target as HTMLInputElement).value),
+    };
+  };
+
+  const handleIVInputChange = (e: ChangeEvent<HTMLInputElement>, stat: string) => {
+    const newIv = Math.min(Number(e.target.value), 31);
+    setIvs((old) => ({ ...old, [stat]: newIv }));
+    // @ts-ignore
+    teamState.team[tabIdx].ivs = {
+      ...ivs,
+      [stat]: newIv,
+    };
+  };
+
   return (
     <>
       {/* Header */}
@@ -173,7 +203,7 @@ function StatsSetters() {
         <span>Stats</span>
       </div>
       {/* Sliders */}
-      {['hp', 'atk', 'def', 'spa', 'spd', 'spe'].map((stat) => {
+      {['hp', 'atk', 'def', 'spa', 'spd', 'spe'].map((stat: string) => {
         const b = (base as unknown as { [s: string]: number })[stat] ?? 0;
         const iv = (ivs as unknown as { [s: string]: number })[stat] ?? 31;
         const ev = (evs as unknown as { [s: string]: number })[stat] ?? 0;
@@ -218,14 +248,11 @@ function StatsSetters() {
               step="4"
               value={ev}
               className="input-bordered input input-xs col-span-2 mx-2 md:input-sm md:mx-0"
-              onChange={(e) => {
-                const newEv = Math.min(Number(e.target.value), getSingleEvUpperLimit(evs, ev));
-                // @ts-ignore
-                teamState.team[tabIdx].evs = {
-                  ...evs,
-                  [stat]: newEv,
-                };
-              }}
+              onChange={(e) => handleEVInputChange(e, ev, stat)}
+              onKeyUp={(e) => handleEVInputDone(e, stat)}
+              onMouseUp={(e) => handleEVInputDone(e, stat)}
+              onTouchEnd={(e) => handleEVInputDone(e, stat)}
+              onBlur={(e) => handleEVInputDone(e, stat)}
             />
             {/* EVs - range slider */}
             <input
@@ -236,14 +263,9 @@ function StatsSetters() {
               step="4"
               value={ev}
               className="range range-xs col-span-5 md:range-sm "
-              onChange={(e) => {
-                const newEv = Math.min(Number(e.target.value), getSingleEvUpperLimit(evs, ev));
-                // @ts-ignore
-                teamState.team[tabIdx].evs = {
-                  ...evs,
-                  [stat]: newEv,
-                };
-              }}
+              onChange={(e) => handleEVInputChange(e, ev, stat)}
+              onMouseUp={(e) => handleEVInputDone(e, stat)}
+              onTouchEnd={(e) => handleEVInputDone(e, stat)}
             />
             {/* IVs - number input */}
             <input
@@ -253,13 +275,7 @@ function StatsSetters() {
               max="31"
               value={iv}
               className="input-bordered input input-xs appearance-none md:input-sm"
-              onChange={(e) => {
-                // @ts-ignore
-                teamState.team[tabIdx].ivs = {
-                  ...ivs,
-                  [stat]: Number(e.target.value),
-                };
-              }}
+              onChange={(e) => handleIVInputChange(e, stat)}
             />
             {/* Final Stat */}
             <span>{getStats(stat, b, ev, iv, nature, lv)}</span>
