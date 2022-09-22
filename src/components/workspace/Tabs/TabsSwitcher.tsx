@@ -46,10 +46,10 @@ function TabMenu({ idx }: { idx: number }) {
       <label tabIndex={idx} className={`badge indicator-item badge-secondary`}>
         ≡
       </label>
-      <div tabIndex={idx} className="card dropdown-content card-compact w-full bg-base-200 p-1 shadow md:w-64">
+      <div tabIndex={idx} className="card dropdown-content card-compact w-full bg-base-200 p-1 shadow md:w-96">
         <div className="card-body">
           <h1 className="card-title">{pm.species}</h1>
-          <textarea ref={pasteTextareaRef} className="textarea" placeholder="Paste" rows={12}></textarea>
+          <textarea ref={pasteTextareaRef} className="textarea" placeholder="Paste" rows={10}></textarea>
           <div className="card-actions">
             <button className="btn-primary btn-xs btn" onClick={() => updateTab(idx)}>
               Update

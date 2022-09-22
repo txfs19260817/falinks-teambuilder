@@ -12,7 +12,8 @@ import { ExportShowdownDialog } from '@/components/workspace/Toolbox/ExportShowd
 import { ImportShowdownDialog } from '@/components/workspace/Toolbox/ImportShowdown';
 import { NotesDialog } from '@/components/workspace/Toolbox/Notes';
 import { PostPokepasteDialog } from '@/components/workspace/Toolbox/PostPokepaste';
-import { FocusedField, FocusedFieldAction, FocusedFieldToIdx, Metadata } from '@/components/workspace/types';
+import type { FocusedFieldAction, FocusedFieldToIdx, Metadata } from '@/components/workspace/types';
+import { FocusedField } from '@/components/workspace/types';
 import { Client, ClientInfo } from '@/models/Client';
 import { Pokemon } from '@/models/Pokemon';
 import { PokePaste } from '@/models/PokePaste';
@@ -31,40 +32,44 @@ const teamStore = syncedStore<StoreContextType>({
   notes: 'xml',
 });
 
-function reducer(state: FocusedFieldToIdx, action: FocusedFieldAction) {
-  const { type, payload } = action;
-  switch (type) {
-    case 'set':
-      return payload;
-    case 'next': {
-      const [field, idx] = (Object.entries(state)[0] ?? ['', 0]) as [FocusedField, number]; // idx is only used for switching between moves
-      if (field === FocusedField.Species) {
-        return { Item: 0 };
-      }
-      if (field === FocusedField.Item) {
-        return { Ability: 0 };
-      }
-      if (field === FocusedField.Ability) {
-        return { Moves: 0 };
-      }
-      if (field === FocusedField.Moves) {
-        if (idx <= 2) {
-          return { Moves: idx + 1 };
+// A reducer hook to automatically move to the next field based on the current one
+// e.g. if the user pick a Pokémon Species, it will move to the Item field
+function useFieldAutoChange(initialState: FocusedFieldToIdx) {
+  return useReducer<Reducer<FocusedFieldToIdx, FocusedFieldAction>>((curState: FocusedFieldToIdx, action: FocusedFieldAction) => {
+    const { type, payload } = action;
+    switch (type) {
+      case 'set':
+        return payload;
+      case 'next': {
+        const [field, idx] = (Object.entries(curState)[0] ?? ['', 0]) as [FocusedField, number]; // idx is only used for switching between moves
+        if (field === FocusedField.Species) {
+          return { Item: 0 };
         }
-        return { Stats: 0 };
+        if (field === FocusedField.Item) {
+          return { Ability: 0 };
+        }
+        if (field === FocusedField.Ability) {
+          return { Moves: 0 };
+        }
+        if (field === FocusedField.Moves) {
+          if (idx <= 2) {
+            return { Moves: idx + 1 };
+          }
+          return { Stats: 0 };
+        }
+        return payload;
       }
-      return payload;
+      default:
+        throw new Error();
     }
-    default:
-      throw new Error();
-  }
+  }, initialState);
 }
 
 function Workspace({ roomName, protocolName, basePokePaste }: WorkspaceProps) {
   // States
   const [client, setClient] = useState<Client | undefined>();
   const [tabIdx, setTabIdx] = useState<number>(0);
-  const [focusedFieldState, focusedFieldDispatch] = useReducer<Reducer<FocusedFieldToIdx, FocusedFieldAction>>(reducer, {
+  const [focusedFieldState, focusedFieldDispatch] = useFieldAutoChange({
     Species: 0,
   });
 

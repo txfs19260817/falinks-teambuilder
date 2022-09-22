@@ -13,7 +13,8 @@ const getMovesBySpecie = (gen: Generation, speciesName?: string): Promise<Move[]
     const res = Object.entries(l?.learnset ?? []).flatMap((e) => gen.moves.get(e[0]) ?? []);
     const baseSpecies = gen.species.get(speciesName || '')?.baseSpecies ?? '';
     if (baseSpecies !== speciesName && baseSpecies !== '') {
-      return res.concat(await getMovesBySpecie(gen, baseSpecies));
+      const baseSpeciesMoves = await getMovesBySpecie(gen, baseSpecies);
+      res.push(...baseSpeciesMoves);
     }
     return res;
   });
