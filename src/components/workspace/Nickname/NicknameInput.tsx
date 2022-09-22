@@ -17,12 +17,15 @@ function NicknameInput() {
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const newNick = e.target.value;
     setNickname(newNick);
-    if (!teamState.team[tabIdx]) return;
-    // @ts-ignore
-    teamState.team[tabIdx].name = newNick;
   };
 
-  return <input type="text" placeholder="Nickname" className="input-bordered input input-xs" value={nickname} onChange={handleChange} />;
+  const handleBlur = () => {
+    if (!teamState.team[tabIdx]) return;
+    // @ts-ignore
+    teamState.team[tabIdx].name = nickname;
+  };
+
+  return <input type="text" placeholder="Nickname" className="input-bordered input input-xs" value={nickname} onChange={handleChange} onBlur={handleBlur} />;
 }
 
 export default NicknameInput;

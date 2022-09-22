@@ -42,19 +42,19 @@ export const getStaticPaths: GetStaticPaths = async (context) => {
   const cursor = collection.find({}, { projection: { _id: 1, title: 0, author: 0, paste: 0, notes: 0 } });
 
   const data = await collection.find().toArray();
-  const basePaths = data.map(({ _id }: { _id: ObjectId }) => `/pastes/vgc/${_id.toString()}`);
+  const ids = data.map(({ _id }: { _id: ObjectId }) => _id.toString());
   await cursor.close();
 
-  const paths: string[] = [];
-
-  context.locales?.forEach((locale) => {
-    basePaths.forEach((basePath) => {
-      paths.push(`/${locale}${basePath}`);
-    });
-  });
+  const paths =
+    context.locales?.flatMap((locale) =>
+      ids.map((id) => ({
+        params: { id },
+        locale,
+      }))
+    ) ?? ids.map((id) => ({ params: { id } }));
 
   return {
-    paths: paths || [],
+    paths,
     fallback: false,
   };
 };
