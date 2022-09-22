@@ -9,6 +9,24 @@ import { convertStylesStringToObject, S4 } from '@/utils/Helpers';
 
 const PasteLayout = ({ paste }: { paste: PokePaste }) => {
   const team = Pokemon.convertPasteToTeam(paste.paste) || [];
+
+  // handlers
+  const handleCopy = () => {
+    navigator.clipboard.writeText(paste.paste).then(() => toast('📋 Copied!'));
+  };
+
+  const handleShare = () => {
+    try {
+      navigator.share({
+        text: paste.paste,
+        url: window.location.href,
+        title: paste.title,
+      });
+    } catch (e) {
+      navigator.clipboard.writeText(window.location.href).then(() => toast('📋 Link copied!'));
+    }
+  };
+
   return (
     <div className="grid grid-flow-row md:grid-flow-col md:grid-cols-3">
       {/* avatars */}
@@ -23,29 +41,27 @@ const PasteLayout = ({ paste }: { paste: PokePaste }) => {
         ))}
       </div>
       {/* paste */}
-      <pre className="w-4/5 whitespace-pre-wrap">{paste.paste}</pre>
+      <pre className="ml-5 w-4/5 whitespace-pre-wrap">{paste.paste}</pre>
       {/* metadata */}
-      <div className="prose w-4/5 py-6">
+      <div className="prose ml-5 w-4/5 py-6">
         <h1>{paste.title}</h1>
         <h3>Author: {paste.author}</h3>
         <p className="break-all">Notes: {paste.notes}</p>
         <div className="flex justify-around">
-          <button
-            className="btn-primary btn-sm btn"
-            type="button"
-            onClick={() => {
-              navigator.clipboard.writeText(paste.paste).then(() => toast('📋 Copied!'));
-            }}
-          >
+          <button className="btn-primary btn-sm btn" type="button" onClick={handleCopy}>
             Copy PokePaste
+          </button>
+          <button className="btn-secondary btn-sm btn" type="button" onClick={handleShare}>
+            Share
           </button>
           {/* eslint-disable-next-line no-underscore-dangle */}
           <Link href={`/room/room_${S4()}${S4()}/?protocol=WebSocket&packed=${paste.toPackedTeam()}`}>
-            <a className="btn-secondary btn-sm btn">Open in Room</a>
+            <a className="btn-accent btn-sm btn">Open in Room</a>
           </Link>
         </div>
       </div>
     </div>
   );
 };
+
 export default PasteLayout;

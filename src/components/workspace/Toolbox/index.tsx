@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import React, { SVGProps } from 'react';
 
-import CopyLink from '@/components/workspace/Toolbox/Copylink';
+import ShareLink from '@/components/workspace/Toolbox/ShareLink';
 import { AppConfig } from '@/utils/AppConfig';
 
 const ExternalLinkIcon = (props: SVGProps<SVGSVGElement>) => (
@@ -23,7 +23,7 @@ const Toolbox = () => {
       <div className="navbar-center flex">
         <ul className="menu menu-horizontal p-0">
           <li>
-            <CopyLink />
+            <ShareLink />
           </li>
           {/* Dialog buttons */}
           {AppConfig.dialogProps.map(({ id, emoji, text, title }) => (

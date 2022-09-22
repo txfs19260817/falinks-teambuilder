@@ -21,7 +21,7 @@ export const getServerSideProps: GetServerSideProps<{ pastes: WithId<PokePaste>[
   const client = await clientPromise;
   const db = client.db(AppConfig.dbName);
   const collection = db.collection<PokePaste>(AppConfig.collectionName.publicPastes);
-  const cursor = collection.find({});
+  const cursor = collection.find({}).sort({ _id: 1 });
 
   const pastes: WithId<PokePaste>[] = await cursor.toArray();
   await cursor.close();
