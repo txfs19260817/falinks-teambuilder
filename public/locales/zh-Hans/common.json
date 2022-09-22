@@ -1,5 +1,8 @@
 {
   "home": "主页",
   "about": "关于",
-  "paste": "队伍"
+  "paste": "队伍",
+  "user_paste": "用户分享",
+  "vgc_paste": "VGC Paste",
+  "create_paste": "分享队伍"
 }

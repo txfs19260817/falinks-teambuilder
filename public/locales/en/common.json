@@ -1,5 +1,8 @@
 {
   "home": "Home",
   "about": "About",
-  "paste": "Paste"
+  "paste": "Paste",
+  "user_paste": "User Paste",
+  "vgc_paste": "VGC Paste",
+  "create_paste": "Create"
 }

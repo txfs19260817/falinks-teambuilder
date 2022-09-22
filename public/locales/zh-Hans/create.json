@@ -1,0 +1,28 @@
+{
+  "title": "分享队伍",
+  "form": {
+    "title": {
+      "label": "标题",
+      "placeholder": "给队伍起个名字"
+    },
+    "author": {
+      "label": "作者",
+      "placeholder": "请输入队伍作者"
+    },
+    "paste": {
+      "label": "Paste",
+      "placeholder": "Showdown 格式队伍文本",
+      "error": "无效的队伍文本"
+    },
+    "notes": {
+      "label": "笔记",
+      "placeholder": "关于队伍的一些备注"
+    },
+    "submit": {
+      "button": "提交",
+      "loading": "创建中...",
+      "success": "创建成功！正在加载上传的内容...",
+      "error": "创建失败"
+    }
+  }
+}

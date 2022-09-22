@@ -1,3 +1,4 @@
+import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import React from 'react';
 import { useForm } from 'react-hook-form';
@@ -8,6 +9,7 @@ import { PokePaste } from '@/models/PokePaste';
 import { Main } from '@/templates/Main';
 
 const Create = () => {
+  const { t } = useTranslation(['common', 'create']);
   const {
     register,
     handleSubmit,
@@ -29,9 +31,9 @@ const Create = () => {
     });
     toast
       .promise(promise, {
-        loading: 'Creating Paste...',
-        success: 'Paste Created! Redirecting...',
-        error: (e) => `Error when creating your paste: ${e}`,
+        loading: t('create:form.submit.loading'),
+        success: t('create:form.submit.success'),
+        error: (e) => `${t('create:form.submit.error')}: ${e}`,
       })
       .then((r) => {
         if (r.url) {
@@ -41,7 +43,7 @@ const Create = () => {
   };
 
   return (
-    <Main title="Create Pastes">
+    <Main title={t('create:title')}>
       <div className="flex h-full w-full flex-col items-center justify-center">
         <div className="card my-3 w-full max-w-sm flex-shrink-0 bg-base-100 shadow-2xl">
           <form
@@ -52,12 +54,12 @@ const Create = () => {
           >
             <div className="form-control">
               <label className="label" htmlFor="title">
-                <span className="label-text after:text-error after:content-['_*']">Title</span>
+                <span className="label-text after:text-error after:content-['_*']">{t('create:form.title.label')}</span>
               </label>
               <input
                 id="title"
                 type="text"
-                placeholder="Title"
+                placeholder={t('create:form.title.placeholder')}
                 required={true}
                 maxLength={50}
                 className="input-bordered input text-base-content"
@@ -68,12 +70,12 @@ const Create = () => {
             </div>
             <div className="form-control">
               <label className="label" htmlFor="author">
-                <span className="label-text after:text-error after:content-['_*']">Author Name</span>
+                <span className="label-text after:text-error after:content-['_*']">{t('create:form.author.label')}</span>
               </label>
               <input
                 id="author"
                 type="text"
-                placeholder="Author Name"
+                placeholder={t('create:form.author.placeholder')}
                 required={true}
                 maxLength={36}
                 className="input-bordered input text-base-content"
@@ -82,27 +84,28 @@ const Create = () => {
             </div>
             <div className="form-control">
               <label className="label" htmlFor="paste">
-                <span className="label-text after:text-error after:content-['_*']">Paste</span>
+                <span className="label-text after:text-error after:content-['_*']">{t('create:form.paste.label')}</span>
               </label>
               <textarea
                 id="paste"
                 className={`textarea-bordered textarea text-base-content ${errors.paste ? 'textarea-error' : ''}`}
+                placeholder={t('create:form.paste.placeholder')}
                 rows={9}
                 {...register('paste', {
                   required: true,
-                  validate: (value) => Pokemon.convertPasteToTeam(value) != null || 'Invalid paste',
+                  validate: (value) => Pokemon.convertPasteToTeam(value) != null || t('create:form.paste.error'),
                 })}
               />
               {errors.paste && <p className="text-xs text-error-content">{errors.paste.message}</p>}
             </div>
             <div className="form-control">
               <label className="label" htmlFor="notes">
-                <span className="label-text">Notes</span>
+                <span className="label-text">{t('create:form.notes.label')}</span>
               </label>
-              <textarea id="notes" className="textarea-bordered textarea" rows={3} {...register('notes')} />
+              <textarea id="notes" className="textarea-bordered textarea" placeholder={t('create:form.notes.placeholder')} rows={3} {...register('notes')} />
             </div>
             <div className="form-control mt-6">
-              <button className="btn-primary btn">Create Paste</button>
+              <button className="btn-primary btn">{t('create:form.submit.button')}</button>
             </div>
           </form>
         </div>
@@ -114,7 +117,7 @@ const Create = () => {
 export async function getStaticProps({ locale }: { locale: string }) {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ['common'])),
+      ...(await serverSideTranslations(locale, ['common', 'create'])),
     },
   };
 }

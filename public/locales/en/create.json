@@ -1,0 +1,28 @@
+{
+  "title": "Create Paste",
+  "form": {
+    "title": {
+      "label": "Title",
+      "placeholder": "Give this team a name"
+    },
+    "author": {
+      "label": "Author Name",
+      "placeholder": "Enter author's name"
+    },
+    "paste": {
+      "label": "Paste",
+      "placeholder": "Showdown importable here",
+      "error": "Invalid paste"
+    },
+    "notes": {
+      "label": "Notes",
+      "placeholder": "Notes about this team"
+    },
+    "submit": {
+      "button": "Submit",
+      "loading": "Creating Paste...",
+      "success": "Paste Created! Redirecting...",
+      "error": "An error occurred when creating your paste"
+    }
+  }
+}
