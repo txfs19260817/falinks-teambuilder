@@ -45,12 +45,12 @@ const LanguagePicker = () => {
 const RoutesList = ({ className }: { className: string }) => {
   const { t } = useTranslation('common');
   return (
-    <ul className={className}>
+    <ul tabIndex={0} className={className}>
       {AppConfig.routes.map((route) =>
         route.children ? (
-          <li key={route.id} className="dropdown-hover dropdown">
+          <li tabIndex={-1} key={route.id} className="dropdown-hover dropdown">
             <a className="hover:border-none">{t(route.id, { defaultValue: route.name })}</a>
-            <ul className="dropdown-content menu rounded-box bg-neutral p-2 shadow">
+            <ul tabIndex={-1} className="dropdown-content menu rounded-box bg-neutral p-2 shadow">
               {route.children.map((cr) => (
                 <li key={cr.id}>
                   <Link href={cr.path} passHref>

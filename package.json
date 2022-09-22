@@ -39,6 +39,7 @@
     "next-i18next": "^12.0.1",
     "next-pwa": "^5.6.0",
     "next-seo": "^5.5.0",
+    "nextjs-progressbar": "^0.0.14",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.34.2",

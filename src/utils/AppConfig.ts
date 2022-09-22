@@ -129,6 +129,7 @@ export const AppConfig = {
   canonical: 'https://www.falinks-teambuilder.com',
   defaultLocale: 'en',
   locales: ['en', 'zh-Hans'],
+  themeColor: '#f9da55',
   maxPokemonPerTeam: 6,
   defaultGen: 8,
   usageAPI: `https://www.pikalytics.com/api/l/2022-${`${new Date().getMonth()}`.padStart(2, '0')}/ss-1500`,

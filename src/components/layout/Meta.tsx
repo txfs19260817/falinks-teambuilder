@@ -25,7 +25,7 @@ const Meta = (props: IMetaProps) => {
         <meta name="description" content={AppConfig.description} />
         <meta name="format-detection" content="telephone=no" />
         <meta name="mobile-web-app-capable" content="yes" />
-        <meta name="theme-color" content="#f9da55" />
+        <meta name="theme-color" content={AppConfig.themeColor} />
         <meta name="google-site-verification" content="4zAL7ELcuwsgjP3ZQGRztOrVwu0fBFaa7eVohcc2J2Y" />
         <link rel="manifest" href={`${router.basePath}/manifest.json`} />
         <link rel="mask-icon" href={`${router.basePath}/safari-pinned-tab.svg`} color="#5bbad5" />
