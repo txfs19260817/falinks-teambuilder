@@ -1,11 +1,14 @@
-import { Filter, FindOptions, ObjectId } from 'mongodb';
+import { Filter, ObjectId } from 'mongodb';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 import { PokePaste } from '@/models/PokePaste';
 import { AppConfig } from '@/utils/AppConfig';
 import clientPromise from '@/utils/MongoDB';
 
-const collectionNames = [AppConfig.collectionName.publicPastes, AppConfig.collectionName.vgcPastes];
+// This collection names array has order of priority.
+// When this API is called, it is likely to fetch a private paste,
+// as other pastes have been already statically generated.
+const collectionNames = [AppConfig.collectionName.privatePastes, AppConfig.collectionName.publicPastes, AppConfig.collectionName.vgcPastes];
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<PokePaste>) => {
   if (req.method !== 'GET') {
@@ -19,14 +22,16 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<PokePaste>) => 
 
   const client = await clientPromise;
   const db = client.db(AppConfig.dbName);
-  const collections = collectionNames.map((cn) => db.collection<PokePaste>(cn));
 
   // eslint-disable-next-line no-restricted-syntax
-  for (const collection of collections) {
+  for (const cn of collectionNames) {
+    const collection = db.collection<PokePaste>(cn);
     // eslint-disable-next-line no-await-in-loop
-    const result = await collection.findOne({ _id: new ObjectId(id) } as Filter<PokePaste>, { _id: 0 } as FindOptions);
+    const result = await collection.findOne({
+      _id: new ObjectId(id),
+    } as Filter<PokePaste>);
     if (result) {
-      return res.status(200).json(result);
+      res.status(200).json(result);
     }
   }
 

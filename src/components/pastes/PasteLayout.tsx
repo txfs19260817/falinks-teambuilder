@@ -1,14 +1,16 @@
 import { Icons, Sprites } from '@pkmn/img';
 import Link from 'next/link';
+import { useId } from 'react';
 import { toast } from 'react-hot-toast';
 
 import { PureSpriteAvatar } from '@/components/workspace/SpriteAvatar/SpriteAvatar';
 import { Pokemon } from '@/models/Pokemon';
 import { PokePaste } from '@/models/PokePaste';
-import { convertStylesStringToObject, S4 } from '@/utils/Helpers';
+import { convertStylesStringToObject } from '@/utils/Helpers';
 
 const PasteLayout = ({ paste }: { paste: PokePaste }) => {
   const team = Pokemon.convertPasteToTeam(paste.paste) || [];
+  const roomId = useId();
 
   // handlers
   const handleCopy = () => {
@@ -55,7 +57,7 @@ const PasteLayout = ({ paste }: { paste: PokePaste }) => {
             Share
           </button>
           {/* eslint-disable-next-line no-underscore-dangle */}
-          <Link href={`/room/room_${S4()}${S4()}/?protocol=WebSocket&packed=${paste.toPackedTeam()}`}>
+          <Link href={`/room/room_${roomId}/?protocol=WebSocket&packed=${paste.toPackedTeam()}`}>
             <a className="btn-accent btn-sm btn">Open in Room</a>
           </Link>
         </div>

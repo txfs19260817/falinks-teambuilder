@@ -18,6 +18,11 @@
       "label": "Notes",
       "placeholder": "Notes about this team"
     },
+    "public": {
+      "public": "Public",
+      "private": "Private",
+      "warning": "Please save your paste link if you make it private."
+    },
     "submit": {
       "button": "Submit",
       "loading": "Creating Paste...",

@@ -138,6 +138,7 @@ export const AppConfig = {
   collectionName: {
     vgcPastes: 'vgc_pastes',
     publicPastes: 'public_pastes',
+    privatePastes: 'private_pastes',
   },
   popularItems,
   dialogProps,

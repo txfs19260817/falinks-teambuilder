@@ -18,6 +18,11 @@
       "label": "笔记",
       "placeholder": "关于队伍的一些备注"
     },
+    "public": {
+      "public": "公开",
+      "private": "私密",
+      "warning": "请妥善保管你的私密队伍链接"
+    },
     "submit": {
       "button": "提交",
       "loading": "创建中...",

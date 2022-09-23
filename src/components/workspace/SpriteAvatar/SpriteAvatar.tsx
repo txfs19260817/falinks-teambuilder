@@ -15,11 +15,9 @@ const placeholderUrl = 'https://play.pokemonshowdown.com/sprites/ani/substitute.
 export function PureSpriteAvatar({ url }: { url: string }) {
   return (
     <div className="avatar flex items-center justify-center py-1">
-      <div className="w-32">
-        <figure>
-          <Image src={url} alt="sprite" layout="fill" objectFit="contain" priority={true} />
-        </figure>
-      </div>
+      <figure className="h-32">
+        <Image src={url} alt="sprite" layout="fill" objectFit="contain" priority={true} />
+      </figure>
     </div>
   );
 }

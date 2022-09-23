@@ -8,26 +8,32 @@ import { Pokemon } from '@/models/Pokemon';
 import { PokePaste } from '@/models/PokePaste';
 import { Main } from '@/templates/Main';
 
+interface CreatePasteForm extends PokePaste {
+  public: boolean;
+}
+
 const Create = () => {
   const { t } = useTranslation(['common', 'create']);
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<PokePaste>({
+  } = useForm<CreatePasteForm>({
     defaultValues: {
       notes: '',
+      public: false,
     },
   });
 
-  const onSubmit = (data: PokePaste) => {
-    const promise = fetch('/api/pastes/create', {
+  const onSubmit = (data: CreatePasteForm) => {
+    const { public: isPublic, ...pasteBody } = data;
+    const promise = fetch(`/api/pastes/create?public=${isPublic}`, {
       method: 'POST',
       redirect: 'follow',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(pasteBody),
     });
     toast
       .promise(promise, {
@@ -103,6 +109,14 @@ const Create = () => {
                 <span className="label-text">{t('create:form.notes.label')}</span>
               </label>
               <textarea id="notes" className="textarea-bordered textarea" placeholder={t('create:form.notes.placeholder')} rows={3} {...register('notes')} />
+            </div>
+            <div className="form-control">
+              <label className="label cursor-pointer">
+                <span className="label-text">🔐{t('create:form.public.private')}</span>
+                <input type="checkbox" className="toggle-secondary toggle" {...register('public')} />
+                <span className="label-text">🌐{t('create:form.public.public')}</span>
+              </label>
+              <p className="text-xs text-warning-content">{t('create:form.public.warning')}</p>
             </div>
             <div className="form-control mt-6">
               <button className="btn-primary btn">{t('create:form.submit.button')}</button>
