@@ -22,6 +22,7 @@ import { useContext, useEffect, useMemo, useState } from 'react';
 import { DexContext } from '@/components/workspace/Contexts/DexContext';
 import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
 import Table from '@/components/workspace/Table';
+import { TeamChangelog } from '@/models/TeamChangelog';
 import { getPokemonIcon } from '@/utils/Helpers';
 
 function SpeciesTable() {
@@ -163,6 +164,7 @@ function SpeciesTable() {
   // handle table events
   const handleRowClick = (specie?: Specie) => {
     if (!specie || !teamState.team[tabIdx]) return;
+    const oldSpecie = teamState.team[tabIdx]?.species ?? '';
     // @ts-ignore
     teamState.team[tabIdx].species = specie.name;
     // @ts-ignore
@@ -174,6 +176,9 @@ function SpeciesTable() {
 
     focusedFieldDispatch({ type: 'next', payload: focusedFieldState });
     setGlobalFilter('');
+
+    // Push to history
+    TeamChangelog.PushChangelog(teamState, localStorage.getItem('username') || '', tabIdx, 'species', oldSpecie, specie.name);
   };
 
   // table render

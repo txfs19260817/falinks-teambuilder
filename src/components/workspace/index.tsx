@@ -1,22 +1,22 @@
 import { syncedStore } from '@syncedstore/core';
 import { useSyncedStore } from '@syncedstore/react';
-import React, { Reducer, useEffect, useReducer, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
 
-import { StoreContextProvider, StoreContextType } from '@/components/workspace/Contexts/StoreContext';
+import { Metadata, StoreContextProvider, StoreContextType } from '@/components/workspace/Contexts/StoreContext';
+import { useFieldAutoChange } from '@/components/workspace/FocusedField';
 import Overview, { OverviewTabBtn } from '@/components/workspace/Overview';
 import { PokemonPanel } from '@/components/workspace/PokemonPanel';
 import TabsSwitcher from '@/components/workspace/Tabs/TabsSwitcher';
 import Toolbox from '@/components/workspace/Toolbox';
-import { ExportShowdownDialog } from '@/components/workspace/Toolbox/ExportShowdown';
+import { HistoryDialog } from '@/components/workspace/Toolbox/HistoryDialog';
 import { ImportShowdownDialog } from '@/components/workspace/Toolbox/ImportShowdown';
 import { NotesDialog } from '@/components/workspace/Toolbox/Notes';
 import { PostPokepasteDialog } from '@/components/workspace/Toolbox/PostPokepaste';
-import type { FocusedFieldAction, FocusedFieldToIdx, Metadata } from '@/components/workspace/types';
-import { FocusedField } from '@/components/workspace/types';
 import { Client, ClientInfo } from '@/models/Client';
 import { Pokemon } from '@/models/Pokemon';
 import { PokePaste } from '@/models/PokePaste';
+import { TeamChangelog } from '@/models/TeamChangelog';
 import { getProvidersByProtocolName, SupportedProtocolProvider } from '@/providers';
 import { BaseProvider } from '@/providers/baseProviders';
 
@@ -30,40 +30,8 @@ const teamStore = syncedStore<StoreContextType>({
   metadata: {} as Metadata,
   team: [] as Pokemon[],
   notes: 'xml',
+  history: [] as TeamChangelog[],
 });
-
-// A reducer hook to automatically move to the next field based on the current one
-// e.g. if the user pick a Pokémon Species, it will move to the Item field
-function useFieldAutoChange(initialState: FocusedFieldToIdx) {
-  return useReducer<Reducer<FocusedFieldToIdx, FocusedFieldAction>>((curState: FocusedFieldToIdx, action: FocusedFieldAction) => {
-    const { type, payload } = action;
-    switch (type) {
-      case 'set':
-        return payload;
-      case 'next': {
-        const [field, idx] = (Object.entries(curState)[0] ?? ['', 0]) as [FocusedField, number]; // idx is only used for switching between moves
-        if (field === FocusedField.Species) {
-          return { Item: 0 };
-        }
-        if (field === FocusedField.Item) {
-          return { Ability: 0 };
-        }
-        if (field === FocusedField.Ability) {
-          return { Moves: 0 };
-        }
-        if (field === FocusedField.Moves) {
-          if (idx <= 2) {
-            return { Moves: idx + 1 };
-          }
-          return { Stats: 0 };
-        }
-        return payload;
-      }
-      default:
-        throw new Error();
-    }
-  }, initialState);
-}
 
 function Workspace({ roomName, protocolName, basePokePaste }: WorkspaceProps) {
   // States
@@ -162,7 +130,7 @@ function Workspace({ roomName, protocolName, basePokePaste }: WorkspaceProps) {
       {client && (
         <>
           <ImportShowdownDialog />
-          <ExportShowdownDialog />
+          <HistoryDialog />
           <PostPokepasteDialog />
           <NotesDialog store={teamStore} client={client} />
         </>

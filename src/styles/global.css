@@ -61,3 +61,14 @@ a:hover {
     white-space: nowrap;
 }
 
+@layer utilities {
+    .modal-right {
+        @apply items-end;
+    }
+
+    .modal-right :where(.modal-box) {
+        @apply md:w-full h-full max-h-full translate-x-[35vw] scale-100 rounded-r-none;
+    }
+}
+
+

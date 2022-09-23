@@ -216,14 +216,14 @@ function StatsSetters() {
             </span>
             {/* Base */}
             <span className="uppercase">{b}</span>
-            {/* Nature radio */}
+            {/* Nature radio: plus - primary; minus - secondary */}
             <div className="flex space-x-0.5">
               <>
                 <span>+</span>
                 <input
                   type="radio"
                   name={`plus-${stat}`}
-                  className="radio-secondary radio radio-xs md:radio-sm"
+                  className="radio-primary radio radio-xs md:radio-sm"
                   checked={nature.plus === stat}
                   onChange={handleNatureRadioChange}
                   disabled={stat === 'hp'}
@@ -231,7 +231,7 @@ function StatsSetters() {
                 <input
                   type="radio"
                   name={`minus-${stat}`}
-                  className="radio-primary radio radio-xs md:radio-sm"
+                  className="radio-secondary radio radio-xs md:radio-sm"
                   checked={nature.minus === stat}
                   onChange={handleNatureRadioChange}
                   disabled={stat === 'hp'}
@@ -247,7 +247,9 @@ function StatsSetters() {
               max="252"
               step="4"
               value={ev}
-              className="input-bordered input input-xs col-span-2 mx-2 md:input-sm md:mx-0"
+              className={`input-bordered ${
+                nature.plus === stat ? 'input-primary' : nature.minus === stat ? 'input-secondary' : ''
+              } input input-xs col-span-2 mx-2 md:input-sm md:mx-0`}
               onChange={(e) => handleEVInputChange(e, ev, stat)}
               onKeyUp={(e) => handleEVInputDone(e, stat)}
               onMouseUp={(e) => handleEVInputDone(e, stat)}
@@ -262,7 +264,7 @@ function StatsSetters() {
               max="252"
               step="4"
               value={ev}
-              className="range range-xs col-span-5 md:range-sm "
+              className="range range-xs col-span-5 md:range-sm"
               onChange={(e) => handleEVInputChange(e, ev, stat)}
               onMouseUp={(e) => handleEVInputDone(e, stat)}
               onTouchEnd={(e) => handleEVInputDone(e, stat)}

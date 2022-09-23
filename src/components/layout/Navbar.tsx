@@ -12,7 +12,7 @@ const ThemePicker = () => {
     // 👆 false parameter is required for react project
   }, []);
   return (
-    <select className="w-sm select-primary select select-sm bg-neutral capitalize" data-choose-theme>
+    <select className="w-xs md:w-sm select-primary select select-xs bg-neutral capitalize md:select-sm" data-choose-theme>
       {AppConfig.themes.map((theme) => (
         <option key={theme} value={theme}>
           {theme}
@@ -32,7 +32,7 @@ const LanguagePicker = () => {
     push(asPath, asPath, { locale: e.target.value });
   };
   return (
-    <select className="w-sm select-primary select select-sm bg-neutral capitalize" onChange={handleLanguageChange} defaultValue={locale}>
+    <select className="w-xs md:w-sm select-primary select select-xs bg-neutral capitalize md:select-sm" onChange={handleLanguageChange} defaultValue={locale}>
       {locales?.map((l) => (
         <option key={l} value={l}>
           {localeMap.get(l)}

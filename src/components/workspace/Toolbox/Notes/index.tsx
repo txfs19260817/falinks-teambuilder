@@ -110,13 +110,11 @@ export function NotesDialog({ store, client }: EditorProps) {
       <input type="checkbox" id="notes-modal" className="modal-toggle" />
       <div className="modal modal-bottom">
         <div className="modal-box">
+          <label htmlFor="notes-modal" className="btn-sm btn-circle btn absolute right-2 top-2">
+            ✕
+          </label>
           <h3 className="text-lg font-bold">Notes</h3>
           <EditorContent editor={editor} />
-          <div className="modal-action">
-            <label htmlFor="notes-modal" className="btn-sm btn">
-              Hide
-            </label>
-          </div>
         </div>
       </div>
     </>

@@ -6,8 +6,8 @@ import { toast } from 'react-hot-toast';
 import useSWR from 'swr';
 
 import AbilityInput from '@/components/workspace/Abilities/AbilityInput';
-import AttributeSetterSwitch from '@/components/workspace/AttributeSetterSwitch';
 import { DexContextProvider } from '@/components/workspace/Contexts/DexContext';
+import FocusedFieldSwitch from '@/components/workspace/FocusedField';
 import GenderPicker from '@/components/workspace/Gender/GenderPicker';
 import GMaxSwitch from '@/components/workspace/GMax/GMaxSwitch';
 import ItemInput from '@/components/workspace/Items/ItemInput';
@@ -41,7 +41,7 @@ const PokemonPanel = () => {
   return (
     <DexContextProvider value={{ gen, globalFilter, setGlobalFilter, usages }}>
       <div className="mockup-window border bg-base-300">
-        <div className="grid grid-cols-4 grid-rows-2 gap-y-2 gap-x-1 bg-base-200 py-2 px-1">
+        <div className="grid grid-cols-2 grid-rows-3 gap-y-2 gap-x-1 bg-base-200 py-2 px-1 md:grid-cols-4 md:grid-rows-2">
           {/* 1. Nickname & Species */}
           <div aria-label="species" className="form-control justify-between">
             {/* Nickname */}
@@ -78,8 +78,8 @@ const PokemonPanel = () => {
             <StatsClickable />
           </div>
           {/* 5. Lower part */}
-          <div className="col-start-1 col-end-5 max-h-52 overflow-y-auto border-2 md:max-h-72">
-            <AttributeSetterSwitch />
+          <div className="col-start-1 col-end-3 max-h-52 overflow-y-auto border-2 md:col-end-5 md:max-h-72">
+            <FocusedFieldSwitch />
           </div>
         </div>
       </div>

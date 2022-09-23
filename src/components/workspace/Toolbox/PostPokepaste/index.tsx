@@ -19,8 +19,8 @@ export function PostPokepasteDialog() {
     setValue('title', teamState.metadata.roomName || 'Falinks-teambuilder');
   }, [isOpen]);
 
-  const handleSubmitToFalinks = () => {
-    const promise = fetch('/api/pastes/create', {
+  const handleSubmitToFalinks = (isPublic: boolean) => {
+    const promise = fetch(`/api/pastes/create?public=${isPublic}`, {
       method: 'POST',
       redirect: 'follow',
       headers: {
@@ -41,6 +41,17 @@ export function PostPokepasteDialog() {
       });
   };
 
+  const copyHandler = () => {
+    navigator.clipboard
+      .writeText(getValues().paste)
+      .then(() => {
+        toast.success('📋 Copied!');
+      })
+      .catch((e) => {
+        toast.error(`Failed to copy: ${e.message}`);
+      });
+  };
+
   return (
     <>
       <input
@@ -53,6 +64,9 @@ export function PostPokepasteDialog() {
       />
       <div className="modal modal-bottom sm:modal-middle">
         <form className="modal-box" method="post" action="https://pokepast.es/create" target="_blank">
+          <label htmlFor="post-pokepaste-modal" className="btn-sm btn-circle btn absolute right-2 top-2">
+            ✕
+          </label>
           <div className="form-control">
             <label className="label">
               <span className="label-text">Title</span>
@@ -75,19 +89,22 @@ export function PostPokepasteDialog() {
             <label className="label">
               <span className="label-text">Paste</span>
             </label>
-            <textarea className="textarea-secondary textarea w-full" {...register('paste')} />
+            <textarea className="textarea-secondary textarea w-full" rows={6} {...register('paste')} />
           </div>
-          <div className="modal-action flex-col justify-center md:flex-row">
-            <span className="hidden" />
-            <button type="submit" className="btn-secondary btn-sm btn my-1">
+          <div className="modal-action flex-col justify-center">
+            <span className="hidden" aria-hidden={true} />
+            <button type="submit" className="btn-primary btn-sm btn my-1">
               To PokéPaste
             </button>
-            <button type="button" className="btn-secondary btn-sm btn my-1" onClick={handleSubmitToFalinks}>
-              To Falinks Teambuilder
+            <button type="button" className="btn-secondary btn-sm btn my-1" onClick={() => handleSubmitToFalinks(false)}>
+              To Falinks (Private)
             </button>
-            <label htmlFor="post-pokepaste-modal" className="btn-sm btn my-1">
-              Cancel
-            </label>
+            <button type="button" className="btn-secondary btn-sm btn my-1" onClick={() => handleSubmitToFalinks(true)}>
+              To Falinks (Public)
+            </button>
+            <button type="button" className="btn-accent btn-sm btn" onClick={copyHandler}>
+              Copy the paste to clipboard
+            </button>
           </div>
         </form>
       </div>

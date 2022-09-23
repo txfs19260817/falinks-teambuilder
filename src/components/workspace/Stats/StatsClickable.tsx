@@ -3,7 +3,7 @@ import { useContext, useEffect, useState } from 'react';
 
 import { DexContext } from '@/components/workspace/Contexts/DexContext';
 import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
-import { compareFocusedFieldToIdx, FocusedFieldToIdx } from '@/components/workspace/types';
+import { compareFocusedFieldToIdx, FocusedFieldToIdx } from '@/components/workspace/FocusedField/consts';
 import { getStats } from '@/utils/Helpers';
 
 const defaultStats: StatsTable = {

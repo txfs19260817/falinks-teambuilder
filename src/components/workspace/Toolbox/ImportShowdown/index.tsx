@@ -133,6 +133,9 @@ export function ImportShowdownDialog() {
       <input type="checkbox" id="import-ps-modal" className="modal-toggle" />
       <div className="modal modal-bottom sm:modal-middle">
         <div className="modal-box">
+          <label htmlFor="import-ps-modal" className="btn-sm btn-circle btn absolute right-2 top-2">
+            ✕
+          </label>
           <h3 className="font-bold md:text-lg">Please leave your Showdown paste (or PokePaste link) here ↓</h3>
           <textarea className="textarea-secondary textarea w-full" rows={10} ref={importTextareaRef}></textarea>
           {tabIdx >= 0 && tabIdx < teamState.team.length && (
@@ -148,9 +151,6 @@ export function ImportShowdownDialog() {
             <button className="btn-secondary btn-sm btn" onClick={loadExampleHandler}>
               Load Example
             </button>
-            <label htmlFor="import-ps-modal" className="btn-sm btn">
-              Cancel
-            </label>
           </div>
         </div>
       </div>
