@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 
 import { PokePaste } from '@/models/PokePaste';
 import { SupportedProtocolProvider, supportedProtocols } from '@/providers';
+import Loading from '@/templates/Loading';
 import { Main } from '@/templates/Main';
 
 type RoomQueryParams = {
@@ -19,6 +20,7 @@ type RoomQueryParams = {
 
 const Workspace = dynamic(() => import('@/components/workspace/index'), {
   ssr: false,
+  loading: () => <Loading />,
 });
 
 // Known issue: if you access this page via go back, it might cause a series of warnings regarding update some unmounted components.
@@ -65,7 +67,7 @@ const Room = () => {
 
   return (
     <Main title={`Room - ${roomName}`}>
-      {isReady ? <Workspace roomName={roomName} protocolName={protocolName} basePokePaste={basePokePaste} /> : <h1>Loading...</h1>}
+      {isReady ? <Workspace roomName={roomName} protocolName={protocolName} basePokePaste={basePokePaste} /> : <Loading />}
     </Main>
   );
 };

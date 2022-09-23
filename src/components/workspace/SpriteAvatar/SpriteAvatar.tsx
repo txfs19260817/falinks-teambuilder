@@ -25,7 +25,7 @@ export function PureSpriteAvatar({ url }: { url: string }) {
 function SpriteAvatar({ idx, pokemon }: SpriteAvatarProps) {
   const { teamState, tabIdx } = useContext(StoreContext);
 
-  const [spriteUrl, setSpriteUrl] = useState('https://play.pokemonshowdown.com/sprites/ani/incineroar.gif');
+  const [spriteUrl, setSpriteUrl] = useState('https://play.pokemonshowdown.com/sprites/ani/substitute.gif');
   const pm = pokemon ?? teamState.team[idx ?? tabIdx]!;
 
   useEffect(() => {
