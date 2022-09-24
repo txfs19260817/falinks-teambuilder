@@ -118,3 +118,12 @@ export const getRandomTrainerName = () => getRandomElement(trainerNames) || 'Tra
 export const firstDiffIndexOfTwoArrays = <T>(oldArr: T[], newArr: T[]): number => {
   return oldArr.findIndex((item) => !newArr.includes(item));
 };
+
+export const ensureInteger = (v: unknown, defaultNum: number = 0): number => {
+  if (typeof v === 'number') return v;
+  if (typeof v === 'string') {
+    const num = Number(v);
+    return Number.isInteger(num) ? num : defaultNum;
+  }
+  return defaultNum;
+};

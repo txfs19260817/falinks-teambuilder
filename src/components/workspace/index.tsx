@@ -42,6 +42,8 @@ function Workspace({ roomName, protocolName, basePokePaste }: WorkspaceProps) {
   });
 
   // Initialize synced store
+  // Only `teamState` in this level is instance of MappedTypeDescription.
+  // Its children are instances of class TeamState.
   const teamState = useSyncedStore(teamStore);
   if (teamState.metadata.roomName !== roomName) {
     teamState.metadata.roomName = roomName;

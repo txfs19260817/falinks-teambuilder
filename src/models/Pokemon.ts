@@ -70,7 +70,7 @@ export class Pokemon implements PokemonSet {
   }
 
   static exportSetToPaste(p: Pokemon | PokemonSet): string {
-    return Sets.exportSet(p);
+    return Sets.exportSet(p).replace(/\n$/, '');
   }
 
   static importSet(s: string): Pokemon {

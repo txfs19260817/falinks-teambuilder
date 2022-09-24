@@ -15,7 +15,7 @@ export function OverviewTabBtn() {
 }
 
 function Overview() {
-  const { teamState } = useContext(StoreContext);
+  const { teamState, setTabIdx } = useContext(StoreContext);
 
   return (
     <div className="mockup-window border bg-base-300">
@@ -34,10 +34,18 @@ function Overview() {
                 </div>
               ) : (
                 <div className="card-body">
-                  <pre className="whitespace-pre-wrap">{pmPaste}</pre>
+                  <pre className="whitespace-pre-wrap leading-5 tracking-tighter">{pmPaste}</pre>
                   <div className="card-actions justify-end">
                     <button
                       className="btn-primary btn-sm btn"
+                      onClick={() => {
+                        setTabIdx(i);
+                      }}
+                    >
+                      Switch to this tab
+                    </button>
+                    <button
+                      className="btn-secondary btn-sm btn"
                       onClick={() => {
                         navigator.clipboard.writeText(pmPaste).then(() => toast('📋 Copied!'));
                       }}

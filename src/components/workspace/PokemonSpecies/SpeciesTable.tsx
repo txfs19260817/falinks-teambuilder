@@ -5,6 +5,7 @@ import {
   ColumnDef,
   ColumnFiltersState,
   getCoreRowModel,
+  getExpandedRowModel,
   getFacetedMinMaxValues,
   getFacetedRowModel,
   getFacetedUniqueValues,
@@ -18,12 +19,47 @@ import {
 } from '@tanstack/react-table';
 import Image from 'next/image';
 import { useContext, useEffect, useMemo, useState } from 'react';
+import useSWR from 'swr';
 
 import { DexContext } from '@/components/workspace/Contexts/DexContext';
 import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
 import Table from '@/components/workspace/Table';
 import { Pokemon } from '@/models/Pokemon';
+import { PokePaste } from '@/models/PokePaste';
+import Loading from '@/templates/Loading';
 import { getPokemonIcon } from '@/utils/Helpers';
+
+const PresetsSubComponent = (row: Row<Specie>) => {
+  const { tabIdx, teamState } = useContext(StoreContext);
+  const { data, error } = useSWR<PokePaste[]>(`/api/usages/presets/${row.original.name}`, (url) => fetch(url).then((r) => r.json()));
+  if (error || (Array.isArray(data) && data.length === 0)) return <div className="w-full text-center">No Preset found</div>;
+  if (!data) {
+    return <Loading />;
+  }
+  const handlePresetClick = (preset: string) => {
+    // replace current team with `preset` which is a PokemonSet.
+    teamState.splicePokemonTeam(tabIdx, 1, Pokemon.importSet(preset));
+  };
+
+  return (
+    <>
+      <div className="carousel-center carousel rounded-box w-full bg-base-300 p-1">
+        {data.map((p, i) => (
+          <div key={i} id={`preset-${i}`} className="carousel-item w-1/5">
+            <pre
+              title="Click to load this set"
+              className="rounded-box m-1 w-full cursor-pointer whitespace-pre-wrap border border-neutral bg-base-100 p-1 text-xs leading-tight tracking-tighter hover:border-primary hover:shadow-2xl"
+              onClick={() => handlePresetClick(p.paste)}
+            >
+              <h6 className="text-base-content/50">{`/* From ${p.title} by ${p.author} */\n`}</h6>
+              {p.paste}
+            </pre>
+          </div>
+        ))}
+      </div>
+    </>
+  );
+};
 
 function SpeciesTable() {
   const { gen, usages, globalFilter, setGlobalFilter } = useContext(DexContext);
@@ -33,6 +69,33 @@ function SpeciesTable() {
   const [data, setData] = useState<Specie[]>(() => [...Array.from(gen.species)]);
   const columns = useMemo<ColumnDef<Specie>[]>(() => {
     return [
+      {
+        id: 'expander',
+        header: () => null,
+        cell: ({ row, table }) => {
+          return row.getCanExpand() ? (
+            <button
+              type="button"
+              title="Show Presets"
+              className="btn-ghost btn-xs btn cursor-pointer"
+              onClick={(e) => {
+                e.stopPropagation();
+                // Because `useSWR` is used in `PresetsSubComponent`,
+                // only allow one row to be expanded at a time to avoid more hooks get re-rendered
+                table.resetExpanded(false);
+                // if closed, open it; otherwise, close all
+                if (!row.getIsExpanded()) {
+                  row.toggleExpanded();
+                }
+              }}
+            >
+              {row.getIsExpanded() ? '📖' : '📕'}
+            </button>
+          ) : null;
+        },
+        enableSorting: false,
+        enableFiltering: false,
+      },
       {
         header: 'Name',
         accessorKey: 'name',
@@ -159,6 +222,8 @@ function SpeciesTable() {
     getFacetedUniqueValues: getFacetedUniqueValues(),
     getFacetedMinMaxValues: getFacetedMinMaxValues(),
     getPaginationRowModel: getPaginationRowModel(),
+    getRowCanExpand: () => true,
+    getExpandedRowModel: getExpandedRowModel(),
   });
 
   // handle table events
@@ -170,7 +235,7 @@ function SpeciesTable() {
   };
 
   // table render
-  return <Table<Specie> instance={instance} handleRowClick={handleRowClick} enablePagination={true} />;
+  return <Table<Specie> instance={instance} handleRowClick={handleRowClick} enablePagination={true} renderSubComponent={PresetsSubComponent} />;
 }
 
 export default SpeciesTable;
