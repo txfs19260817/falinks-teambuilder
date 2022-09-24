@@ -1,7 +1,7 @@
 import { MappedTypeDescription } from '@syncedstore/core/types/doc';
 import { Awareness } from 'y-protocols/awareness';
 
-import { StoreContextType } from '@/components/workspace/Contexts/StoreContext';
+import { StoreContextType } from '@/models/TeamState';
 
 export type BaseProvider = {
   connect: () => void;

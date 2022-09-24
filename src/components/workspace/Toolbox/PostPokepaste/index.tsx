@@ -3,7 +3,6 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
 
 import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
-import { Pokemon } from '@/models/Pokemon';
 import { PokePaste } from '@/models/PokePaste';
 
 export function PostPokepasteDialog() {
@@ -13,10 +12,10 @@ export function PostPokepasteDialog() {
 
   useEffect(() => {
     // @ts-ignore
-    setValue('author', (teamState.metadata.authors?.toJSON() || []).join(', '));
-    setValue('notes', teamState.metadata.notes ?? '');
-    setValue('paste', Pokemon.convertTeamToPaste(teamState.team));
-    setValue('title', teamState.metadata.roomName || 'Falinks-teambuilder');
+    setValue('author', (teamState.authors?.toJSON() || []).join(', '));
+    setValue('notes', teamState.notes ?? '');
+    setValue('paste', teamState.teamPokePaste);
+    setValue('title', teamState.roomName || 'Falinks-teambuilder');
   }, [isOpen]);
 
   const handleSubmitToFalinks = (isPublic: boolean) => {

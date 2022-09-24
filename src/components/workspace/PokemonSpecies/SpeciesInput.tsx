@@ -6,28 +6,25 @@ import { compareFocusedFieldToIdx, FocusedFieldToIdx } from '@/components/worksp
 
 function SpeciesInput() {
   const thisFocusedFieldState: FocusedFieldToIdx = { Species: 0 };
-  const { setGlobalFilter } = useContext(DexContext);
+  const { setGlobalFilter } = useContext(DexContext); // `setGlobalFilter` makes it possible to filter table by typing in <input />
   const { teamState, tabIdx, focusedFieldState, focusedFieldDispatch } = useContext(StoreContext);
 
   const [species, setSpecies] = useState('');
 
   // receive changes from other users
   useEffect(() => {
-    if (!teamState.team[tabIdx]) return;
-    setSpecies(teamState.team[tabIdx]?.species || '');
-  }, [teamState.team[tabIdx]?.species]);
+    setSpecies(teamState.getPokemonInTeam(tabIdx)?.species ?? '');
+  }, [teamState.getPokemonInTeam(tabIdx)?.species]);
 
   // emit changes to other users
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const newSp = e.target.value;
-    setGlobalFilter(newSp);
-    if (!teamState.team[tabIdx]) return;
-    // @ts-ignore
-    teamState.team[tabIdx].species = newSp;
+    const newSpecies = e.target.value;
+    setGlobalFilter(newSpecies); // set search words to filter table
+    teamState.updatePokemonInTeam(tabIdx, 'species', newSpecies);
   };
 
   const handleFocus = () => {
-    setGlobalFilter('');
+    setGlobalFilter(''); // clear search words on table
     focusedFieldDispatch({ type: 'set', payload: thisFocusedFieldState });
   };
 

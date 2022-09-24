@@ -12,19 +12,16 @@ function GMaxSwitch() {
 
   // receive changes from other users
   useEffect(() => {
-    if (!teamState.team[tabIdx]) return;
-    setChecked(teamState.team[tabIdx]?.gigantamax || false);
-  }, [teamState.team[tabIdx]?.gigantamax]);
+    if (!teamState.getPokemonInTeam(tabIdx)) return;
+    setChecked(teamState.getPokemonInTeam(tabIdx)?.gigantamax || false);
+  }, [teamState.getPokemonInTeam(tabIdx)?.gigantamax]);
 
   // emit changes to other users
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const newChecked = e.target.checked;
-    if (!teamState.team[tabIdx]) return;
-    // @ts-ignore
-    teamState.team[tabIdx].gigantamax = newChecked;
+    teamState.updatePokemonInTeam(tabIdx, 'gigantamax', e.target.checked);
   };
 
-  const { canGigantamax } = gen.species.get(teamState.team[tabIdx]?.species ?? '') ?? {};
+  const { canGigantamax } = gen.species.get(teamState.getPokemonInTeam(tabIdx)?.species ?? '') ?? {};
   if (!canGigantamax) return null;
 
   return (

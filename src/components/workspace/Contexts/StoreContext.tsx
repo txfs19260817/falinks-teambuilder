@@ -1,26 +1,10 @@
-import { MappedTypeDescription } from '@syncedstore/core/types/doc';
 import { createContext, Dispatch, ReactNode } from 'react';
 
 import { FocusedFieldAction, FocusedFieldToIdx } from '@/components/workspace/FocusedField/consts';
-import { Pokemon } from '@/models/Pokemon';
-import { TeamChangelog } from '@/models/TeamChangelog';
-
-export type Metadata = {
-  title: string;
-  notes: string;
-  authors: string[];
-  roomName: string;
-};
-
-export type StoreContextType = {
-  team: Pokemon[];
-  metadata: Metadata;
-  notes: any;
-  history: TeamChangelog[];
-};
+import { TeamState } from '@/models/TeamState';
 
 interface StoreContextInterface {
-  teamState: MappedTypeDescription<StoreContextType>;
+  teamState: TeamState;
   tabIdx: number;
   setTabIdx: (tab: number) => void;
   focusedFieldState: FocusedFieldToIdx;
@@ -33,7 +17,7 @@ type StoreContextProviderProps = {
 };
 
 const defaultStore: StoreContextInterface = {
-  teamState: {} as MappedTypeDescription<StoreContextType>,
+  teamState: {} as TeamState,
   tabIdx: 0,
   setTabIdx: (_tab: number) => {},
   focusedFieldState: { Species: 0 },

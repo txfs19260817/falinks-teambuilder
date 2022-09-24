@@ -9,9 +9,8 @@ function NicknameInput() {
 
   // receive changes from other users
   useEffect(() => {
-    if (!teamState.team[tabIdx]) return;
-    setNickname(teamState.team[tabIdx]?.name || '');
-  }, [teamState.team[tabIdx]?.name]);
+    setNickname(teamState.getPokemonInTeam(tabIdx)?.name ?? '');
+  }, [teamState.getPokemonInTeam(tabIdx)?.name]);
 
   // emit changes to other users
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -20,9 +19,7 @@ function NicknameInput() {
   };
 
   const handleBlur = () => {
-    if (!teamState.team[tabIdx]) return;
-    // @ts-ignore
-    teamState.team[tabIdx].name = nickname;
+    teamState.updatePokemonInTeam(tabIdx, 'name', nickname);
   };
 
   return <input type="text" placeholder="Nickname" className="input-bordered input input-xs" value={nickname} onChange={handleChange} onBlur={handleBlur} />;

@@ -24,7 +24,7 @@ export function NotesDialog({ store, client }: EditorProps) {
       },
     },
     onUpdate: (props) => {
-      teamState.metadata.notes = props.editor.getText();
+      teamState.updateNotes(props.editor.getText()); // set the notes to metadata
     },
     extensions: [
       StarterKit,

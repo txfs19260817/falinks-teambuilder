@@ -12,7 +12,7 @@ function TabMenu({ idx }: { idx: number }) {
   const pasteTextareaRef = useRef<HTMLTextAreaElement>(null);
 
   const removeTab = (index: number) => {
-    const newTeam = teamState.team.splice(index, 1);
+    const newTeam = teamState.splicePokemonTeam(index, 1);
     if (newTeam.length === 0) {
       setTabIdx(-1);
     } else if (index === tabIdx) {
@@ -30,10 +30,10 @@ function TabMenu({ idx }: { idx: number }) {
       toast.error('Invalid set paste');
       return;
     }
-    teamState.team.splice(index, 1, newMon);
+    teamState.splicePokemonTeam(index, 1, newMon);
   };
 
-  const pm = teamState.team[idx];
+  const pm = teamState.getPokemonInTeam(idx);
   useEffect(() => {
     if (pm && pasteTextareaRef.current) {
       pasteTextareaRef.current.value = Pokemon.exportSetToPaste(pm);
@@ -76,7 +76,7 @@ function TabsSwitcher({ children }: { children?: ReactNode }) {
   const { teamState, tabIdx, setTabIdx, focusedFieldDispatch } = useContext(StoreContext);
 
   const newTab = () => {
-    const newLen = teamState.team.push(new Pokemon('Incineroar'));
+    const newLen = teamState.addPokemonToTeam(new Pokemon('Incineroar'));
     setTabIdx(newLen - 1);
     focusedFieldDispatch({
       type: 'set',
@@ -93,13 +93,14 @@ function TabsSwitcher({ children }: { children?: ReactNode }) {
         <div key={p.id} className="dropdown-right dropdown indicator">
           <TabMenu idx={i} />
           <a className={`tab tab-lifted tab-md md:tab-lg ${i === tabIdx ? 'tab-active' : ''}`} onClick={() => setTabIdx(i)}>
+            <span className="text-sm">{i + 1}</span>
             <span style={convertStylesStringToObject(Icons.getPokemon(p.species).style)} />
             <span>{p.species}</span>
           </a>
         </div>
       ))}
-      {teamState.team.length < AppConfig.maxPokemonPerTeam && (
-        <div className={`tooltip-right tooltip-secondary ${teamState.team.length === 0 ? 'tooltip tooltip-open' : ''}`} data-tip="Add the first Pokémon">
+      {teamState.teamLength < AppConfig.maxPokemonPerTeam && (
+        <div className={`tooltip-right tooltip-secondary ${teamState.teamLength === 0 ? 'tooltip tooltip-open' : ''}`} data-tip="Add the first Pokémon">
           <button className="tab tab-lifted tab-active tab-md md:tab-lg" onClick={() => newTab()}>
             +
           </button>

@@ -26,7 +26,7 @@ function SpriteAvatar({ idx, pokemon }: SpriteAvatarProps) {
   const { teamState, tabIdx } = useContext(StoreContext);
 
   const [spriteUrl, setSpriteUrl] = useState('https://play.pokemonshowdown.com/sprites/ani/substitute.gif');
-  const pm = pokemon ?? teamState.team[idx ?? tabIdx]!;
+  const pm = pokemon ?? teamState.getPokemonInTeam(idx ?? tabIdx);
 
   useEffect(() => {
     if (!pm) {

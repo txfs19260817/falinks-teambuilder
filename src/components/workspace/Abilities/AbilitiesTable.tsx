@@ -25,8 +25,8 @@ function AbilitiesTable() {
   // table settings
   const [data, setData] = useState<Ability[]>([]);
   useEffect(() => {
-    setData(() => [...getAbilitiesBySpecie(gen, teamState.team[tabIdx]?.species)]);
-  }, [teamState.team[tabIdx]?.species]);
+    setData(() => [...getAbilitiesBySpecie(gen, teamState.getPokemonInTeam(tabIdx)?.species)]);
+  }, [teamState.getPokemonInTeam(tabIdx)?.species]);
   const columns = useMemo<ColumnDef<Ability>[]>(
     () => [
       { header: 'Name', accessorKey: 'name' },
@@ -59,9 +59,8 @@ function AbilitiesTable() {
 
   // handle table events
   const handleRowClick = (ability?: Ability) => {
-    if (!ability || !teamState.team[tabIdx]) return;
-    // @ts-ignore
-    teamState.team[tabIdx].ability = ability.name;
+    if (!ability) return;
+    teamState.updatePokemonInTeam(tabIdx, 'ability', ability.name);
 
     focusedFieldDispatch({ type: 'next', payload: focusedFieldState });
   };

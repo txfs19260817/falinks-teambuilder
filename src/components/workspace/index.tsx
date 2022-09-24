@@ -3,7 +3,7 @@ import { useSyncedStore } from '@syncedstore/react';
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
 
-import { Metadata, StoreContextProvider, StoreContextType } from '@/components/workspace/Contexts/StoreContext';
+import { StoreContextProvider } from '@/components/workspace/Contexts/StoreContext';
 import { useFieldAutoChange } from '@/components/workspace/FocusedField';
 import Overview, { OverviewTabBtn } from '@/components/workspace/Overview';
 import { PokemonPanel } from '@/components/workspace/PokemonPanel';
@@ -16,7 +16,7 @@ import { PostPokepasteDialog } from '@/components/workspace/Toolbox/PostPokepast
 import { Client, ClientInfo } from '@/models/Client';
 import { Pokemon } from '@/models/Pokemon';
 import { PokePaste } from '@/models/PokePaste';
-import { TeamChangelog } from '@/models/TeamChangelog';
+import { Metadata, StoreContextType, TeamChangelog, TeamState } from '@/models/TeamState';
 import { getProvidersByProtocolName, SupportedProtocolProvider } from '@/providers';
 import { BaseProvider } from '@/providers/baseProviders';
 
@@ -111,7 +111,7 @@ function Workspace({ roomName, protocolName, basePokePaste }: WorkspaceProps) {
   return (
     <StoreContextProvider
       value={{
-        teamState,
+        teamState: new TeamState(teamState),
         tabIdx,
         setTabIdx,
         focusedFieldState,

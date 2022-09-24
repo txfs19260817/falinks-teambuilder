@@ -8,17 +8,14 @@ function LevelSetter() {
 
   // receive changes from other users
   useEffect(() => {
-    if (!teamState.team[tabIdx]) return;
-    setLevel(teamState.team[tabIdx]?.level || 50);
-  }, [teamState.team[tabIdx]?.level]);
+    setLevel(teamState.getPokemonInTeam(tabIdx)?.level ?? 50);
+  }, [teamState.getPokemonInTeam(tabIdx)?.level]);
 
   // emit changes to other users
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const newLv = +e.target.value;
     setLevel(newLv);
-    if (!teamState.team[tabIdx]) return;
-    // @ts-ignore
-    teamState.team[tabIdx].level = newLv;
+    teamState.updatePokemonInTeam(tabIdx, 'level', newLv);
   };
 
   return (

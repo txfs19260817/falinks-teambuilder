@@ -2,19 +2,19 @@ import { useContext, useEffect, useRef, useState } from 'react';
 
 import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
 
-// TODO: implement
 export function HistoryDialog() {
   const { teamState } = useContext(StoreContext);
   const [isOpen, setIsOpen] = useState(false);
+  const [historyLiteralList, setHistoryLiteralList] = useState<string[]>([]);
   const modalRef = useRef<HTMLLabelElement>(null);
 
   // lazy load showdown
   useEffect(() => {
-    if (isOpen) {
-      if (modalRef.current) {
-        modalRef.current.scrollLeft = 100000; // rtl
-      }
+    if (!isOpen) return;
+    if (modalRef.current) {
+      modalRef.current.scrollLeft = 100000; // rtl
     }
+    setHistoryLiteralList(teamState.historyLiteral); // lazy load
   }, [isOpen]);
 
   return (
@@ -36,15 +36,21 @@ export function HistoryDialog() {
           <div className="ml-2 mt-2" dir="ltr">
             <h3 className="text-lg font-bold">Edit History</h3>
             <ul className="steps steps-vertical">
-              {teamState.history.map((change, idx) => (
-                <li key={idx} className="step-primary step">
-                  {JSON.stringify(change)}
+              {historyLiteralList.map((change, idx) => (
+                <li key={idx} className="step-primary step text-xs">
+                  {change}
                 </li>
               ))}
             </ul>
           </div>
-          <div className="modal-action">
-            <button className="btn-primary btn-sm btn">Copy</button>
+          <div
+            className="modal-action"
+            onClick={() => {
+              teamState.clearHistory();
+              setHistoryLiteralList([]);
+            }}
+          >
+            <button className="btn-primary btn-sm btn">Clear</button>
           </div>
         </label>
       </label>

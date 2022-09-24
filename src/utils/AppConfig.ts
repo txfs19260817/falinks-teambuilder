@@ -70,12 +70,12 @@ const dialogProps = [
     text: 'Import',
     title: 'Import a team from Showdown paste or PokePaste link',
   },
-  // {
-  //   id: 'history-modal',
-  //   emoji: '📜',
-  //   text: 'Edit History',
-  //   title: 'View previous changes on this team',
-  // },
+  {
+    id: 'history-modal',
+    emoji: '📜',
+    text: 'Edit History',
+    title: 'View previous changes on this team',
+  },
   {
     id: 'post-pokepaste-modal',
     emoji: '✈️',

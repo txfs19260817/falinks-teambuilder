@@ -12,21 +12,19 @@ function ItemInput() {
 
   // receive changes from other users
   useEffect(() => {
-    if (!teamState.team[tabIdx]) return;
-    setItem(teamState.team[tabIdx]?.item || '');
-  }, [teamState.team[tabIdx]?.item]);
+    if (!teamState.getPokemonInTeam(tabIdx)) return;
+    setItem(teamState.getPokemonInTeam(tabIdx)?.item || '');
+  }, [teamState.getPokemonInTeam(tabIdx)?.item]);
 
   // emit changes to other users
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const newItem = e.target.value;
-    setGlobalFilter(newItem);
-    if (!teamState.team[tabIdx]) return;
-    // @ts-ignore
-    teamState.team[tabIdx].item = newItem;
+    setGlobalFilter(newItem); // set search words to filter table
+    teamState.updatePokemonInTeam(tabIdx, 'item', newItem);
   };
 
   const handleFocus = () => {
-    setGlobalFilter('');
+    setGlobalFilter(''); // clear search words on table
     focusedFieldDispatch({ type: 'set', payload: thisFocusedFieldState });
   };
 

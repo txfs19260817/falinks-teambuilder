@@ -72,7 +72,7 @@ export const getStats = (stat: string, base: number, ev: number, iv: number, nat
 
 // 252 or left over EVs
 export const getSingleEvUpperLimit = (evs: StatsTable, oldEv: number): number => {
-  return Math.min(maxTotalEvs - Object.values(evs).reduce((x, y) => x + y) + oldEv, maxSingleEvs);
+  return Math.min(maxTotalEvs - Object.values(evs).reduce((x, y) => x + y, 0) + oldEv, maxSingleEvs);
 };
 
 export const getRandomColor = () =>
@@ -114,3 +114,7 @@ export const urlPattern = new RegExp(
 export const getRandomElement = (list: string[]) => list[Math.floor(Math.random() * list.length)];
 
 export const getRandomTrainerName = () => getRandomElement(trainerNames) || 'Trainer';
+
+export const firstDiffIndexOfTwoArrays = <T>(oldArr: T[], newArr: T[]): number => {
+  return oldArr.findIndex((item) => !newArr.includes(item));
+};

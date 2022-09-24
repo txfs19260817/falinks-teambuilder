@@ -7,26 +7,21 @@ function GenderPicker() {
   const { teamState, tabIdx } = useContext(StoreContext);
   // get dex
   const { gen } = useContext(DexContext);
-  // read species
-  const { species } = teamState.team[tabIdx]!;
-  // if this is not undefined, it means this pokemon only has one gender
-  const possibleGender = gen.species.get(species)?.gender;
+  // read specie's gender. If this is not undefined, it means this pokemon only has one gender
+  const possibleGender = gen.species.get(teamState.getPokemonInTeam(tabIdx)?.species ?? '')?.gender;
   // otherwise, its gender could be either M or F
   const availableGenders: string[] = possibleGender ? [possibleGender as string] : ['M', 'F'];
   const [gender, setGender] = useState(availableGenders[0]);
 
   // receive changes from other users
   useEffect(() => {
-    if (!teamState.team[tabIdx]) return;
-    setGender(teamState.team[tabIdx]?.gender || availableGenders[0]);
-  }, [teamState.team[tabIdx]?.gender]);
+    if (!teamState.getPokemonInTeam(tabIdx)) return;
+    setGender(teamState.getPokemonInTeam(tabIdx)?.gender || availableGenders[0]);
+  }, [teamState.getPokemonInTeam(tabIdx)?.gender]);
 
   // emit changes to other users
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const newPicked = e.target.value;
-    if (!teamState.team[tabIdx]) return;
-    // @ts-ignore
-    teamState.team[tabIdx].gender = newPicked;
+    teamState.updatePokemonInTeam(tabIdx, 'gender', e.target.value);
   };
 
   return (

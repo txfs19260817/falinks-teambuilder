@@ -21,7 +21,7 @@ function Overview() {
     <div className="mockup-window border bg-base-300">
       <div className="grid gap-y-2 gap-x-2 bg-base-200 py-2 px-1 md:grid-cols-2 md:grid-rows-3 lg:grid-cols-3 lg:grid-rows-2">
         {[0, 1, 2, 3, 4, 5].map((i) => {
-          const pm = teamState.team[i];
+          const pm = teamState.getPokemonInTeam(i);
           const pmPaste: string = pm ? Pokemon.exportSetToPaste(pm) : '';
 
           return (

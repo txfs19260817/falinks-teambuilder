@@ -8,16 +8,12 @@ function ShinyToggle() {
 
   // receive changes from other users
   useEffect(() => {
-    if (!teamState.team[tabIdx]) return;
-    setChecked(teamState.team[tabIdx]?.shiny || false);
-  }, [teamState.team[tabIdx]?.shiny]);
+    setChecked(teamState.getPokemonInTeam(tabIdx)?.shiny ?? false);
+  }, [teamState.getPokemonInTeam(tabIdx)?.shiny]);
 
   // emit changes to other users
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const newChecked = e.target.checked;
-    if (!teamState.team[tabIdx]) return;
-    // @ts-ignore
-    teamState.team[tabIdx].shiny = newChecked;
+    teamState.updatePokemonInTeam(tabIdx, 'shiny', e.target.checked);
   };
 
   return (

@@ -15,7 +15,7 @@ function ShareLink() {
         try {
           navigator.share({
             url,
-            title: `[${AppConfig.title}] ${teamState.metadata.title}`,
+            title: `[${AppConfig.title}] ${teamState.title}`,
           });
         } catch (e) {
           navigator.clipboard.writeText(url).then(() => toast('📋 Link copied!'));

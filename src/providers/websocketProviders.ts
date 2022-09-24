@@ -2,7 +2,7 @@ import { getYjsValue } from '@syncedstore/core';
 import { MappedTypeDescription } from '@syncedstore/core/types/doc';
 import { WebsocketProvider } from 'y-websocket';
 
-import { StoreContextType } from '@/components/workspace/Contexts/StoreContext';
+import { StoreContextType } from '@/models/TeamState';
 import { Providers } from '@/providers/baseProviders';
 
 const serverUrl = 'wss://falinks-teambuilder.herokuapp.com';

@@ -109,32 +109,30 @@ function StatsSetters() {
   const [nature, setNature] = useState<Nature>(natures[8]!); // default to Hardy
 
   useEffect(() => {
-    const { species: pName } = teamState.team[tabIdx] ?? {};
-    setBase((old) => gen.species.get(pName ?? '')?.baseStats ?? old);
-  }, [teamState.team[tabIdx]?.species]);
+    const pName = teamState.getPokemonInTeam(tabIdx)?.species ?? '';
+    setBase((old) => gen.species.get(pName)?.baseStats ?? old);
+  }, [teamState.getPokemonInTeam(tabIdx)?.species]);
 
   useEffect(() => {
-    const { evs: pEvs } = teamState.team[tabIdx] ?? {};
+    const { evs: pEvs } = teamState.getPokemonInTeam(tabIdx) ?? {};
     setEvs((old) => pEvs ?? old);
-  }, [teamState.team[tabIdx]?.evs]);
+  }, [teamState.getPokemonInTeam(tabIdx)?.evs]);
 
   useEffect(() => {
-    const { ivs: pIvs } = teamState.team[tabIdx] ?? {};
+    const { ivs: pIvs } = teamState.getPokemonInTeam(tabIdx) ?? {};
     setIvs((old) => pIvs ?? old);
-  }, [teamState.team[tabIdx]?.ivs]);
+  }, [teamState.getPokemonInTeam(tabIdx)?.ivs]);
 
   // receive changes from other users
   useEffect(() => {
-    const { nature: pNature } = teamState.team[tabIdx] ?? {};
+    const pNature = teamState.getPokemonInTeam(tabIdx)?.nature;
     setNature((old) => natures.find((n) => n.name === pNature) ?? old);
-  }, [teamState.team[tabIdx]?.nature]);
+  }, [teamState.getPokemonInTeam(tabIdx)?.nature]);
 
   // emit changes to other users
   const handleNatureSelectChange = (e: ChangeEvent<HTMLSelectElement>) => {
     const newChecked = natures.find((n) => n.name === e.target.value)!;
-    if (!teamState.team[tabIdx]) return;
-    // @ts-ignore
-    teamState.team[tabIdx].nature = newChecked.name;
+    teamState.updatePokemonInTeam(tabIdx, 'nature', newChecked.name);
   };
 
   const handleNatureRadioChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -145,19 +143,15 @@ function StatsSetters() {
       natures.find((n) => n[curBuff] === stat && n[opposingBuff] === nature[opposingBuff]) ??
       natures.find((n) => n[curBuff] === stat && n[opposingBuff] === (stat === 'atk' ? 'def' : 'atk')) ??
       nature;
-    if (!teamState.team[tabIdx]) return;
-    // @ts-ignore
-    teamState.team[tabIdx].nature = newChecked.name;
+    teamState.updatePokemonInTeam(tabIdx, 'nature', newChecked.name);
   };
 
   const handleSuggestionSelectChange = (e: ChangeEvent<HTMLSelectElement>) => {
     const option = e.target.value;
-    if (!teamState.team[tabIdx] || !suggestedSpreadsMap.has(option)) return;
+    if (!suggestedSpreadsMap.has(option)) return;
     const { nature: newNature, evs: newEvs } = suggestedSpreadsMap.get(option)!;
-    // @ts-ignore
-    teamState.team[tabIdx].nature = newNature;
-    // @ts-ignore
-    teamState.team[tabIdx].evs = newEvs;
+    teamState.updatePokemonInTeam(tabIdx, 'nature', newNature);
+    teamState.updatePokemonInTeam(tabIdx, 'evs', newEvs);
   };
 
   const handleEVInputChange = (e: ChangeEvent<HTMLInputElement>, ev: number, stat: string) => {
@@ -173,21 +167,19 @@ function StatsSetters() {
   ) => {
     // @ts-ignore
     if (e.key && !['ArrowDown', 'ArrowUp', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'Backspace', 'Delete', 'Enter'].includes(e.key)) return;
-    // @ts-ignore
-    teamState.team[tabIdx].evs = {
+    teamState.updatePokemonInTeam(tabIdx, 'evs', {
       ...evs,
       [stat]: Number((e.target as HTMLInputElement).value),
-    };
+    });
   };
 
   const handleIVInputChange = (e: ChangeEvent<HTMLInputElement>, stat: string) => {
     const newIv = Math.min(Number(e.target.value), 31);
     setIvs((old) => ({ ...old, [stat]: newIv }));
-    // @ts-ignore
-    teamState.team[tabIdx].ivs = {
+    teamState.updatePokemonInTeam(tabIdx, 'ivs', {
       ...ivs,
       [stat]: newIv,
-    };
+    });
   };
 
   return (
@@ -207,7 +199,7 @@ function StatsSetters() {
         const b = (base as unknown as { [s: string]: number })[stat] ?? 0;
         const iv = (ivs as unknown as { [s: string]: number })[stat] ?? 31;
         const ev = (evs as unknown as { [s: string]: number })[stat] ?? 0;
-        const lv = teamState.team[tabIdx]?.level ?? 50;
+        const lv = teamState.getPokemonInTeam(tabIdx)?.level ?? 50;
         return (
           <div key={stat} className="grid-rows-7 grid grid-cols-12 items-center overflow-hidden px-4 text-xs md:gap-x-4 md:text-sm">
             {/* Column Header */}

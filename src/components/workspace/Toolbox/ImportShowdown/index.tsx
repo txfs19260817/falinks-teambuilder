@@ -99,7 +99,7 @@ export function ImportShowdownDialog() {
             toast.error('Invalid team paste fetched from PokePaste');
             return;
           }
-          teamState.team.splice(0, teamState.team.length, ...newTeam);
+          teamState.splicePokemonTeam(0, teamState.teamLength, ...newTeam);
         })
         .catch((err) => {
           toast.error(`Error fetching team from PokePaste: ${err}`);
@@ -108,7 +108,7 @@ export function ImportShowdownDialog() {
     }
     // check if it's a single set
     if (single) {
-      if (teamState.team.length === 0) {
+      if (teamState.teamLength === 0) {
         toast.error('No Pokémon in team');
         return;
       }
@@ -117,7 +117,7 @@ export function ImportShowdownDialog() {
         toast.error('Invalid set paste');
         return;
       }
-      teamState.team.splice(tabIdx, 1, newMon);
+      teamState.splicePokemonTeam(tabIdx, 1, newMon);
     } else {
       // it's a team paste
       const newTeam = Pokemon.convertPasteToTeam(text);
@@ -125,7 +125,7 @@ export function ImportShowdownDialog() {
         toast.error('Invalid team paste');
         return;
       }
-      teamState.team.splice(0, teamState.team.length, ...newTeam);
+      teamState.splicePokemonTeam(0, teamState.teamLength, ...newTeam);
     }
   };
   return (
@@ -138,7 +138,7 @@ export function ImportShowdownDialog() {
           </label>
           <h3 className="font-bold md:text-lg">Please leave your Showdown paste (or PokePaste link) here ↓</h3>
           <textarea className="textarea-secondary textarea w-full" rows={10} ref={importTextareaRef}></textarea>
-          {tabIdx >= 0 && tabIdx < teamState.team.length && (
+          {tabIdx >= 0 && tabIdx < teamState.teamLength && (
             <label className="label cursor-pointer">
               <span className="label-text">Only swap the current Pokémon set</span>
               <input type="checkbox" className="checkbox" checked={single} onChange={singleSetHandler} />

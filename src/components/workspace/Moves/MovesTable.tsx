@@ -29,8 +29,8 @@ function MovesTable({ moveIdx }: { moveIdx: number }) {
   // table settings
   const [data, setData] = useState<Move[]>([]);
   useEffect(() => {
-    getMovesBySpecie(gen, teamState.team[tabIdx]?.species).then((moves) => setData(moves));
-  }, [teamState.team[tabIdx]?.species]);
+    getMovesBySpecie(gen, teamState.getPokemonInTeam(tabIdx)?.species).then((moves) => setData(moves));
+  }, [teamState.getPokemonInTeam(tabIdx)?.species]);
   const columns = useMemo<ColumnDef<Move>[]>(
     () => [
       { header: 'Name', accessorKey: 'name' },
@@ -117,10 +117,8 @@ function MovesTable({ moveIdx }: { moveIdx: number }) {
 
   // handle table events
   const handleRowClick = (move?: Move) => {
-    if (!move || !teamState.team[tabIdx]) return;
-    // @ts-ignore
-    teamState.team[tabIdx].moves.splice(moveIdx, 1, move.name);
-
+    if (!move) return;
+    teamState.updatePokemonOneMoveInTeam(tabIdx, moveIdx, move.name);
     focusedFieldDispatch({ type: 'next', payload: focusedFieldState });
   };
 

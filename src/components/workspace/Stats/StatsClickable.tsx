@@ -25,23 +25,24 @@ function StatsClickable() {
 
   // receive changes from other users
   useEffect(() => {
-    if (!teamState.team[tabIdx]) return;
-    const { species: pName, ivs, evs, nature: natureName, level } = teamState.team[tabIdx] ?? {};
+    const pm = teamState.getPokemonInTeam(tabIdx);
+    if (!pm) return;
+    const { species: pName, ivs, evs, nature: natureName, level } = pm;
     const bases = gen.species.get(pName ?? '')?.baseStats ?? defaultStats;
     const nature = natures.find((n) => n.name === natureName) ?? natures[0]!;
     // compute new stats
     const newStats: StatsTable = { ...defaultStats };
     Object.keys(newStats).forEach((stat) => {
-      newStats[stat as StatID] = getStats(stat, bases[stat as StatID], evs![stat as StatID], ivs![stat as StatID], nature, level);
+      newStats[stat as StatID] = getStats(stat, bases[stat as StatID], evs[stat as StatID], ivs[stat as StatID], nature, level);
     });
     setStats(newStats);
   }, [
-    teamState.team[tabIdx],
-    teamState.team[tabIdx]?.species,
-    teamState.team[tabIdx]?.ivs,
-    teamState.team[tabIdx]?.evs,
-    teamState.team[tabIdx]?.nature,
-    teamState.team[tabIdx]?.level,
+    teamState.getPokemonInTeam(tabIdx),
+    teamState.getPokemonInTeam(tabIdx)?.species,
+    teamState.getPokemonInTeam(tabIdx)?.ivs,
+    teamState.getPokemonInTeam(tabIdx)?.evs,
+    teamState.getPokemonInTeam(tabIdx)?.nature,
+    teamState.getPokemonInTeam(tabIdx)?.level,
   ]);
 
   return (

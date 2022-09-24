@@ -22,7 +22,7 @@ import { useContext, useEffect, useMemo, useState } from 'react';
 import { DexContext } from '@/components/workspace/Contexts/DexContext';
 import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
 import Table from '@/components/workspace/Table';
-import { TeamChangelog } from '@/models/TeamChangelog';
+import { Pokemon } from '@/models/Pokemon';
 import { getPokemonIcon } from '@/utils/Helpers';
 
 function SpeciesTable() {
@@ -163,22 +163,10 @@ function SpeciesTable() {
 
   // handle table events
   const handleRowClick = (specie?: Specie) => {
-    if (!specie || !teamState.team[tabIdx]) return;
-    const oldSpecie = teamState.team[tabIdx]?.species ?? '';
-    // @ts-ignore
-    teamState.team[tabIdx].species = specie.name;
-    // @ts-ignore
-    teamState.team[tabIdx].ability = '';
-    // @ts-ignore
-    teamState.team[tabIdx].item = specie.requiredItem ?? ''; // eslint-disable-line prefer-destructuring
-    // @ts-ignore
-    teamState.team[tabIdx].moves.splice(0, 4, ...['', '', '', '']);
-
+    if (!specie) return;
+    teamState.splicePokemonTeam(tabIdx, 1, new Pokemon(specie.name, '', specie.requiredItem));
     focusedFieldDispatch({ type: 'next', payload: focusedFieldState });
-    setGlobalFilter('');
-
-    // Push to history
-    TeamChangelog.PushChangelog(teamState, localStorage.getItem('username') || '', tabIdx, 'species', oldSpecie, specie.name);
+    setGlobalFilter(''); // clear search words on table
   };
 
   // table render

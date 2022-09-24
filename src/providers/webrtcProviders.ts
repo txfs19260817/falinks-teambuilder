@@ -2,7 +2,7 @@ import { getYjsValue } from '@syncedstore/core';
 import { MappedTypeDescription } from '@syncedstore/core/types/doc';
 import { WebrtcProvider } from 'y-webrtc';
 
-import { StoreContextType } from '@/components/workspace/Contexts/StoreContext';
+import { StoreContextType } from '@/models/TeamState';
 import { Providers } from '@/providers/baseProviders';
 
 let instance: WebrtcProviders;

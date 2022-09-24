@@ -77,10 +77,8 @@ function ItemsTable() {
 
   // handle table events
   const handleRowClick = (item?: Item) => {
-    if (!item || !teamState.team[tabIdx]) return;
-    // @ts-ignore
-    teamState.team[tabIdx].item = item.name;
-
+    if (!item) return;
+    teamState.updatePokemonInTeam(tabIdx, 'item', item.name);
     focusedFieldDispatch({ type: 'next', payload: focusedFieldState });
   };
 
