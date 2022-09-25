@@ -68,7 +68,7 @@ const Index = ({ usages }: InferGetStaticPropsType<typeof getStaticProps>) => {
 };
 
 export const getStaticProps: GetStaticProps<{ usages: (MovesetStatistics & { name: string })[] } & SSRConfig> = async ({ locale }) => {
-  const usages = await fetch(`${process.env.VERCEL_URL}/api/usages/format/gen8vgc2022`).then((res) => res.json());
+  const usages = await fetch(`${process.env.VERCEL_URL || process.env.NEXT_PUBLIC_VERCEL_URL}/api/usages/format/gen8vgc2022`).then((res) => res.json());
   return {
     props: {
       usages,
