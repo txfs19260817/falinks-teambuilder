@@ -2,7 +2,8 @@ import { Generation, Move } from '@pkmn/data';
 import { Icons } from '@pkmn/img';
 import { ColumnDef, ColumnFiltersState, getCoreRowModel, getFilteredRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table';
 import Image from 'next/image';
-import { useContext, useEffect, useMemo, useState } from 'react';
+import { useContext, useMemo, useState } from 'react';
+import useSWR from 'swr';
 
 import { DexContext } from '@/components/workspace/Contexts/DexContext';
 import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
@@ -26,11 +27,10 @@ function MovesTable({ moveIdx }: { moveIdx: number }) {
   // get dex & possible moves
   const { gen } = useContext(DexContext);
 
+  const { species } = teamState.getPokemonInTeam(tabIdx) ?? {};
+  const { data } = useSWR<Move[]>(species, (k) => getMovesBySpecie(gen, k));
+
   // table settings
-  const [data, setData] = useState<Move[]>([]);
-  useEffect(() => {
-    getMovesBySpecie(gen, teamState.getPokemonInTeam(tabIdx)?.species).then((moves) => setData(moves));
-  }, [teamState.getPokemonInTeam(tabIdx)?.species]);
   const columns = useMemo<ColumnDef<Move>[]>(
     () => [
       { header: 'Name', accessorKey: 'name' },
@@ -102,7 +102,7 @@ function MovesTable({ moveIdx }: { moveIdx: number }) {
 
   // table instance
   const instance = useReactTable<Move>({
-    data,
+    data: data ?? [],
     columns,
     state: {
       columnFilters,

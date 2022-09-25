@@ -63,7 +63,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<PokePaste[]>) =
   const {
     query: { pokemon, page },
   } = req;
-  // required
+  // required (handle forms/baseSpecies ?)
   if (typeof pokemon !== 'string' || pokemon.length === 0) {
     return res.status(400);
   }
