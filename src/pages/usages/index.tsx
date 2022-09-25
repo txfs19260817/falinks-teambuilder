@@ -68,9 +68,9 @@ const Index = ({ usages }: InferGetStaticPropsType<typeof getStaticProps>) => {
 };
 
 export const getStaticProps: GetStaticProps<{ usages: (MovesetStatistics & { name: string })[] } & SSRConfig> = async ({ locale }) => {
-  let endpoint = process.env.VERCEL_URL || process.env.NEXT_PUBLIC_VERCEL_URL || 'localhost:3000';
-  if (!endpoint.startsWith('https://') && !endpoint.startsWith('http://')) {
-    endpoint = `//${endpoint}`;
+  let endpoint = process.env.VERCEL_URL || process.env.NEXT_PUBLIC_VERCEL_URL || 'http://localhost:3000';
+  if (!endpoint.startsWith('http')) {
+    endpoint = `https://${endpoint}`;
   }
   const usages = await fetch(`${endpoint}/api/usages/format/gen8vgc2022`).then((res) => res.json());
   return {
