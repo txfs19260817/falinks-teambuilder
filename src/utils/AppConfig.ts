@@ -50,6 +50,12 @@ const routes: Route[] = [
     target: '_self',
   },
   {
+    id: 'usage',
+    name: 'Usage',
+    path: '/usages',
+    target: '_self',
+  },
+  {
     id: 'github',
     name: 'GitHub',
     path: 'https://github.com/txfs19260817/falinks-teambuilder',

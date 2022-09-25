@@ -127,3 +127,15 @@ export const ensureInteger = (v: unknown, defaultNum: number = 0): number => {
   }
   return defaultNum;
 };
+
+export const filterObjectByValue = <T extends object>(obj: T, predicate: (value: T[keyof T]) => boolean): Partial<T> => {
+  return Object.fromEntries(Object.entries(obj).filter(([, value]) => predicate(value))) as Partial<T>;
+};
+
+export const sortObjectByValue = <T extends object>(obj: T, predicate: (a: T[keyof T], b: T[keyof T]) => number): T => {
+  return Object.fromEntries(Object.entries(obj).sort(([, a], [, b]) => predicate(a, b))) as T;
+};
+
+export const limitObjectEntries = <T extends object>(obj: T, limit: number): T => {
+  return Object.fromEntries(Object.entries(obj).slice(0, limit)) as T;
+};

@@ -41,44 +41,47 @@ const PokemonPanel = () => {
   return (
     <DexContextProvider value={{ gen, globalFilter, setGlobalFilter, usages }}>
       <div className="mockup-window border bg-base-300">
-        <div className="grid grid-cols-2 grid-rows-3 gap-y-2 gap-x-1 bg-base-200 py-2 px-1 md:grid-cols-4 md:grid-rows-2">
-          {/* 1. Nickname & Species */}
-          <div aria-label="species" className="form-control justify-between">
-            {/* Nickname */}
-            <NicknameInput />
-            {/* Sprite */}
-            <SpriteAvatar />
-            {/* Species */}
-            <SpeciesInput />
-          </div>
-          {/* 2. Misc */}
-          <div aria-label="misc" className="form-control justify-between">
-            {/* Level */}
-            <LevelSetter />
-            {/* Gender */}
-            <GenderPicker />
-            {/* Shiny & Gigantamax */}
-            <div className="flex">
-              <ShinyToggle />
-              <GMaxSwitch />
+        <div className="flex h-full flex-col gap-1">
+          {/* Upper part */}
+          <div className="rounded-box grid grid-cols-2 gap-x-1 gap-y-2 bg-base-100 px-2 py-1 md:grid-cols-4">
+            {/* 1. Nickname & Species */}
+            <div aria-label="species" className="form-control rounded-box justify-between">
+              {/* Nickname */}
+              <NicknameInput />
+              {/* Sprite */}
+              <SpriteAvatar />
+              {/* Species */}
+              <SpeciesInput />
             </div>
-            {/* Item */}
-            <ItemInput />
-            {/* Ability */}
-            <AbilityInput />
+            {/* 2. Misc */}
+            <div aria-label="misc" className="form-control justify-between">
+              {/* Level */}
+              <LevelSetter />
+              {/* Gender */}
+              <GenderPicker />
+              {/* Shiny & Gigantamax */}
+              <div className="flex">
+                <ShinyToggle />
+                <GMaxSwitch />
+              </div>
+              {/* Item */}
+              <ItemInput />
+              {/* Ability */}
+              <AbilityInput />
+            </div>
+            {/* 3. Moves */}
+            <div aria-label="moves" className="form-control justify-between">
+              {[0, 1, 2, 3].map((i) => (
+                <MoveInput key={i} moveIdx={i} />
+              ))}
+            </div>
+            {/* 4. Stats */}
+            <div aria-label="stats" className="form-control justify-start">
+              <StatsClickable />
+            </div>
           </div>
-          {/* 3. Moves */}
-          <div aria-label="moves" className="form-control justify-between">
-            {[0, 1, 2, 3].map((i) => (
-              <MoveInput key={i} moveIdx={i} />
-            ))}
-          </div>
-          {/* 4. Stats */}
-          <div aria-label="stats" className="form-control justify-start">
-            <StatsClickable />
-          </div>
-          {/* 5. Lower part */}
-          <div className="col-start-1 col-end-3 max-h-52 overflow-y-auto border-2 md:col-end-5 md:max-h-72">
+          {/* Lower part */}
+          <div className="overflow-y-auto border-2">
             <FocusedFieldSwitch />
           </div>
         </div>

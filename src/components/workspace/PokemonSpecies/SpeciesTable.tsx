@@ -155,7 +155,7 @@ function SpeciesTable() {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
-    pageSize: 25,
+    pageSize: 10,
   });
 
   // sorting by usages
