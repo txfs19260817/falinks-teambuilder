@@ -1,5 +1,6 @@
 import { Icons } from '@pkmn/img';
 import { GetStaticProps, InferGetStaticPropsType } from 'next';
+import { useRouter } from 'next/router';
 import { SSRConfig } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import React, { useContext, useId, useState } from 'react';
@@ -17,6 +18,7 @@ import type { Usage } from '@/utils/Types';
 
 const UsagePage = () => {
   const drawerID = useId();
+  const { basePath } = useRouter();
   const { gen } = useContext(DexContext);
   const { data } = useSWR<Usage[]>(`/api/usages/format/${AppConfig.defaultFormat}`, (u) => fetch(u).then((res) => res.json()));
   const [selectedPokemon, setSelectedPokemon] = useState<Usage | undefined>(data?.at(0));
@@ -39,7 +41,7 @@ const UsagePage = () => {
           </div>
           {/* Main Content */}
           {selectedPokemon && (
-            <div className="grid grid-cols-2 gap-4 p-4">
+            <div className="grid gap-4 p-4 md:grid-cols-2">
               {/* Info Card */}
               <InfoCard pokeUsage={selectedPokemon} />
               {/* Usage */}
@@ -56,7 +58,7 @@ const UsagePage = () => {
                 tableTitle="Moves"
                 usages={selectedPokemon.Moves as Record<string, number>}
                 nameGetter={(k) => gen.moves.get(k)?.name ?? k}
-                iconStyleGetter={(k) => Icons.getType(gen.moves.get(k)?.type ?? '???').url}
+                iconImagePathGetter={(k) => `${basePath}/assets/types/${gen.moves.get(k)?.type}.webp`}
               />
               {/* Teammates Table */}
               <BaseTable

@@ -8,10 +8,20 @@ type BaseTableProps<T = Record<string, number>> = {
   usages: T;
   nameGetter: (key: keyof T) => string;
   // CSS properties or URL
-  iconStyleGetter: (key: keyof T) => { [p: string]: string | number } | string;
+  iconStyleGetter?: (key: keyof T) => { [p: string]: string | number };
+  iconImagePathGetter?: (key: keyof T) => string;
 };
 
-function BaseTable({ tableTitle, usages, nameGetter, iconStyleGetter }: BaseTableProps) {
+function BaseTable({ tableTitle, usages, nameGetter, iconStyleGetter, iconImagePathGetter }: BaseTableProps) {
+  const IconComponent = ({ k }: { k: string }) => {
+    if (iconStyleGetter) {
+      return <span style={iconStyleGetter(k)} />;
+    }
+    if (iconImagePathGetter) {
+      return <Image className="inline-block" width={24} height={24} alt={k} title={k} src={iconImagePathGetter(k)} loading="lazy" />;
+    }
+    return null;
+  };
   return (
     <table className="table-zebra table-compact table w-full">
       <thead>
@@ -24,16 +34,11 @@ function BaseTable({ tableTitle, usages, nameGetter, iconStyleGetter }: BaseTabl
       <tbody>
         {Object.entries(usages).map(([key, value], i) => {
           const name = nameGetter(key as keyof typeof usages);
-          const iconStyle = iconStyleGetter(key);
           return (
             <tr key={key}>
               <td>{i + 1}</td>
               <td>
-                {typeof iconStyle === 'string' ? (
-                  <Image className="inline-block" width={32} height={14} alt={key} title={key} src={iconStyle} loading="lazy" />
-                ) : (
-                  <span style={iconStyle}></span>
-                )}
+                <IconComponent k={key} />
                 <a href={wikiLink(name)} target="_blank" rel="noreferrer" title="Open in wiki">
                   {name}
                 </a>

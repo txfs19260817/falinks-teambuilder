@@ -92,5 +92,6 @@ export const convertObjectNumberValuesToFraction = <T extends Record<string, num
 export const fractionToPercentage = (fraction: number = 0) => {
   return new Intl.NumberFormat('en-US', {
     style: 'percent',
+    minimumFractionDigits: 1,
   }).format(fraction ?? 0);
 };
