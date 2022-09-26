@@ -4,7 +4,7 @@ import { ChangeEvent, FocusEvent, KeyboardEvent, MouseEvent, TouchEvent, useCont
 
 import { DexContext } from '@/components/workspace/Contexts/DexContext';
 import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
-import { getSingleEvUpperLimit, getStats } from '@/utils/Helpers';
+import { getSingleEvUpperLimit, getStats } from '@/utils/PokemonUtils';
 
 const defaultStats: StatsTable = {
   hp: 0,

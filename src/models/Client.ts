@@ -1,7 +1,8 @@
 import { RelativePosition } from 'yjs';
 
 import { BaseProvider } from '@/providers/baseProviders';
-import { getRandomColor, getRandomTrainerName } from '@/utils/Helpers';
+import { getRandomColor } from '@/utils/Helpers';
+import { getRandomTrainerName } from '@/utils/PokemonUtils';
 
 export type UserInfo = {
   color: string;

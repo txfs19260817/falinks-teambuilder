@@ -3,7 +3,7 @@ import React from 'react';
 import Select, { components, OptionProps } from 'react-select';
 
 import { Pokemon } from '@/models/Pokemon';
-import { getPokemonIcon } from '@/utils/Helpers';
+import { getPokemonIcon } from '@/utils/PokemonUtils';
 
 const TailwindStyledInput = ({ children, innerProps, ...props }: OptionProps) => {
   const species = (props.data as { value: string }).value;

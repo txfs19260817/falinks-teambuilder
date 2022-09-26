@@ -9,7 +9,8 @@ import { PokePaste } from '@/models/PokePaste';
 import { supportedProtocols } from '@/providers';
 import { Main } from '@/templates/Main';
 import { AppConfig } from '@/utils/AppConfig';
-import { getRandomTrainerName, S4 } from '@/utils/Helpers';
+import { S4 } from '@/utils/Helpers';
+import { getRandomTrainerName } from '@/utils/PokemonUtils';
 
 type RoomForm = WorkspaceProps & {
   userName: string;
