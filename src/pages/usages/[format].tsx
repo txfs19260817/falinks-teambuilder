@@ -37,7 +37,10 @@ const UsagePage = () => {
   const drawerID = useId();
   const { basePath, query, isReady, push } = useRouter();
   const { gen } = useContext(DexContext);
-  const { data } = useSWR<Usage[]>(isReady ? `/api/usages/format/${query.format}` : null, (u) => fetch(u).then((res) => res.json()));
+  const { data } = useSWR<Usage[]>(isReady ? `/api/usages/format/${query.format}` : null, {
+    fetcher: (url) => fetch(url).then((res) => res.json()),
+    fallbackData: [],
+  });
   const [selectedPokemon, setSelectedPokemon] = useState<Usage | undefined>(data?.at(0));
   const [pokemonNameFilter, setPokemonNameFilter] = useState<string>('');
   useEffect(() => {
@@ -145,11 +148,10 @@ export const getStaticProps: GetStaticProps<{ fallback: { [p: string]: Usage[] }
   const format = params?.format ?? AppConfig.defaultFormat;
   const usages = await postProcessUsage(format);
   const pathKey = `/api/usages/format/${format}`;
-  const defaultUsages = await postProcessUsage(AppConfig.defaultFormat);
   return {
     props: {
       fallback: {
-        '': defaultUsages,
+        '': [],
         [pathKey]: usages,
       },
       ...(await serverSideTranslations(locale ?? AppConfig.defaultLocale, ['common'])),
