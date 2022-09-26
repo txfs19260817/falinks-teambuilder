@@ -52,7 +52,7 @@ const routes: Route[] = [
   {
     id: 'usage',
     name: 'Usage',
-    path: '/usages/gen8vgc2022',
+    path: '/usages',
     target: '_self',
   },
   {
