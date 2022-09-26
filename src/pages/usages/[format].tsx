@@ -56,7 +56,7 @@ const UsagePage = ({ data }: { data: Usage[] }) => {
             <div className="mx-2 flex-1 px-2">Usages</div>
           </div>
           {/* Main Content */}
-          {data.at(selectedIndex) && (
+          {Array.isArray(data) && data.length > selectedIndex && (
             <div className="grid gap-4 p-4 md:grid-cols-2">
               {/* Info Card */}
               <InfoCard pokeUsage={data.at(selectedIndex)!} />
