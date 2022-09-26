@@ -145,9 +145,11 @@ export const getStaticProps: GetStaticProps<{ fallback: { [p: string]: Usage[] }
   const format = params?.format ?? AppConfig.defaultFormat;
   const usages = await postProcessUsage(format);
   const pathKey = `/api/usages/format/${format}`;
+  const defaultUsages = await postProcessUsage(AppConfig.defaultFormat);
   return {
     props: {
       fallback: {
+        '': defaultUsages,
         [pathKey]: usages,
       },
       ...(await serverSideTranslations(locale ?? AppConfig.defaultLocale, ['common'])),
