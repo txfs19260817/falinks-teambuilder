@@ -3,8 +3,7 @@ import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next';
 import { useRouter } from 'next/router';
 import { SSRConfig } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import React, { ChangeEvent, useContext, useEffect, useId, useState } from 'react';
-import useSWR, { SWRConfig } from 'swr';
+import React, { ChangeEvent, useContext, useId, useState } from 'react';
 
 import BaseTable from '@/components/usages/BaseTable';
 import InfoCard from '@/components/usages/InfoCard';
@@ -33,18 +32,12 @@ function PokemonFilter(props: { value: string; onChange: (e: ChangeEvent<HTMLInp
   );
 }
 
-const UsagePage = () => {
+const UsagePage = ({ data }: { data: Usage[] }) => {
   const drawerID = useId();
   const { basePath, query, push } = useRouter();
   const { gen } = useContext(DexContext);
-  const { data } = useSWR<Usage[]>(query.format ? `/api/usages/format/${query.format}` : null, {
-    fetcher: (url) => fetch(url).then((res) => res.json()),
-  });
-  const [selectedPokemon, setSelectedPokemon] = useState<Usage | undefined>(data?.at(0));
+  const [selectedIndex, setSelectedIndex] = useState<number>(0);
   const [pokemonNameFilter, setPokemonNameFilter] = useState<string>('');
-  useEffect(() => {
-    setSelectedPokemon(data?.at(0));
-  }, [data]);
 
   return (
     <Main title={'Usages'}>
@@ -63,35 +56,40 @@ const UsagePage = () => {
             <div className="mx-2 flex-1 px-2">Usages</div>
           </div>
           {/* Main Content */}
-          {selectedPokemon && (
+          {data.at(selectedIndex) && (
             <div className="grid gap-4 p-4 md:grid-cols-2">
               {/* Info Card */}
-              <InfoCard pokeUsage={selectedPokemon} />
+              <InfoCard pokeUsage={data.at(selectedIndex)!} />
               {/* Usage */}
-              <UsageStats pokeUsage={selectedPokemon} />
+              <UsageStats pokeUsage={data.at(selectedIndex)!} />
               {/* Items Table */}
               <BaseTable
                 tableTitle="Items"
-                usages={selectedPokemon.Items as Record<string, number>}
+                usages={data.at(selectedIndex)!.Items as Record<string, number>}
                 nameGetter={(k) => gen.items.get(k)?.name ?? k}
                 iconStyleGetter={(k) => Icons.getItem(k).css}
               />
               {/* Moves Table */}
               <BaseTable
                 tableTitle="Moves"
-                usages={selectedPokemon.Moves as Record<string, number>}
+                usages={data.at(selectedIndex)!.Moves as Record<string, number>}
                 nameGetter={(k) => gen.moves.get(k)?.name ?? k}
                 iconImagePathGetter={(k) => `${basePath}/assets/types/${gen.moves.get(k)?.type}.webp`}
               />
               {/* Teammates Table */}
               <BaseTable
                 tableTitle="Teammates"
-                usages={selectedPokemon.Teammates as Record<string, number>}
+                usages={data.at(selectedIndex)!.Teammates as Record<string, number>}
                 nameGetter={(k) => gen.species.get(k)?.name ?? k}
                 iconStyleGetter={(k) => Icons.getPokemon(k).css}
               />
               {/* Spreads Table */}
-              <BaseTable tableTitle="Spreads" usages={selectedPokemon.Spreads as Record<string, number>} nameGetter={(k) => k} iconStyleGetter={(_) => ({})} />
+              <BaseTable
+                tableTitle="Spreads"
+                usages={data.at(selectedIndex)!.Spreads as Record<string, number>}
+                nameGetter={(k) => k}
+                iconStyleGetter={(_) => ({})}
+              />
             </div>
           )}
         </div>
@@ -118,9 +116,9 @@ const UsagePage = () => {
             <PokemonFilter value={pokemonNameFilter} onChange={(e) => setPokemonNameFilter(e.target.value)} />
             {(data || [])
               .filter((usage) => usage.name.toLowerCase().includes(pokemonNameFilter.toLowerCase()))
-              .map((usage) => (
+              .map((usage, i) => (
                 <li key={usage.name}>
-                  <a type="button" className="btn-ghost btn-block btn m-1 w-full bg-base-100 text-xs" onClick={() => setSelectedPokemon(usage)}>
+                  <a type="button" className="btn-ghost btn-block btn m-1 w-full bg-base-100 text-xs" onClick={() => setSelectedIndex(i)}>
                     <span style={convertStylesStringToObject(Icons.getPokemon(usage.name).style)} />
                     <span>{usage.name}</span>
                   </a>
@@ -133,28 +131,23 @@ const UsagePage = () => {
   );
 };
 
-function Page({ fallback }: InferGetStaticPropsType<typeof getStaticProps>) {
+function Page({ usages }: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
-    <SWRConfig value={{ fallback }}>
-      <DexContextProvider value={defaultDex}>
-        <UsagePage />
-      </DexContextProvider>
-    </SWRConfig>
+    <DexContextProvider value={defaultDex}>
+      <UsagePage data={usages} />
+    </DexContextProvider>
   );
 }
 
-export const getStaticProps: GetStaticProps<{ fallback: { [p: string]: Usage[] } } & SSRConfig, { format: string }> = async ({ params, locale }) => {
+export const getStaticProps: GetStaticProps<{ usages: Usage[] } & SSRConfig, { format: string }> = async ({ params, locale }) => {
   const format = params?.format ?? AppConfig.defaultFormat;
   const usages = await postProcessUsage(format);
-  const pathKey = `/api/usages/format/${format}`;
   return {
     props: {
-      fallback: {
-        '': [],
-        [pathKey]: usages,
-      },
+      usages,
       ...(await serverSideTranslations(locale ?? AppConfig.defaultLocale, ['common'])),
     },
+    revalidate: 604800, // 1 week
   };
 };
 
