@@ -1,4 +1,4 @@
-import { Generation, Move } from '@pkmn/data';
+import { Move } from '@pkmn/data';
 import { Icons } from '@pkmn/img';
 import { ColumnDef, ColumnFiltersState, getCoreRowModel, getFilteredRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table';
 import Image from 'next/image';
@@ -8,18 +8,7 @@ import useSWR from 'swr';
 import { DexContext } from '@/components/workspace/Contexts/DexContext';
 import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
 import Table from '@/components/workspace/Table';
-
-const getMovesBySpecie = (gen: Generation, speciesName?: string): Promise<Move[]> => {
-  return gen.learnsets.get(speciesName || '').then(async (l) => {
-    const res = Object.entries(l?.learnset ?? []).flatMap((e) => gen.moves.get(e[0]) ?? []);
-    const baseSpecies = gen.species.get(speciesName || '')?.baseSpecies ?? '';
-    if (baseSpecies !== speciesName && baseSpecies !== '') {
-      const baseSpeciesMoves = await getMovesBySpecie(gen, baseSpecies);
-      res.push(...baseSpeciesMoves);
-    }
-    return res;
-  });
-};
+import { getMovesBySpecie } from '@/utils/PokemonUtils';
 
 function MovesTable({ moveIdx }: { moveIdx: number }) {
   const { globalFilter, setGlobalFilter } = useContext(DexContext);

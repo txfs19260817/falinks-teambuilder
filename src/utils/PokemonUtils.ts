@@ -1,3 +1,4 @@
+import { Generation, Move } from '@pkmn/data';
 import { Nature } from '@pkmn/dex-types';
 import { Icons } from '@pkmn/img';
 import { StatsTable } from '@pkmn/types';
@@ -128,4 +129,16 @@ export const wikiLink = (keyword: string) => {
     .split(' ')
     .map((s) => s.charAt(0).toUpperCase() + s.substring(1))
     .join('_')}`;
+};
+
+export const getMovesBySpecie = (gen: Generation, speciesName?: string): Promise<Move[]> => {
+  return gen.learnsets.get(speciesName || '').then(async (l) => {
+    const res = Object.entries(l?.learnset ?? []).flatMap((e) => gen.moves.get(e[0]) ?? []);
+    const baseSpecies = gen.species.get(speciesName || '')?.baseSpecies ?? '';
+    if (baseSpecies !== speciesName && baseSpecies !== '') {
+      const baseSpeciesMoves = await getMovesBySpecie(gen, baseSpecies);
+      res.push(...baseSpeciesMoves);
+    }
+    return res;
+  });
 };

@@ -25,14 +25,6 @@ const nextConfig = {
   // So, the source code is "basePath-ready".
   // You can remove `basePath` if you don't need it.
   reactStrictMode: false,
-  async rewrites() {
-    return [
-      {
-        source: '/usages',
-        destination: '/usages/gen8vgc2022'
-      }
-    ];
-  },
   i18n
 };
 
