@@ -12,6 +12,11 @@
 
 ## Development
 
+Requirements:
+
+- Node.js: 16.x (used `.at()`)
+- MongoDB Atlas (used Atlas Search). Set environment variables `MONGODB_URI` and `MONGODB_APIKEY`
+
 ### Install
 
 ```sh
@@ -40,14 +45,14 @@ Feel free to check [issues page](https://github.com/txfs19260817/falinks-teambui
 
 - [X] Collaborate text editor
 - [ ] Usage Tour
-- [ ] Statistics
+- [X] Statistics
 - [ ] Save & Load
-- [ ] Integrate with [Pokémon Showdown](https://play.pokemonshowdown.com/)
+- [X] Integrate with [Pokémon Showdown](https://play.pokemonshowdown.com/)
 - [X] Suggested EVs spreads
 - [X] Single Pokémon paste import/export
 - [X] Team Gallery
 - [X] Usage sorting
-- [ ] I18n
+- [X] I18n
 
 ## Acknowledgements
 
