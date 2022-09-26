@@ -1,9 +1,9 @@
 import { Icons } from '@pkmn/img';
-import { GetStaticProps, InferGetStaticPropsType } from 'next';
+import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next';
 import { useRouter } from 'next/router';
 import { SSRConfig } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import React, { useContext, useId, useState } from 'react';
+import React, { ChangeEvent, useContext, useEffect, useId, useState } from 'react';
 import useSWR, { SWRConfig } from 'swr';
 
 import BaseTable from '@/components/usages/BaseTable';
@@ -16,13 +16,34 @@ import { convertStylesStringToObject } from '@/utils/Helpers';
 import { postProcessUsage } from '@/utils/PokemonUtils';
 import type { Usage } from '@/utils/Types';
 
+const formats = ['gen8vgc2022', 'gen8ou', 'gen8bdspou'];
+
+function PokemonFilter(props: { value: string; onChange: (e: ChangeEvent<HTMLInputElement>) => void }) {
+  return (
+    <label className="input-group-xs input-group">
+      <span>Pokémon</span>
+      <input
+        type="text"
+        className="input-ghost input input-sm bg-base-100 text-base-content placeholder:text-neutral focus:bg-base-100"
+        placeholder="Filter by name"
+        value={props.value}
+        onChange={props.onChange}
+      />
+    </label>
+  );
+}
+
 const UsagePage = () => {
   const drawerID = useId();
-  const { basePath } = useRouter();
+  const { basePath, query, push } = useRouter();
   const { gen } = useContext(DexContext);
-  const { data } = useSWR<Usage[]>(`/api/usages/format/${AppConfig.defaultFormat}`, (u) => fetch(u).then((res) => res.json()));
+  const { data } = useSWR<Usage[]>(`/api/usages/format/${query.format ?? AppConfig.defaultFormat}`, (u) => fetch(u).then((res) => res.json()));
   const [selectedPokemon, setSelectedPokemon] = useState<Usage | undefined>(data?.at(0));
   const [pokemonNameFilter, setPokemonNameFilter] = useState<string>('');
+  useEffect(() => {
+    setSelectedPokemon(data?.at(0));
+  }, [data]);
+
   return (
     <Main title={'Usages'}>
       {/* Desktop: show drawer w/o Navbar; Mobile: show Navbar w/ a drawer button */}
@@ -76,16 +97,23 @@ const UsagePage = () => {
         <div className="drawer-side">
           <label htmlFor={drawerID} className="drawer-overlay"></label>
           <ul className="menu rounded-r-box w-80 overflow-y-auto border border-base-content/30 bg-base-200 p-4">
-            <label className="input-group-xs input-group">
-              <span>Pokémon</span>
-              <input
-                type="text"
-                className="input-ghost input input-sm bg-base-100 text-base-content placeholder:text-neutral focus:bg-base-100"
-                placeholder="Filter by name"
-                value={pokemonNameFilter}
-                onChange={(e) => setPokemonNameFilter(e.target.value)}
-              />
-            </label>
+            <div className="input-group-xs input-group">
+              <span>Format</span>
+              <select
+                className="select-bordered select select-sm"
+                defaultValue={query.format ?? AppConfig.defaultFormat}
+                onChange={(e) => {
+                  push(`/usages/${e.target.value}`);
+                }}
+              >
+                {formats.map((f) => (
+                  <option key={f} value={f}>
+                    {f}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <PokemonFilter value={pokemonNameFilter} onChange={(e) => setPokemonNameFilter(e.target.value)} />
             {(data || [])
               .filter((usage) => usage.name.toLowerCase().includes(pokemonNameFilter.toLowerCase()))
               .map((usage) => (
@@ -113,15 +141,32 @@ function Page({ fallback }: InferGetStaticPropsType<typeof getStaticProps>) {
   );
 }
 
-export const getStaticProps: GetStaticProps<{ fallback: { [p: string]: Usage[] } } & SSRConfig> = async ({ locale }) => {
-  const usages = await postProcessUsage(AppConfig.defaultFormat);
+export const getStaticProps: GetStaticProps<{ fallback: { [p: string]: Usage[] } } & SSRConfig, { format: string }> = async ({ params, locale }) => {
+  const format = params?.format ?? AppConfig.defaultFormat;
+  const usages = await postProcessUsage(format);
+  const pathKey = `/api/usages/format/${format}`;
   return {
     props: {
       fallback: {
-        '/api/usages/format/gen8vgc2022': usages, // NOTE: this is a hack to make the SWR work. Update this when `defaultFormat` is changed
+        [pathKey]: usages,
       },
       ...(await serverSideTranslations(locale ?? AppConfig.defaultLocale, ['common'])),
     },
+  };
+};
+
+export const getStaticPaths: GetStaticPaths = async (context) => {
+  const paths =
+    context.locales?.flatMap((locale) =>
+      formats.map((format) => ({
+        params: { format },
+        locale,
+      }))
+    ) ?? formats.map((format) => ({ params: { format } }));
+
+  return {
+    paths,
+    fallback: true,
   };
 };
 
