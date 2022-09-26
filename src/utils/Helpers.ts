@@ -1,23 +1,4 @@
-import { Nature } from '@pkmn/dex-types';
-import { Icons } from '@pkmn/img';
-import { StatsTable } from '@pkmn/types';
-import { CSSProperties } from 'react';
-
-import { trainerNames } from '@/utils/AppConfig';
-
-const maxTotalEvs = 508;
-
-const maxSingleEvs = 252;
-
 export const S4 = (): string => (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1); // eslint-disable-line no-bitwise
-
-export const removeItem = <T>(arr: Array<T>, value: T): Array<T> => {
-  const index = arr.indexOf(value);
-  if (index > -1) {
-    arr.splice(index, 1);
-  }
-  return arr;
-};
 
 // https://gist.github.com/goldhand/70de06a3bdbdb51565878ad1ee37e92b?permalink_comment_id=3621492#gistcomment-3621492
 export const convertStylesStringToObject = (stringStyles: string) =>
@@ -37,43 +18,6 @@ export const convertStylesStringToObject = (stringStyles: string) =>
 
     return value ? { ...acc, [camelCaseProperty]: value } : acc;
   }, {});
-
-/**
- * Returns the icon for the given Pokémon.
- * @param {number} pokeNum - The No. of the Pokémon. Only required if fetching from local (fromPS = false).
- * @param {string} pokeName - The name of the Pokémon. Only required if fetching from Pokémon Showdown site (fromPS = true).
- * @param {boolean} fromPS - Fetch icons from the Pokémon Showdown site if true, otherwise from this site.
- */
-export const getPokemonIcon = (pokeNum?: number, pokeName?: string, fromPS?: boolean): CSSProperties => {
-  if (fromPS && pokeName) {
-    return Icons.getPokemon(pokeName).css;
-  }
-  let num = pokeNum ?? 0;
-  if (num < 0 || num > 898) num = 0;
-
-  const top = -Math.floor(num / 12) * 30;
-  const left = -(num % 12) * 40;
-
-  const url = `/assets/sprites/pokemonicons-sheet.png`;
-  return {
-    display: 'inline-block',
-    width: '40px',
-    height: '30px',
-    imageRendering: 'pixelated',
-    background: `transparent url(${url}) no-repeat scroll ${left}px ${top}px`,
-  };
-};
-
-export const getStats = (stat: string, base: number, ev: number, iv: number, nature: Nature, level: number = 50): number => {
-  return stat === 'hp'
-    ? Math.floor((Math.floor(2 * base + iv + Math.floor(ev / 4) + 100) * level) / 100 + 10)
-    : Math.floor(((Math.floor(2 * base + iv + Math.floor(ev / 4)) * level) / 100 + 5) * (nature.plus === stat ? 1.1 : nature.minus === stat ? 0.9 : 1));
-};
-
-// 252 or left over EVs
-export const getSingleEvUpperLimit = (evs: StatsTable, oldEv: number): number => {
-  return Math.min(maxTotalEvs - Object.values(evs).reduce((x, y) => x + y, 0) + oldEv, maxSingleEvs);
-};
 
 export const getRandomColor = () =>
   `#${Math.floor(Math.random() * 0x1000000)
@@ -113,12 +57,6 @@ export const urlPattern = new RegExp(
 
 export const getRandomElement = (list: string[]) => list[Math.floor(Math.random() * list.length)];
 
-export const getRandomTrainerName = () => getRandomElement(trainerNames) || 'Trainer';
-
-export const firstDiffIndexOfTwoArrays = <T>(oldArr: T[], newArr: T[]): number => {
-  return oldArr.findIndex((item) => !newArr.includes(item));
-};
-
 export const ensureInteger = (v: unknown, defaultNum: number = 0): number => {
   if (typeof v === 'number') return v;
   if (typeof v === 'string') {
@@ -128,14 +66,31 @@ export const ensureInteger = (v: unknown, defaultNum: number = 0): number => {
   return defaultNum;
 };
 
-export const filterObjectByValue = <T extends object>(obj: T, predicate: (value: T[keyof T]) => boolean): Partial<T> => {
-  return Object.fromEntries(Object.entries(obj).filter(([, value]) => predicate(value))) as Partial<T>;
+export const filterSortLimitObjectByValues = <T extends object>(
+  obj: T,
+  filter: (value: T[keyof T]) => boolean,
+  sort: (a: T[keyof T], b: T[keyof T]) => number,
+  limit: number
+): Partial<T> => {
+  const filtered = Object.entries(obj).filter(([, value]) => filter(value));
+  const sorted = filtered.sort((a, b) => sort(a[1], b[1]));
+  const limited = sorted.slice(0, limit);
+  return <Partial<T>>Object.fromEntries(limited);
 };
 
-export const sortObjectByValue = <T extends object>(obj: T, predicate: (a: T[keyof T], b: T[keyof T]) => number): T => {
-  return Object.fromEntries(Object.entries(obj).sort(([, a], [, b]) => predicate(a, b))) as T;
+export const convertObjectNumberValuesToFraction = <T extends Record<string, number>>(obj: T): Record<string, number> => {
+  const entries = Object.entries(obj);
+  if (!entries.length) return obj;
+  const sum = Object.values(obj).reduce((a, b) => a + b, 0);
+  const result: Record<string, number> = {};
+  entries.forEach(([key, value]) => {
+    result[key] = value / sum;
+  });
+  return result;
 };
 
-export const limitObjectEntries = <T extends object>(obj: T, limit: number): T => {
-  return Object.fromEntries(Object.entries(obj).slice(0, limit)) as T;
+export const fractionToPercentage = (fraction: number = 0) => {
+  return new Intl.NumberFormat('en-US', {
+    style: 'percent',
+  }).format(fraction ?? 0);
 };

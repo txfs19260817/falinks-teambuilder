@@ -1,8 +1,10 @@
-import { Generation, Generations } from '@pkmn/data';
+import { Generation, GenerationNum, Generations } from '@pkmn/data';
 import { Dex } from '@pkmn/dex';
+import { Data } from '@pkmn/dex-types';
 import { createContext, ReactNode } from 'react';
 
-import { Usage } from '@/components/workspace/types';
+import { AppConfig } from '@/utils/AppConfig';
+import type { Usage } from '@/utils/Types';
 
 interface DexContextInterface {
   gen: Generation;
@@ -17,10 +19,15 @@ type DexContextProviderProps = {
 };
 
 // pokemon dex instance
-const defaultDex: DexContextInterface = {
-  gen: new Generations(Dex).get(8),
+export const defaultDex: DexContextInterface = {
+  gen: new Generations(Dex, (d: Data) => {
+    if (!d.exists) return false;
+    if ('isNonstandard' in d && d.isNonstandard) return d.isNonstandard === 'Gigantamax';
+    if (d.kind === 'Ability' && d.id === 'noability') return false;
+    return !('tier' in d && ['Illegal', 'Unreleased'].includes(d.tier));
+  }).get(AppConfig.defaultGen as GenerationNum),
   globalFilter: '',
-  setGlobalFilter: (_filter: string) => {},
+  setGlobalFilter: (_: string) => {},
   usages: [],
 };
 

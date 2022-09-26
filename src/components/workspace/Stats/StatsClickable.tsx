@@ -4,7 +4,7 @@ import { useContext, useEffect, useState } from 'react';
 import { DexContext } from '@/components/workspace/Contexts/DexContext';
 import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
 import { compareFocusedFieldToIdx, FocusedFieldToIdx } from '@/components/workspace/FocusedField/consts';
-import { getStats } from '@/utils/Helpers';
+import { getStats } from '@/utils/PokemonUtils';
 
 const defaultStats: StatsTable = {
   hp: 0,

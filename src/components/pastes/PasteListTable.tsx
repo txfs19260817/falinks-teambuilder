@@ -20,7 +20,7 @@ import { DexContext } from '@/components/workspace/Contexts/DexContext';
 import Table from '@/components/workspace/Table';
 import { Pokemon } from '@/models/Pokemon';
 import { PokePaste } from '@/models/PokePaste';
-import { getPokemonIcon } from '@/utils/Helpers';
+import { getPokemonIcon } from '@/utils/PokemonUtils';
 
 type PasteListTableProps = {
   pastes: WithId<PokePaste>[];

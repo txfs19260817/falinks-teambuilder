@@ -25,7 +25,7 @@ import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
 import { PresetsSubComponent } from '@/components/workspace/PokemonSpecies/PresetsSubComponent';
 import Table from '@/components/workspace/Table';
 import { Pokemon } from '@/models/Pokemon';
-import { getPokemonIcon } from '@/utils/Helpers';
+import { getPokemonIcon } from '@/utils/PokemonUtils';
 
 function SpeciesTable() {
   const { gen, usages, globalFilter, setGlobalFilter } = useContext(DexContext);
@@ -160,11 +160,12 @@ function SpeciesTable() {
 
   // sorting by usages
   useEffect(() => {
-    if (usages.length > 0) {
-      const usageSorted = usages.flatMap((u) => gen.species.get(u.name) || []);
-      usageSorted.push(...Array.from(gen.species).filter((s) => !usageSorted.includes(s)));
-      setData(usageSorted);
+    if (usages.length <= 0) {
+      return;
     }
+    const dataSorted = usages.flatMap((u) => gen.species.get(u.name) || []);
+    dataSorted.push(...Array.from(gen.species).filter((s) => !dataSorted.includes(s)));
+    setData(dataSorted);
   }, [usages]);
 
   // table instance
