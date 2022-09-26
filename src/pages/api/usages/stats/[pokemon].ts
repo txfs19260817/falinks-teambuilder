@@ -8,7 +8,6 @@ import { ensureInteger } from '@/utils/Helpers';
 
 const gens = new Generations(Dex);
 const smogon = new Smogon(fetch);
-const defaultFormat = 'gen8vgc2022';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<Awaited<ReturnType<Smogon['stats']>>>) => {
   if (req.method !== 'GET') {
@@ -25,7 +24,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Awaited<ReturnT
   }
   // optional
   const generation = gens.get(<1 | 2 | 3 | 4 | 5 | 6 | 7 | 8>ensureInteger(gen, AppConfig.defaultGen));
-  const formatID = <ID>(format && typeof format === 'string' ? format : defaultFormat);
+  const formatID = <ID>(format && typeof format === 'string' ? format : AppConfig.defaultFormat);
 
   // get stats and return
   const r = await smogon.stats(generation, pokemon, formatID);
