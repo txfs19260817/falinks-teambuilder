@@ -35,11 +35,10 @@ function PokemonFilter(props: { value: string; onChange: (e: ChangeEvent<HTMLInp
 
 const UsagePage = () => {
   const drawerID = useId();
-  const { basePath, query, isReady, push } = useRouter();
+  const { basePath, query, push } = useRouter();
   const { gen } = useContext(DexContext);
-  const { data } = useSWR<Usage[]>(isReady ? `/api/usages/format/${query.format}` : null, {
+  const { data } = useSWR<Usage[]>(query.format ? `/api/usages/format/${query.format}` : null, {
     fetcher: (url) => fetch(url).then((res) => res.json()),
-    fallbackData: [],
   });
   const [selectedPokemon, setSelectedPokemon] = useState<Usage | undefined>(data?.at(0));
   const [pokemonNameFilter, setPokemonNameFilter] = useState<string>('');
