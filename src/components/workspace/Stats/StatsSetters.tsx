@@ -1,95 +1,26 @@
-import { Nature } from '@pkmn/dex-types';
-import { StatsTable } from '@pkmn/types';
-import { ChangeEvent, FocusEvent, KeyboardEvent, MouseEvent, TouchEvent, useContext, useEffect, useState } from 'react';
+import type { Nature } from '@pkmn/dex-types';
+import type { StatsTable } from '@pkmn/types';
+import type { ChangeEvent, FocusEvent, KeyboardEvent, MouseEvent, TouchEvent } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import useSWR from 'swr';
 
 import { DexContext } from '@/components/workspace/Contexts/DexContext';
 import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
-import { getSingleEvUpperLimit, getStats } from '@/utils/PokemonUtils';
-
-const defaultStats: StatsTable = {
-  hp: 0,
-  atk: 0,
-  def: 0,
-  spa: 0,
-  spd: 0,
-  spe: 0,
-};
-
-const suggestedSpreadsMap = new Map<string, { nature: string; evs: StatsTable }>([
-  [
-    'fps',
-    {
-      nature: 'Jolly',
-      evs: {
-        hp: 4,
-        atk: 252,
-        def: 0,
-        spa: 0,
-        spd: 0,
-        spe: 252,
-      },
-    },
-  ],
-  [
-    'fss',
-    {
-      nature: 'Timid',
-      evs: {
-        hp: 4,
-        atk: 0,
-        def: 0,
-        spa: 252,
-        spd: 0,
-        spe: 252,
-      },
-    },
-  ],
-  [
-    'bps',
-    {
-      nature: 'Modest',
-      evs: {
-        hp: 252,
-        atk: 252,
-        def: 0,
-        spa: 0,
-        spd: 4,
-        spe: 0,
-      },
-    },
-  ],
-  [
-    'bss',
-    {
-      nature: 'Modest',
-      evs: {
-        hp: 252,
-        atk: 0,
-        def: 0,
-        spa: 252,
-        spd: 4,
-        spe: 0,
-      },
-    },
-  ],
-  [
-    'sd',
-    {
-      nature: 'Calm',
-      evs: {
-        hp: 252,
-        atk: 0,
-        def: 4,
-        spa: 0,
-        spd: 252,
-        spe: 0,
-      },
-    },
-  ],
-]);
+import { defaultIvs, defaultStats, defaultSuggestedSpreads, getSingleEvUpperLimit, getStats, getSuggestedSpreadsBySpecie } from '@/utils/PokemonUtils';
+import type { Spreads } from '@/utils/Types';
 
 function StatsSetters() {
   const { teamState, tabIdx } = useContext(StoreContext);
+
+  // fetch popular spreads by Pokémon
+  const { species } = teamState.getPokemonInTeam(tabIdx) ?? {};
+  const { data: suggestedSpreads } = useSWR<Spreads[]>(species ? `/api/usages/stats/${species}` : null, {
+    fallbackData: [], // defaultSuggestedSpreads is concatenated to returned suggestions when rendering
+    fetcher: (u: string) =>
+      fetch(u)
+        .then((r) => r.json())
+        .then(getSuggestedSpreadsBySpecie),
+  });
 
   // get dex
   const { gen } = useContext(DexContext);
@@ -98,14 +29,7 @@ function StatsSetters() {
   // stats
   const [base, setBase] = useState<StatsTable>(defaultStats);
   const [evs, setEvs] = useState<StatsTable>(defaultStats);
-  const [ivs, setIvs] = useState<StatsTable>({
-    hp: 31,
-    atk: 31,
-    def: 31,
-    spa: 31,
-    spd: 31,
-    spe: 31,
-  });
+  const [ivs, setIvs] = useState<StatsTable>(defaultIvs);
   const [nature, setNature] = useState<Nature>(natures[8]!); // default to Hardy
 
   useEffect(() => {
@@ -147,9 +71,10 @@ function StatsSetters() {
   };
 
   const handleSuggestionSelectChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    const option = e.target.value;
-    if (!suggestedSpreadsMap.has(option)) return;
-    const { nature: newNature, evs: newEvs } = suggestedSpreadsMap.get(option)!;
+    const label = e.target.value;
+    const selectedSpreads = suggestedSpreads?.find((s) => s.label === label) ?? defaultSuggestedSpreads.find((s) => s.label === label);
+    if (!selectedSpreads) return;
+    const { nature: newNature, evs: newEvs } = selectedSpreads;
     teamState.updatePokemonInTeam(tabIdx, 'nature', newNature);
     teamState.updatePokemonInTeam(tabIdx, 'evs', newEvs);
   };
@@ -297,11 +222,11 @@ function StatsSetters() {
           <option value="" disabled>
             Suggested EVs spreads
           </option>
-          <option value="fps">Fast Physical Sweeper: 4 HP / 252 Atk / 252 Spe / (+Spe, -SpA)</option>
-          <option value="fss">Fast Special Sweeper: 4 HP / 252 SpA / 252 Spe / (+SpA, -Atk)</option>
-          <option value="bps">Bulky Physical Sweeper: 252 HP / 252 Atk / 4 SpD / (+Atk, -SpA)</option>
-          <option value="bss">Bulky Special Sweeper: 252 HP / 252 SpA / 4 SpD / (+SpA, -Atk)</option>
-          <option value="sd">Specially Defensive: 252 HP / 4 Def / 252 SpD / (+SpD, -Atk)</option>
+          {(suggestedSpreads || []).concat(defaultSuggestedSpreads).map(({ label }) => (
+            <option key={label} value={label}>
+              {label}
+            </option>
+          ))}
         </select>
       </div>
     </>

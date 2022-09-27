@@ -1,3 +1,4 @@
+import { StatsTable } from '@pkmn/types';
 import { MovesetStatistics } from 'smogon';
 
 export type Modify<T, R> = Omit<T, keyof R> & R;
@@ -12,3 +13,9 @@ export type Usage = Modify<
     Teammates: Partial<MovesetStatistics['Teammates']>;
   }
 > & { name: string; rank: number };
+
+export type Spreads = {
+  label: string;
+  nature: string;
+  evs: StatsTable;
+};

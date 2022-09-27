@@ -1,12 +1,14 @@
 import { Generation, Move } from '@pkmn/data';
 import { Nature } from '@pkmn/dex-types';
 import { Icons } from '@pkmn/img';
+import { DisplayUsageStatistics, LegacyDisplayUsageStatistics } from '@pkmn/smogon';
 import { StatsTable } from '@pkmn/types';
 import { MovesetStatistics, Statistics, UsageStatistics } from 'smogon';
 
 import { AppConfig, trainerNames } from '@/utils/AppConfig';
 import { convertObjectNumberValuesToFraction, filterSortLimitObjectByValues, getRandomElement } from '@/utils/Helpers';
 import type { Usage } from '@/utils/Types';
+import { Spreads } from '@/utils/Types';
 
 const maxTotalEvs = 508;
 const maxSingleEvs = 252;
@@ -89,10 +91,10 @@ export const trimUsage = (
   comparator: (a: number, b: number) => number = (a, b) => b - a,
   limit: number = 15
 ): Usage => {
-  const { Abilities, Items, Spreads, Teammates, Moves } = oldUsage;
+  const { Abilities, Items, Spreads: freqSpreads, Teammates, Moves } = oldUsage;
   const newAbilities = filterSortLimitObjectByValues(convertObjectNumberValuesToFraction(Abilities), (_) => true, comparator, limit);
   const newItems = filterSortLimitObjectByValues(convertObjectNumberValuesToFraction(Items), (_) => true, comparator, limit);
-  const newSpreads = filterSortLimitObjectByValues(convertObjectNumberValuesToFraction(Spreads), (v) => v >= threshold, comparator, limit);
+  const newSpreads = filterSortLimitObjectByValues(convertObjectNumberValuesToFraction(freqSpreads), (v) => v >= threshold, comparator, limit);
   const newTeammates = filterSortLimitObjectByValues(convertObjectNumberValuesToFraction(Teammates), (v) => v >= threshold, comparator, limit);
   const newMoves = filterSortLimitObjectByValues(
     convertObjectNumberValuesToFraction(Moves),
@@ -163,3 +165,110 @@ export const getMovesBySpecie = (gen: Generation, speciesName?: string): Promise
     return res;
   });
 };
+
+export const defaultStats: StatsTable = {
+  hp: 0,
+  atk: 0,
+  def: 0,
+  spa: 0,
+  spd: 0,
+  spe: 0,
+};
+
+export const defaultIvs: StatsTable = {
+  hp: 31,
+  atk: 31,
+  def: 31,
+  spa: 31,
+  spd: 31,
+  spe: 31,
+};
+
+// process the fetched usage statistics into a some options for the user to choose from
+export const getSuggestedSpreadsBySpecie = (d: DisplayUsageStatistics & LegacyDisplayUsageStatistics): Spreads[] =>
+  Object.keys(
+    filterSortLimitObjectByValues(
+      d.stats ?? d.spreads ?? {}, // its either in the stats (DisplayUsageStatistics) or spreads (LegacyDisplayUsageStatistics) field
+      (v) => v > 0.001, // only show spreads with a usage of 0.1% or higher
+      (a, b) => b - a, // sort by usage descending
+      5 // only show the top 5 spreads
+    )
+  ).map(
+    (s) =>
+      ({
+        label: s, // the label is the spread itself
+        nature: s.split(':')[0], // the nature is the first part of the spread
+        evs: Object.fromEntries(
+          // parse the string like "Adamant:252/0/0/0/4/252" into an StatsTable like {hp: 0, atk: 252, def: 0, spa: 0, spd: 4, spe: 252}
+          s
+            .split(':')[1]!
+            .split('/')
+            .map((e: string, i: number) =>
+              i === 0 ? ['hp', +e] : i === 1 ? ['atk', +e] : i === 2 ? ['def', +e] : i === 3 ? ['spa', +e] : i === 4 ? ['spd', +e] : ['spe', +e]
+            )
+        ),
+      } as Spreads)
+  );
+
+export const defaultSuggestedSpreads: Spreads[] = [
+  {
+    label: 'Fast Physical Sweeper: 4 HP / 252 Atk / 252 Spe / (+Spe, -SpA)',
+    nature: 'Jolly',
+    evs: {
+      hp: 4,
+      atk: 252,
+      def: 0,
+      spa: 0,
+      spd: 0,
+      spe: 252,
+    },
+  },
+  {
+    nature: 'Timid',
+    evs: {
+      hp: 4,
+      atk: 0,
+      def: 0,
+      spa: 252,
+      spd: 0,
+      spe: 252,
+    },
+    label: 'Fast Special Sweeper: 4 HP / 252 SpA / 252 Spe / (+SpA, -Atk)',
+  },
+  {
+    nature: 'Modest',
+    evs: {
+      hp: 252,
+      atk: 252,
+      def: 0,
+      spa: 0,
+      spd: 4,
+      spe: 0,
+    },
+    label: 'Bulky Physical Sweeper: 252 HP / 252 Atk / 4 SpD / (+Atk, -SpA)',
+  },
+  {
+    nature: 'Modest',
+    evs: {
+      hp: 252,
+      atk: 0,
+      def: 0,
+      spa: 252,
+      spd: 4,
+      spe: 0,
+    },
+    label: 'Bulky Special Sweeper: 252 HP / 252 SpA / 4 SpD / (+SpA, -Atk)',
+  },
+  {
+    nature: 'Calm',
+    evs: {
+      hp: 252,
+      atk: 0,
+      def: 4,
+      spa: 0,
+      spd: 252,
+      spe: 0,
+    },
+    label: 'Specially Defensive: 252 HP / 4 Def / 252 SpD / (+SpD, -Atk)',
+  },
+];
