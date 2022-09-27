@@ -13,7 +13,7 @@ const customJestConfig = {
     '^@/components/(.*)$': '<rootDir>/src/components/$1',
     '^@/models/(.*)$': '<rootDir>/src/models/$1',
     '^@/pages/(.*)$': '<rootDir>/src/pages/$1',
-    '^@/store/(.*)$': '<rootDir>/src/store/$1',
+    '^@/providers/(.*)$': '<rootDir>/src/providers/$1',
     '^@/styles/(.*)$': '<rootDir>/src/styles/$1',
     '^@/templates/(.*)$': '<rootDir>/src/templates/$1',
     '^@/utils/(.*)$': '<rootDir>/src/utils/$1'

@@ -78,7 +78,7 @@ const RoutesList = ({ className }: { className: string }) => {
 
 const Navbar = () => {
   return (
-    <div className="navbar bg-neutral text-neutral-content">
+    <nav className="navbar bg-neutral text-neutral-content">
       <div className="navbar-start">
         <div className="dropdown">
           <label tabIndex={0} className="btn-ghost btn lg:hidden">
@@ -89,7 +89,9 @@ const Navbar = () => {
           <RoutesList className="dropdown-content menu rounded-box bg-neutral p-2 text-neutral-content shadow" />
         </div>
         <Link href="/">
-          <a className="btn-ghost btn text-xl normal-case">{AppConfig.title}</a>
+          <a title={AppConfig.title} aria-label={AppConfig.title} className="btn-ghost btn text-xl normal-case">
+            {AppConfig.title}
+          </a>
         </Link>
       </div>
       <div className="navbar-center hidden lg:flex">
@@ -99,7 +101,7 @@ const Navbar = () => {
         <LanguagePicker />
         <ThemePicker />
       </div>
-    </div>
+    </nav>
   );
 };
 

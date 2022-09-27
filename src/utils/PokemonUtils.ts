@@ -10,6 +10,27 @@ import type { Usage } from '@/utils/Types';
 
 const maxTotalEvs = 508;
 const maxSingleEvs = 252;
+export const typesWithEmoji = [
+  { type: 'Bug', emoji: '🐞' },
+  { type: '???', emoji: '❓' },
+  { type: 'Dark', emoji: '🌙' },
+  { type: 'Dragon', emoji: '🐲' },
+  { type: 'Electric', emoji: '⚡' },
+  { type: 'Fairy', emoji: '✨' },
+  { type: 'Fighting', emoji: '🥊' },
+  { type: 'Fire', emoji: '🔥' },
+  { type: 'Flying', emoji: '🌪️' },
+  { type: 'Ghost', emoji: '👻' },
+  { type: 'Grass', emoji: '🌿' },
+  { type: 'Ground', emoji: '🗿' },
+  { type: 'Ice', emoji: '❄️' },
+  { type: 'Normal', emoji: '⚪' },
+  { type: 'Poison', emoji: '☠️' },
+  { type: 'Psychic', emoji: '🧠' },
+  { type: 'Rock', emoji: '⛰️' },
+  { type: 'Steel', emoji: '🛡️' },
+  { type: 'Water', emoji: '💧' },
+];
 
 /**
  * Returns the icon for the given Pokémon.
