@@ -1,5 +1,6 @@
 import { Move } from '@pkmn/data';
 import { Icons } from '@pkmn/img';
+import { DisplayUsageStatistics } from '@pkmn/smogon';
 import { ColumnDef, ColumnFiltersState, getCoreRowModel, getFilteredRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table';
 import Image from 'next/image';
 import { useContext, useMemo, useState } from 'react';
@@ -16,8 +17,33 @@ function MovesTable({ moveIdx }: { moveIdx: number }) {
   // get dex & possible moves
   const { gen } = useContext(DexContext);
 
+  // get all moves that learnable by the Pokémon
   const { species } = teamState.getPokemonInTeam(tabIdx) ?? {};
-  const { data } = useSWR<Move[]>(species, (k) => getMovesBySpecie(gen, k));
+  const { data: learnableMoves } = useSWR<Move[]>(species, (k) => getMovesBySpecie(gen, k));
+  // fetch popular moves by this Pokémon
+  const { data: popularMoveNames } = useSWR<string[]>( // move names
+    species ? `/api/usages/stats/${species}?moves=true` : null, // ?moves=true doesn't work in the API, only used as a cache buster for SWR.
+    {
+      fallbackData: [],
+      fetcher: (u: string) =>
+        fetch(u)
+          .then((r) => r.json())
+          .then((d: DisplayUsageStatistics) =>
+            Object.entries(d?.moves ?? {})
+              .sort((a, b) => b[1] - a[1])
+              .map(([k, _]) => k)
+          ),
+    }
+  );
+
+  // move popular moves to the top
+  const data = useMemo<Move[]>(() => {
+    if (!learnableMoves) return []; // learnableMoves first
+    if (!popularMoveNames || popularMoveNames.length === 0) return learnableMoves;
+    return popularMoveNames
+      .flatMap((name) => learnableMoves.find((m) => m.name === name) || [])
+      .concat(learnableMoves.filter(({ name }) => !popularMoveNames.includes(name)));
+  }, [learnableMoves, popularMoveNames]);
 
   // table settings
   const columns = useMemo<ColumnDef<Move>[]>(

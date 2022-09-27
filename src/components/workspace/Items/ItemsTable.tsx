@@ -48,8 +48,8 @@ function ItemsTable() {
 
   // fetch popular items by Pokémon
   const { species } = teamState.getPokemonInTeam(tabIdx) ?? {};
-  const { data: itemsUsage } = useSWR<string[]>( // item names
-    species ? `/api/usages/stats/${species}` : null,
+  const { data: popularItemNames } = useSWR<string[]>( // item names
+    species ? `/api/usages/stats/${species}?items=true` : null, // ?items=true doesn't work in the API, only used as a cache buster for SWR.
     {
       fallbackData: defaultPopularItems,
       fetcher: (u: string) =>
@@ -58,11 +58,12 @@ function ItemsTable() {
           .then((d: DisplayUsageStatistics) => Object.keys(d?.items ?? {})),
     }
   );
+
   // move popular items to the top
   const data = useMemo<Item[]>(() => {
-    const localItemsUsage = itemsUsage ?? defaultPopularItems;
-    return localItemsUsage.flatMap((i) => gen.items.get(i) || []).concat(Array.from(gen.items).filter(({ name }) => !localItemsUsage.includes(name)));
-  }, [itemsUsage]);
+    const popularItem = popularItemNames ?? defaultPopularItems;
+    return popularItem.flatMap((i) => gen.items.get(i) || []).concat(Array.from(gen.items).filter(({ name }) => !popularItem.includes(name)));
+  }, [popularItemNames]);
 
   // table settings
   const columns = useMemo<ColumnDef<Item>[]>(
