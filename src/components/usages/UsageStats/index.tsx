@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 
 import { DexContext } from '@/components/workspace/Contexts/DexContext';
 import { AppConfig } from '@/utils/AppConfig';

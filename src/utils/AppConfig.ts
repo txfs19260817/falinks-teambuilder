@@ -128,6 +128,8 @@ const popularItems = [
   'Wiki Berry',
 ];
 
+const usageFormats = ['gen8vgc2022', 'gen8ou', 'gen8bdspou'];
+
 export const AppConfig = {
   site_name: 'Falinks Teambuilder',
   title: 'Falinks Teambuilder',
@@ -147,6 +149,7 @@ export const AppConfig = {
     publicPastes: 'public_pastes',
     privatePastes: 'private_pastes',
   },
+  usageFormats,
   popularItems,
   dialogProps,
   usefulLinks,
