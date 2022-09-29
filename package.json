@@ -24,6 +24,7 @@
     "@pkmn/sets": "^3.1.1",
     "@pkmn/smogon": "^0.0.21",
     "@pkmn/types": "^2.1.0",
+    "@smogon/calc": "^0.6.0",
     "@syncedstore/core": "^0.4.1",
     "@syncedstore/react": "^0.4.1",
     "@tanstack/react-table": "^8.5.13",
