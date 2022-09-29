@@ -2,12 +2,12 @@ import { WithId } from 'mongodb';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import React from 'react';
 
-import PastesTable from '@/components/pastes/PasteListTable';
 import { PokePaste } from '@/models/PokePaste';
 import { Main } from '@/templates/Main';
 import { AppConfig } from '@/utils/AppConfig';
 import clientPromise from '@/utils/MongoDB';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import PastesTable from '@/components/pastes/PastesTable';
 
 const PublicPastes = ({ pastes }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   return (

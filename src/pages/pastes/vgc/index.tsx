@@ -3,7 +3,7 @@ import { InferGetStaticPropsType } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import React from 'react';
 
-import PastesTable from '@/components/pastes/PasteListTable';
+import PastesTable from '@/components/pastes/PastesTable';
 import { PokePaste } from '@/models/PokePaste';
 import { Main } from '@/templates/Main';
 import { AppConfig } from '@/utils/AppConfig';

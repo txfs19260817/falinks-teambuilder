@@ -1,12 +1,12 @@
 import { Filter, FindOptions, ObjectId } from 'mongodb';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 
-import PasteLayout from '@/components/pastes/PasteLayout';
 import { PokePaste } from '@/models/PokePaste';
 import { Main } from '@/templates/Main';
 import { AppConfig } from '@/utils/AppConfig';
 import clientPromise from '@/utils/MongoDB';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import PasteLayout from '@/components/pastes/PasteLayout';
 
 export default function PasteId({ data }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   return (

@@ -1,8 +1,8 @@
 import { flexRender, Row, Table } from '@tanstack/react-table';
 import { Fragment } from 'react';
 
-import Header from '@/components/workspace/Table/Header';
-import Paginator from '@/components/workspace/Table/Paginator';
+import Header from '@/components/table/Header';
+import Paginator from '@/components/table/Paginator';
 
 type TableProps<D> = {
   instance: Table<any>;

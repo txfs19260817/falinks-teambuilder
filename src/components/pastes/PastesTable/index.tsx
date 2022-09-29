@@ -14,20 +14,15 @@ import {
 } from '@tanstack/react-table';
 import { WithId } from 'mongodb';
 import Link from 'next/link';
-import React, { useContext, useState } from 'react';
+import { useContext, useState } from 'react';
 
+import Table from '@/components/table';
 import { DexContext } from '@/components/workspace/Contexts/DexContext';
-import Table from '@/components/workspace/Table';
 import { Pokemon } from '@/models/Pokemon';
 import { PokePaste } from '@/models/PokePaste';
 import { getPokemonIcon } from '@/utils/PokemonUtils';
 
-type PasteListTableProps = {
-  pastes: WithId<PokePaste>[];
-  detailSubPath: string | 'vgc' | 'public';
-};
-
-const PastesTable = ({ pastes, detailSubPath }: PasteListTableProps) => {
+const PastesTable = ({ pastes, detailSubPath }: { pastes: WithId<PokePaste>[]; detailSubPath: string | 'vgc' | 'public' }) => {
   const { globalFilter, setGlobalFilter } = useContext(DexContext);
 
   // table settings
@@ -113,7 +108,10 @@ const PastesTable = ({ pastes, detailSubPath }: PasteListTableProps) => {
     getFacetedMinMaxValues: getFacetedMinMaxValues(),
     getPaginationRowModel: getPaginationRowModel(),
   });
-  return <Table<WithId<PokePaste>> instance={instance} enablePagination={true} />;
+  return (
+    <div className="overflow-x-auto">
+      <Table<WithId<PokePaste>> instance={instance} enablePagination={true} />
+    </div>
+  );
 };
-
 export default PastesTable;

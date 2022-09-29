@@ -20,10 +20,10 @@ import {
 import Image from 'next/image';
 import { useContext, useEffect, useMemo, useState } from 'react';
 
+import Table from '@/components/table';
 import { DexContext } from '@/components/workspace/Contexts/DexContext';
 import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
 import { PresetsSubComponent } from '@/components/workspace/PokemonSpecies/PresetsSubComponent';
-import Table from '@/components/workspace/Table';
 import { Pokemon } from '@/models/Pokemon';
 import { getPokemonIcon } from '@/utils/PokemonUtils';
 

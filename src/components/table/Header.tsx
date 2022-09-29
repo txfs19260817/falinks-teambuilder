@@ -1,7 +1,7 @@
 import { flexRender, Table } from '@tanstack/react-table';
 import { Key } from 'react';
 
-import OmniFilter from '@/components/workspace/Table/OmniFilter';
+import OmniFilter from '@/components/table/OmniFilter';
 
 function Header({ instance }: { instance: Table<any> }) {
   return (

@@ -2,9 +2,9 @@ import { Ability, Generation } from '@pkmn/data';
 import { ColumnDef, ColumnFiltersState, getCoreRowModel, getFilteredRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table';
 import { useContext, useEffect, useMemo, useState } from 'react';
 
+import Table from '@/components/table';
 import { DexContext } from '@/components/workspace/Contexts/DexContext';
 import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
-import Table from '@/components/workspace/Table';
 
 function getAbilitiesBySpecie(gen: Generation, speciesName?: string): Ability[] {
   const abilitiesMap = gen.species.get(speciesName ?? '')?.abilities;

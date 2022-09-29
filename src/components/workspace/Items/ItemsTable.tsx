@@ -14,9 +14,9 @@ import {
 import { useContext, useMemo, useState } from 'react';
 import useSWR from 'swr';
 
+import Table from '@/components/table';
 import { DexContext } from '@/components/workspace/Contexts/DexContext';
 import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
-import Table from '@/components/workspace/Table';
 import { convertStylesStringToObject } from '@/utils/Helpers';
 
 const defaultPopularItems = [

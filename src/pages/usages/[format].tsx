@@ -48,28 +48,28 @@ const UsagePage = ({ usages, format }: { usages: Usage[]; format: string }) => {
               <InfoCard pokeUsage={usages.at(selectedIndex)!} />
               {/* Usage */}
               <UsageStats pokeUsage={usages.at(selectedIndex)!} />
-              {/* Items Table */}
+              {/* Items table */}
               <BaseTable
                 tableTitle="Items"
                 usages={usages.at(selectedIndex)!.Items as Record<string, number>}
                 nameGetter={(k) => gen.items.get(k)?.name ?? k}
                 iconStyleGetter={(k) => Icons.getItem(k).css}
               />
-              {/* Moves Table */}
+              {/* Moves table */}
               <BaseTable
                 tableTitle="Moves"
                 usages={usages.at(selectedIndex)!.Moves as Record<string, number>}
                 nameGetter={(k) => gen.moves.get(k)?.name ?? k}
                 iconImagePathGetter={(k) => `${basePath}/assets/types/${gen.moves.get(k)?.type}.webp`}
               />
-              {/* Teammates Table */}
+              {/* Teammates table */}
               <BaseTable
                 tableTitle="Teammates"
                 usages={usages.at(selectedIndex)!.Teammates as Record<string, number>}
                 nameGetter={(k) => gen.species.get(k)?.name ?? k}
                 iconStyleGetter={(k) => Icons.getPokemon(k).css}
               />
-              {/* Spreads Table */}
+              {/* Spreads table */}
               <BaseTable
                 tableTitle="Spreads"
                 usages={usages.at(selectedIndex)!.Spreads as Record<string, number>}

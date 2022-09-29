@@ -18,6 +18,7 @@ const PasteLayout = ({ paste }: { paste: PokePaste }) => {
   };
 
   const handleShare = () => {
+    // try Web Share API first, fallback to copy link to clipboard
     try {
       navigator.share({
         text: paste.paste,
@@ -25,7 +26,9 @@ const PasteLayout = ({ paste }: { paste: PokePaste }) => {
         title: paste.title,
       });
     } catch (e) {
-      navigator.clipboard.writeText(window.location.href).then(() => toast('📋 Link copied!'));
+      navigator.clipboard
+        .writeText(window.location.href)
+        .then(() => toast('📋 The link has been copied to your clipboard as your browser does not support Web Share API.'));
     }
   };
 
