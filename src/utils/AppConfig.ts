@@ -44,15 +44,15 @@ const routes: Route[] = [
     ],
   },
   {
-    id: 'about',
-    name: 'About',
-    path: '/about',
-    target: '_self',
-  },
-  {
     id: 'usage',
     name: 'Usage',
     path: '/usages',
+    target: '_self',
+  },
+  {
+    id: 'about',
+    name: 'About',
+    path: '/about',
     target: '_self',
   },
   {
