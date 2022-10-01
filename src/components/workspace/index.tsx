@@ -1,3 +1,4 @@
+import { TourProvider } from '@reactour/tour';
 import { syncedStore } from '@syncedstore/core';
 import { useSyncedStore } from '@syncedstore/react';
 import React, { useEffect, useState } from 'react';
@@ -19,6 +20,7 @@ import { PokePaste } from '@/models/PokePaste';
 import { Metadata, StoreContextType, TeamChangelog, TeamState } from '@/models/TeamState';
 import { getProvidersByProtocolName, SupportedProtocolProvider } from '@/providers';
 import { BaseProvider } from '@/providers/baseProviders';
+import { roomSteps } from '@/utils/AppConfig';
 
 export type WorkspaceProps = {
   protocolName: SupportedProtocolProvider;
@@ -111,33 +113,35 @@ function Workspace({ roomName, protocolName, basePokePaste }: WorkspaceProps) {
   }, [basePokePaste]);
 
   return (
-    <StoreContextProvider
-      value={{
-        teamState: new TeamState(teamState),
-        tabIdx,
-        setTabIdx,
-        focusedFieldState,
-        focusedFieldDispatch,
-      }}
-    >
-      {/* Toolbox menu bar */}
-      <Toolbox />
-      {/* Tab header */}
-      <TabsSwitcher>
-        <OverviewTabBtn />
-      </TabsSwitcher>
-      {/* Pokemon panel */}
-      {tabIdx < 0 || tabIdx >= teamState.team.length ? <Overview /> : <PokemonPanel />}
-      {/* Dialogs */}
-      {client && (
-        <>
-          <ImportShowdownDialog />
-          <HistoryDialog />
-          <PostPokepasteDialog />
-          <NotesDialog store={teamStore} client={client} />
-        </>
-      )}
-    </StoreContextProvider>
+    <TourProvider steps={roomSteps}>
+      <StoreContextProvider
+        value={{
+          teamState: new TeamState(teamState),
+          tabIdx,
+          setTabIdx,
+          focusedFieldState,
+          focusedFieldDispatch,
+        }}
+      >
+        {/* Toolbox menu bar */}
+        <Toolbox />
+        {/* Tab header */}
+        <TabsSwitcher>
+          <OverviewTabBtn />
+        </TabsSwitcher>
+        {/* Pokemon panel */}
+        {tabIdx < 0 || tabIdx >= teamState.team.length ? <Overview /> : <PokemonPanel />}
+        {/* Dialogs */}
+        {client && (
+          <>
+            <ImportShowdownDialog />
+            <HistoryDialog />
+            <PostPokepasteDialog />
+            <NotesDialog store={teamStore} client={client} />
+          </>
+        )}
+      </StoreContextProvider>
+    </TourProvider>
   );
 }
 

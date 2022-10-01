@@ -7,10 +7,12 @@ import { Pokemon } from '@/models/Pokemon';
 import { AppConfig } from '@/utils/AppConfig';
 import { convertStylesStringToObject } from '@/utils/Helpers';
 
+// TabMenu is a component for each tab to update or remove the Pokémon.
 function TabMenu({ idx }: { idx: number }) {
   const { teamState, setTabIdx, tabIdx } = useContext(StoreContext);
   const pasteTextareaRef = useRef<HTMLTextAreaElement>(null);
 
+  // remove tab, then set focus to the previous tab
   const removeTab = (index: number) => {
     const newTeam = teamState.splicePokemonTeam(index, 1);
     if (newTeam.length === 0) {
@@ -20,6 +22,7 @@ function TabMenu({ idx }: { idx: number }) {
     }
   };
 
+  // replace current tab with a new Pokémon
   const updateTab = (index: number) => {
     const text = pasteTextareaRef.current?.value ?? '';
     if (pasteTextareaRef.current) {
@@ -33,17 +36,18 @@ function TabMenu({ idx }: { idx: number }) {
     teamState.splicePokemonTeam(index, 1, newMon);
   };
 
+  // listen to any properties changes in this Pokémon, including from other users
   const pm = teamState.getPokemonInTeam(idx);
   useEffect(() => {
     if (pm && pasteTextareaRef.current) {
       pasteTextareaRef.current.value = Pokemon.exportSetToPaste(pm);
     }
-  }, [pm, JSON.stringify(pm)]); // listen to any properties changes in this Pokémon
+  }, [pm, JSON.stringify(pm)]);
   if (!pm) return null;
 
   return (
     <>
-      <label tabIndex={idx} className={`badge indicator-item badge-secondary`}>
+      <label tabIndex={idx} className="badge-secondary badge indicator-item">
         ≡
       </label>
       <div tabIndex={idx} className="card dropdown-content card-compact w-full bg-base-200 p-1 shadow md:w-96">
@@ -87,19 +91,21 @@ function TabsSwitcher({ children }: { children?: ReactNode }) {
   };
 
   return (
-    <div className="tabs tabs-boxed">
+    <div role="tablist" className="tabs tabs-boxed">
       {children}
       {teamState.team.map((p, i) => (
         <div key={p.id} className="dropdown-right dropdown indicator">
           <TabMenu idx={i} />
-          <a className={`tab tab-lifted tab-md md:tab-lg ${i === tabIdx ? 'tab-active' : ''}`} onClick={() => setTabIdx(i)}>
+          <a role="tab" className={`tab tab-lifted tab-md md:tab-lg ${i === tabIdx ? 'tab-active' : ''}`} onClick={() => setTabIdx(i)}>
             <span className="text-sm">{i + 1}</span>
             <span style={convertStylesStringToObject(Icons.getPokemon(p.species).style)} />
             <span>{p.species}</span>
           </a>
         </div>
       ))}
+      {/* Show Plus sign following all tabs until there are 6 Pokémon */}
       {teamState.teamLength < AppConfig.maxPokemonPerTeam && (
+        // Show tooltip if no Pokémon in team
         <div className={`tooltip-right tooltip-secondary ${teamState.teamLength === 0 ? 'tooltip tooltip-open' : ''}`} data-tip="Add the first Pokémon">
           <button className="tab tab-lifted tab-active tab-md md:tab-lg" onClick={() => newTab()}>
             +

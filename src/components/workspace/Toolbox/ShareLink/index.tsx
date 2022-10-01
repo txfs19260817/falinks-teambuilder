@@ -8,6 +8,7 @@ function ShareLink() {
   const { teamState } = useContext(StoreContext);
   return (
     <button
+      id={AppConfig.toolboxIDs.shareLink}
       className="rounded"
       title="Share the current room link"
       onClick={() => {

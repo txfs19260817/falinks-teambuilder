@@ -4,6 +4,7 @@ import { toast } from 'react-hot-toast';
 import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
 import { Pokemon } from '@/models/Pokemon';
 import { PokePaste } from '@/models/PokePaste';
+import { AppConfig } from '@/utils/AppConfig';
 
 const exampleText = `Dog (Zacian-Crowned) @ Rusted Sword  
 Ability: Intrepid Sword  
@@ -130,10 +131,10 @@ export function ImportShowdownDialog() {
   };
   return (
     <>
-      <input type="checkbox" id="import-ps-modal" className="modal-toggle" />
+      <input type="checkbox" id={AppConfig.toolboxIDs.importModal} className="modal-toggle" />
       <div className="modal modal-bottom sm:modal-middle">
         <div className="modal-box">
-          <label htmlFor="import-ps-modal" className="btn-sm btn-circle btn absolute right-2 top-2">
+          <label htmlFor={AppConfig.toolboxIDs.importModal} className="btn-sm btn-circle btn absolute right-2 top-2">
             ✕
           </label>
           <h3 className="font-bold md:text-lg">Please leave your Showdown paste (or PokePaste link) here ↓</h3>
@@ -145,7 +146,7 @@ export function ImportShowdownDialog() {
             </label>
           )}
           <div className="modal-action">
-            <label htmlFor="import-ps-modal" className="btn-primary btn-sm btn" onClick={importHandler}>
+            <label htmlFor={AppConfig.toolboxIDs.importModal} className="btn-primary btn-sm btn" onClick={importHandler}>
               Import
             </label>
             <button className="btn-secondary btn-sm btn" onClick={loadExampleHandler}>

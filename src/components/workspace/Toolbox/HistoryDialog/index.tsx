@@ -1,6 +1,7 @@
 import { useContext, useEffect, useRef, useState } from 'react';
 
 import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
+import { AppConfig } from '@/utils/AppConfig';
 
 export function HistoryDialog() {
   const { teamState } = useContext(StoreContext);
@@ -21,16 +22,16 @@ export function HistoryDialog() {
     <>
       <input
         type="checkbox"
-        id="history-modal"
+        id={AppConfig.toolboxIDs.historyModal}
         className="modal-toggle"
         onChange={(e) => {
           setIsOpen(e.target.checked);
         }}
       />
       {/* Right-side drawer implemented with rtl modal, allowing to click outside to close */}
-      <label htmlFor="history-modal" className="modal-right modal" ref={modalRef}>
+      <label htmlFor={AppConfig.toolboxIDs.historyModal} className="modal-right modal" ref={modalRef}>
         <label className="modal-box" dir="rtl" htmlFor="">
-          <label htmlFor="history-modal" className="btn-sm btn-circle btn absolute left-1.5 top-1.5">
+          <label htmlFor={AppConfig.toolboxIDs.historyModal} className="btn-sm btn-circle btn absolute left-1.5 top-1.5">
             ✕
           </label>
           <div className="ml-2 mt-2" dir="ltr">

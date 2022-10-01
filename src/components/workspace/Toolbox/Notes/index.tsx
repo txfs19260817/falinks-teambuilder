@@ -8,6 +8,7 @@ import { useContext } from 'react';
 
 import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
 import { Client } from '@/models/Client';
+import { AppConfig } from '@/utils/AppConfig';
 import { invertColor } from '@/utils/Helpers';
 
 type EditorProps = {
@@ -107,10 +108,10 @@ export function NotesDialog({ store, client }: EditorProps) {
         </button>
       </BubbleMenu>
 
-      <input type="checkbox" id="notes-modal" className="modal-toggle" />
+      <input type="checkbox" id={AppConfig.toolboxIDs.notesModal} className="modal-toggle" />
       <div className="modal modal-bottom">
         <div className="modal-box">
-          <label htmlFor="notes-modal" className="btn-sm btn-circle btn absolute right-2 top-2">
+          <label htmlFor={AppConfig.toolboxIDs.notesModal} className="btn-sm btn-circle btn absolute right-2 top-2">
             ✕
           </label>
           <h3 className="text-lg font-bold">Notes</h3>

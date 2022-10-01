@@ -1,3 +1,4 @@
+import { useTour } from '@reactour/tour';
 import Link from 'next/link';
 import React, { SVGProps } from 'react';
 
@@ -18,6 +19,7 @@ const ExternalLinkIcon = (props: SVGProps<SVGSVGElement>) => (
 );
 
 const Toolbox = () => {
+  const { setIsOpen } = useTour();
   return (
     <div className="navbar overflow-x-auto bg-base-100">
       <div className="navbar-center flex">
@@ -28,12 +30,19 @@ const Toolbox = () => {
           {/* Dialog buttons */}
           {AppConfig.dialogProps.map(({ id, emoji, text, title }) => (
             <li key={id}>
-              <label htmlFor={id} className="modal-button rounded" title={title}>
+              <label id={`${id}-btn`} htmlFor={id} className="modal-button rounded" title={title}>
                 <span>{emoji}</span>
                 <span>{text}</span>
               </label>
             </li>
           ))}
+          {/* Help */}
+          <li>
+            <button id="show-help-btn" className="rounded" onClick={() => setIsOpen(true)}>
+              <span>🦮</span>
+              <span>Help</span>
+            </button>
+          </li>
           {/* Useful links */}
           {AppConfig.usefulLinks.map((link) => (
             <li key={link.name} className="rounded bg-base-300">

@@ -2,7 +2,7 @@ import { Move } from '@pkmn/data';
 import { GetStaticProps } from 'next';
 import { SSRConfig } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import React, { useContext, useId } from 'react';
+import { useContext, useId } from 'react';
 import useSWR from 'swr';
 
 import { defaultDex, DexContext, DexContextProvider } from '@/components/workspace/Contexts/DexContext';

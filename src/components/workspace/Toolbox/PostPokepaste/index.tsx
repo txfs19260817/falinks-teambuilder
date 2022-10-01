@@ -4,6 +4,7 @@ import { toast } from 'react-hot-toast';
 
 import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
 import { PokePaste } from '@/models/PokePaste';
+import { AppConfig } from '@/utils/AppConfig';
 
 export function PostPokepasteDialog() {
   const { teamState } = useContext(StoreContext);
@@ -55,7 +56,7 @@ export function PostPokepasteDialog() {
     <>
       <input
         type="checkbox"
-        id="post-pokepaste-modal"
+        id={AppConfig.toolboxIDs.postModal}
         className="modal-toggle"
         onChange={(e) => {
           setIsOpen(e.target.checked);
@@ -63,7 +64,7 @@ export function PostPokepasteDialog() {
       />
       <div className="modal modal-bottom sm:modal-middle">
         <form className="modal-box" method="post" action="https://pokepast.es/create" target="_blank">
-          <label htmlFor="post-pokepaste-modal" className="btn-sm btn-circle btn absolute right-2 top-2">
+          <label htmlFor={AppConfig.toolboxIDs.postModal} className="btn-sm btn-circle btn absolute right-2 top-2">
             ✕
           </label>
           <div className="form-control">
