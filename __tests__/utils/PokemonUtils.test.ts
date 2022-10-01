@@ -1,5 +1,4 @@
-import { trainerNames } from '@/utils/AppConfig';
-import { getRandomTrainerName, getSingleEvUpperLimit } from '@/utils/PokemonUtils';
+import { getRandomTrainerName, getSingleEvUpperLimit, trainerNames } from '@/utils/PokemonUtils';
 
 describe('getSingleEvUpperLimit', () => {
   it('should return 252 for a pokemon with 0 base stats', () => {

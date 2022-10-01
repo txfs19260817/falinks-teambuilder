@@ -146,12 +146,12 @@ export function ImportShowdownDialog() {
             </label>
           )}
           <div className="modal-action">
-            <label htmlFor={AppConfig.toolboxIDs.importModal} className="btn-primary btn-sm btn" onClick={importHandler}>
-              Import
-            </label>
             <button className="btn-secondary btn-sm btn" onClick={loadExampleHandler}>
               Load Example
             </button>
+            <label htmlFor={AppConfig.toolboxIDs.importModal} className="btn-primary btn-sm btn" onClick={importHandler}>
+              Import
+            </label>
           </div>
         </div>
       </div>

@@ -1,7 +1,8 @@
-import { useTour } from '@reactour/tour';
 import Link from 'next/link';
 import React, { SVGProps } from 'react';
 
+import HelpTour from '@/components/workspace/Toolbox/HelpTour';
+import LoadInShowdown from '@/components/workspace/Toolbox/LoadInShowdown';
 import ShareLink from '@/components/workspace/Toolbox/ShareLink';
 import { AppConfig } from '@/utils/AppConfig';
 
@@ -19,13 +20,15 @@ const ExternalLinkIcon = (props: SVGProps<SVGSVGElement>) => (
 );
 
 const Toolbox = () => {
-  const { setIsOpen } = useTour();
   return (
     <div className="navbar overflow-x-auto bg-base-100">
       <div className="navbar-center flex">
         <ul className="menu menu-horizontal p-0">
           <li>
             <ShareLink />
+          </li>
+          <li>
+            <LoadInShowdown />
           </li>
           {/* Dialog buttons */}
           {AppConfig.dialogProps.map(({ id, emoji, text, title }) => (
@@ -38,15 +41,12 @@ const Toolbox = () => {
           ))}
           {/* Help */}
           <li>
-            <button id="show-help-btn" className="rounded" onClick={() => setIsOpen(true)}>
-              <span>🦮</span>
-              <span>Help</span>
-            </button>
+            <HelpTour />
           </li>
           {/* Useful links */}
           {AppConfig.usefulLinks.map((link) => (
             <li key={link.name} className="rounded bg-base-300">
-              <Link href={link.url}>
+              <Link href={link.url} referrerPolicy={'no-referrer'}>
                 <a target="_blank" className="border-none">
                   {link.name}
                   <ExternalLinkIcon width={20} height={20} />

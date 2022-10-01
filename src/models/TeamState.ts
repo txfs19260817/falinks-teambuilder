@@ -1,6 +1,8 @@
 import { MappedTypeDescription } from '@syncedstore/core/types/doc';
 
 import { Pokemon } from '@/models/Pokemon';
+import { AppConfig } from '@/utils/AppConfig';
+import { S4 } from '@/utils/Helpers';
 
 export type TeamChangelog = {
   username: string;
@@ -90,8 +92,13 @@ export class TeamState {
     return this.teamState.team.length;
   }
 
-  get teamPokePaste() {
-    return Pokemon.convertTeamToPaste(this.teamState.team);
+  // urlEncode takes effect only when packed is true
+  getTeamPaste(packed = false, urlEncode = false, format = AppConfig.defaultFormat, name = `falinks_${S4()}`) {
+    if (!packed) {
+      return Pokemon.convertTeamToPaste(this.teamState.team);
+    }
+    const packedTeam = Pokemon.convertTeamToPacked(this.teamState.team, format, name);
+    return urlEncode ? encodeURIComponent(packedTeam) : packedTeam;
   }
 
   // https://typeofnan.dev/how-to-make-one-function-argument-dependent-on-another-in-typescript/

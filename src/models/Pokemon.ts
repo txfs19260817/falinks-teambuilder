@@ -91,4 +91,10 @@ export class Pokemon implements PokemonSet {
   static convertTeamToPaste(t: Pokemon[]): string {
     return new Team(t).export();
   }
+
+  static convertTeamToPacked(t: Pokemon[], format?: string, name?: string): string {
+    const packed = new Team(t, undefined, format).pack();
+    // seems `Team.pack()` does not add format and team name to the packed team, we do it manually
+    return format && name ? `${format}]${name}|${packed}` : packed;
+  }
 }
