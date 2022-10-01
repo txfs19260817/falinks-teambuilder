@@ -22,7 +22,7 @@ export type Metadata = {
 export type StoreContextType = {
   team: Pokemon[];
   metadata: Metadata;
-  notes: any; // for Tiptap
+  notes: any; // for Tiptap to work collaboratively only. The notes field is in metadata.
   history: TeamChangelog[];
 };
 

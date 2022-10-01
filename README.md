@@ -10,6 +10,11 @@
 
 ![Usage](usage.gif?raw=true)
 
+## Userscript
+
+Please install the [falinks-teambuilder-helper](https://greasyfork.org/zh-CN/scripts/451746-falinks-teambuilder-helper)
+UserScript to enhance the experience of using Falinks Teambuilder with Pokémon Showdown and PokePaste together.
+
 ## Development
 
 Requirements:

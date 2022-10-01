@@ -7,7 +7,7 @@ import { AppConfig } from '@/utils/AppConfig';
 function LoadInShowdown() {
   const { teamState } = useContext(StoreContext);
 
-  const packedTeam = teamState.getTeamPaste(true, true, AppConfig.defaultFormat, teamState.title);
+  const packedTeam = teamState.getTeamPaste(true, true, AppConfig.defaultFormat, teamState.title || teamState.roomName);
   const psURL = packedTeam.length > 0 ? `https://play.pokemonshowdown.com/teambuilder#${packedTeam}` : 'https://play.pokemonshowdown.com/teambuilder';
   return (
     <Link href={psURL}>

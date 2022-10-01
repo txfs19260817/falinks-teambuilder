@@ -106,7 +106,7 @@ function Workspace({ roomName, protocolName, basePokePaste }: WorkspaceProps) {
     if (baseTeam) {
       teamState.team.splice(0, teamState.team.length);
       teamState.team.push(...baseTeam);
-      teamState.metadata.title = title;
+      teamState.metadata.title = title.length > 0 ? title : roomName;
       teamState.metadata.notes = notes;
       teamState.metadata.authors = [author];
     }
