@@ -1,5 +1,3 @@
-import Image from 'next/image';
-
 import { fractionToPercentage } from '@/utils/Helpers';
 import { wikiLink } from '@/utils/PokemonUtils';
 
@@ -7,21 +5,10 @@ type BaseTableProps<T = Record<string, number>> = {
   tableTitle: string;
   usages: T;
   nameGetter: (key: keyof T) => string;
-  // CSS properties or URL
-  iconStyleGetter?: (key: keyof T) => { [p: string]: string | number };
-  iconImagePathGetter?: (key: keyof T) => string;
+  iconGetter?: (key: keyof T) => JSX.Element;
 };
 
-function BaseTable({ tableTitle, usages, nameGetter, iconStyleGetter, iconImagePathGetter }: BaseTableProps) {
-  const IconComponent = ({ k }: { k: string }) => {
-    if (iconStyleGetter) {
-      return <span style={iconStyleGetter(k)} />;
-    }
-    if (iconImagePathGetter) {
-      return <Image className="inline-block" width={24} height={24} alt={k} title={k} src={iconImagePathGetter(k)} loading="lazy" />;
-    }
-    return null;
-  };
+function BaseTable({ tableTitle, usages, nameGetter, iconGetter }: BaseTableProps) {
   return (
     <table className="table-zebra table-compact table w-full">
       <thead>
@@ -38,7 +25,7 @@ function BaseTable({ tableTitle, usages, nameGetter, iconStyleGetter, iconImageP
             <tr key={key}>
               <td>{i + 1}</td>
               <td>
-                <IconComponent k={key} />
+                {iconGetter ? iconGetter(key as keyof typeof usages) : null}
                 <a href={wikiLink(name)} target="_blank" rel="noreferrer" title="Open in wiki">
                   {name}
                 </a>

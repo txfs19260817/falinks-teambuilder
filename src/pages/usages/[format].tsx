@@ -1,5 +1,6 @@
 import { Icons } from '@pkmn/img';
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { SSRConfig } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
@@ -53,29 +54,34 @@ const UsagePage = ({ usages, format }: { usages: Usage[]; format: string }) => {
                 tableTitle="Items"
                 usages={usages.at(selectedIndex)!.Items as Record<string, number>}
                 nameGetter={(k) => gen.items.get(k)?.name ?? k}
-                iconStyleGetter={(k) => Icons.getItem(k).css}
+                iconGetter={(k) => <span style={Icons.getItem(k).css} />}
               />
               {/* Moves table */}
               <BaseTable
                 tableTitle="Moves"
                 usages={usages.at(selectedIndex)!.Moves as Record<string, number>}
                 nameGetter={(k) => gen.moves.get(k)?.name ?? k}
-                iconImagePathGetter={(k) => `${basePath}/assets/types/${gen.moves.get(k)?.type}.webp`}
+                iconGetter={(k) => (
+                  <Image
+                    className="inline-block"
+                    width={24}
+                    height={24}
+                    alt={k}
+                    title={k}
+                    src={`${basePath}/assets/types/${gen.moves.get(k)?.type}.webp`}
+                    loading="lazy"
+                  />
+                )}
               />
               {/* Teammates table */}
               <BaseTable
                 tableTitle="Teammates"
                 usages={usages.at(selectedIndex)!.Teammates as Record<string, number>}
                 nameGetter={(k) => gen.species.get(k)?.name ?? k}
-                iconStyleGetter={(k) => Icons.getPokemon(k).css}
+                iconGetter={(k) => <span style={Icons.getPokemon(k).css} />}
               />
               {/* Spreads table */}
-              <BaseTable
-                tableTitle="Spreads"
-                usages={usages.at(selectedIndex)!.Spreads as Record<string, number>}
-                nameGetter={(k) => k}
-                iconStyleGetter={(_) => ({})}
-              />
+              <BaseTable tableTitle="Spreads" usages={usages.at(selectedIndex)!.Spreads as Record<string, number>} nameGetter={(k) => k} />
             </div>
           )}
         </div>

@@ -1,7 +1,7 @@
 import { Column, Table } from '@tanstack/react-table';
 import React from 'react';
 
-import { PokemonMultiSelect } from '@/components/pastes/PokemonMultiSelect';
+import { MultiSelect } from '@/components/select';
 import { Pokemon } from '@/models/Pokemon';
 import { getPokemonIcon } from '@/utils/PokemonUtils';
 
@@ -70,8 +70,9 @@ function OmniFilter({ column, instance }: { column: Column<any>; instance: Table
     // return a select component
     return (
       <>
-        <PokemonMultiSelect
+        <MultiSelect
           options={options}
+          placeholder="Pokemon..."
           onChange={(e) => {
             column.setFilterValue(e.map((p) => p.value));
           }}

@@ -6,13 +6,14 @@ type Option = {
   value: string;
 };
 
-type PokemonMultiSelectProps = {
+type MultiSelectProps = {
   options: Option[];
+  placeholder?: string;
   onChange?: (selected: Option[]) => void;
   iconGetter?: (key: string) => JSX.Element;
 };
 
-export function PokemonMultiSelect({ options, onChange, iconGetter }: PokemonMultiSelectProps) {
+export function MultiSelect({ options, onChange, iconGetter, placeholder = '...' }: MultiSelectProps) {
   const getFilteredOptions = (selectedOptions: Option[], inputValue: Option['value']) => {
     const lowerCasedInputValue = inputValue.toLowerCase();
 
@@ -110,7 +111,7 @@ export function PokemonMultiSelect({ options, onChange, iconGetter }: PokemonMul
               </span>
             ))}
             <input
-              placeholder="Pokemon..."
+              placeholder={placeholder}
               className="input-bordered input input-sm w-full border-none focus:outline-none"
               {...getInputProps(
                 getDropdownProps({

@@ -20,7 +20,7 @@ import { PokePaste } from '@/models/PokePaste';
 import { Metadata, StoreContextType, TeamChangelog, TeamState } from '@/models/TeamState';
 import { getProvidersByProtocolName, SupportedProtocolProvider } from '@/providers';
 import { BaseProvider } from '@/providers/baseProviders';
-import { roomSteps } from '@/utils/AppConfig';
+import { roomTourSteps } from '@/utils/AppConfig';
 
 export type WorkspaceProps = {
   protocolName: SupportedProtocolProvider;
@@ -113,7 +113,7 @@ function Workspace({ roomName, protocolName, basePokePaste }: WorkspaceProps) {
   }, [basePokePaste]);
 
   return (
-    <TourProvider steps={roomSteps}>
+    <TourProvider steps={roomTourSteps}>
       <StoreContextProvider
         value={{
           teamState: new TeamState(teamState),

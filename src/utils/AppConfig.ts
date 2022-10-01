@@ -268,29 +268,29 @@ export const trainerNames = [
   'Zinnia',
 ];
 
-export const roomSteps = [
+export const roomTourSteps = [
   {
     selector: '[role="tablist"]',
-    content: 'Hi! Welcome to Falinks Teambuilder. If you start a new team, try to click the "+" button to add a Pokémon.',
+    content: 'Hi! Welcome to Falinks Teambuilder. If you start a new team from scratch, please try to click the "+" button to add a Pokémon.',
   },
   {
     selector: `#${toolboxIDs.shareLink}`,
-    content: 'You can share this room with your friends by clicking this button to work on the same team together.',
+    content: 'Sharing this room with friends allows you to collaborate on the same team at the same time.',
   },
   {
     selector: `#${toolboxIDs.importModal}-btn`,
-    content: 'You can import a team from PokePaste or a Showdown importable here.',
+    content: 'PokePaste and Showdown teams are both importable here.',
   },
   {
     selector: `#${toolboxIDs.postModal}-btn`,
-    content: 'You can also export or publish your team to PokePaste or our Pastes section here.',
+    content: "If you'd like to share your team with the world, you may do so by exporting it to PokePaste or publishing it on our Pastes page.",
   },
   {
     selector: `#${toolboxIDs.notesModal}-btn`,
-    content: 'This is a collaborative note-taking tool, just like a mini Google Docs. You can use it to take notes on your team.',
+    content: 'Comparable to a scaled-down version of Google Docs, this is a collaborative note-taking tool. Using it, you may take notes on your team.',
   },
   {
     selector: `#${toolboxIDs.historyModal}-btn`,
-    content: 'Click this button to view the history of your team, in case you want to undo some changes.',
+    content: "If you want to look into your team's past, go here.",
   },
 ];
