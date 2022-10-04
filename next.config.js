@@ -29,7 +29,7 @@ const nextConfig = {
     return [
       {
         source: '/usages',
-        destination: '/usages/gen8vgc2022'
+        destination: '/usages/gen8spikemuthcup'
       }
     ];
   },

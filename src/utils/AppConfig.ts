@@ -106,7 +106,9 @@ const usefulLinks = [
   },
 ];
 
-const usageFormats = ['gen8vgc2022', 'gen8ou', 'gen8bdspou'];
+// the first element serves as the default format
+// NOTE: change the rewrite rule in `next.config.js` if the default format is changed
+const usageFormats = ['gen8spikemuthcup', 'gen8battlestadiumdoublesseries13', 'gen8vgc2022', 'gen8ou', 'gen8bdspou'];
 
 export const AppConfig = {
   site_name: 'Falinks Teambuilder',
@@ -118,8 +120,7 @@ export const AppConfig = {
   themeColor: '#f9da55',
   maxPokemonPerTeam: 6,
   defaultGen: 8,
-  defaultFormat: 'gen8vgc2022',
-  usageAPI: `https://www.pikalytics.com/api/l/2022-${`${new Date().getMonth()}`.padStart(2, '0')}/ss-1500`,
+  defaultFormat: usageFormats[0]!,
   themes: tailwindConfig.daisyui.themes as string[],
   dbName: 'falinks',
   collectionName: {

@@ -6,7 +6,7 @@ export const FormatSelector = ({ format, handleChange }: { format: string; handl
   return (
     <div className="input-group-xs input-group">
       <span>Format</span>
-      <select className="select-bordered select select-sm" defaultValue={format} onChange={handleChange}>
+      <select className="select-bordered select select-sm w-48 overflow-ellipsis" defaultValue={format} onChange={handleChange}>
         {AppConfig.usageFormats.map((f) => (
           <option key={f} value={f}>
             {f}

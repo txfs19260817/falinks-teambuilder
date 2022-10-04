@@ -20,7 +20,7 @@ import type { Usage } from '@/utils/Types';
 
 const UsagePage = ({ usages, format }: { usages: Usage[]; format: string }) => {
   const drawerID = useId();
-  const { basePath, query, push } = useRouter();
+  const { basePath, push } = useRouter();
   const { gen } = useContext(DexContext);
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
   const [pokemonNameFilter, setPokemonNameFilter] = useState<string>('');
@@ -90,7 +90,7 @@ const UsagePage = ({ usages, format }: { usages: Usage[]; format: string }) => {
           <label htmlFor={drawerID} className="drawer-overlay"></label>
           <ul className="menu rounded-r-box w-80 border border-base-content/30 bg-base-200 p-4">
             <FormatSelector
-              format={(query.format as string) ?? AppConfig.defaultFormat}
+              format={format}
               handleChange={(e) => {
                 push(`/usages/${e.target.value}`);
               }}

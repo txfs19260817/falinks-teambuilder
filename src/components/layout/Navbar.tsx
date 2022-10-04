@@ -89,7 +89,7 @@ const Navbar = () => {
           <RoutesList className="dropdown-content menu rounded-box bg-neutral p-2 text-neutral-content shadow" />
         </div>
         <Link href="/">
-          <a title={AppConfig.title} aria-label={AppConfig.title} className="btn-ghost btn text-xl normal-case">
+          <a title={AppConfig.title} aria-label={AppConfig.title} className="btn-ghost btn text-lg normal-case md:text-xl">
             {AppConfig.title}
           </a>
         </Link>
@@ -97,7 +97,7 @@ const Navbar = () => {
       <div className="navbar-center hidden lg:flex">
         <RoutesList className="menu menu-horizontal" />
       </div>
-      <div className="navbar-end gap-x-2">
+      <div className="navbar-end flex-col items-end gap-x-2 md:flex-row">
         <LanguagePicker />
         <ThemePicker />
       </div>

@@ -1,7 +1,6 @@
 import { useContext } from 'react';
 
 import { DexContext } from '@/components/workspace/Contexts/DexContext';
-import { AppConfig } from '@/utils/AppConfig';
 import { fractionToPercentage } from '@/utils/Helpers';
 import { wikiLink } from '@/utils/PokemonUtils';
 import type { Usage } from '@/utils/Types';
@@ -24,7 +23,6 @@ function UsageStats({ pokeUsage }: { pokeUsage: Usage }) {
           </div>
           <div className="stat-title">Rank</div>
           <div className="stat-value"># {pokeUsage.rank + 1}</div>
-          <div className="stat-desc">{AppConfig.defaultFormat}</div>
         </div>
         {/* Usage percent */}
         <div className="stat">
