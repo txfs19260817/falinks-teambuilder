@@ -59,7 +59,6 @@ const PasteLayout = ({ paste }: { paste: PokePaste }) => {
           <button className="btn-secondary btn-sm btn" type="button" onClick={handleShare}>
             Share
           </button>
-          {/* eslint-disable-next-line no-underscore-dangle */}
           <Link href={`/room/room_${roomId}/?protocol=WebSocket&packed=${paste.toPackedTeam()}`}>
             <a className="btn-accent btn-sm btn">Open in Room</a>
           </Link>

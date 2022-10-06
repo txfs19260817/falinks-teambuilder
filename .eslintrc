@@ -75,6 +75,8 @@
         "no-param-reassign": "off",
         // React-table uses this at least
         "no-nested-ternary": "off",
+        // We're using this for MongoDB
+        "no-underscore-dangle": "off",
         "unused-imports/no-unused-imports": "error",
         "unused-imports/no-unused-vars": [
           "error",

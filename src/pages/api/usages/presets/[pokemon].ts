@@ -1,3 +1,4 @@
+import { WithId } from 'mongodb';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 import { PokePaste } from '@/models/PokePaste';
@@ -45,16 +46,13 @@ const agg = (query: string, pageNumber: number = 0) => {
     },
     {
       $project: {
-        _id: 0,
-        title: 1,
-        author: 1,
-        paste: 1,
+        notes: 0,
       },
     },
   ];
 };
 
-const handler = async (req: NextApiRequest, res: NextApiResponse<PokePaste[]>) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse<WithId<PokePaste>[]>) => {
   if (req.method !== 'GET') {
     return res.status(405);
   }
@@ -73,19 +71,16 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<PokePaste[]>) =
   // search
   const client = await clientPromise;
   const db = client.db(AppConfig.dbName);
-  const collection = db.collection<PokePaste>(AppConfig.collectionName.vgcPastes);
-  const cursor = collection.aggregate<PokePaste>(agg(pokemon, pageNumber));
+  const collection = db.collection<WithId<PokePaste>>(AppConfig.collectionName.vgcPastes);
+  const cursor = collection.aggregate<WithId<PokePaste>>(agg(pokemon, pageNumber));
   const pokePastes = await cursor.toArray();
   await cursor.close();
 
   // only preserve the wanted Pokémon in paste
   const filteredPokePastes = pokePastes.map((pokePaste) => {
     const { paste } = pokePaste;
-    paste.split(/\r\n\r\n|\n\n/).forEach((pm) => {
-      if (pm.includes(pokemon)) {
-        pokePaste.paste = pm;
-      }
-    });
+    const pm = paste.split(/\r\n\r\n|\n\n/).find((p) => p.includes(pokemon));
+    pokePaste.paste = pm ?? paste;
     return pokePaste;
   });
 
