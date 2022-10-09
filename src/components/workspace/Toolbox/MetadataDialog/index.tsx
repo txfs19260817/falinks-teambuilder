@@ -25,7 +25,7 @@ export function MetadataDialog() {
     <>
       <input
         type="checkbox"
-        id={`${AppConfig.toolboxIDs.metadataModal}-btn`}
+        id={AppConfig.toolboxIDs.metadataModal}
         className="modal-toggle"
         onChange={(e) => {
           setIsOpen(e.target.checked);
