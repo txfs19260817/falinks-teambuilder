@@ -19,6 +19,8 @@ import {
 } from '@tanstack/react-table';
 import Image from 'next/image';
 import { useContext, useEffect, useMemo, useState } from 'react';
+import { toast } from 'react-hot-toast';
+import useSWR from 'swr';
 
 import Table from '@/components/table';
 import { DexContext } from '@/components/workspace/Contexts/DexContext';
@@ -26,13 +28,20 @@ import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
 import { PresetsSubComponent } from '@/components/workspace/PokemonSpecies/PresetsSubComponent';
 import { Pokemon } from '@/models/Pokemon';
 import { getPokemonIcon } from '@/utils/PokemonUtils';
+import { Usage } from '@/utils/Types';
 
 function SpeciesTable() {
-  const { gen, usages, globalFilter, setGlobalFilter } = useContext(DexContext);
+  const { gen, globalFilter, setGlobalFilter } = useContext(DexContext);
   const { teamState, tabIdx, focusedFieldState, focusedFieldDispatch } = useContext(StoreContext);
 
   // table settings
   const [data, setData] = useState<Specie[]>(() => [...Array.from(gen.species)]);
+  const { data: usages, error } = useSWR<Usage[]>(`/api/usages/format/${teamState.format}`, (u) => fetch(u).then((res) => res.json()), {
+    fallbackData: [],
+  });
+  if (error) {
+    toast.error(error);
+  }
   const columns = useMemo<ColumnDef<Specie>[]>(() => {
     return [
       {
@@ -160,7 +169,7 @@ function SpeciesTable() {
 
   // sorting by usages
   useEffect(() => {
-    if (usages.length <= 0) {
+    if (!usages || usages.length <= 0) {
       return;
     }
     const dataSorted = usages.flatMap((u) => gen.species.get(u.name) || []);

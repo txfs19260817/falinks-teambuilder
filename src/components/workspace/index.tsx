@@ -12,6 +12,7 @@ import TabsSwitcher from '@/components/workspace/Tabs/TabsSwitcher';
 import Toolbox from '@/components/workspace/Toolbox';
 import { HistoryDialog } from '@/components/workspace/Toolbox/HistoryDialog';
 import { ImportShowdownDialog } from '@/components/workspace/Toolbox/ImportShowdown';
+import { MetadataDialog } from '@/components/workspace/Toolbox/MetadataDialog';
 import { NotesDialog } from '@/components/workspace/Toolbox/Notes';
 import { PostPokepasteDialog } from '@/components/workspace/Toolbox/PostPokepaste';
 import { Client, ClientInfo } from '@/models/Client';
@@ -20,7 +21,7 @@ import { PokePaste } from '@/models/PokePaste';
 import { Metadata, StoreContextType, TeamChangelog, TeamState } from '@/models/TeamState';
 import { getProvidersByProtocolName, SupportedProtocolProvider } from '@/providers';
 import { BaseProvider } from '@/providers/baseProviders';
-import { roomTourSteps } from '@/utils/AppConfig';
+import { AppConfig, roomTourSteps } from '@/utils/AppConfig';
 
 export type WorkspaceProps = {
   protocolName: SupportedProtocolProvider;
@@ -49,7 +50,12 @@ function Workspace({ roomName, protocolName, basePokePaste }: WorkspaceProps) {
   const teamState = useSyncedStore(teamStore);
   if (teamState.metadata.roomName !== roomName) {
     teamState.metadata.roomName = roomName;
+  }
+  if (teamState.metadata.title?.length === 0) {
     teamState.metadata.title = roomName;
+  }
+  if (teamState.metadata.format?.length === 0) {
+    teamState.metadata.format = AppConfig.defaultFormat;
   }
 
   // Set up the connection
@@ -134,6 +140,7 @@ function Workspace({ roomName, protocolName, basePokePaste }: WorkspaceProps) {
         {/* Dialogs */}
         {client && (
           <>
+            <MetadataDialog />
             <ImportShowdownDialog />
             <HistoryDialog />
             <PostPokepasteDialog />

@@ -17,6 +17,7 @@ export type Metadata = {
   notes: string;
   authors: string[];
   roomName: string;
+  format: string;
 };
 
 export type StoreContextType = {
@@ -29,7 +30,7 @@ export type StoreContextType = {
 export class TeamState {
   private teamState: MappedTypeDescription<StoreContextType>;
 
-  private username: string;
+  private readonly username: string;
 
   constructor(teamState: MappedTypeDescription<StoreContextType>, username?: string) {
     this.teamState = teamState;
@@ -60,7 +61,11 @@ export class TeamState {
 
   /* Metadata */
   get title() {
-    return this.teamState.metadata.title;
+    return this.teamState.metadata.title ?? this.roomName ?? 'Untitled';
+  }
+
+  set title(title: string) {
+    this.teamState.metadata.title = title;
   }
 
   get notes() {
@@ -75,9 +80,13 @@ export class TeamState {
     return this.teamState.metadata.roomName;
   }
 
-  updateMetadata = <K extends keyof Metadata>(key: K, value: Metadata[K]) => {
-    this.teamState.metadata[key] = value;
-  };
+  get format() {
+    return this.teamState.metadata.format ?? AppConfig.defaultFormat;
+  }
+
+  set format(format: string) {
+    this.teamState.metadata.format = format;
+  }
 
   updateNotes = (notes: string) => {
     this.teamState.metadata.notes = notes;

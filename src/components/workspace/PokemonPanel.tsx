@@ -1,6 +1,4 @@
 import { useState } from 'react';
-import { toast } from 'react-hot-toast';
-import useSWR from 'swr';
 
 import AbilityInput from '@/components/workspace/Abilities/AbilityInput';
 import { defaultDex, DexContextProvider } from '@/components/workspace/Contexts/DexContext';
@@ -15,17 +13,9 @@ import SpeciesInput from '@/components/workspace/PokemonSpecies/SpeciesInput';
 import ShinyToggle from '@/components/workspace/Shiny/ShinyToggle';
 import SpriteAvatar from '@/components/workspace/SpriteAvatar/SpriteAvatar';
 import StatsClickable from '@/components/workspace/Stats/StatsClickable';
-import { AppConfig } from '@/utils/AppConfig';
-import type { Usage } from '@/utils/Types';
 
 const PokemonPanel = () => {
   const [globalFilter, setGlobalFilter] = useState('');
-
-  // @ts-ignore
-  const { data, error } = useSWR<Usage[]>(`/api/usages/format/${AppConfig.defaultFormat}`, (...args) => fetch(...args).then((res) => res.json()));
-  if (error) {
-    toast.error(error);
-  }
 
   return (
     <DexContextProvider
@@ -33,7 +23,6 @@ const PokemonPanel = () => {
         ...defaultDex,
         globalFilter,
         setGlobalFilter,
-        usages: data ?? [],
       }}
     >
       <div className="mockup-window border bg-base-300">

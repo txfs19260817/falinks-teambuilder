@@ -1,6 +1,6 @@
 import { Generations, ID } from '@pkmn/data';
 import { Dex } from '@pkmn/dex';
-import { Smogon } from '@pkmn/smogon';
+import { DisplayUsageStatistics, Smogon } from '@pkmn/smogon';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 import { AppConfig } from '@/utils/AppConfig';
@@ -8,6 +8,7 @@ import { ensureInteger } from '@/utils/Helpers';
 
 const gens = new Generations(Dex);
 const smogon = new Smogon(fetch);
+const fallbackFormat = 'gen8battlestadiumdoubles' as ID;
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<Awaited<ReturnType<Smogon['stats']>>>) => {
   if (req.method !== 'GET') {
@@ -27,7 +28,13 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Awaited<ReturnT
   const formatID = <ID>(format && typeof format === 'string' ? format : AppConfig.defaultFormat);
 
   // get stats and return
-  const r = await smogon.stats(generation, pokemon, formatID);
+  let r: DisplayUsageStatistics | undefined;
+  try {
+    r = await smogon.stats(generation, pokemon, formatID);
+  } catch (e) {
+    r = await smogon.stats(generation, pokemon, fallbackFormat);
+  }
+
   if (r == null) {
     return res.status(404);
   }

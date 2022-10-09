@@ -22,7 +22,7 @@ function MovesTable({ moveIdx }: { moveIdx: number }) {
   const { data: learnableMoves } = useSWR<Move[]>(species, (k) => getMovesBySpecie(gen, k));
   // fetch popular moves by this Pokémon
   const { data: popularMoveNames } = useSWR<string[]>( // move names
-    species ? `/api/usages/stats/${species}?moves=true` : null, // ?moves=true doesn't work in the API, only used as a cache buster for SWR.
+    species ? `/api/usages/stats/${species}?format=${teamState.format}&moves=true` : null, // ?moves=true doesn't work in the API, only used as a cache buster for SWR.
     {
       fallbackData: [],
       fetcher: (u: string) =>

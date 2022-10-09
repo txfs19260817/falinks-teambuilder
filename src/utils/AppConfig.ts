@@ -70,6 +70,7 @@ const toolboxIDs: Record<string, string> = {
   importModal: 'import-ps-modal',
   postModal: 'post-pokepaste-modal',
   historyModal: 'history-modal',
+  metadataModal: 'metadata-modal',
 };
 
 const dialogProps = [
@@ -97,6 +98,12 @@ const dialogProps = [
     text: 'Edit History',
     title: 'View previous changes on this team',
   },
+  {
+    id: toolboxIDs.metadataModal,
+    emoji: '📋',
+    text: 'Metadata',
+    title: 'Update the metadata of this team',
+  },
 ];
 
 const usefulLinks = [
@@ -108,7 +115,7 @@ const usefulLinks = [
 
 // the first element serves as the default format
 // NOTE: change the rewrite rule in `next.config.js` if the default format is changed
-const usageFormats = ['gen8spikemuthcup', 'gen8battlestadiumdoublesseries13', 'gen8vgc2022', 'gen8ou', 'gen8bdspou'];
+const formats = ['gen8spikemuthcup', 'gen8battlestadiumdoublesseries13', 'gen8vgc2022', 'gen8ou', 'gen8bdspou'];
 
 export const AppConfig = {
   site_name: 'Falinks Teambuilder',
@@ -120,7 +127,7 @@ export const AppConfig = {
   themeColor: '#f9da55',
   maxPokemonPerTeam: 6,
   defaultGen: 8,
-  defaultFormat: usageFormats[0]!,
+  defaultFormat: formats[0]!,
   themes: tailwindConfig.daisyui.themes as string[],
   dbName: 'falinks',
   collectionName: {
@@ -129,7 +136,7 @@ export const AppConfig = {
     privatePastes: 'private_pastes',
   },
   toolboxIDs,
-  usageFormats,
+  formats,
   dialogProps,
   usefulLinks,
   routes,
@@ -143,6 +150,10 @@ export const roomTourSteps = [
   {
     selector: `#${toolboxIDs.shareLink}`,
     content: 'Sharing this room with friends allows you to collaborate on the same team at the same time.',
+  },
+  {
+    selector: `#${toolboxIDs.metadataModal}-btn`,
+    content: 'Go here to change the title and format. The order of suggested Pokémon, Item, Moves and EVs will be changed according to the format.',
   },
   {
     selector: `#${toolboxIDs.importModal}-btn`,

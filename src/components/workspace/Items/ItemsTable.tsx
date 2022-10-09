@@ -49,7 +49,7 @@ function ItemsTable() {
   // fetch popular items by Pokémon
   const { species } = teamState.getPokemonInTeam(tabIdx) ?? {};
   const { data: popularItemNames } = useSWR<string[]>( // item names
-    species ? `/api/usages/stats/${species}?items=true` : null, // ?items=true doesn't work in the API, only used as a cache buster for SWR.
+    species ? `/api/usages/stats/${species}?format=${teamState.format}&items=true` : null, // ?items=true doesn't work in the API, only used as a cache buster for SWR.
     {
       fallbackData: defaultPopularItems,
       fetcher: (u: string) =>

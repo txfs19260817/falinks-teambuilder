@@ -15,7 +15,7 @@ function StatsSetters() {
   // fetch popular spreads by Pokémon
   const { species } = teamState.getPokemonInTeam(tabIdx) ?? {};
   const { data: suggestedSpreads } = useSWR<Spreads[]>( // suggestedSpreads StatsTable
-    species ? `/api/usages/stats/${species}?spreads=true` : null, // ?spreads=true doesn't work in the API, only used as a cache buster for SWR.
+    species ? `/api/usages/stats/${species}?format=${teamState.format}&spreads=true` : null, // ?spreads=true doesn't work in the API, only used as a cache buster for SWR.
     {
       fallbackData: [], // defaultSuggestedSpreads is concatenated to returned suggestions when rendering
       fetcher: (u: string) =>

@@ -4,13 +4,11 @@ import { Data } from '@pkmn/dex-types';
 import { createContext, ReactNode } from 'react';
 
 import { AppConfig } from '@/utils/AppConfig';
-import type { Usage } from '@/utils/Types';
 
 interface DexContextInterface {
   gen: Generation;
   globalFilter: string;
   setGlobalFilter: (filter: string) => void;
-  usages: Usage[];
 }
 
 type DexContextProviderProps = {
@@ -28,7 +26,6 @@ export const defaultDex: DexContextInterface = {
   }).get(AppConfig.defaultGen as GenerationNum),
   globalFilter: '',
   setGlobalFilter: (_: string) => {},
-  usages: [],
 };
 
 // create context

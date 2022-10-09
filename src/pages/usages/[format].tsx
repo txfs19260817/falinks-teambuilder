@@ -128,11 +128,11 @@ export const getStaticProps: GetStaticProps<{ usages: Usage[]; format: string } 
 export const getStaticPaths: GetStaticPaths = async (context) => {
   const paths =
     context.locales?.flatMap((locale) =>
-      AppConfig.usageFormats.map((format) => ({
+      AppConfig.formats.map((format) => ({
         params: { format },
         locale,
       }))
-    ) ?? AppConfig.usageFormats.map((format) => ({ params: { format } }));
+    ) ?? AppConfig.formats.map((format) => ({ params: { format } }));
 
   return {
     paths,
