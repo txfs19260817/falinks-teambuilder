@@ -16,7 +16,7 @@ export function PostPokepasteDialog() {
     setValue('author', (teamState.authors?.toJSON() || []).join(', '));
     setValue('notes', teamState.notes ?? '');
     setValue('paste', teamState.getTeamPaste());
-    setValue('title', teamState.roomName || 'Falinks-teambuilder');
+    setValue('title', teamState.title || teamState.roomName || 'Falinks-teambuilder');
   }, [isOpen]);
 
   const handleSubmitToFalinks = (isPublic: boolean) => {

@@ -70,7 +70,6 @@ const toolboxIDs: Record<string, string> = {
   importModal: 'import-ps-modal',
   postModal: 'post-pokepaste-modal',
   historyModal: 'history-modal',
-  metadataModal: 'metadata-modal',
 };
 
 const dialogProps = [
@@ -97,12 +96,6 @@ const dialogProps = [
     emoji: '📜',
     text: 'Edit History',
     title: 'View previous changes on this team',
-  },
-  {
-    id: toolboxIDs.metadataModal,
-    emoji: '📋',
-    text: 'Metadata',
-    title: 'Update the metadata of this team',
   },
 ];
 
@@ -150,10 +143,6 @@ export const roomTourSteps = [
   {
     selector: `#${toolboxIDs.shareLink}`,
     content: 'Sharing this room with friends allows you to collaborate on the same team at the same time.',
-  },
-  {
-    selector: `#${toolboxIDs.metadataModal}-btn`,
-    content: 'Go here to change the title and format. The order of suggested Pokémon, Item, Moves and EVs will be changed according to the format.',
   },
   {
     selector: `#${toolboxIDs.importModal}-btn`,

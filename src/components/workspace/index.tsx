@@ -12,7 +12,6 @@ import TabsSwitcher from '@/components/workspace/Tabs/TabsSwitcher';
 import Toolbox from '@/components/workspace/Toolbox';
 import { HistoryDialog } from '@/components/workspace/Toolbox/HistoryDialog';
 import { ImportShowdownDialog } from '@/components/workspace/Toolbox/ImportShowdown';
-import { MetadataDialog } from '@/components/workspace/Toolbox/MetadataDialog';
 import { NotesDialog } from '@/components/workspace/Toolbox/Notes';
 import { PostPokepasteDialog } from '@/components/workspace/Toolbox/PostPokepaste';
 import { Client, ClientInfo } from '@/models/Client';
@@ -140,7 +139,6 @@ function Workspace({ roomName, protocolName, basePokePaste }: WorkspaceProps) {
         {/* Dialogs */}
         {client && (
           <>
-            <MetadataDialog />
             <ImportShowdownDialog />
             <HistoryDialog />
             <PostPokepasteDialog />
