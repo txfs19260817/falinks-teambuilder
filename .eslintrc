@@ -77,6 +77,8 @@
         "no-nested-ternary": "off",
         // We're using this for MongoDB
         "no-underscore-dangle": "off",
+        // I just like it this way
+        "no-bitwise": "off",
         "unused-imports/no-unused-imports": "error",
         "unused-imports/no-unused-vars": [
           "error",

@@ -4,16 +4,7 @@ import { useContext, useEffect, useState } from 'react';
 import { DexContext } from '@/components/workspace/Contexts/DexContext';
 import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
 import { compareFocusedFieldToIdx, FocusedFieldToIdx } from '@/components/workspace/FocusedField/consts';
-import { getStats } from '@/utils/PokemonUtils';
-
-const defaultStats: StatsTable = {
-  hp: 0,
-  atk: 0,
-  def: 0,
-  spa: 0,
-  spd: 0,
-  spe: 0,
-};
+import { defaultStats, getStats } from '@/utils/PokemonUtils';
 
 function StatsClickable() {
   const thisFocusedFieldState: FocusedFieldToIdx = { Stats: 0 };
