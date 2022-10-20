@@ -18,6 +18,7 @@ const nextConfig = {
     dirs: ['.']
   },
   images: { domains: ['play.pokemonshowdown.com'] },
+  staticPageGenerationTimeout: 600,
   poweredByHeader: false,
   trailingSlash: true,
   basePath: '',
