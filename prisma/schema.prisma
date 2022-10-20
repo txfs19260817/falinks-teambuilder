@@ -1,0 +1,26 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch"]
+}
+
+datasource db {
+  provider          = "postgresql"
+  url               = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+}
+
+model Pokepaste {
+  id         String   @id @default(cuid())
+  author     String
+  title      String
+  paste      String
+  notes      String?
+  source     String?
+  format     String
+  isPublic   Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  rentalCode String?
+  isOfficial Boolean  @default(true)
+
+  @@index([format, createdAt(sort: Desc)])
+}

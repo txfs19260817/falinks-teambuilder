@@ -24,7 +24,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Awaited<ReturnT
     return res.status(400);
   }
   // optional
-  const generation = gens.get(<1 | 2 | 3 | 4 | 5 | 6 | 7 | 8>ensureInteger(gen, AppConfig.defaultGen));
+  const generation = gens.get(ensureInteger(gen, AppConfig.defaultGen));
   const formatID = <ID>(format && typeof format === 'string' ? format : AppConfig.defaultFormat);
 
   // get stats and return

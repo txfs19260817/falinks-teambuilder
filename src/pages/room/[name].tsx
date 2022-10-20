@@ -4,18 +4,20 @@ import { useRouter } from 'next/router';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useEffect, useState } from 'react';
 
-import { PokePaste } from '@/models/PokePaste';
+import { Pokemon } from '@/models/Pokemon';
 import { SupportedProtocolProvider, supportedProtocols } from '@/providers';
 import Loading from '@/templates/Loading';
 import { Main } from '@/templates/Main';
+import { isValidPokePasteURL } from '@/utils/PokemonUtils';
+import type { BasePokePaste } from '@/utils/Types';
 
 type RoomQueryParams = {
   // path params
   name: string;
   // query params
   protocol: SupportedProtocolProvider;
-  pokepaste?: string;
-  packed?: string;
+  pokepaste?: string; // url
+  packed?: string; // packed team string
 };
 
 const Workspace = dynamic(() => import('@/components/workspace/index'), {
@@ -33,13 +35,13 @@ const Room = () => {
   const protocolName = supportedProtocols.includes(protocol) ? protocol : 'WebSocket';
 
   // Set up the initial team if the pokepaste url is given and valid
-  const [basePokePaste, setBasePokePaste] = useState<PokePaste | undefined>();
+  const [basePokePaste, setBasePokePaste] = useState<BasePokePaste | undefined>();
 
   useEffect(() => {
     if (packed) {
-      setBasePokePaste(PokePaste.fromPackedTeam(packed));
-    } else if (pokePasteUrl && PokePaste.isValidPokePasteURL(pokePasteUrl)) {
-      PokePaste.pokePasteURLFetcher(pokePasteUrl).then((data) => {
+      setBasePokePaste(Pokemon.convertPackedTeamToTeam(packed));
+    } else if (isValidPokePasteURL(pokePasteUrl)) {
+      Pokemon.pokePasteURLFetcher(pokePasteUrl!).then((data) => {
         setBasePokePaste(data);
       });
     }

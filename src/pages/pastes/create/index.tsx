@@ -1,39 +1,51 @@
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import React from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
 
+import { FormatSelector } from '@/components/select/FormatSelector';
 import { Pokemon } from '@/models/Pokemon';
-import { PokePaste } from '@/models/PokePaste';
 import { Main } from '@/templates/Main';
+import { AppConfig } from '@/utils/AppConfig';
 
-interface CreatePasteForm extends PokePaste {
-  public: boolean;
-}
+type CreatePasteForm = {
+  author: string;
+  title: string;
+  paste: string;
+  notes: string;
+  source: string;
+  rentalCode: string;
+  format: string;
+  isPublic: boolean;
+  isOfficial: boolean;
+};
 
 const Create = () => {
   const { t } = useTranslation(['common', 'create']);
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<CreatePasteForm>({
     defaultValues: {
+      format: AppConfig.defaultFormat,
       notes: '',
-      public: false,
+      source: '',
+      rentalCode: '',
+      isPublic: false,
+      isOfficial: false,
     },
   });
 
   const onSubmit = (data: CreatePasteForm) => {
-    const { public: isPublic, ...pasteBody } = data;
-    const promise = fetch(`/api/pastes/create?public=${isPublic}`, {
+    const promise = fetch(`/api/pastes/create`, {
       method: 'POST',
       redirect: 'follow',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(pasteBody),
+      body: JSON.stringify(data),
     });
     toast
       .promise(promise, {
@@ -68,7 +80,7 @@ const Create = () => {
                 placeholder={t('create:form.title.placeholder')}
                 required={true}
                 maxLength={50}
-                className="input-bordered input text-base-content"
+                className="input-bordered input input-sm text-base-content"
                 {...register('title', {
                   required: true,
                 })}
@@ -84,8 +96,47 @@ const Create = () => {
                 placeholder={t('create:form.author.placeholder')}
                 required={true}
                 maxLength={36}
-                className="input-bordered input text-base-content"
+                className="input-bordered input input-sm text-base-content"
                 {...register('author', { required: true })}
+              />
+            </div>
+            <div className="form-control">
+              <label className="label" htmlFor="source">
+                <span className="label-text">{t('create:form.source.label')}</span>
+              </label>
+              <input
+                id="source"
+                type="url"
+                placeholder="https://twitter.com/..."
+                maxLength={300}
+                className="input-bordered input input-sm text-base-content"
+                {...register('source', { required: false })}
+              />
+              <p className="text-xs text-base-content">{t('create:form.source.description')}</p>
+            </div>
+            <div className="form-control">
+              <label className="label" htmlFor="rentalCode">
+                <span className="label-text">{t('create:form.rental.label')}</span>
+              </label>
+              <input
+                id="rentalCode"
+                type="text"
+                placeholder="0000 0000 0000 00"
+                maxLength={20}
+                className="input-bordered input input-sm text-base-content"
+                {...register('rentalCode', { required: false })}
+              />
+              <p className="text-xs text-base-content">{t('create:form.rental.description')}</p>
+            </div>
+            <div className="form-control">
+              <label className="label" htmlFor="format">
+                <span className="label-text after:text-error after:content-['_*']">{t('create:form.format.label')}</span>
+              </label>
+              <FormatSelector
+                inputGroup={false}
+                formats={AppConfig.formats.concat([`gen${AppConfig.defaultGen}`])}
+                defaultFormat={AppConfig.defaultFormat}
+                handleChange={(e) => setValue('format', e.target.value)}
               />
             </div>
             <div className="form-control">
@@ -96,7 +147,7 @@ const Create = () => {
                 id="paste"
                 className={`textarea-bordered textarea text-base-content ${errors.paste ? 'textarea-error' : ''}`}
                 placeholder={t('create:form.paste.placeholder')}
-                rows={9}
+                rows={6}
                 {...register('paste', {
                   required: true,
                   validate: (value) => Pokemon.convertPasteToTeam(value) != null || t('create:form.paste.error'),
@@ -113,7 +164,7 @@ const Create = () => {
             <div className="form-control">
               <label className="label cursor-pointer">
                 <span className="label-text">🔐{t('create:form.public.private')}</span>
-                <input type="checkbox" className="toggle-secondary toggle" {...register('public')} />
+                <input type="checkbox" className="toggle-secondary toggle" {...register('isPublic')} />
                 <span className="label-text">🌐{t('create:form.public.public')}</span>
               </label>
               <p className="text-xs text-warning-content">{t('create:form.public.warning')}</p>

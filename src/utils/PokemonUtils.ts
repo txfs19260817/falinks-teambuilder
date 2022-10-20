@@ -1,12 +1,11 @@
-import { Generation, Move } from '@pkmn/data';
-import { Nature } from '@pkmn/dex-types';
+import { Generation, Move, Nature } from '@pkmn/data';
 import { Icons } from '@pkmn/img';
 import { DisplayUsageStatistics, LegacyDisplayUsageStatistics } from '@pkmn/smogon';
 import { StatID, StatsTable, StatusName } from '@pkmn/types';
 import { MovesetStatistics, Statistics, UsageStatistics } from 'smogon';
 
 import { AppConfig } from '@/utils/AppConfig';
-import { convertObjectNumberValuesToFraction, filterSortLimitObjectByValues, getRandomElement } from '@/utils/Helpers';
+import { convertObjectNumberValuesToFraction, filterSortLimitObjectByValues, getRandomElement, urlPattern } from '@/utils/Helpers';
 import type { Spreads, Usage, ValueWithEmojiOption } from '@/utils/Types';
 
 const maxTotalEvs = 508;
@@ -454,3 +453,5 @@ export const getSuggestedSpreadsBySpecie = (d: DisplayUsageStatistics & LegacyDi
         ),
       } as Spreads)
   );
+
+export const isValidPokePasteURL = (url?: string): boolean => typeof url === 'string' && urlPattern.test(url) && url.includes('pokepast.es');

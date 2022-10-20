@@ -1,65 +1,28 @@
-import { WithId } from 'mongodb';
-import { NextApiRequest, NextApiResponse } from 'next';
+import { Dex } from '@pkmn/dex';
+import type { NextApiRequest, NextApiResponse } from 'next';
 
-import { PokePaste } from '@/models/PokePaste';
 import { AppConfig } from '@/utils/AppConfig';
 import { ensureInteger } from '@/utils/Helpers';
-import clientPromise from '@/utils/MongoDB';
+import { prisma } from '@/utils/Prisma';
 
-const agg = (query: string, pageNumber: number = 0) => {
-  const pageSize = 5;
-  return [
-    {
-      // with Atlas Search support
-      $search: {
-        compound: {
-          must: [
-            {
-              text: {
-                query,
-                path: 'paste',
-              },
-            },
-            {
-              text: {
-                query: 'EVs:',
-                path: 'paste',
-              },
-            },
-          ],
-          mustNot: [
-            {
-              text: {
-                query: '🔐',
-                path: 'title',
-              },
-            },
-          ],
-        },
-      },
-    },
-    {
-      $skip: pageNumber > 0 ? (pageNumber - 1) * pageSize : 0,
-    },
-    {
-      $limit: pageSize,
-    },
-    {
-      $project: {
-        notes: 0,
-      },
-    },
-  ];
+type Data = {
+  id: string;
+  paste: string;
+  title: string;
+  author: string;
 };
 
-const handler = async (req: NextApiRequest, res: NextApiResponse<WithId<PokePaste>[]>) => {
+const pageSize = 5;
+const gen = Dex.forGen(AppConfig.defaultGen);
+
+const handler = async (req: NextApiRequest, res: NextApiResponse<Data[]>) => {
   if (req.method !== 'GET') {
     return res.status(405);
   }
 
   // parse query
   const {
-    query: { pokemon, page },
+    query: { pokemon, page, format },
   } = req;
   // required (handle forms/baseSpecies ?)
   if (typeof pokemon !== 'string' || pokemon.length === 0) {
@@ -68,23 +31,37 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<WithId<PokePast
   // optional
   const pageNumber = ensureInteger(page, 1);
 
-  // search
-  const client = await clientPromise;
-  const db = client.db(AppConfig.dbName);
-  const collection = db.collection<WithId<PokePaste>>(AppConfig.collectionName.vgcPastes);
-  const cursor = collection.aggregate<WithId<PokePaste>>(agg(pokemon, pageNumber));
-  const pokePastes = await cursor.toArray();
-  await cursor.close();
+  // build search terms
+  const searchTerms = [pokemon];
+  const baseSpecies = gen.species.get(pokemon)?.baseSpecies;
+  if (baseSpecies && baseSpecies !== pokemon) {
+    searchTerms.push(baseSpecies);
+  }
 
-  // only preserve the wanted Pokémon in paste
-  const filteredPokePastes = pokePastes.map((pokePaste) => {
-    const { paste } = pokePaste;
-    const pm = paste.split(/\r\n\r\n|\n\n/).find((p) => p.includes(pokemon));
-    pokePaste.paste = pm ?? paste;
-    return pokePaste;
+  // full-text search paste
+  const results = await prisma.pokepaste.findMany({
+    where: {
+      isOfficial: true,
+      format: typeof format === 'string' ? format : AppConfig.defaultFormat,
+      paste: {
+        search: searchTerms.join('&'),
+      },
+    },
+    orderBy: {
+      createdAt: 'desc',
+    },
+    skip: pageNumber > 0 ? (pageNumber - 1) * 5 : 0,
+    take: pageSize,
   });
 
-  return res.status(200).json(filteredPokePastes);
+  // only preserve the wanted Pokémon in paste
+  const returnedSets: Data[] = results.map((p) => {
+    const { id, paste, author, title } = p;
+    const pm = paste.split(/\r\n\r\n|\n\n/).find((t) => t.includes(pokemon));
+    return { id, paste: pm ?? paste, author, title };
+  });
+
+  return res.status(200).json(returnedSets);
 };
 
 export default handler;

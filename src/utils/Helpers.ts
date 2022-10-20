@@ -95,3 +95,5 @@ export const fractionToPercentage = (fraction: number = 0) => {
     minimumFractionDigits: 1,
   }).format(fraction ?? 0);
 };
+
+export const isCUID = (s: string) => /^c[a-z0-9]{24}$/.test(s);

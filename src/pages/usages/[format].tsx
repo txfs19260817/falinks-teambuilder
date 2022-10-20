@@ -6,8 +6,8 @@ import { SSRConfig } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useContext, useId, useState } from 'react';
 
+import { FormatSelector } from '@/components/select/FormatSelector';
 import BaseTable from '@/components/usages/BaseTable';
-import { FormatSelector } from '@/components/usages/FormatSelector';
 import InfoCard from '@/components/usages/InfoCard';
 import { PokemonFilter } from '@/components/usages/PokemonFilter';
 import { PokemonList } from '@/components/usages/PokemonList';
@@ -90,7 +90,7 @@ const UsagePage = ({ usages, format }: { usages: Usage[]; format: string }) => {
           <label htmlFor={drawerID} className="drawer-overlay"></label>
           <ul className="menu rounded-r-box w-80 border border-base-content/30 bg-base-200 p-4">
             <FormatSelector
-              format={format}
+              defaultFormat={format}
               handleChange={(e) => {
                 push(`/usages/${e.target.value}`);
               }}

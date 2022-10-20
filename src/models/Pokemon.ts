@@ -1,7 +1,12 @@
+import { Dex } from '@pkmn/dex';
 import { Sets, Team } from '@pkmn/sets';
 import { PokemonSet, StatsTable } from '@pkmn/types';
 
+import { AppConfig } from '@/utils/AppConfig';
 import { S4 } from '@/utils/Helpers';
+import type { BasePokePaste } from '@/utils/Types';
+
+const gen = Dex.forGen(AppConfig.defaultGen);
 
 export class Pokemon implements PokemonSet {
   /**
@@ -69,6 +74,23 @@ export class Pokemon implements PokemonSet {
     this.shiny = shiny;
   }
 
+  static pokePasteURLFetcher = (url: string): Promise<BasePokePaste> =>
+    fetch(`${url}/json`)
+      .then(
+        (res) =>
+          res.json() as Promise<{
+            title: string;
+            author: string;
+            paste: string;
+            notes: string;
+          }>
+      )
+      .then((res) => ({
+        ...res,
+        format: AppConfig.defaultFormat,
+      }));
+
+  /* Text <-> Object */
   static exportSetToPaste(p: Pokemon | PokemonSet): string {
     return Sets.exportSet(p).replace(/\n$/, '');
   }
@@ -90,6 +112,22 @@ export class Pokemon implements PokemonSet {
 
   static convertTeamToPaste(t: Pokemon[]): string {
     return new Team(t).export();
+  }
+
+  static convertPasteToPackedTeam(s: string): string {
+    const team = this.convertPasteToTeam(s) || [];
+    return team.map((p) => Sets.packSet(p)).join(']');
+  }
+
+  static convertPackedTeamToTeam(packedTeam: string): BasePokePaste | undefined {
+    const unpacked = Team.unpack(packedTeam, gen);
+    return unpacked
+      ? {
+          paste: unpacked.export(),
+          format: unpacked.format || AppConfig.defaultFormat,
+          title: unpacked.name || '',
+        }
+      : undefined;
   }
 
   static convertTeamToPacked(t: Pokemon[], format?: string, name?: string): string {

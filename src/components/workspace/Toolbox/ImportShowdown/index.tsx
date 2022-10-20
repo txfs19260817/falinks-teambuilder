@@ -3,8 +3,8 @@ import { toast } from 'react-hot-toast';
 
 import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
 import { Pokemon } from '@/models/Pokemon';
-import { PokePaste } from '@/models/PokePaste';
 import { AppConfig } from '@/utils/AppConfig';
+import { isValidPokePasteURL } from '@/utils/PokemonUtils';
 
 const exampleText = `Dog (Zacian-Crowned) @ Rusted Sword  
 Ability: Intrepid Sword  
@@ -92,10 +92,10 @@ export function ImportShowdownDialog() {
       importTextareaRef.current.value = '';
     }
     // check if it's a PokePaste link
-    if (PokePaste.isValidPokePasteURL(text)) {
-      PokePaste.pokePasteURLFetcher(text)
+    if (isValidPokePasteURL(text)) {
+      Pokemon.pokePasteURLFetcher(text)
         .then((data) => {
-          const newTeam = data.extractPokemonFromPaste();
+          const newTeam = Pokemon.convertPasteToTeam(data.paste);
           if (!newTeam) {
             toast.error('Invalid team paste fetched from PokePaste');
             return;

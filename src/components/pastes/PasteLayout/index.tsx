@@ -2,15 +2,24 @@ import { Icons, Sprites } from '@pkmn/img';
 import Link from 'next/link';
 import { useId } from 'react';
 import { toast } from 'react-hot-toast';
+import useSWRImmutable from 'swr/immutable';
 
 import { PureSpriteAvatar } from '@/components/workspace/SpriteAvatar/SpriteAvatar';
 import { Pokemon } from '@/models/Pokemon';
-import { PokePaste } from '@/models/PokePaste';
+import Loading from '@/templates/Loading';
 import { convertStylesStringToObject } from '@/utils/Helpers';
+import { Paste } from '@/utils/Prisma';
 
-const PasteLayout = ({ paste }: { paste: PokePaste }) => {
-  const team = Pokemon.convertPasteToTeam(paste.paste) || [];
+const PasteLayout = ({ id }: { id: string }) => {
   const roomId = useId();
+  const { data: paste, error } = useSWRImmutable<Paste>(id, (i) => fetch(`/api/pastes/${i}`).then((res) => res.json()));
+
+  if (error) {
+    toast.error('An error occurred while fetching the paste.');
+    return null;
+  }
+  if (!paste) return <Loading />;
+  const team = Pokemon.convertPasteToTeam(paste.paste) || [];
 
   // handlers
   const handleCopy = () => {
@@ -59,7 +68,7 @@ const PasteLayout = ({ paste }: { paste: PokePaste }) => {
           <button className="btn-secondary btn-sm btn" type="button" onClick={handleShare}>
             Share
           </button>
-          <Link href={`/room/room_${roomId}/?protocol=WebSocket&packed=${paste.toPackedTeam()}`}>
+          <Link href={`/room/room_${roomId}/?protocol=WebSocket&packed=${Pokemon.convertPasteToPackedTeam(paste.paste)}`}>
             <a className="btn-accent btn-sm btn">Open in Room</a>
           </Link>
         </div>

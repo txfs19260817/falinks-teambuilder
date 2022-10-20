@@ -1,6 +1,8 @@
 import { StatsTable } from '@pkmn/types';
 import { MovesetStatistics } from 'smogon';
 
+export type GetElementType<T extends any[]> = T extends (infer U)[] ? U : never;
+export type ThenArg<T> = T extends PromiseLike<infer U> ? U : T;
 export type Modify<T, R> = Omit<T, keyof R> & R;
 
 export type Option = {
@@ -37,4 +39,12 @@ export type Spreads = {
 export type ValueWithEmojiOption = {
   value: string;
   emoji: string;
+};
+
+export type BasePokePaste = {
+  paste: string;
+  format: string;
+  title?: string;
+  author?: string;
+  notes?: string;
 };
