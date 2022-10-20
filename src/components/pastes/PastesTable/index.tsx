@@ -57,7 +57,7 @@ const PastesTable = ({ pastes }: { pastes: PastesList }) => {
     {
       header: 'Created At',
       accessorKey: 'createdAt',
-      cell: ({ getValue }) => <span>{new Intl.DateTimeFormat('en-US').format(Date.parse(getValue<string>()))}</span>,
+      cell: ({ getValue }) => <span>{new Date(getValue<string>()).toLocaleDateString()}</span>,
       enableColumnFilter: false,
       enableGlobalFilter: false,
     },

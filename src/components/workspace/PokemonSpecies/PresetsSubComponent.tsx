@@ -65,7 +65,7 @@ export const PresetsSubComponent = (row: Row<Specie>) => {
                   </h6>
                   <pre className="h-40 whitespace-pre-wrap text-xs leading-tight tracking-tighter">{p.paste}</pre>
                   <div className="card-actions justify-end">
-                    <Link href={`/pastes/vgc/${p.id}/`} passHref>
+                    <Link href={`/pastes/${p.id}/`} passHref>
                       <a role="button" className="btn-secondary btn-xs btn lg:btn-sm" target="_blank">
                         Show team
                       </a>

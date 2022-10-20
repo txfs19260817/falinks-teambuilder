@@ -1,5 +1,6 @@
 import { Icons, Sprites } from '@pkmn/img';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { useId } from 'react';
 import { toast } from 'react-hot-toast';
 import useSWRImmutable from 'swr/immutable';
@@ -12,6 +13,7 @@ import { Paste } from '@/utils/Prisma';
 
 const PasteLayout = ({ id }: { id: string }) => {
   const roomId = useId();
+  const { locale } = useRouter();
   const { data: paste, error } = useSWRImmutable<Paste>(id, (i) => fetch(`/api/pastes/${i}`).then((res) => res.json()));
 
   if (error) {
@@ -60,6 +62,17 @@ const PasteLayout = ({ id }: { id: string }) => {
       <div className="prose ml-5 w-4/5 py-6">
         <h1>{paste.title}</h1>
         <h3>Author: {paste.author}</h3>
+        <ul>
+          <li>Format: {paste.format}</li>
+          <li>
+            Created at:{' '}
+            {new Intl.DateTimeFormat(locale ?? 'en-US', {
+              dateStyle: 'long',
+            }).format(new Date(paste.createdAt))}
+          </li>
+          <li>Source: {paste.source || 'None'}</li>
+          <li>Rental Code: {paste.rentalCode || 'None'}</li>
+        </ul>
         <p className="break-all">Notes: {paste.notes}</p>
         <div className="flex justify-around">
           <button className="btn-primary btn-sm btn" type="button" onClick={handleCopy}>
