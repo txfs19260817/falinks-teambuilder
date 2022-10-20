@@ -1,6 +1,5 @@
-import { Generation, GenerationNum, Generations } from '@pkmn/data';
-import { Dex } from '@pkmn/dex';
-import { Data } from '@pkmn/dex-types';
+import { Generation, Generations } from '@pkmn/data';
+import { Data, Dex } from '@pkmn/dex';
 import { createContext, ReactNode } from 'react';
 
 import { AppConfig } from '@/utils/AppConfig';
@@ -23,7 +22,7 @@ export const defaultDex: DexContextInterface = {
     if ('isNonstandard' in d && d.isNonstandard) return d.isNonstandard === 'Gigantamax';
     if (d.kind === 'Ability' && d.id === 'noability') return false;
     return !('tier' in d && ['Illegal', 'Unreleased'].includes(d.tier));
-  }).get(AppConfig.defaultGen as GenerationNum),
+  }).get(AppConfig.defaultGen),
   globalFilter: '',
   setGlobalFilter: (_: string) => {},
 };

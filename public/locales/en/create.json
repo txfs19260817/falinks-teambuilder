@@ -18,6 +18,17 @@
       "label": "Notes",
       "placeholder": "Notes about this team"
     },
+    "source": {
+      "label": "Source",
+      "description": "The source link of this team, optional"
+    },
+    "rental": {
+      "label": "Rental Code",
+      "description": "The rental code of this team, optional"
+    },
+    "format": {
+      "label": "Format"
+    },
     "public": {
       "public": "Public",
       "private": "Private",

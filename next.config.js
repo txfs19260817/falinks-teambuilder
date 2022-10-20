@@ -28,6 +28,10 @@ const nextConfig = {
   async rewrites() {
     return [
       {
+        source: '/pastes/vgc',
+        destination: '/pastes/vgc/gen8spikemuthcup'
+      },
+      {
         source: '/usages',
         destination: '/usages/gen8spikemuthcup'
       }

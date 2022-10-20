@@ -16,16 +16,16 @@ import { NotesDialog } from '@/components/workspace/Toolbox/Notes';
 import { PostPokepasteDialog } from '@/components/workspace/Toolbox/PostPokepaste';
 import { Client, ClientInfo } from '@/models/Client';
 import { Pokemon } from '@/models/Pokemon';
-import { PokePaste } from '@/models/PokePaste';
 import { Metadata, StoreContextType, TeamChangelog, TeamState } from '@/models/TeamState';
 import { getProvidersByProtocolName, SupportedProtocolProvider } from '@/providers';
 import { BaseProvider } from '@/providers/baseProviders';
 import { AppConfig, roomTourSteps } from '@/utils/AppConfig';
+import type { BasePokePaste } from '@/utils/Types';
 
 export type WorkspaceProps = {
   protocolName: SupportedProtocolProvider;
   roomName: string;
-  basePokePaste?: PokePaste;
+  basePokePaste?: BasePokePaste;
 };
 
 const teamStore = syncedStore<StoreContextType>({
@@ -106,14 +106,14 @@ function Workspace({ roomName, protocolName, basePokePaste }: WorkspaceProps) {
   // Set up base Pokémon if a PokePaste link is provided
   useEffect(() => {
     if (!basePokePaste) return;
-    const baseTeam = basePokePaste.extractPokemonFromPaste() ?? undefined;
+    const baseTeam = Pokemon.convertPasteToTeam(basePokePaste.paste) ?? undefined;
     const { title, author, notes } = basePokePaste;
     if (baseTeam) {
       teamState.team.splice(0, teamState.team.length);
       teamState.team.push(...baseTeam);
-      teamState.metadata.title = title.length > 0 ? title : roomName;
+      teamState.metadata.title = title && title.length > 0 ? title : roomName;
       teamState.metadata.notes = notes;
-      teamState.metadata.authors = [author];
+      teamState.metadata.authors = [author ?? 'Trainer'];
     }
   }, [basePokePaste]);
 

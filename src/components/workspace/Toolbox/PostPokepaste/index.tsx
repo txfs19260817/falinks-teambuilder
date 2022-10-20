@@ -2,31 +2,41 @@ import { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
 
+import { FormatSelector } from '@/components/select/FormatSelector';
 import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
-import { PokePaste } from '@/models/PokePaste';
 import { AppConfig } from '@/utils/AppConfig';
+import { Paste } from '@/utils/Prisma';
 
 export function PostPokepasteDialog() {
   const { teamState } = useContext(StoreContext);
-  const [isOpen, setIsOpen] = useState(false);
-  const { register, setValue, getValues } = useForm<PokePaste>();
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const { register, setValue, getValues } = useForm<NonNullable<Paste>>({
+    defaultValues: {
+      isOfficial: false,
+      isPublic: false,
+    },
+  });
 
   useEffect(() => {
-    // @ts-ignore
-    setValue('author', (teamState.authors?.toJSON() || []).join(', '));
-    setValue('notes', teamState.notes ?? '');
-    setValue('paste', teamState.getTeamPaste());
-    setValue('title', teamState.title || teamState.roomName || 'Falinks-teambuilder');
+    if (isOpen) {
+      // @ts-ignore
+      setValue('author', (teamState.authors?.toJSON() || []).join(', '));
+      setValue('notes', teamState.notes ?? '');
+      setValue('paste', teamState.getTeamPaste());
+      setValue('title', teamState.title || teamState.roomName || 'Falinks-teambuilder');
+      setValue('format', teamState.format);
+    }
   }, [isOpen]);
 
   const handleSubmitToFalinks = (isPublic: boolean) => {
-    const promise = fetch(`/api/pastes/create?public=${isPublic}`, {
+    const data = { ...getValues(), isPublic };
+    const promise = fetch(`/api/pastes/create`, {
       method: 'POST',
       redirect: 'follow',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(getValues()),
+      body: JSON.stringify(data),
     });
     toast
       .promise(promise, {
@@ -78,6 +88,12 @@ export function PostPokepasteDialog() {
               <span className="label-text">Author</span>
             </label>
             <input className="input-bordered input" type="text" {...register('author')} />
+          </div>
+          <div className="form-control">
+            <label className="label">
+              <span className="label-text">Format</span>
+            </label>
+            <FormatSelector inputGroup={false} defaultFormat={teamState.format} handleChange={(e) => setValue('format', e.target.value)} />
           </div>
           <div className="form-control">
             <label className="label">

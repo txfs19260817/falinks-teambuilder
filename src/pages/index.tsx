@@ -5,12 +5,11 @@ import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { WorkspaceProps } from '@/components/workspace';
-import { PokePaste } from '@/models/PokePaste';
 import { supportedProtocols } from '@/providers';
 import { Main } from '@/templates/Main';
 import { AppConfig } from '@/utils/AppConfig';
 import { S4 } from '@/utils/Helpers';
-import { getRandomTrainerName } from '@/utils/PokemonUtils';
+import { getRandomTrainerName, isValidPokePasteURL } from '@/utils/PokemonUtils';
 
 type RoomForm = WorkspaceProps & {
   userName: string;
@@ -32,7 +31,7 @@ const Index = () => {
     localStorage.setItem('username', userName);
     // use window.open instead of next/router to disable go back
     const targetRoomRoute = `/${router.locale}/room/${encodeURIComponent(roomName)}?protocol=${encodeURIComponent(protocolName)}${
-      pokePasteUrl && PokePaste.isValidPokePasteURL(pokePasteUrl) ? `&pokepaste=${encodeURIComponent(pokePasteUrl)}` : ''
+      isValidPokePasteURL(pokePasteUrl) ? `&pokepaste=${encodeURIComponent(pokePasteUrl!)}` : ''
     }`;
     window.open(targetRoomRoute, '_self');
   };

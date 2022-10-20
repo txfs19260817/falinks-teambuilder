@@ -113,7 +113,7 @@ function StatsSetters() {
   return (
     <>
       {/* Header */}
-      <div role="rowheader" className="grid grid-cols-12 overflow-x-hidden px-4 text-xs font-bold md:gap-x-4 md:text-sm">
+      <div role="rowheader" className="grid grid-cols-12 px-4 text-xs font-bold overflow-x-hidden md:gap-x-4 md:text-sm">
         <span></span>
         <span>Base</span>
         <span className="invisible md:visible">Nature</span>

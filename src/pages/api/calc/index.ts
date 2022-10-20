@@ -1,11 +1,11 @@
-import { GenerationNum, Generations } from '@pkmn/data';
+import { Generations } from '@pkmn/data';
 import { Dex } from '@pkmn/dex';
 import { calculate, Move, Pokemon } from '@smogon/calc';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 import { AppConfig } from '@/utils/AppConfig';
 
-const gen = new Generations(Dex).get(AppConfig.defaultGen as GenerationNum);
+const gen = new Generations(Dex).get(AppConfig.defaultGen);
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method !== 'POST') {
     // return res.status(405).json({ message: 'only POST requests are allowed' });

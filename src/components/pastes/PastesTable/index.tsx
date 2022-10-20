@@ -12,22 +12,20 @@ import {
   SortingState,
   useReactTable,
 } from '@tanstack/react-table';
-import { WithId } from 'mongodb';
 import Link from 'next/link';
 import { useContext, useState } from 'react';
 
 import Table from '@/components/table';
 import { DexContext } from '@/components/workspace/Contexts/DexContext';
 import { Pokemon } from '@/models/Pokemon';
-import { PokePaste } from '@/models/PokePaste';
 import { getPokemonIcon } from '@/utils/PokemonUtils';
+import type { PastesList, PastesListItem } from '@/utils/Prisma';
 
-const PastesTable = ({ pastes, detailSubPath }: { pastes: WithId<PokePaste>[]; detailSubPath: string | 'vgc' | 'public' }) => {
+const PastesTable = ({ pastes }: { pastes: PastesList }) => {
   const { globalFilter, setGlobalFilter } = useContext(DexContext);
 
   // table settings
-  const [data] = useState<WithId<PokePaste>[]>(() => [...Array.from(pastes)]);
-  const columns: ColumnDef<WithId<PokePaste>>[] = [
+  const columns: ColumnDef<PastesListItem>[] = [
     {
       header: 'Title',
       accessorKey: 'title',
@@ -37,15 +35,6 @@ const PastesTable = ({ pastes, detailSubPath }: { pastes: WithId<PokePaste>[]; d
       header: 'Author',
       accessorKey: 'author',
       cell: ({ getValue }) => <span title={getValue<string>()}>{`${getValue<string>().substring(0, 16)}`}</span>,
-    },
-    {
-      header: 'Notes',
-      accessorKey: 'notes',
-      cell: ({ getValue }) => <span title={getValue<string>()}>{`${getValue<string>().substring(0, 48)}`}</span>,
-      enableColumnFilter: false,
-      enableGlobalFilter: false,
-      enableSorting: false,
-      enableMultiSort: false,
     },
     {
       header: 'Team',
@@ -66,10 +55,17 @@ const PastesTable = ({ pastes, detailSubPath }: { pastes: WithId<PokePaste>[]; d
       enableMultiSort: false,
     },
     {
+      header: 'Created At',
+      accessorKey: 'createdAt',
+      cell: ({ getValue }) => <span>{new Date(getValue<string>()).toLocaleDateString()}</span>,
+      enableColumnFilter: false,
+      enableGlobalFilter: false,
+    },
+    {
       header: 'Details',
-      accessorKey: '_id',
+      accessorKey: 'id',
       cell: ({ getValue }) => (
-        <Link href={`/pastes/${detailSubPath}/${getValue<string>()}`}>
+        <Link href={`/pastes/${getValue<string>()}`}>
           <a className="btn-secondary btn-xs btn">Details</a>
         </Link>
       ),
@@ -87,8 +83,8 @@ const PastesTable = ({ pastes, detailSubPath }: { pastes: WithId<PokePaste>[]; d
   });
 
   // table instance
-  const instance = useReactTable<WithId<PokePaste>>({
-    data,
+  const instance = useReactTable<PastesListItem>({
+    data: pastes,
     columns,
     state: {
       columnFilters,
@@ -110,7 +106,7 @@ const PastesTable = ({ pastes, detailSubPath }: { pastes: WithId<PokePaste>[]; d
   });
   return (
     <div className="overflow-x-auto">
-      <Table<WithId<PokePaste>> instance={instance} enablePagination={true} />
+      <Table<PastesListItem> instance={instance} enablePagination={true} />
     </div>
   );
 };

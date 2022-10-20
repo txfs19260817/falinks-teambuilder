@@ -1,16 +1,27 @@
 import { Icons, Sprites } from '@pkmn/img';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { useId } from 'react';
 import { toast } from 'react-hot-toast';
+import useSWRImmutable from 'swr/immutable';
 
 import { PureSpriteAvatar } from '@/components/workspace/SpriteAvatar/SpriteAvatar';
 import { Pokemon } from '@/models/Pokemon';
-import { PokePaste } from '@/models/PokePaste';
+import Loading from '@/templates/Loading';
 import { convertStylesStringToObject } from '@/utils/Helpers';
+import { Paste } from '@/utils/Prisma';
 
-const PasteLayout = ({ paste }: { paste: PokePaste }) => {
-  const team = Pokemon.convertPasteToTeam(paste.paste) || [];
+const PasteLayout = ({ id }: { id: string }) => {
   const roomId = useId();
+  const { locale } = useRouter();
+  const { data: paste, error } = useSWRImmutable<Paste>(id, (i) => fetch(`/api/pastes/${i}`).then((res) => res.json()));
+
+  if (error) {
+    toast.error('An error occurred while fetching the paste.');
+    return null;
+  }
+  if (!paste) return <Loading />;
+  const team = Pokemon.convertPasteToTeam(paste.paste) || [];
 
   // handlers
   const handleCopy = () => {
@@ -51,6 +62,17 @@ const PasteLayout = ({ paste }: { paste: PokePaste }) => {
       <div className="prose ml-5 w-4/5 py-6">
         <h1>{paste.title}</h1>
         <h3>Author: {paste.author}</h3>
+        <ul>
+          <li>Format: {paste.format}</li>
+          <li>
+            Created at:{' '}
+            {new Intl.DateTimeFormat(locale ?? 'en-US', {
+              dateStyle: 'long',
+            }).format(new Date(paste.createdAt))}
+          </li>
+          <li>Source: {paste.source || 'None'}</li>
+          <li>Rental Code: {paste.rentalCode || 'None'}</li>
+        </ul>
         <p className="break-all">Notes: {paste.notes}</p>
         <div className="flex justify-around">
           <button className="btn-primary btn-sm btn" type="button" onClick={handleCopy}>
@@ -59,7 +81,7 @@ const PasteLayout = ({ paste }: { paste: PokePaste }) => {
           <button className="btn-secondary btn-sm btn" type="button" onClick={handleShare}>
             Share
           </button>
-          <Link href={`/room/room_${roomId}/?protocol=WebSocket&packed=${paste.toPackedTeam()}`}>
+          <Link href={`/room/room_${roomId}/?protocol=WebSocket&packed=${Pokemon.convertPasteToPackedTeam(paste.paste)}`}>
             <a className="btn-accent btn-sm btn">Open in Room</a>
           </Link>
         </div>

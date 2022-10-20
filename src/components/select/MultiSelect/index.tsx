@@ -1,19 +1,9 @@
 import { useCombobox, useMultipleSelection } from 'downshift';
-import React, { useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 
-type Option = {
-  label: string;
-  value: string;
-};
+import type { Option, SelectProps } from '@/utils/Types';
 
-type MultiSelectProps = {
-  options: Option[];
-  placeholder?: string;
-  onChange?: (selected: Option[]) => void;
-  iconGetter?: (key: string) => JSX.Element;
-};
-
-export function MultiSelect({ options, onChange, iconGetter, placeholder = '...' }: MultiSelectProps) {
+export function MultiSelect({ options, onChange, iconGetter, placeholder = '...' }: SelectProps<Option[]>) {
   const getFilteredOptions = (selectedOptions: Option[], inputValue: Option['value']) => {
     const lowerCasedInputValue = inputValue.toLowerCase();
 
@@ -125,7 +115,7 @@ export function MultiSelect({ options, onChange, iconGetter, placeholder = '...'
           </div>
         </div>
       </div>
-      <ul {...getMenuProps()} className="absolute max-h-64 w-full overflow-y-auto bg-base-100 shadow-md">
+      <ul {...getMenuProps()} className="absolute max-h-64 w-full overflow-y-auto bg-base-100 shadow-md scrollbar-thin">
         {isOpen &&
           items.map((option, index) => (
             <li
@@ -141,7 +131,7 @@ export function MultiSelect({ options, onChange, iconGetter, placeholder = '...'
               })}
             >
               <span>
-                {iconGetter ? iconGetter(option.value) : <span>{option.label}</span>}
+                {iconGetter && iconGetter(option.value)}
                 <span>{option.label}</span>
               </span>
             </li>

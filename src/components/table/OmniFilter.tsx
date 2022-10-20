@@ -1,9 +1,10 @@
 import { Column, Table } from '@tanstack/react-table';
 import React from 'react';
 
-import { MultiSelect } from '@/components/select';
+import { MultiSelect } from '@/components/select/MultiSelect';
+import { ValueWithEmojiSelector } from '@/components/select/ValueWithEmojiSelector';
 import { Pokemon } from '@/models/Pokemon';
-import { getPokemonIcon } from '@/utils/PokemonUtils';
+import { getPokemonIcon, moveCategoriesWithEmoji, typesWithEmoji } from '@/utils/PokemonUtils';
 
 function OmniFilter({ column, instance }: { column: Column<any>; instance: Table<any> }) {
   if (!column.getCanFilter()) return null;
@@ -12,55 +13,36 @@ function OmniFilter({ column, instance }: { column: Column<any>; instance: Table
 
   if (column.id === 'types' || column.id === 'type') {
     return (
-      <select
-        className="select select-xs w-16 md:w-24"
+      <ValueWithEmojiSelector
+        options={typesWithEmoji}
+        className="select-xs w-16 md:w-24"
+        emptyOption="(All)"
+        enableEmojis={false}
         onChange={(e) => {
           column.setFilterValue(e.target.value);
         }}
-      >
-        <option value="">All</option>
-        <option value="Bug">Bug</option>
-        <option value="Dark">Dark</option>
-        <option value="Dragon">Dragon</option>
-        <option value="Electric">Electric</option>
-        <option value="Fairy">Fairy</option>
-        <option value="Fighting">Fighting</option>
-        <option value="Fire">Fire</option>
-        <option value="Flying">Flying</option>
-        <option value="Ghost">Ghost</option>
-        <option value="Grass">Grass</option>
-        <option value="Ground">Ground</option>
-        <option value="Ice">Ice</option>
-        <option value="Normal">Normal</option>
-        <option value="Poison">Poison</option>
-        <option value="Psychic">Psychic</option>
-        <option value="Rock">Rock</option>
-        <option value="Steel">Steel</option>
-        <option value="Water">Water</option>
-      </select>
+      />
     );
   }
 
   if (column.id === 'category') {
     return (
-      <select
-        className="select select-xs w-16 md:w-24"
+      <ValueWithEmojiSelector
+        options={moveCategoriesWithEmoji}
+        className="select-xs w-16 md:w-24"
+        emptyOption="(All)"
+        enableEmojis={false}
         onChange={(e) => {
           column.setFilterValue(e.target.value);
         }}
-      >
-        <option value="">All</option>
-        <option value="Physical">Physical</option>
-        <option value="Special">Special</option>
-        <option value="Status">Status</option>
-      </select>
+      />
     );
   }
 
   if (column.id === 'paste') {
     // all teams
     const teams = instance
-      .getPreFilteredRowModel()
+      .getFilteredRowModel()
       .flatRows.map((row) => row.getValue<string>(column.id))
       .map((paste) => Pokemon.convertPasteToTeam(paste) || []);
     // get all unique pokemon
@@ -69,16 +51,14 @@ function OmniFilter({ column, instance }: { column: Column<any>; instance: Table
       .map((e) => ({ value: e, label: e }));
     // return a select component
     return (
-      <>
-        <MultiSelect
-          options={options}
-          placeholder="Pokemon..."
-          onChange={(e) => {
-            column.setFilterValue(e.map((p) => p.value));
-          }}
-          iconGetter={(key: string) => <span title={key} style={getPokemonIcon(undefined, key, true)}></span>}
-        />
-      </>
+      <MultiSelect
+        options={options}
+        placeholder="Pokemon..."
+        onChange={(e) => {
+          column.setFilterValue(e.map((p) => p.value));
+        }}
+        iconGetter={(key: string) => <span title={key} style={getPokemonIcon(undefined, key, true)}></span>}
+      />
     );
   }
 

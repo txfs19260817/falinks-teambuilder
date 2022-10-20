@@ -1,14 +1,12 @@
-import { Generation, Move } from '@pkmn/data';
-import { Nature } from '@pkmn/dex-types';
+import { Generation, Move, Nature } from '@pkmn/data';
 import { Icons } from '@pkmn/img';
 import { DisplayUsageStatistics, LegacyDisplayUsageStatistics } from '@pkmn/smogon';
-import { StatsTable } from '@pkmn/types';
+import { StatID, StatsTable, StatusName } from '@pkmn/types';
 import { MovesetStatistics, Statistics, UsageStatistics } from 'smogon';
 
 import { AppConfig } from '@/utils/AppConfig';
-import { convertObjectNumberValuesToFraction, filterSortLimitObjectByValues, getRandomElement } from '@/utils/Helpers';
-import type { Usage } from '@/utils/Types';
-import { Spreads } from '@/utils/Types';
+import { convertObjectNumberValuesToFraction, filterSortLimitObjectByValues, getRandomElement, urlPattern } from '@/utils/Helpers';
+import type { Spreads, Usage, ValueWithEmojiOption } from '@/utils/Types';
 
 const maxTotalEvs = 508;
 
@@ -32,27 +30,63 @@ export const defaultIvs: StatsTable = {
   spe: 31,
 };
 
-export const typesWithEmoji = [
-  { type: 'Bug', emoji: '🐞' },
-  { type: '???', emoji: '❓' },
-  { type: 'Dark', emoji: '🌙' },
-  { type: 'Dragon', emoji: '🐲' },
-  { type: 'Electric', emoji: '⚡' },
-  { type: 'Fairy', emoji: '✨' },
-  { type: 'Fighting', emoji: '🥊' },
-  { type: 'Fire', emoji: '🔥' },
-  { type: 'Flying', emoji: '🌪️' },
-  { type: 'Ghost', emoji: '👻' },
-  { type: 'Grass', emoji: '🌿' },
-  { type: 'Ground', emoji: '🗿' },
-  { type: 'Ice', emoji: '❄️' },
-  { type: 'Normal', emoji: '⚪' },
-  { type: 'Poison', emoji: '☠️' },
-  { type: 'Psychic', emoji: '🧠' },
-  { type: 'Rock', emoji: '⛰️' },
-  { type: 'Steel', emoji: '🛡️' },
-  { type: 'Water', emoji: '💧' },
+export const typesWithEmoji: ValueWithEmojiOption[] = [
+  { value: 'Bug', emoji: '🐞' },
+  { value: 'Dark', emoji: '🌙' },
+  { value: 'Dragon', emoji: '🐲' },
+  { value: 'Electric', emoji: '⚡' },
+  { value: 'Fairy', emoji: '✨' },
+  { value: 'Fighting', emoji: '🥊' },
+  { value: 'Fire', emoji: '🔥' },
+  { value: 'Flying', emoji: '🌪️' },
+  { value: 'Ghost', emoji: '👻' },
+  { value: 'Grass', emoji: '🌿' },
+  { value: 'Ground', emoji: '🗿' },
+  { value: 'Ice', emoji: '❄️' },
+  { value: 'Normal', emoji: '⚪' },
+  { value: 'Poison', emoji: '☠️' },
+  { value: 'Psychic', emoji: '🧠' },
+  { value: 'Rock', emoji: '⛰️' },
+  { value: 'Steel', emoji: '🛡️' },
+  { value: 'Water', emoji: '💧' },
+  { value: '???', emoji: '❓' },
 ];
+
+export const moveCategoriesWithEmoji: ValueWithEmojiOption[] = [
+  { value: 'Physical', emoji: '💥' },
+  { value: 'Special', emoji: '🔮' },
+  { value: 'Status', emoji: '⚪' },
+];
+
+export type BoostLevel = 6 | 5 | 4 | 3 | 2 | 1 | 0 | -1 | -2 | -3 | -4 | -5 | -6;
+
+export type BoostTable = {
+  [key in Exclude<StatID, 'hp'>]: BoostLevel;
+};
+
+export const boostLevels: BoostLevel[] = [6, 5, 4, 3, 2, 1, 0, -1, -2, -3, -4, -5, -6];
+
+export const defaultBoosts: BoostTable = {
+  atk: 0,
+  def: 0,
+  spa: 0,
+  spd: 0,
+  spe: 0,
+};
+
+export const StatusMap = new Map<string, StatusName | ''>([
+  ['Healthy', ''],
+  ['Burn', 'brn'],
+  ['Freeze', 'frz'],
+  ['Paralysis', 'par'],
+  ['Poison', 'psn'],
+  ['Badly Poisoned', 'tox'],
+  ['Sleep', 'slp'],
+]);
+
+export const statusMapValueToName = (value: StatusName | '') => {
+  return Array.from(StatusMap.entries()).find(([, v]) => value === v)![0];
+};
 
 const hyphenNameToWikiName = new Map<string, string>([
   ['mr-rime', 'Mr. Rime'],
@@ -419,3 +453,5 @@ export const getSuggestedSpreadsBySpecie = (d: DisplayUsageStatistics & LegacyDi
         ),
       } as Spreads)
   );
+
+export const isValidPokePasteURL = (url?: string): boolean => typeof url === 'string' && urlPattern.test(url) && url.includes('pokepast.es');
