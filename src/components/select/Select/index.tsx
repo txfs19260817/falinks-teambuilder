@@ -1,10 +1,11 @@
 import { useCombobox } from 'downshift';
-import { useState } from 'react';
+import { useId, useState } from 'react';
 
 import { Option, SelectProps } from '@/utils/Types';
 
 export const Select = ({ options, value, onChange, iconGetter, placeholder = '...', className = 'w-full' }: SelectProps<Option>) => {
   const getOptionsFilter = (inputValue?: Option['value']) => (option: Option) => !inputValue || option.value.toLowerCase().includes(inputValue.toLowerCase());
+  const inputId = useId();
   const [items, setItems] = useState<Option[]>(options);
   const [selectedItem, setSelectedItem] = useState<Option | null | undefined>(value);
   const { isOpen, getToggleButtonProps, getMenuProps, getInputProps, getComboboxProps, highlightedIndex, getItemProps } = useCombobox({
@@ -26,7 +27,7 @@ export const Select = ({ options, value, onChange, iconGetter, placeholder = '..
     <div className="w-full">
       <div className="form-control gap-1">
         <div className="input-group" {...getComboboxProps()}>
-          <input type="search" placeholder={placeholder} className="input-bordered input w-full" {...getInputProps()} />
+          <input {...getInputProps()} id={inputId} type="search" placeholder={placeholder} className="input-bordered input w-full" />
           <button aria-label="toggle menu" className="btn" type="button" {...getToggleButtonProps()}>
             {isOpen ? '▲' : '▼'}
           </button>

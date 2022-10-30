@@ -2,8 +2,9 @@ import { GetStaticProps } from 'next';
 import { SSRConfig } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
+import { CalculationsContextProvider, defaultCalculations } from '@/components/calc/Context/CalculationsContext';
+import { FieldSetter } from '@/components/calc/FieldSetters';
 import { PokemonInfo } from '@/components/calc/PokemonInfo';
-import { defaultDex, DexContextProvider } from '@/components/workspace/Contexts/DexContext';
 import { Main } from '@/templates/Main';
 import { AppConfig } from '@/utils/AppConfig';
 
@@ -26,26 +27,24 @@ const OutputAlert = () => {
   );
 };
 
-const InputsPanel = () => {
+const Calculator = () => {
   return (
-    <div className="grid gap-4 md:grid-cols-3">
-      <PokemonInfo index={1} />
-      <div className="mockup-window border border-base-300">
-        <div className="flex h-screen justify-center border-t border-base-300 px-4 py-16">2!</div>
+    <Main title="Damage Calculator">
+      <OutputAlert />
+      <div className="grid gap-4 md:grid-cols-3">
+        <PokemonInfo index={1} />
+        <FieldSetter />
+        <PokemonInfo index={2} />
       </div>
-      <PokemonInfo index={2} />
-    </div>
+    </Main>
   );
 };
 
 const Page = () => {
   return (
-    <DexContextProvider value={defaultDex}>
-      <Main title="Damage Calculator">
-        <OutputAlert />
-        <InputsPanel />
-      </Main>
-    </DexContextProvider>
+    <CalculationsContextProvider value={defaultCalculations}>
+      <Calculator />
+    </CalculationsContextProvider>
   );
 };
 
