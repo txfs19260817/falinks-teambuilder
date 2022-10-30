@@ -1,3 +1,4 @@
+import { Generation, ItemName, Specie, TypeName } from '@pkmn/data';
 import { MappedTypeDescription } from '@syncedstore/core/types/doc';
 
 import { Pokemon } from '@/models/Pokemon';
@@ -99,6 +100,60 @@ export class TeamState {
 
   get teamLength() {
     return this.teamState.team.length;
+  }
+
+  getTeamTypeChart(data: Generation) {
+    // get all 18 types
+    const allTypes = Array.from(data.types).map((t) => t.name);
+    // update a species' types if it has equipped a type/forme-changing item
+    const teamSpecies = this.team.map((p) => data.species.get(p.species)!);
+    teamSpecies.forEach((s, i) => {
+      s.otherFormes?.forEach((f) => {
+        const theOtherForme = data.species.get(f);
+        if (!theOtherForme || theOtherForme.types.toString() === s.types.toString()) return;
+        const speciesInTeam = this.teamState.team[i];
+        if (!speciesInTeam) return;
+        // if it can transform, update the species
+        if (theOtherForme.requiredItems?.includes(<ItemName>speciesInTeam.item)) {
+          teamSpecies.splice(teamSpecies.indexOf(s), 1, theOtherForme);
+        }
+      });
+    });
+
+    const Type2EffectivenessMap = new Map<
+      TypeName,
+      {
+        0: Specie[];
+        0.25: Specie[];
+        0.5: Specie[];
+        1: Specie[];
+        2: Specie[];
+        4: Specie[];
+      }
+    >(
+      allTypes.map((t) => [
+        t,
+        {
+          0: [],
+          0.25: [],
+          0.5: [],
+          1: [],
+          2: [],
+          4: [],
+        },
+      ])
+    );
+
+    // for each species, get its type damage taken from all 18 types
+    teamSpecies.forEach((s) => {
+      allTypes.forEach((at) => {
+        const curType = data.types.get(at)!;
+        const speciesTypes = s.types.map((st) => data.types.get(st)!);
+        const typeEffectiveness = speciesTypes.reduce((acc, t) => acc * curType.effectiveness[t.name], 1);
+        Type2EffectivenessMap.get(at)![typeEffectiveness as 0 | 0.25 | 0.5 | 1 | 2 | 4].push(s);
+      });
+    });
+    return Type2EffectivenessMap;
   }
 
   // urlEncode takes effect only when packed is true
