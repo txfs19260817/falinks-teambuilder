@@ -1,5 +1,4 @@
 import { Specie } from '@pkmn/data';
-import { Icons } from '@pkmn/img';
 import { StatsTable } from '@pkmn/types';
 import {
   ColumnDef,
@@ -17,11 +16,11 @@ import {
   SortingState,
   useReactTable,
 } from '@tanstack/react-table';
-import Image from 'next/image';
 import { useContext, useEffect, useMemo, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import useSWR from 'swr';
 
+import { TypeIcon } from '@/components/icons/TypeIcon';
 import Table from '@/components/table';
 import { DexContext } from '@/components/workspace/Contexts/DexContext';
 import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
@@ -86,8 +85,8 @@ function SpeciesTable() {
         accessorKey: 'types',
         cell: (info) => (
           <span>
-            {info.getValue<string[]>().map((type) => (
-              <Image className="inline-block" width={32} height={14} key={type} alt={type} title={type} src={Icons.getType(type).url} loading="lazy" />
+            {info.getValue<string[]>().map((typeName) => (
+              <TypeIcon key={typeName} typeName={typeName} />
             ))}
           </span>
         ),

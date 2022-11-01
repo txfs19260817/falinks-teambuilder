@@ -1,12 +1,13 @@
-import { Dex } from '@pkmn/dex';
+import type { ItemName } from '@pkmn/data';
 import { Sets, Team } from '@pkmn/sets';
-import { PokemonSet, StatsTable } from '@pkmn/types';
+import type { PokemonSet, StatsTable } from '@pkmn/types';
 
+import DexSingleton from '@/models/DexSingleton';
 import { AppConfig } from '@/utils/AppConfig';
-import { S4 } from '@/utils/Helpers';
+import { checkArraysEqual, S4 } from '@/utils/Helpers';
+import { abilityToImmunity } from '@/utils/PokemonUtils';
 import type { BasePokePaste } from '@/utils/Types';
-
-const gen = Dex.forGen(AppConfig.defaultGen);
+import { ExtendedTypeEffectiveness, Type2EffectivenessMap } from '@/utils/Types';
 
 export class Pokemon implements PokemonSet {
   /**
@@ -74,6 +75,76 @@ export class Pokemon implements PokemonSet {
     this.shiny = shiny;
   }
 
+  static getTeamTypeChart = (team: Pokemon[]) => {
+    // Dex data
+    const data = DexSingleton.getGen();
+
+    // Get all 18 types
+    const allTypes = Array.from(data.types);
+
+    // Get all moves of the team
+    // const teamMoves = team
+    //   .flatMap((p) => p.moves)
+    //   .filter((m) => m.length > 0)
+    //   .map((m) => data.moves.get(m));
+    // const teamMovesTypes = teamMoves.flatMap((m) => m?.type).filter((t) => t.length > 0);
+
+    // Transform any eligible Pokemon's formes who hold the required item
+    // map team members to their species in Dex
+    const teamSpecies = team.map((p) => data.species.get(p.species));
+    // update a species' types if the current team member has equipped a type/forme-changing item
+    teamSpecies.forEach((species, i) => {
+      if (!species || !species.otherFormes) return;
+      species.otherFormes.forEach((f) => {
+        // get the forme's species
+        const theOtherForme = data.species.get(f);
+        // if the other forme shares the same types with the current species, do nothing
+        if (!theOtherForme || checkArraysEqual(theOtherForme.types, species.types)) return;
+
+        // if it can transform, update the species
+        if (theOtherForme.requiredItems?.includes(<ItemName>team[i]!.item)) {
+          teamSpecies.splice(teamSpecies.indexOf(species), 1, theOtherForme);
+        }
+      });
+    });
+
+    // Get all types that the team is weak to
+    // key: TypeName, value: damage multiplier to species ID
+    const defenseMap: Type2EffectivenessMap = new Map(
+      allTypes.map((t) => [
+        t.name,
+        {
+          0: [],
+          0.25: [],
+          0.5: [],
+          1: [],
+          2: [],
+          4: [],
+        },
+      ])
+    );
+
+    // for each species, get its type damage taken from all 18 types
+    teamSpecies.forEach((species, i) => {
+      if (!species) return;
+      allTypes.forEach((curType) => {
+        // get the current team member's types
+        const speciesTypes = species.types.map((st) => data.types.get(st)!);
+
+        // Types Check: compute the damage ratio of the current type to the current species
+        let typeEffectiveness = speciesTypes.reduce((acc, t) => acc * curType.effectiveness[t.name], 1);
+
+        // Ability check: if the current team member's ability has an immunity/reduction to the current type
+        const immunity = abilityToImmunity(team[i]?.ability ?? '').find(({ typeName }) => typeName === curType.name);
+        if (immunity) {
+          typeEffectiveness *= immunity.rate;
+        }
+        defenseMap.get(curType.name)![typeEffectiveness as ExtendedTypeEffectiveness].push(species.id);
+      });
+    });
+    return defenseMap;
+  };
+
   static pokePasteURLFetcher = (url: string): Promise<BasePokePaste> =>
     fetch(`${url}/json`)
       .then(
@@ -120,7 +191,7 @@ export class Pokemon implements PokemonSet {
   }
 
   static convertPackedTeamToTeam(packedTeam: string): BasePokePaste | undefined {
-    const unpacked = Team.unpack(packedTeam, gen);
+    const unpacked = Team.unpack(packedTeam, DexSingleton.getDex());
     return unpacked
       ? {
           paste: unpacked.export(),

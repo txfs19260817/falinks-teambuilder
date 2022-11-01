@@ -97,3 +97,14 @@ export const fractionToPercentage = (fraction: number = 0) => {
 };
 
 export const isCUID = (s: string) => /^c[a-z0-9]{24}$/.test(s);
+
+export const checkArraysEqual = (a: unknown[], b: unknown[]) => {
+  if (a === b) return true;
+  if (a == null || b == null || a.length !== b.length) return false;
+
+  // compare two arrays regardless of order
+  a.sort();
+  b.sort();
+
+  return a.every((v, i) => v === b[i]);
+};

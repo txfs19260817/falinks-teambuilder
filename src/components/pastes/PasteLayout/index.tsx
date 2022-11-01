@@ -1,27 +1,20 @@
 import { Icons, Sprites } from '@pkmn/img';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useId } from 'react';
+import { useId, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import useSWRImmutable from 'swr/immutable';
 
+import { TeamTypeChart } from '@/components/table/TeamTypeChart';
 import { PureSpriteAvatar } from '@/components/workspace/SpriteAvatar/SpriteAvatar';
 import { Pokemon } from '@/models/Pokemon';
 import Loading from '@/templates/Loading';
 import { convertStylesStringToObject } from '@/utils/Helpers';
 import { Paste } from '@/utils/Prisma';
 
-const PasteLayout = ({ id }: { id: string }) => {
+const PasteAndFunctions = ({ team, paste }: { team: Pokemon[]; paste: NonNullable<Paste> }) => {
   const roomId = useId();
   const { locale } = useRouter();
-  const { data: paste, error } = useSWRImmutable<Paste>(id, (i) => fetch(`/api/pastes/${i}`).then((res) => res.json()));
-
-  if (error) {
-    toast.error('An error occurred while fetching the paste.');
-    return null;
-  }
-  if (!paste) return <Loading />;
-  const team = Pokemon.convertPasteToTeam(paste.paste) || [];
 
   // handlers
   const handleCopy = () => {
@@ -87,6 +80,42 @@ const PasteLayout = ({ id }: { id: string }) => {
         </div>
       </div>
     </div>
+  );
+};
+
+const TeamInsight = ({ team }: { team: Pokemon[] }) => {
+  return (
+    <div className="flex flex-col gap-2 overflow-x-auto p-2">
+      <h1 className="text-2xl font-bold">Team Insight</h1>
+      <TeamTypeChart teamTypeChart={Pokemon.getTeamTypeChart(team)} />
+    </div>
+  );
+};
+
+type Tabs = 'Team' | 'insight';
+
+const PasteLayout = ({ id }: { id: string }) => {
+  const [tab, setTab] = useState<Tabs>('Team');
+  const { data: paste, error } = useSWRImmutable<Paste>(id, (i) => fetch(`/api/pastes/${i}`).then((res) => res.json()));
+
+  if (error) {
+    toast.error('An error occurred while fetching the paste.');
+    return null;
+  }
+  if (!paste) return <Loading />;
+  const team = Pokemon.convertPasteToTeam(paste.paste) || [];
+
+  return (
+    <>
+      <div className="tabs tabs-boxed">
+        {['Team', 'Insight'].map((t) => (
+          <a key={t} className={`tab ${tab === t ? 'tab-active' : ''}`} onClick={() => setTab(t as Tabs)}>
+            {t}
+          </a>
+        ))}
+      </div>
+      {tab === 'Team' ? <PasteAndFunctions team={team} paste={paste} /> : <TeamInsight team={team} />}
+    </>
   );
 };
 

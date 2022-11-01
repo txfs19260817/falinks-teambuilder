@@ -1,9 +1,6 @@
-import { Icons } from '@pkmn/img';
-import Image from 'next/image';
 import { useContext } from 'react';
 import { toast } from 'react-hot-toast';
 
-import { DexContext } from '@/components/workspace/Contexts/DexContext';
 import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
 import SpriteAvatar from '@/components/workspace/SpriteAvatar/SpriteAvatar';
 import { Pokemon } from '@/models/Pokemon';
@@ -15,44 +12,6 @@ export function OverviewTabBtn() {
     <button className={`tab tab-lifted tab-md md:tab-lg ${tabIdx === -1 ? 'tab-active' : 'text-info-content bg-info'}`} onClick={() => setTabIdx(-1)}>
       Overview
     </button>
-  );
-}
-
-function TeamTypeChart() {
-  const { gen } = useContext(DexContext);
-  const { teamState } = useContext(StoreContext);
-  const teamTypeChart = teamState.getTeamTypeChart(gen);
-
-  return (
-    <table className="table-zebra table-compact table w-full p-2">
-      <thead>
-        <tr>
-          <th>Type</th>
-          {[0, 0.25, 0.5, 1, 2, 4].map((multiplier) => (
-            <th key={multiplier}>{multiplier}</th>
-          ))}
-        </tr>
-      </thead>
-      <tbody>
-        {Array.from(gen.types).map(({ name }) => (
-          <tr key={name}>
-            <td>
-              <Image className="inline-block" width={32} height={14} key={name} alt={name} title={name} src={Icons.getType(name).url} loading="lazy" />
-            </td>
-            {['0', '0.25', '0.5', '1', '2', '4'].map((multiplier) => {
-              const speciesIDs = teamTypeChart.get(name)![multiplier as '0' | '0.25' | '0.5' | '1' | '2' | '4'].map((s) => s.id);
-              return (
-                <td key={multiplier}>
-                  {speciesIDs.map((id) => (
-                    <span key={id} style={Icons.getPokemon(id).css} />
-                  ))}
-                </td>
-              );
-            })}
-          </tr>
-        ))}
-      </tbody>
-    </table>
   );
 }
 
@@ -129,7 +88,7 @@ function Overview() {
           );
         })}
       </div>
-      <TeamTypeChart />
+      {/* <TeamTypeChart /> */}
     </div>
   );
 }

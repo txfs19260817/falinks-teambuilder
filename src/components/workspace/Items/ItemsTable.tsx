@@ -1,5 +1,4 @@
 import { Item } from '@pkmn/data';
-import { Icons } from '@pkmn/img';
 import { DisplayUsageStatistics } from '@pkmn/smogon';
 import {
   ColumnDef,
@@ -14,10 +13,10 @@ import {
 import { useContext, useMemo, useState } from 'react';
 import useSWR from 'swr';
 
+import { ItemIcon } from '@/components/icons/ItemIcon';
 import Table from '@/components/table';
 import { DexContext } from '@/components/workspace/Contexts/DexContext';
 import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
-import { convertStylesStringToObject } from '@/utils/Helpers';
 
 const defaultPopularItems = [
   'Aguav Berry',
@@ -73,7 +72,7 @@ function ItemsTable() {
         accessorKey: 'name',
         cell: ({ getValue }) => (
           <span>
-            <span style={convertStylesStringToObject(Icons.getItem(getValue<string>()).style)}></span>
+            <ItemIcon itemName={getValue<string>()} />
             {getValue<string>()}
           </span>
         ),

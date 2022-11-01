@@ -1,11 +1,11 @@
 import { Move } from '@pkmn/data';
-import { Icons } from '@pkmn/img';
 import { DisplayUsageStatistics } from '@pkmn/smogon';
 import { ColumnDef, ColumnFiltersState, getCoreRowModel, getFilteredRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table';
 import Image from 'next/image';
 import { useContext, useMemo, useState } from 'react';
 import useSWR from 'swr';
 
+import { TypeIcon } from '@/components/icons/TypeIcon';
 import Table from '@/components/table';
 import { DexContext } from '@/components/workspace/Contexts/DexContext';
 import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
@@ -52,10 +52,7 @@ function MovesTable({ moveIdx }: { moveIdx: number }) {
       {
         header: 'Type',
         accessorKey: 'type',
-        cell: (info) => {
-          const type: string = info.getValue<string>();
-          return <Image className="inline-block" width={32} height={14} key={type} alt={type} title={type} src={Icons.getType(type).url} loading="lazy" />;
-        },
+        cell: (info) => <TypeIcon typeName={info.getValue<string>()} />,
       },
       {
         header: 'Category',

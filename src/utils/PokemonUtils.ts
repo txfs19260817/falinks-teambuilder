@@ -1,4 +1,4 @@
-import { Generation, Move, Nature } from '@pkmn/data';
+import { Generation, Move, Nature, TypeName } from '@pkmn/data';
 import { Icons } from '@pkmn/img';
 import { DisplayUsageStatistics, LegacyDisplayUsageStatistics } from '@pkmn/smogon';
 import { StatID, StatsTable, StatusName } from '@pkmn/types';
@@ -455,3 +455,44 @@ export const getSuggestedSpreadsBySpecie = (d: DisplayUsageStatistics & LegacyDi
   );
 
 export const isValidPokePasteURL = (url?: string): boolean => typeof url === 'string' && urlPattern.test(url) && url.includes('pokepast.es');
+
+export const abilityToImmunity = (
+  ability: string
+): {
+  typeName: TypeName;
+  rate: number;
+}[] => {
+  switch (ability) {
+    case 'Sap Sipper':
+      return [{ typeName: 'Grass', rate: 0 }];
+    case 'Levitate':
+      return [{ typeName: 'Ground', rate: 0 }];
+    case 'Water Bubble':
+      return [{ typeName: 'Fire', rate: 0.5 }];
+    case 'Fluffy':
+      return [{ typeName: 'Fire', rate: 2 }]; // it should be contact moves, but we don't have that information
+    case 'Volt Absorb':
+    case 'Motor Drive':
+    case 'Lightning Rod':
+      return [{ typeName: 'Electric', rate: 0 }];
+    case 'Storm Drain':
+    case 'Water Absorb':
+      return [{ typeName: 'Water', rate: 0 }];
+    case 'Dry Skin':
+      return [
+        { typeName: 'Water', rate: 0 },
+        { typeName: 'Fire', rate: 2 }, // it should be 1.25, but we don't have a way to represent that
+      ];
+    case 'Flash Fire':
+      return [{ typeName: 'Fire', rate: 0 }];
+    case 'Heatproof':
+      return [{ typeName: 'Fire', rate: 0.5 }];
+    case 'Thick Fat':
+      return [
+        { typeName: 'Fire', rate: 0.5 },
+        { typeName: 'Ice', rate: 0.5 },
+      ];
+    default:
+      return [{ typeName: '???', rate: 1 }];
+  }
+};
