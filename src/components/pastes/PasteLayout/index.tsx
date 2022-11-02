@@ -90,9 +90,9 @@ const TeamInsight = ({ team }: { team: Pokemon[] }) => {
     <div className="flex flex-col gap-2 overflow-x-auto p-2">
       <h1 className="text-2xl font-bold">Team Insight</h1>
       <h2 className="text-xl font-bold">Defense</h2>
-      <TeamTypeChart team={team} teamTypeChart={defenseMap} direction={'defense'} />
-      <h2 className="text-xl font-bold">Offense (Click/Hover to show moves)</h2>
-      <TeamTypeChart<TypeEffectiveness> team={team} teamTypeChart={offenseMap} direction={'offense'} />
+      <TeamTypeChart teamTypeChart={defenseMap} direction={'defense'} />
+      <h2 className="text-xl font-bold">Offense</h2>
+      <TeamTypeChart<TypeEffectiveness> teamTypeChart={offenseMap} direction={'offense'} />
     </div>
   );
 };

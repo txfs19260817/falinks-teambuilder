@@ -104,7 +104,7 @@ export class Pokemon implements PokemonSet {
       });
     });
 
-    // key: TypeName, value: damage multiplier to species ID
+    // key: TypeName, value: extended damage multiplier to species ID
     const defenseMap: Type2EffectivenessMap = new Map(
       allTypes.map((t) => [
         t.name,
@@ -119,6 +119,7 @@ export class Pokemon implements PokemonSet {
       ])
     );
 
+    // key: TypeName, value: damage multiplier to move ID
     const offenseMap: Type2EffectivenessMap<TypeEffectiveness> = new Map(
       allTypes.map((t) => [
         t.name,
@@ -166,8 +167,8 @@ export class Pokemon implements PokemonSet {
         speciesMoves.forEach((move) => {
           const typeEffectiveness = data.types.get(move.type)!.effectiveness[curType.name];
           // ensure no duplicates
-          if (!oldValue[typeEffectiveness].includes(species.id)) {
-            oldValue[typeEffectiveness].push(species.id);
+          if (!oldValue[typeEffectiveness].includes(move.id)) {
+            oldValue[typeEffectiveness].push(move.id);
           }
         });
         offenseMap.set(curType.name, oldValue);

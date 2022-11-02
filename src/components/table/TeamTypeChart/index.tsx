@@ -3,7 +3,7 @@ import type { TypeEffectiveness } from '@pkmn/data';
 import { PokemonIcon } from '@/components/icons/PokemonIcon';
 import { TypeIcon } from '@/components/icons/TypeIcon';
 import DexSingleton from '@/models/DexSingleton';
-import { Pokemon } from '@/models/Pokemon';
+import { typesWithEmoji } from '@/utils/PokemonUtils';
 import type { ExtendedTypeEffectiveness, Type2EffectivenessMap } from '@/utils/Types';
 
 function multiplierToBgClass(multiplier: ExtendedTypeEffectiveness) {
@@ -25,16 +25,27 @@ function multiplierToBgClass(multiplier: ExtendedTypeEffectiveness) {
   }
 }
 
+function Cell({ direction, id }: { direction: 'offense' | 'defense'; id: string }) {
+  if (direction === 'defense') return <PokemonIcon speciesId={id} />;
+  const move = DexSingleton.getGen().moves.get(id);
+  if (!move) return null;
+
+  // TODO: STAB bold
+  return (
+    <span className="badge">
+      {typesWithEmoji.find((t) => t.value === move.type)?.emoji}
+      {move.name}
+    </span>
+  );
+}
+
 export function TeamTypeChart<T extends ExtendedTypeEffectiveness | TypeEffectiveness = ExtendedTypeEffectiveness>({
-  team,
   teamTypeChart,
   direction,
 }: {
-  team: Pokemon[];
   teamTypeChart: Type2EffectivenessMap<T>;
   direction: T extends TypeEffectiveness ? 'offense' : 'defense';
 }) {
-  const data = DexSingleton.getGen();
   const multipliers = (direction === 'offense' ? Array.from([0, 0.5, 1, 2]) : Array.from([0, 0.25, 0.5, 1, 2, 4])) as Array<T>;
   return (
     <table className="table-compact table">
@@ -47,7 +58,7 @@ export function TeamTypeChart<T extends ExtendedTypeEffectiveness | TypeEffectiv
         </tr>
       </thead>
       <tbody>
-        {Array.from(teamTypeChart).map(([typeName, mul2speciesIds]) => (
+        {Array.from(teamTypeChart).map(([typeName, mul2Ids]) => (
           <tr key={typeName}>
             <td>
               <TypeIcon typeName={typeName} />
@@ -55,21 +66,8 @@ export function TeamTypeChart<T extends ExtendedTypeEffectiveness | TypeEffectiv
             {multipliers.map((multiplier) => (
               <td key={multiplier} className={`border-l-2 border-base-content/30 ${multiplierToBgClass(multiplier)}`}>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-                  {mul2speciesIds[multiplier].map((sid) => (
-                    <div
-                      key={sid}
-                      className={direction === 'offense' ? 'tooltip' : ''}
-                      data-tip={
-                        direction === 'offense'
-                          ? team
-                              .find((p) => p.species.toLowerCase() === sid.toLowerCase())
-                              ?.moves.map((m) => data.moves.get(m))
-                              .filter((m) => m !== undefined && m.category !== 'Status' && data.types.get(m.type)?.effectiveness[typeName] === multiplier)
-                          : ''
-                      }
-                    >
-                      <PokemonIcon speciesId={sid} />
-                    </div>
+                  {mul2Ids[multiplier].map((id) => (
+                    <Cell key={id} direction={direction} id={id} />
                   ))}
                 </div>
               </td>
