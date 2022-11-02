@@ -1,11 +1,11 @@
-import type { ItemName } from '@pkmn/data';
+import type { ItemName, Move, TypeEffectiveness } from '@pkmn/data';
 import { Sets, Team } from '@pkmn/sets';
 import type { PokemonSet, StatsTable } from '@pkmn/types';
 
 import DexSingleton from '@/models/DexSingleton';
 import { AppConfig } from '@/utils/AppConfig';
 import { checkArraysEqual, S4 } from '@/utils/Helpers';
-import { abilityToImmunity } from '@/utils/PokemonUtils';
+import { abilityToEffectiveness } from '@/utils/PokemonUtils';
 import type { BasePokePaste } from '@/utils/Types';
 import { ExtendedTypeEffectiveness, Type2EffectivenessMap } from '@/utils/Types';
 
@@ -75,19 +75,15 @@ export class Pokemon implements PokemonSet {
     this.shiny = shiny;
   }
 
-  static getTeamTypeChart = (team: Pokemon[]) => {
+  static getTeamTypeChart: (team: Pokemon[]) => {
+    offenseMap: Type2EffectivenessMap<TypeEffectiveness>;
+    defenseMap: Type2EffectivenessMap;
+  } = (team: Pokemon[]) => {
     // Dex data
     const data = DexSingleton.getGen();
 
     // Get all 18 types
     const allTypes = Array.from(data.types);
-
-    // Get all moves of the team
-    // const teamMoves = team
-    //   .flatMap((p) => p.moves)
-    //   .filter((m) => m.length > 0)
-    //   .map((m) => data.moves.get(m));
-    // const teamMovesTypes = teamMoves.flatMap((m) => m?.type).filter((t) => t.length > 0);
 
     // Transform any eligible Pokemon's formes who hold the required item
     // map team members to their species in Dex
@@ -108,7 +104,6 @@ export class Pokemon implements PokemonSet {
       });
     });
 
-    // Get all types that the team is weak to
     // key: TypeName, value: damage multiplier to species ID
     const defenseMap: Type2EffectivenessMap = new Map(
       allTypes.map((t) => [
@@ -124,6 +119,19 @@ export class Pokemon implements PokemonSet {
       ])
     );
 
+    const offenseMap: Type2EffectivenessMap<TypeEffectiveness> = new Map(
+      allTypes.map((t) => [
+        t.name,
+        {
+          0: [],
+          0.5: [],
+          1: [],
+          2: [],
+        },
+      ])
+    );
+
+    // Build the defense map
     // for each species, get its type damage taken from all 18 types
     teamSpecies.forEach((species, i) => {
       if (!species) return;
@@ -135,14 +143,37 @@ export class Pokemon implements PokemonSet {
         let typeEffectiveness = speciesTypes.reduce((acc, t) => acc * curType.effectiveness[t.name], 1);
 
         // Ability check: if the current team member's ability has an immunity/reduction to the current type
-        const immunity = abilityToImmunity(team[i]?.ability ?? '').find(({ typeName }) => typeName === curType.name);
+        const immunity = abilityToEffectiveness(team[i]?.ability ?? '').find(({ typeName }) => typeName === curType.name);
         if (immunity) {
           typeEffectiveness *= immunity.rate;
         }
         defenseMap.get(curType.name)![typeEffectiveness as ExtendedTypeEffectiveness].push(species.id);
       });
     });
-    return defenseMap;
+
+    // Build the offense map
+    // for each species, get its moves' type damage dealt to all 18 types
+    teamSpecies.forEach((species, i) => {
+      if (!species) return;
+      allTypes.forEach((curType) => {
+        // get the current team member's moves
+        const speciesMoves = <Move[]>team[i]!.moves.filter((m) => m.length > 0)
+          .map((m) => data.moves.get(m))
+          .filter((m) => m !== undefined && m.category !== 'Status');
+
+        const oldValue = offenseMap.get(curType.name)!;
+
+        speciesMoves.forEach((move) => {
+          const typeEffectiveness = data.types.get(move.type)!.effectiveness[curType.name];
+          // ensure no duplicates
+          if (!oldValue[typeEffectiveness].includes(species.id)) {
+            oldValue[typeEffectiveness].push(species.id);
+          }
+        });
+        offenseMap.set(curType.name, oldValue);
+      });
+    });
+    return { defenseMap, offenseMap };
   };
 
   static pokePasteURLFetcher = (url: string): Promise<BasePokePaste> =>

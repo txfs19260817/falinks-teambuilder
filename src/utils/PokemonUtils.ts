@@ -456,7 +456,7 @@ export const getSuggestedSpreadsBySpecie = (d: DisplayUsageStatistics & LegacyDi
 
 export const isValidPokePasteURL = (url?: string): boolean => typeof url === 'string' && urlPattern.test(url) && url.includes('pokepast.es');
 
-export const abilityToImmunity = (
+export const abilityToEffectiveness = (
   ability: string
 ): {
   typeName: TypeName;
@@ -492,6 +492,22 @@ export const abilityToImmunity = (
         { typeName: 'Fire', rate: 0.5 },
         { typeName: 'Ice', rate: 0.5 },
       ];
+    default:
+      return [{ typeName: '???', rate: 1 }];
+  }
+};
+
+export const moveToEffectiveness = (
+  move: string
+): {
+  typeName: TypeName;
+  rate: number;
+}[] => {
+  switch (move) {
+    case 'Freeze-Dry':
+      return [{ typeName: 'Water', rate: 2 }];
+    case 'Flying Press':
+      return [{ typeName: 'Flying', rate: 2 }]; // TODO: wrong
     default:
       return [{ typeName: '???', rate: 1 }];
   }

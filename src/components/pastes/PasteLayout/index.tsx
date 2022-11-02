@@ -1,15 +1,16 @@
-import { Icons, Sprites } from '@pkmn/img';
+import type { TypeEffectiveness } from '@pkmn/data';
+import { Sprites } from '@pkmn/img';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useId, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import useSWRImmutable from 'swr/immutable';
 
+import { PokemonIcon } from '@/components/icons/PokemonIcon';
 import { TeamTypeChart } from '@/components/table/TeamTypeChart';
 import { PureSpriteAvatar } from '@/components/workspace/SpriteAvatar/SpriteAvatar';
 import { Pokemon } from '@/models/Pokemon';
 import Loading from '@/templates/Loading';
-import { convertStylesStringToObject } from '@/utils/Helpers';
 import { Paste } from '@/utils/Prisma';
 
 const PasteAndFunctions = ({ team, paste }: { team: Pokemon[]; paste: NonNullable<Paste> }) => {
@@ -44,9 +45,9 @@ const PasteAndFunctions = ({ team, paste }: { team: Pokemon[]; paste: NonNullabl
           <PureSpriteAvatar key={p.species} url={Sprites.getPokemon(p.species).url} />
         ))}
       </div>
-      <div className="grid grid-cols-3 grid-rows-2 justify-items-center align-middle md:hidden">
-        {team.map((p) => (
-          <span key={p.species} style={convertStylesStringToObject(Icons.getPokemon(p.species).style)}></span>
+      <div className="grid w-1/2 grid-cols-3 justify-items-center align-middle md:hidden">
+        {team.map(({ species }) => (
+          <PokemonIcon speciesId={species} key={species} />
         ))}
       </div>
       {/* paste */}
@@ -63,7 +64,7 @@ const PasteAndFunctions = ({ team, paste }: { team: Pokemon[]; paste: NonNullabl
               dateStyle: 'long',
             }).format(new Date(paste.createdAt))}
           </li>
-          <li>Source: {paste.source || 'None'}</li>
+          <li className="break-all">Source: {paste.source || 'None'}</li>
           <li>Rental Code: {paste.rentalCode || 'None'}</li>
         </ul>
         <p className="break-all">Notes: {paste.notes}</p>
@@ -84,10 +85,14 @@ const PasteAndFunctions = ({ team, paste }: { team: Pokemon[]; paste: NonNullabl
 };
 
 const TeamInsight = ({ team }: { team: Pokemon[] }) => {
+  const { defenseMap, offenseMap } = Pokemon.getTeamTypeChart(team);
   return (
     <div className="flex flex-col gap-2 overflow-x-auto p-2">
       <h1 className="text-2xl font-bold">Team Insight</h1>
-      <TeamTypeChart teamTypeChart={Pokemon.getTeamTypeChart(team)} />
+      <h2 className="text-xl font-bold">Defense</h2>
+      <TeamTypeChart team={team} teamTypeChart={defenseMap} direction={'defense'} />
+      <h2 className="text-xl font-bold">Offense (Click/Hover to show moves)</h2>
+      <TeamTypeChart<TypeEffectiveness> team={team} teamTypeChart={offenseMap} direction={'offense'} />
     </div>
   );
 };
