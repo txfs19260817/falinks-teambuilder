@@ -1,13 +1,11 @@
 import { ChangeEvent, useContext, useEffect, useState } from 'react';
 
-import { DexContext } from '@/components/workspace/Contexts/DexContext';
 import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
 import { compareFocusedFieldToIdx, FocusedFieldToIdx } from '@/components/workspace/FocusedField/consts';
 
 function AbilityInput() {
   const thisFocusedFieldState: FocusedFieldToIdx = { Ability: 0 };
-  const { setGlobalFilter } = useContext(DexContext);
-  const { teamState, tabIdx, focusedFieldState, focusedFieldDispatch } = useContext(StoreContext);
+  const { teamState, tabIdx, focusedFieldState, focusedFieldDispatch, setGlobalFilter } = useContext(StoreContext);
   const [ability, setAbility] = useState<string>('');
 
   // receive changes from other users

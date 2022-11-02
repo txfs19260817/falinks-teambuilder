@@ -7,19 +7,15 @@ import useSWR from 'swr';
 
 import { TypeIcon } from '@/components/icons/TypeIcon';
 import Table from '@/components/table';
-import { DexContext } from '@/components/workspace/Contexts/DexContext';
 import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
 import { getMovesBySpecie } from '@/utils/PokemonUtils';
 
 function MovesTable({ moveIdx }: { moveIdx: number }) {
-  const { globalFilter, setGlobalFilter } = useContext(DexContext);
-  const { teamState, tabIdx, focusedFieldState, focusedFieldDispatch } = useContext(StoreContext);
-  // get dex & possible moves
-  const { gen } = useContext(DexContext);
+  const { teamState, tabIdx, focusedFieldState, focusedFieldDispatch, globalFilter, setGlobalFilter } = useContext(StoreContext);
 
   // get all moves that learnable by the Pokémon
   const { species } = teamState.getPokemonInTeam(tabIdx) ?? {};
-  const { data: learnableMoves } = useSWR<Move[]>(species, (k) => getMovesBySpecie(gen, k));
+  const { data: learnableMoves } = useSWR<Move[]>(species, (k) => getMovesBySpecie(k));
   // fetch popular moves by this Pokémon
   const { data: popularMoveNames } = useSWR<string[]>( // move names
     species ? `/api/usages/stats/${species}?format=${teamState.format}&moves=true` : null, // ?moves=true doesn't work in the API, only used as a cache buster for SWR.

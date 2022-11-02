@@ -1,11 +1,10 @@
-import { Icons } from '@pkmn/img';
 import React, { ReactNode, useContext, useEffect, useRef } from 'react';
 import { toast } from 'react-hot-toast';
 
+import { PokemonIcon } from '@/components/icons/PokemonIcon';
 import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
 import { Pokemon } from '@/models/Pokemon';
 import { AppConfig } from '@/utils/AppConfig';
-import { convertStylesStringToObject } from '@/utils/Helpers';
 
 // TabMenu is a component for each tab to update or remove the Pokémon.
 function TabMenu({ idx }: { idx: number }) {
@@ -98,7 +97,7 @@ function TabsSwitcher({ children }: { children?: ReactNode }) {
           <TabMenu idx={i} />
           <a role="tab" className={`tab tab-lifted tab-md md:tab-lg ${i === tabIdx ? 'tab-active' : ''}`} onClick={() => setTabIdx(i)}>
             <span className="text-sm">{i + 1}</span>
-            <span style={convertStylesStringToObject(Icons.getPokemon(p.species).style)} />
+            <PokemonIcon speciesId={p.species} />
             <span>{p.species}</span>
           </a>
         </div>

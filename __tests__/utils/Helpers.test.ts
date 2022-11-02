@@ -1,6 +1,5 @@
 import {
   convertObjectNumberValuesToFraction,
-  convertStylesStringToObject,
   ensureInteger,
   filterSortLimitObjectByValues,
   fractionToPercentage,
@@ -19,15 +18,6 @@ describe('S4', () => {
 
   it('should return a string that is a valid hexadecimal number', () => {
     expect(S4()).toMatch(/^[0-9a-f]+$/);
-  });
-});
-
-describe('convertStylesStringToObject', () => {
-  it('should return an object with the correct properties', () => {
-    expect(convertStylesStringToObject('color: red; font-size: 12px;')).toEqual({
-      color: 'red',
-      fontSize: '12px',
-    });
   });
 });
 

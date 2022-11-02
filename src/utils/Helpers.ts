@@ -1,24 +1,5 @@
 export const S4 = (): string => (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1); // eslint-disable-line no-bitwise
 
-// https://gist.github.com/goldhand/70de06a3bdbdb51565878ad1ee37e92b?permalink_comment_id=3621492#gistcomment-3621492
-export const convertStylesStringToObject = (stringStyles: string) =>
-  stringStyles.split(';').reduce((acc, style) => {
-    const colonPosition = style.indexOf(':');
-
-    if (colonPosition === -1) {
-      return acc;
-    }
-
-    const camelCaseProperty = style
-      .substr(0, colonPosition)
-      .trim()
-      .replace(/^-ms-/, 'ms-')
-      .replace(/-./g, (c) => c.substr(1).toUpperCase());
-    const value = style.substr(colonPosition + 1).trim();
-
-    return value ? { ...acc, [camelCaseProperty]: value } : acc;
-  }, {});
-
 export const getRandomColor = () =>
   `#${Math.floor(Math.random() * 0x1000000)
     .toString(16)
@@ -96,15 +77,14 @@ export const fractionToPercentage = (fraction: number = 0) => {
   }).format(fraction ?? 0);
 };
 
-export const isCUID = (s: string) => /^c[a-z0-9]{24}$/.test(s);
-
-export const checkArraysEqual = (a: unknown[], b: unknown[]) => {
+export const checkArraysEqual = (a: unknown[], b: unknown[], ignoreOrder: boolean = true) => {
   if (a === b) return true;
   if (a == null || b == null || a.length !== b.length) return false;
 
   // compare two arrays regardless of order
-  a.sort();
-  b.sort();
-
+  if (ignoreOrder) {
+    a.sort();
+    b.sort();
+  }
   return a.every((v, i) => v === b[i]);
 };

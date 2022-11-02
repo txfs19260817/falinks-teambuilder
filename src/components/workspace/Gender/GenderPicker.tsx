@@ -1,14 +1,12 @@
 import { ChangeEvent, Fragment, useContext, useEffect, useState } from 'react';
 
-import { DexContext } from '@/components/workspace/Contexts/DexContext';
 import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
+import DexSingleton from '@/models/DexSingleton';
 
 function GenderPicker() {
   const { teamState, tabIdx } = useContext(StoreContext);
-  // get dex
-  const { gen } = useContext(DexContext);
-  // read specie's gender. If this is not undefined, it means this pokemon only has one gender
-  const possibleGender = gen.species.get(teamState.getPokemonInTeam(tabIdx)?.species ?? '')?.gender;
+  // read specie's gender. If this is not undefined, it means this Pokémon only has one gender
+  const possibleGender = DexSingleton.getGen().species.get(teamState.getPokemonInTeam(tabIdx)?.species ?? '')?.gender;
   // otherwise, its gender could be either M or F
   const availableGenders: string[] = possibleGender ? [possibleGender as string] : ['M', 'F'];
   const [gender, setGender] = useState(availableGenders[0]);

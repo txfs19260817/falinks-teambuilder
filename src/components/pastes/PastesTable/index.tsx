@@ -15,14 +15,14 @@ import {
 import Link from 'next/link';
 import { useContext, useState } from 'react';
 
+import { PokemonIcon } from '@/components/icons/PokemonIcon';
 import Table from '@/components/table';
-import { DexContext } from '@/components/workspace/Contexts/DexContext';
+import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
 import { Pokemon } from '@/models/Pokemon';
-import { getPokemonIcon } from '@/utils/PokemonUtils';
 import type { PastesList, PastesListItem } from '@/utils/Prisma';
 
 const PastesTable = ({ pastes }: { pastes: PastesList }) => {
-  const { globalFilter, setGlobalFilter } = useContext(DexContext);
+  const { globalFilter, setGlobalFilter } = useContext(StoreContext);
 
   // table settings
   const columns: ColumnDef<PastesListItem>[] = [
@@ -42,8 +42,8 @@ const PastesTable = ({ pastes }: { pastes: PastesList }) => {
       accessorKey: 'paste',
       cell: ({ getValue }) => (
         <span>
-          {(Pokemon.convertPasteToTeam(getValue<string>()) || []).map((p) => (
-            <span key={p.species} title={p.species} style={getPokemonIcon(undefined, p.species, true)}></span>
+          {(Pokemon.convertPasteToTeam(getValue<string>()) || []).map(({ species }) => (
+            <PokemonIcon key={species} speciesId={species} />
           ))}
         </span>
       ),

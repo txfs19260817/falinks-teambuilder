@@ -9,6 +9,8 @@ interface StoreContextInterface {
   setTabIdx: (tab: number) => void;
   focusedFieldState: FocusedFieldToIdx;
   focusedFieldDispatch: Dispatch<FocusedFieldAction>;
+  globalFilter: string;
+  setGlobalFilter: (filter: string) => void;
 }
 
 type StoreContextProviderProps = {
@@ -21,7 +23,9 @@ const defaultStore: StoreContextInterface = {
   tabIdx: 0,
   setTabIdx: (_tab: number) => {},
   focusedFieldState: { Species: 0 },
-  focusedFieldDispatch: (_field: FocusedFieldAction) => {},
+  focusedFieldDispatch: (_: FocusedFieldAction) => {},
+  globalFilter: '',
+  setGlobalFilter: (_: string) => {},
 };
 
 export const StoreContext = createContext<StoreContextInterface>(defaultStore);

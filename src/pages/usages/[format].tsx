@@ -2,7 +2,7 @@ import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next';
 import { useRouter } from 'next/router';
 import { SSRConfig } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import { useContext, useId, useState } from 'react';
+import { useId, useState } from 'react';
 
 import { ItemIcon } from '@/components/icons/ItemIcon';
 import { PokemonIcon } from '@/components/icons/PokemonIcon';
@@ -13,7 +13,7 @@ import InfoCard from '@/components/usages/InfoCard';
 import { PokemonFilter } from '@/components/usages/PokemonFilter';
 import { PokemonList } from '@/components/usages/PokemonList';
 import UsageStats from '@/components/usages/UsageStats';
-import { defaultDex, DexContext, DexContextProvider } from '@/components/workspace/Contexts/DexContext';
+import DexSingleton from '@/models/DexSingleton';
 import { Main } from '@/templates/Main';
 import { AppConfig } from '@/utils/AppConfig';
 import { postProcessUsage } from '@/utils/PokemonUtils';
@@ -22,7 +22,6 @@ import type { Usage } from '@/utils/Types';
 const UsagePage = ({ usages, format }: { usages: Usage[]; format: string }) => {
   const drawerID = useId();
   const { push } = useRouter();
-  const { gen } = useContext(DexContext);
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
   const [pokemonNameFilter, setPokemonNameFilter] = useState<string>('');
 
@@ -54,21 +53,21 @@ const UsagePage = ({ usages, format }: { usages: Usage[]; format: string }) => {
               <BaseTable
                 tableTitle="Items"
                 usages={usages.at(selectedIndex)!.Items as Record<string, number>}
-                nameGetter={(k) => gen.items.get(k)?.name ?? k}
+                nameGetter={(k) => DexSingleton.getGen().items.get(k)?.name ?? k}
                 iconGetter={(k) => <ItemIcon itemName={k} />}
               />
               {/* Moves table */}
               <BaseTable
                 tableTitle="Moves"
                 usages={usages.at(selectedIndex)!.Moves as Record<string, number>}
-                nameGetter={(k) => gen.moves.get(k)?.name ?? k}
-                iconGetter={(k) => <RoundTypeIcon typeName={gen.moves.get(k)?.type ?? '???'} />}
+                nameGetter={(k) => DexSingleton.getGen().moves.get(k)?.name ?? k}
+                iconGetter={(k) => <RoundTypeIcon typeName={DexSingleton.getGen().moves.get(k)?.type ?? '???'} />}
               />
               {/* Teammates table */}
               <BaseTable
                 tableTitle="Teammates"
                 usages={usages.at(selectedIndex)!.Teammates as Record<string, number>}
-                nameGetter={(k) => gen.species.get(k)?.name ?? k}
+                nameGetter={(k) => DexSingleton.getGen().species.get(k)?.name ?? k}
                 iconGetter={(k) => <PokemonIcon speciesId={k} />}
               />
               {/* Spreads table */}
@@ -96,11 +95,7 @@ const UsagePage = ({ usages, format }: { usages: Usage[]; format: string }) => {
 };
 
 function Page(data: InferGetStaticPropsType<typeof getStaticProps>) {
-  return (
-    <DexContextProvider value={defaultDex}>
-      <UsagePage {...data} />
-    </DexContextProvider>
-  );
+  return <UsagePage {...data} />;
 }
 
 export const getStaticProps: GetStaticProps<{ usages: Usage[]; format: string } & SSRConfig, { format: string }> = async ({ params, locale }) => {

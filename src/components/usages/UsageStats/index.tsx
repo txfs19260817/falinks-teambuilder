@@ -1,14 +1,11 @@
-import { useContext } from 'react';
-
-import { DexContext } from '@/components/workspace/Contexts/DexContext';
+import DexSingleton from '@/models/DexSingleton';
 import { fractionToPercentage } from '@/utils/Helpers';
 import { wikiLink } from '@/utils/PokemonUtils';
 import type { Usage } from '@/utils/Types';
 
 function UsageStats({ pokeUsage }: { pokeUsage: Usage }) {
-  const { gen } = useContext(DexContext);
   const abilities = Object.entries(pokeUsage.Abilities).map(([ability, fraction]) => ({
-    ability: gen.abilities.get(ability)!,
+    ability: DexSingleton.getGen().abilities.get(ability)!,
     fraction,
   }));
   return (

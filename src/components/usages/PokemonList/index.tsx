@@ -1,7 +1,5 @@
-import { Icons } from '@pkmn/img';
-
-import { convertStylesStringToObject } from '@/utils/Helpers';
-import { Usage } from '@/utils/Types';
+import { PokemonIcon } from '@/components/icons/PokemonIcon';
+import type { Usage } from '@/utils/Types';
 
 export function PokemonList({
   drawerID,
@@ -27,7 +25,7 @@ export function PokemonList({
               className="btn-ghost btn-block btn m-1 w-full bg-base-100 text-xs"
               onClick={() => setSelectedIndex(usage.rank)} // rank is 0-indexed and is equivalent to the origin index in the usages array
             >
-              <span style={convertStylesStringToObject(Icons.getPokemon(usage.name).style)} />
+              <PokemonIcon speciesId={usage.name} />
               <span>{usage.name}</span>
             </label>
           </li>

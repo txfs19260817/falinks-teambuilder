@@ -1,17 +1,13 @@
 import { Sprites } from '@pkmn/img';
-import Image from 'next/future/image';
-import { useRouter } from 'next/router';
-import React, { useContext } from 'react';
 
-import { DexContext } from '@/components/workspace/Contexts/DexContext';
+import { RoundTypeIcon } from '@/components/icons/RoundTypeIcon';
 import { PureSpriteAvatar } from '@/components/workspace/SpriteAvatar/SpriteAvatar';
+import DexSingleton from '@/models/DexSingleton';
 import { wikiLink } from '@/utils/PokemonUtils';
 import type { Usage } from '@/utils/Types';
 
 function InfoCard({ pokeUsage }: { pokeUsage: Usage }) {
-  const { gen } = useContext(DexContext);
-  const { basePath } = useRouter();
-  const { types, baseStats } = gen.dex.species.get(pokeUsage.name);
+  const { types, baseStats } = DexSingleton.getDex().species.get(pokeUsage.name);
   return (
     <div className="card bg-base-100 shadow-xl">
       {/* Avatar */}
@@ -26,8 +22,8 @@ function InfoCard({ pokeUsage }: { pokeUsage: Usage }) {
           <div role="listitem">
             <h3 className="font-bold">Types : </h3>
             <div className="flex flex-row gap-2">
-              {types.map((type) => (
-                <Image className="inline-block" width={36} height={36} key={type} alt={type} title={type} src={`${basePath}/assets/types/${type}.webp`} />
+              {types.map((typeName) => (
+                <RoundTypeIcon key={typeName} typeName={typeName} />
               ))}
             </div>
           </div>

@@ -97,7 +97,7 @@ const TeamInsight = ({ team }: { team: Pokemon[] }) => {
   );
 };
 
-type Tabs = 'Team' | 'insight';
+type Tabs = 'Team' | 'Insight';
 
 const PasteLayout = ({ id }: { id: string }) => {
   const [tab, setTab] = useState<Tabs>('Team');

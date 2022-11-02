@@ -39,6 +39,7 @@ function Workspace({ roomName, protocolName, basePokePaste }: WorkspaceProps) {
   // States
   const [client, setClient] = useState<Client | undefined>();
   const [tabIdx, setTabIdx] = useState<number>(0);
+  const [globalFilter, setGlobalFilter] = useState('');
   const [focusedFieldState, focusedFieldDispatch] = useFieldAutoChange({
     Species: 0,
   });
@@ -126,6 +127,8 @@ function Workspace({ roomName, protocolName, basePokePaste }: WorkspaceProps) {
           setTabIdx,
           focusedFieldState,
           focusedFieldDispatch,
+          globalFilter,
+          setGlobalFilter,
         }}
       >
         {/* Toolbox menu bar */}

@@ -11,8 +11,9 @@ import { MovesSetters } from '@/components/calc/MovesSetters';
 import { PlainSelect } from '@/components/calc/PlainSelect';
 import { StatsPanel } from '@/components/calc/StatsPanel';
 import { TypesSelectors } from '@/components/calc/TypesSelectors';
+import { PokemonIcon } from '@/components/icons/PokemonIcon';
 import { Select } from '@/components/select/Select';
-import { BoostTable, defaultBoosts, defaultIvs, defaultStats, getMovesBySpecie, getPokemonIcon, StatusMap, statusMapValueToName } from '@/utils/PokemonUtils';
+import { BoostTable, defaultBoosts, defaultIvs, defaultStats, getMovesBySpecie, StatusMap, statusMapValueToName } from '@/utils/PokemonUtils';
 
 type PokemonInfoProps = {
   index: 1 | 2;
@@ -98,7 +99,7 @@ export const PokemonInfo = ({ index }: PokemonInfoProps) => {
     setBoosts(defaultBoosts);
     setStatus(newPm.status);
     setDynamax(false);
-    getMovesBySpecie(gen, pokemon.name).then(setLearnset);
+    getMovesBySpecie(pokemon.name).then(setLearnset);
   }, [gen, pokemon]);
 
   return (
@@ -113,7 +114,7 @@ export const PokemonInfo = ({ index }: PokemonInfoProps) => {
             setPokemon(gen.species.get(e.value) ?? pokemon);
           }}
           value={{ value: pokemon.name, label: pokemon.name }}
-          iconGetter={(key: string) => <span title={key} style={getPokemonIcon(undefined, key, true)}></span>}
+          iconGetter={(key: string) => <PokemonIcon speciesId={key} />}
         />
         {/* Types */}
         <div className="form-control xl:flex-row">

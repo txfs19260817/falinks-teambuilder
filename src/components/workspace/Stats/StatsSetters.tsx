@@ -4,8 +4,8 @@ import type { ChangeEvent, FocusEvent, KeyboardEvent, MouseEvent, TouchEvent } f
 import { useContext, useEffect, useState } from 'react';
 import useSWR from 'swr';
 
-import { DexContext } from '@/components/workspace/Contexts/DexContext';
 import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
+import DexSingleton from '@/models/DexSingleton';
 import { defaultIvs, defaultStats, defaultSuggestedSpreads, getSingleEvUpperLimit, getStats, getSuggestedSpreadsBySpecie } from '@/utils/PokemonUtils';
 import type { Spreads } from '@/utils/Types';
 
@@ -25,9 +25,7 @@ function StatsSetters() {
     }
   );
 
-  // get dex
-  const { gen } = useContext(DexContext);
-  const natures = Array.from(gen.natures);
+  const natures = Array.from(DexSingleton.getGen().natures);
 
   // stats
   const [base, setBase] = useState<StatsTable>(defaultStats);
@@ -37,7 +35,7 @@ function StatsSetters() {
 
   useEffect(() => {
     const pName = teamState.getPokemonInTeam(tabIdx)?.species ?? '';
-    setBase((old) => gen.species.get(pName)?.baseStats ?? old);
+    setBase((old) => DexSingleton.getGen().species.get(pName)?.baseStats ?? old);
   }, [teamState.getPokemonInTeam(tabIdx)?.species]);
 
   useEffect(() => {

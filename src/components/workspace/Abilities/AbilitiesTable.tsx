@@ -1,31 +1,19 @@
-import { Ability, Generation } from '@pkmn/data';
+import { Ability } from '@pkmn/data';
 import { ColumnDef, ColumnFiltersState, getCoreRowModel, getFilteredRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table';
 import { useContext, useEffect, useMemo, useState } from 'react';
 
 import Table from '@/components/table';
-import { DexContext } from '@/components/workspace/Contexts/DexContext';
 import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
-
-function getAbilitiesBySpecie(gen: Generation, speciesName?: string): Ability[] {
-  const abilitiesMap = gen.species.get(speciesName ?? '')?.abilities;
-  // return all abilities by default
-  if (!abilitiesMap) {
-    return Array.from(gen.abilities);
-  }
-  return Object.values(abilitiesMap)
-    .map((a: string) => gen.abilities.get(a))
-    .filter((a) => a != null) as Ability[];
-}
+import { getAbilitiesBySpecie } from '@/utils/PokemonUtils';
 
 function AbilitiesTable() {
   // get dex & possible abilities
-  const { gen, globalFilter, setGlobalFilter } = useContext(DexContext);
-  const { teamState, tabIdx, focusedFieldState, focusedFieldDispatch } = useContext(StoreContext);
+  const { teamState, tabIdx, focusedFieldState, focusedFieldDispatch, globalFilter, setGlobalFilter } = useContext(StoreContext);
 
   // table settings
   const [data, setData] = useState<Ability[]>([]);
   useEffect(() => {
-    setData(() => [...getAbilitiesBySpecie(gen, teamState.getPokemonInTeam(tabIdx)?.species)]);
+    setData(() => [...getAbilitiesBySpecie(teamState.getPokemonInTeam(tabIdx)?.species)]);
   }, [teamState.getPokemonInTeam(tabIdx)?.species]);
   const columns = useMemo<ColumnDef<Ability>[]>(
     () => [

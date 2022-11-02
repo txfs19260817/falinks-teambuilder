@@ -1,17 +1,15 @@
 import { StatID, StatsTable } from '@pkmn/types';
 import { useContext, useEffect, useState } from 'react';
 
-import { DexContext } from '@/components/workspace/Contexts/DexContext';
 import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
 import { compareFocusedFieldToIdx, FocusedFieldToIdx } from '@/components/workspace/FocusedField/consts';
+import DexSingleton from '@/models/DexSingleton';
 import { defaultStats, getStats } from '@/utils/PokemonUtils';
 
 function StatsClickable() {
   const thisFocusedFieldState: FocusedFieldToIdx = { Stats: 0 };
   const { teamState, tabIdx, focusedFieldState, focusedFieldDispatch } = useContext(StoreContext);
-  // get dex
-  const { gen } = useContext(DexContext);
-  const natures = Array.from(gen.natures);
+  const natures = Array.from(DexSingleton.getGen().natures);
   const [stats, setStats] = useState<StatsTable>(defaultStats);
 
   // receive changes from other users
@@ -19,7 +17,7 @@ function StatsClickable() {
     const pm = teamState.getPokemonInTeam(tabIdx);
     if (!pm) return;
     const { species: pName, ivs, evs, nature: natureName, level } = pm;
-    const bases = gen.species.get(pName ?? '')?.baseStats ?? defaultStats;
+    const bases = DexSingleton.getGen().species.get(pName ?? '')?.baseStats ?? defaultStats;
     const nature = natures.find((n) => n.name === natureName) ?? natures[0]!;
     // compute new stats
     const newStats: StatsTable = { ...defaultStats };

@@ -1,9 +1,9 @@
-import { Generation, Move, Nature, TypeName } from '@pkmn/data';
-import { Icons } from '@pkmn/img';
+import { Ability, Move, Nature, TypeName } from '@pkmn/data';
 import { DisplayUsageStatistics, LegacyDisplayUsageStatistics } from '@pkmn/smogon';
 import { StatID, StatsTable, StatusName } from '@pkmn/types';
 import { MovesetStatistics, Statistics, UsageStatistics } from 'smogon';
 
+import DexSingleton from '@/models/DexSingleton';
 import { AppConfig } from '@/utils/AppConfig';
 import { convertObjectNumberValuesToFraction, filterSortLimitObjectByValues, getRandomElement, urlPattern } from '@/utils/Helpers';
 import type { Spreads, Usage, ValueWithEmojiOption } from '@/utils/Types';
@@ -166,32 +166,6 @@ export const defaultSuggestedSpreads: Spreads[] = [
     label: 'Specially Defensive: 252 HP / 4 Def / 252 SpD / (+SpD, -Atk)',
   },
 ];
-
-/**
- * Returns the icon for the given Pokémon.
- * @param {number} pokeNum - The No. of the Pokémon. Only required if fetching from local (fromPS = false).
- * @param {string} pokeName - The name of the Pokémon. Only required if fetching from Pokémon Showdown site (fromPS = true).
- * @param {boolean} fromPS - Fetch icons from the Pokémon Showdown site if true, otherwise from this site.
- */
-export const getPokemonIcon = (pokeNum?: number, pokeName?: string, fromPS?: boolean): Record<string, string> => {
-  if (fromPS && pokeName) {
-    return Icons.getPokemon(pokeName).css;
-  }
-  let num = pokeNum ?? 0;
-  if (num < 0 || num > 898) num = 0;
-
-  const top = -Math.floor(num / 12) * 30;
-  const left = -(num % 12) * 40;
-
-  const url = `/assets/sprites/pokemonicons-sheet.png`;
-  return {
-    display: 'inline-block',
-    width: '40px',
-    height: '30px',
-    imageRendering: 'pixelated',
-    background: `transparent url(${url}) no-repeat scroll ${left}px ${top}px`,
-  };
-};
 
 /**
  * Returns the stats for the given base stats, evs, ivs, nature, and level.
@@ -409,16 +383,31 @@ export const wikiLink = (keyword: string) => {
 };
 
 /**
- * Retrieves learnable moves for the given Pokémon in the latest generation.
- * @param gen
+ * Retrieves ability for the given Pokémon.
  * @param speciesName
  */
-export const getMovesBySpecie = (gen: Generation, speciesName?: string): Promise<Move[]> => {
+export const getAbilitiesBySpecie = (speciesName?: string): Ability[] => {
+  const gen = DexSingleton.getGen();
+  const abilitiesMap = gen.species.get(speciesName ?? '')?.abilities;
+  // return all abilities as the default behavior
+  return abilitiesMap
+    ? (Object.values(abilitiesMap)
+        .map((a: string) => gen.abilities.get(a))
+        .filter((a) => a != null) as Ability[])
+    : Array.from(gen.abilities);
+};
+
+/**
+ * Retrieves learnable moves for the given Pokémon.
+ * @param speciesName
+ */
+export const getMovesBySpecie = (speciesName?: string): Promise<Move[]> => {
+  const gen = DexSingleton.getGen();
   return gen.learnsets.get(speciesName || '').then(async (l) => {
     const res = Object.entries(l?.learnset ?? []).flatMap((e) => gen.moves.get(e[0]) ?? []);
     const baseSpecies = gen.species.get(speciesName || '')?.baseSpecies ?? '';
     if (baseSpecies !== speciesName && baseSpecies !== '') {
-      const baseSpeciesMoves = await getMovesBySpecie(gen, baseSpecies);
+      const baseSpeciesMoves = await getMovesBySpecie(baseSpecies);
       res.push(...baseSpeciesMoves);
     }
     return res;

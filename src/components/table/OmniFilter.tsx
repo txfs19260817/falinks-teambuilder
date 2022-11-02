@@ -1,10 +1,11 @@
 import { Column, Table } from '@tanstack/react-table';
 import React from 'react';
 
+import { PokemonIcon } from '@/components/icons/PokemonIcon';
 import { MultiSelect } from '@/components/select/MultiSelect';
 import { ValueWithEmojiSelector } from '@/components/select/ValueWithEmojiSelector';
 import { Pokemon } from '@/models/Pokemon';
-import { getPokemonIcon, moveCategoriesWithEmoji, typesWithEmoji } from '@/utils/PokemonUtils';
+import { moveCategoriesWithEmoji, typesWithEmoji } from '@/utils/PokemonUtils';
 
 function OmniFilter({ column, instance }: { column: Column<any>; instance: Table<any> }) {
   if (!column.getCanFilter()) return null;
@@ -57,7 +58,7 @@ function OmniFilter({ column, instance }: { column: Column<any>; instance: Table
         onChange={(e) => {
           column.setFilterValue(e.map((p) => p.value));
         }}
-        iconGetter={(key: string) => <span title={key} style={getPokemonIcon(undefined, key, true)}></span>}
+        iconGetter={(key: string) => <PokemonIcon speciesId={key} />}
       />
     );
   }

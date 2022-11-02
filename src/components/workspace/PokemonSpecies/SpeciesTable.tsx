@@ -20,21 +20,20 @@ import { useContext, useEffect, useMemo, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import useSWR from 'swr';
 
+import { PokemonIcon } from '@/components/icons/PokemonIcon';
 import { TypeIcon } from '@/components/icons/TypeIcon';
 import Table from '@/components/table';
-import { DexContext } from '@/components/workspace/Contexts/DexContext';
 import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
 import { PresetsSubComponent } from '@/components/workspace/PokemonSpecies/PresetsSubComponent';
+import DexSingleton from '@/models/DexSingleton';
 import { Pokemon } from '@/models/Pokemon';
-import { getPokemonIcon } from '@/utils/PokemonUtils';
 import { Usage } from '@/utils/Types';
 
 function SpeciesTable() {
-  const { gen, globalFilter, setGlobalFilter } = useContext(DexContext);
-  const { teamState, tabIdx, focusedFieldState, focusedFieldDispatch } = useContext(StoreContext);
+  const { teamState, tabIdx, focusedFieldState, focusedFieldDispatch, globalFilter, setGlobalFilter } = useContext(StoreContext);
 
   // table settings
-  const [data, setData] = useState<Specie[]>(() => [...Array.from(gen.species)]);
+  const [data, setData] = useState<Specie[]>(() => [...Array.from(DexSingleton.getGen().species)]);
   const { data: usages, error } = useSWR<Usage[]>(`/api/usages/format/${teamState.format}`, (u) => fetch(u).then((res) => res.json()), {
     fallbackData: [],
   });
@@ -75,7 +74,7 @@ function SpeciesTable() {
         accessorKey: 'name',
         cell: ({ getValue }) => (
           <span>
-            <span style={getPokemonIcon(undefined, getValue<string>(), true)}></span>
+            <PokemonIcon speciesId={getValue<string>()} />
             {getValue<string>()}
           </span>
         ),
@@ -171,8 +170,8 @@ function SpeciesTable() {
     if (!usages || usages.length <= 0) {
       return;
     }
-    const dataSorted = usages.flatMap((u) => gen.species.get(u.name) || []);
-    dataSorted.push(...Array.from(gen.species).filter((s) => !dataSorted.includes(s)));
+    const dataSorted = usages.flatMap((u) => DexSingleton.getGen().species.get(u.name) || []);
+    dataSorted.push(...Array.from(DexSingleton.getGen().species).filter((s) => !dataSorted.includes(s)));
     setData(dataSorted);
   }, [usages]);
 

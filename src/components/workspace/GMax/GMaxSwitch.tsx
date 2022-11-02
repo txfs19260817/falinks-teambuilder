@@ -1,13 +1,10 @@
 import { ChangeEvent, useContext, useEffect, useState } from 'react';
 
-import { DexContext } from '@/components/workspace/Contexts/DexContext';
 import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
+import DexSingleton from '@/models/DexSingleton';
 
 function GMaxSwitch() {
   const { teamState, tabIdx } = useContext(StoreContext);
-  // get dex
-  const { gen } = useContext(DexContext);
-
   const [checked, setChecked] = useState(false);
 
   // receive changes from other users
@@ -21,7 +18,7 @@ function GMaxSwitch() {
     teamState.updatePokemonInTeam(tabIdx, 'gigantamax', e.target.checked);
   };
 
-  const { canGigantamax } = gen.species.get(teamState.getPokemonInTeam(tabIdx)?.species ?? '') ?? {};
+  const { canGigantamax } = DexSingleton.getGen().species.get(teamState.getPokemonInTeam(tabIdx)?.species ?? '') ?? {};
   if (!canGigantamax) return null;
 
   return (

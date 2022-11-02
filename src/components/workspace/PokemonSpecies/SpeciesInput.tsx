@@ -1,13 +1,12 @@
 import { ChangeEvent, useContext, useEffect, useState } from 'react';
 
-import { DexContext } from '@/components/workspace/Contexts/DexContext';
 import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
 import { compareFocusedFieldToIdx, FocusedFieldToIdx } from '@/components/workspace/FocusedField/consts';
 
 function SpeciesInput() {
   const thisFocusedFieldState: FocusedFieldToIdx = { Species: 0 };
-  const { setGlobalFilter } = useContext(DexContext); // `setGlobalFilter` makes it possible to filter table by typing in <input />
-  const { teamState, tabIdx, focusedFieldState, focusedFieldDispatch } = useContext(StoreContext);
+  // `setGlobalFilter` makes it possible to filter table by typing in <input />
+  const { teamState, tabIdx, focusedFieldState, focusedFieldDispatch, setGlobalFilter } = useContext(StoreContext);
 
   const [species, setSpecies] = useState('');
 

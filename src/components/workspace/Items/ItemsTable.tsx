@@ -15,8 +15,8 @@ import useSWR from 'swr';
 
 import { ItemIcon } from '@/components/icons/ItemIcon';
 import Table from '@/components/table';
-import { DexContext } from '@/components/workspace/Contexts/DexContext';
 import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
+import DexSingleton from '@/models/DexSingleton';
 
 const defaultPopularItems = [
   'Aguav Berry',
@@ -42,8 +42,7 @@ const defaultPopularItems = [
 ];
 
 function ItemsTable() {
-  const { gen, globalFilter, setGlobalFilter } = useContext(DexContext);
-  const { teamState, tabIdx, focusedFieldState, focusedFieldDispatch } = useContext(StoreContext);
+  const { teamState, tabIdx, focusedFieldState, focusedFieldDispatch, globalFilter, setGlobalFilter } = useContext(StoreContext);
 
   // fetch popular items by Pokémon
   const { species } = teamState.getPokemonInTeam(tabIdx) ?? {};
@@ -60,6 +59,7 @@ function ItemsTable() {
 
   // move popular items to the top
   const data = useMemo<Item[]>(() => {
+    const gen = DexSingleton.getGen();
     const popularItem = popularItemNames ?? defaultPopularItems;
     return popularItem.flatMap((i) => gen.items.get(i) || []).concat(Array.from(gen.items).filter(({ name }) => !popularItem.includes(name)));
   }, [popularItemNames]);
