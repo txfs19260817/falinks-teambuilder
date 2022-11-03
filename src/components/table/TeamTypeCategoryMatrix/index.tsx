@@ -13,13 +13,19 @@ export function TeamTypeCategoryMatrix({
   };
 }) {
   const types = typesWithEmoji.map((type) => type.value).filter((v) => v !== '???');
+  const hidableBitmap = types.map(
+    (t) =>
+      !teamMemberCategories.Physical.some((s) => s.types.includes(t)) &&
+      !teamMemberCategories.Special.some((s) => s.types.includes(t)) &&
+      !teamMemberCategories.Status.some((s) => s.types.includes(t))
+  );
   return (
     <table className="table-zebra table-compact table">
       <thead>
         <tr>
           <th>Category\Type</th>
-          {types.map((t) => (
-            <th key={t}>
+          {types.map((t, i) => (
+            <th key={t} className={`${hidableBitmap[i] ? 'hidden lg:table-cell' : ''}`}>
               <TypeIcon typeName={t} />
             </th>
           ))}
@@ -31,13 +37,15 @@ export function TeamTypeCategoryMatrix({
             <td>
               <CategoryIcon category={category} />
             </td>
-            {types.map((t) => (
-              <td key={t} className="border-l-2 border-base-content/30">
-                {teamMembers
-                  .filter((s) => s.types.includes(t))
-                  .map(({ id }) => (
-                    <PokemonIcon key={id} speciesId={id} />
-                  ))}
+            {types.map((t, i) => (
+              <td key={t} className={`${hidableBitmap[i] ? 'hidden lg:table-cell' : ''} border-l-2 border-base-content/30`}>
+                <div className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3`}>
+                  {teamMembers
+                    .filter((s) => s.types.includes(t))
+                    .map(({ id }) => (
+                      <PokemonIcon key={id} speciesId={id} />
+                    ))}
+                </div>
               </td>
             ))}
           </tr>
