@@ -43,15 +43,16 @@ const Index = () => {
   return (
     <Main title={t('home')}>
       <div
-        className="hero min-h-[88vh]"
+        className="hero h-main"
         style={{
-          backgroundImage: 'url(/assets/images/hero.jpg)',
+          background: 'url(/assets/images/hero.jpg) no-repeat center center fixed',
+          backgroundSize: 'cover',
         }}
       >
         <div className="hero-overlay bg-opacity-75"></div>
         <div className="hero-content flex-col text-neutral-content lg:flex-row">
           <div className="text-center lg:text-left">
-            <h1 className="text-5xl font-bold">{AppConfig.title}</h1>
+            <h1 className="text-4xl font-bold md:text-5xl">{AppConfig.title}</h1>
             <p className="py-6">{t('home:slogan')}</p>
           </div>
           <div className="card w-full max-w-sm flex-shrink-0 bg-base-100 shadow-2xl">
@@ -72,7 +73,7 @@ const Index = () => {
                     placeholder={t('home:form.author.placeholder')}
                     required={true}
                     maxLength={18}
-                    className="input-bordered input rounded-r-none text-base-content"
+                    className="input-bordered input rounded-r-none text-base-content placeholder:text-base-content/50"
                     {...register('userName', { required: true })}
                   />
                   <button
@@ -98,7 +99,7 @@ const Index = () => {
                   type="url"
                   placeholder="https://pokepast.es/a00ca5bc26cda7e9"
                   maxLength={72}
-                  className="input-bordered input text-base-content"
+                  className="input-bordered input text-base-content placeholder:text-base-content/50"
                   {...register('pokePasteUrl')}
                 />
                 <p className="text-xs text-base-content/50">{t('home:form.pokepaste.description')}</p>
@@ -113,7 +114,7 @@ const Index = () => {
                   placeholder={t('home:form.room.placeholder')}
                   required={true}
                   maxLength={50}
-                  className="input-bordered input text-base-content"
+                  className="input-bordered input text-base-content placeholder:text-base-content/50"
                   {...register('roomName', { required: true })}
                 />
                 <p className="text-xs text-base-content/50">{t('home:form.room.description')}</p>

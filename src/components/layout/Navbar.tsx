@@ -78,7 +78,7 @@ const RoutesList = ({ className }: { className: string }) => {
 
 const Navbar = () => {
   return (
-    <nav className="navbar bg-neutral text-neutral-content">
+    <nav className="navbar sticky top-0 z-50 bg-neutral text-neutral-content">
       <div className="navbar-start">
         <div className="dropdown">
           <label tabIndex={0} className="btn-ghost btn lg:hidden">

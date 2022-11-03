@@ -1,7 +1,6 @@
 import { ReactNode } from 'react';
 import { Toaster } from 'react-hot-toast';
 
-import { Footer } from '@/components/layout/Footer';
 import { Meta } from '@/components/layout/Meta';
 import { Navbar } from '@/components/layout/Navbar';
 import { AppConfig } from '@/utils/AppConfig';
@@ -18,8 +17,7 @@ const Main = ({ title, description, children, canonical }: IMainProps) => (
     <Toaster />
     <Meta title={`${AppConfig.title} - ${title}`} description={description || AppConfig.description} canonical={canonical} />
     <Navbar />
-    <div className="mx-auto">{children}</div>
-    <Footer />
+    <div className="mx-auto min-h-main">{children}</div>
   </div>
 );
 

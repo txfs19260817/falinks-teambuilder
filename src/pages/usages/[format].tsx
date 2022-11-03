@@ -28,7 +28,7 @@ const UsagePage = ({ usages, format }: { usages: Usage[]; format: string }) => {
   return (
     <Main title={'Usages'}>
       {/* Desktop: show drawer w/o Navbar; Mobile: show Navbar w/ a drawer button */}
-      <div className="drawer-mobile drawer">
+      <div className="drawer-mobile drawer h-main">
         <input id={drawerID} type="checkbox" className="drawer-toggle" />
         <div className="drawer-content flex flex-col bg-base-300">
           {/* nav that only shows on mobile */}

@@ -1,6 +1,7 @@
-import { Ability, Move, Nature, TypeName } from '@pkmn/data';
+import type { Ability, Move, Nature, TypeName } from '@pkmn/data';
+import { TypeEffectiveness } from '@pkmn/data';
 import { DisplayUsageStatistics, LegacyDisplayUsageStatistics } from '@pkmn/smogon';
-import { StatID, StatsTable, StatusName } from '@pkmn/types';
+import type { StatID, StatsTable, StatusName } from '@pkmn/types';
 import { MovesetStatistics, Statistics, UsageStatistics } from 'smogon';
 
 import DexSingleton from '@/models/DexSingleton';
@@ -446,12 +447,12 @@ export const getSuggestedSpreadsBySpecie = (d: DisplayUsageStatistics & LegacyDi
 export const isValidPokePasteURL = (url?: string): boolean => typeof url === 'string' && urlPattern.test(url) && url.includes('pokepast.es');
 
 export const abilityToEffectiveness = (
-  ability: string
+  abilityName: string | undefined
 ): {
   typeName: TypeName;
-  rate: number;
+  rate: TypeEffectiveness;
 }[] => {
-  switch (ability) {
+  switch (abilityName) {
     case 'Sap Sipper':
       return [{ typeName: 'Grass', rate: 0 }];
     case 'Levitate':
@@ -482,22 +483,110 @@ export const abilityToEffectiveness = (
         { typeName: 'Ice', rate: 0.5 },
       ];
     default:
-      return [{ typeName: '???', rate: 1 }];
+      return [];
   }
 };
 
 export const moveToEffectiveness = (
-  move: string
+  move: Move
 ): {
   typeName: TypeName;
-  rate: number;
+  rate: TypeEffectiveness;
 }[] => {
-  switch (move) {
-    case 'Freeze-Dry':
-      return [{ typeName: 'Water', rate: 2 }];
-    case 'Flying Press':
-      return [{ typeName: 'Flying', rate: 2 }]; // TODO: wrong
-    default:
-      return [{ typeName: '???', rate: 1 }];
+  if (move.name === 'Freeze-Dry') {
+    return [{ typeName: 'Water', rate: 2 }];
   }
+  if (move.name === 'Flying Press') {
+    return [
+      { typeName: 'Normal', rate: 2 },
+      { typeName: 'Fighting', rate: 2 },
+      { typeName: 'Flying', rate: 0.5 },
+      { typeName: 'Poison', rate: 0.5 },
+      { typeName: 'Ground', rate: 1 },
+      { typeName: 'Rock', rate: 1 },
+      { typeName: 'Bug', rate: 1 },
+      { typeName: 'Ghost', rate: 0 },
+      { typeName: 'Steel', rate: 1 },
+      { typeName: 'Fire', rate: 1 },
+      { typeName: 'Water', rate: 1 },
+      { typeName: 'Grass', rate: 2 },
+      { typeName: 'Electric', rate: 0.5 },
+      { typeName: 'Psychic', rate: 0.5 },
+      { typeName: 'Ice', rate: 2 },
+      { typeName: 'Dragon', rate: 1 },
+      { typeName: 'Dark', rate: 2 },
+      { typeName: 'Fairy', rate: 0.5 },
+    ];
+  }
+  return [];
+};
+
+/**
+ * Change the type of a move only if certain conditions are met.
+ * @param move
+ * @param abilityName
+ * @param itemName
+ */
+export const changeMoveType = (move: Move, abilityName: string | undefined, itemName: string | undefined): Move => {
+  if (abilityName === 'Normalize') return { ...move, type: 'Normal' };
+  if (abilityName === 'Pixilate' && move.type === 'Normal') return { ...move, type: 'Fairy' };
+  if (abilityName === 'Refrigerate' && move.type === 'Normal') return { ...move, type: 'Ice' };
+  if (abilityName === 'Aerilate' && move.type === 'Normal') return { ...move, type: 'Flying' };
+  if (abilityName === 'Galvanize' && move.type === 'Normal') return { ...move, type: 'Electric' };
+  if (abilityName === 'Liquid Voice' && move.flags.sound === 1) return { ...move, type: 'Water' };
+  if (move.name === 'Multi-Attack' || move.name === 'Judgment') {
+    switch (itemName) {
+      case 'Grassium Z':
+      case 'Meadow Plate':
+        return { ...move, type: 'Grass' };
+      case 'Firium Z':
+      case 'Flame Plate':
+        return { ...move, type: 'Fire' };
+      case 'Waterium Z':
+      case 'Splash Plate':
+        return { ...move, type: 'Water' };
+      case 'Buginium Z':
+      case 'Insect Plate':
+        return { ...move, type: 'Bug' };
+      case 'Rockium Z':
+      case 'Stone Plate':
+        return { ...move, type: 'Rock' };
+      case 'Ghostium Z':
+      case 'Spooky Plate':
+        return { ...move, type: 'Ghost' };
+      case 'Darkinium Z':
+      case 'Dread Plate':
+        return { ...move, type: 'Dark' };
+      case 'Steelium Z':
+      case 'Iron Plate':
+        return { ...move, type: 'Steel' };
+      case 'Electrium Z':
+      case 'Zap Plate':
+        return { ...move, type: 'Electric' };
+      case 'Psychium Z':
+      case 'Mind Plate':
+        return { ...move, type: 'Psychic' };
+      case 'Groundium Z':
+      case 'Earth Plate':
+        return { ...move, type: 'Ground' };
+      case 'Dragonium Z':
+      case 'Sky Plate':
+        return { ...move, type: 'Dragon' };
+      case 'Fairium Z':
+      case 'Pixie Plate':
+        return { ...move, type: 'Fairy' };
+      case 'Icium Z':
+      case 'Icicle Plate':
+        return { ...move, type: 'Ice' };
+      case 'Poisonium Z':
+      case 'Toxic Plate':
+        return { ...move, type: 'Poison' };
+      case 'Fightingium Z':
+      case 'Fist Plate':
+        return { ...move, type: 'Fighting' };
+      default:
+        return move;
+    }
+  }
+  return move;
 };

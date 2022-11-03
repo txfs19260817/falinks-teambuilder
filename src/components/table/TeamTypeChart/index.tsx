@@ -6,18 +6,18 @@ import DexSingleton from '@/models/DexSingleton';
 import { typesWithEmoji } from '@/utils/PokemonUtils';
 import type { ExtendedTypeEffectiveness, Type2EffectivenessMap } from '@/utils/Types';
 
-function multiplierToBgClass(multiplier: ExtendedTypeEffectiveness) {
+function multiplierToBgClass(multiplier: ExtendedTypeEffectiveness, direction: 'offense' | 'defense') {
   switch (multiplier) {
     case 0:
-      return 'bg-success/30';
+      return direction === 'defense' ? 'bg-success/30' : 'bg-error/20';
     case 0.25:
       return 'bg-success/20';
     case 0.5:
-      return 'bg-success/10';
+      return direction === 'defense' ? 'bg-success/10' : 'bg-error/10';
     case 1:
       return 'bg-neutral-content';
     case 2:
-      return 'bg-error/10';
+      return direction === 'defense' ? 'bg-error/10' : 'bg-success/10';
     case 4:
       return 'bg-error/20';
     default:
@@ -68,15 +68,14 @@ function typeToBgClass(type: string) {
   }
 }
 
-function Cell({ direction, id }: { direction: 'offense' | 'defense'; id: string }) {
+function TableCell({ direction, id }: { direction: 'offense' | 'defense'; id: string }) {
   if (direction === 'defense') return <PokemonIcon speciesId={id} />;
   // offense
   const move = DexSingleton.getGen().moves.get(id);
   if (!move) return null;
 
-  // TODO: STAB bold
   return (
-    <span className={`m-1 badge badge-sm ${typeToBgClass(move.type)} text-base-100`}>
+    <span className={`m-1 badge badge-xs sm:badge-sm md:badge-md ${typeToBgClass(move.type)} text-base-100 w-24 md:w-32`}>
       {typesWithEmoji.find((t) => t.value === move.type)?.emoji}
       {move.name}
     </span>
@@ -97,7 +96,10 @@ export function TeamTypeChart<T extends ExtendedTypeEffectiveness | TypeEffectiv
         <tr>
           <th>Type</th>
           {multipliers.map((multiplier) => (
-            <th key={multiplier}>×{multiplier}</th>
+            // hide the 1x multiplier for mobile
+            <th key={multiplier} className={`${multiplier === 1 ? 'hidden md:table-cell' : ''}`}>
+              ×{multiplier}
+            </th>
           ))}
         </tr>
       </thead>
@@ -108,10 +110,13 @@ export function TeamTypeChart<T extends ExtendedTypeEffectiveness | TypeEffectiv
               <TypeIcon typeName={typeName} />
             </td>
             {multipliers.map((multiplier) => (
-              <td key={multiplier} className={`border-l-2 border-base-content/30 ${multiplierToBgClass(multiplier)}`}>
-                <div className={`grid grid-cols-1 ${direction === 'offense' ? '' : 'sm:grid-cols-2 lg:grid-cols-3'}`}>
+              <td
+                key={multiplier}
+                className={`${multiplier === 1 ? 'hidden md:table-cell' : ''} border-l-2 border-base-content/30 ${multiplierToBgClass(multiplier, direction)}`}
+              >
+                <div className={`grid grid-cols-1 ${direction === 'offense' ? 'xl:grid-cols-2' : 'sm:grid-cols-2 lg:grid-cols-3'}`}>
                   {mul2Ids[multiplier].map((id) => (
-                    <Cell key={id} direction={direction} id={id} />
+                    <TableCell key={id} direction={direction} id={id} />
                   ))}
                 </div>
               </td>

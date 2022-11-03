@@ -5,7 +5,7 @@ import type { PokemonSet, StatsTable } from '@pkmn/types';
 import DexSingleton from '@/models/DexSingleton';
 import { AppConfig } from '@/utils/AppConfig';
 import { checkArraysEqual, S4 } from '@/utils/Helpers';
-import { abilityToEffectiveness } from '@/utils/PokemonUtils';
+import { abilityToEffectiveness, changeMoveType, moveToEffectiveness } from '@/utils/PokemonUtils';
 import type { BasePokePaste } from '@/utils/Types';
 import { ExtendedTypeEffectiveness, Type2EffectivenessMap } from '@/utils/Types';
 
@@ -144,7 +144,7 @@ export class Pokemon implements PokemonSet {
         let typeEffectiveness = speciesTypes.reduce((acc, t) => acc * curType.effectiveness[t.name], 1);
 
         // Ability check: if the current team member's ability has an immunity/reduction to the current type
-        const immunity = abilityToEffectiveness(team[i]?.ability ?? '').find(({ typeName }) => typeName === curType.name);
+        const immunity = abilityToEffectiveness(team[i]?.ability).find(({ typeName }) => typeName === curType.name);
         if (immunity) {
           typeEffectiveness *= immunity.rate;
         }
@@ -165,7 +165,9 @@ export class Pokemon implements PokemonSet {
         const oldValue = offenseMap.get(curType.name)!;
 
         speciesMoves.forEach((move) => {
-          const typeEffectiveness = data.types.get(move.type)!.effectiveness[curType.name];
+          const specialTypeEffectiveness = moveToEffectiveness(move).find(({ typeName }) => typeName === curType.name)?.rate;
+          const typeEffectiveness =
+            specialTypeEffectiveness ?? data.types.get(changeMoveType(move, team[i]?.ability, team[i]?.item).type)!.effectiveness[curType.name];
           // ensure no duplicates
           if (!oldValue[typeEffectiveness].includes(move.id)) {
             oldValue[typeEffectiveness].push(move.id);

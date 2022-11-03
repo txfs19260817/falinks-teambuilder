@@ -63,6 +63,12 @@ module.exports = {
           special: '#6890F0',
           status: '#7E7E7E'
         }
+      },
+      height: {
+        main: 'calc(100vh - 4rem)'
+      },
+      minHeight: {
+        main: 'calc(100vh - 4rem)'
       }
     }
   },
