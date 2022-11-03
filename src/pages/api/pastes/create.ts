@@ -1,3 +1,4 @@
+import { Prisma } from '@prisma/client';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 import { Pokemon } from '@/models/Pokemon';
@@ -13,14 +14,26 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
   }
 
   // get the data from the request body and validate it
-  const paste: Paste = { ...req.body, isOfficial: false };
-  if (!paste || !paste.paste || !Pokemon.convertPasteToTeam(paste.paste)) {
+  if (!req.body?.paste) {
+    return res.status(400).json({ message: 'no paste found' });
+  }
+  const paste: Omit<NonNullable<Paste>, 'jsonPaste'> = {
+    ...req.body,
+    isOfficial: false,
+    notes: req.body.notes || null,
+    rentalCode: req.body.rentalCode || null,
+  };
+  const teamJson = Pokemon.convertPasteToJSON(paste.paste);
+  if (teamJson.length === 0) {
     return res.status(400).json({ message: 'invalid paste' });
   }
 
   // save paste
   try {
-    const created = await createPaste(paste);
+    const created = await createPaste({
+      ...paste,
+      jsonPaste: JSON.parse(teamJson) as Prisma.JsonArray,
+    });
     // redirect to the paste page
     return res.redirect(302, `/pastes/${created.id}`);
   } catch (e) {

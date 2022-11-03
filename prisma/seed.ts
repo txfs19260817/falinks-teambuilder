@@ -3,6 +3,7 @@
  *
  * @link https://www.prisma.io/docs/guides/database/seed-database
  */
+import { Team } from '@pkmn/sets';
 import { Prisma, PrismaClient } from '@prisma/client';
 import * as fs from 'fs';
 
@@ -47,6 +48,41 @@ function theFirstSeed() {
   });
 }
 
+/**
+ * Ensure all rows' jsonPaste is populated
+ */
+async function ensureJSONPastes() {
+  const promises = (
+    await prisma.pokepaste.findMany({
+      select: {
+        id: true,
+        paste: true,
+      },
+      where: {
+        jsonPaste: undefined,
+      },
+    })
+  )
+    .map(({ id, paste }) => ({
+      id,
+      jsonPaste: JSON.parse(Team.import(paste)?.toJSON() ?? '') as Prisma.JsonArray,
+    }))
+    .map(({ id, jsonPaste }) =>
+      prisma.pokepaste.update({
+        where: {
+          id,
+        },
+        data: {
+          jsonPaste,
+        },
+      })
+    );
+  while (promises.length) {
+    // eslint-disable-next-line no-await-in-loop
+    await Promise.all(promises.splice(0, 10)); // 10 at a time
+  }
+}
+
 async function main() {
   const filePaths = ['./prisma/seeds/s12.json', './prisma/seeds/s13.json', './prisma/seeds/spikemuth.json'];
   const upsertPromises = filePaths.flatMap((filepath) => {
@@ -64,6 +100,7 @@ async function main() {
     await Promise.all(upsertPromises.splice(0, 10)); // 10 at a time
   }
   await theFirstSeed();
+  await ensureJSONPastes();
 }
 
 main()

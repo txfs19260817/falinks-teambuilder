@@ -1,0 +1,17 @@
+{
+  "title": "Search Paste",
+  "form": {
+    "format": {
+      "label": "Format"
+    },
+    "rental": {
+      "label": "Has Rental Code"
+    },
+    "submit": {
+      "button": "Submit",
+      "loading": "Searching Pastes...",
+      "success": "Done!",
+      "error": "An error occurred when processing your request."
+    }
+  }
+}

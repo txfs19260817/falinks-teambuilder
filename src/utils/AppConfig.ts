@@ -41,6 +41,12 @@ const routes: Route[] = [
         path: '/pastes/create',
         target: '_self',
       },
+      // {
+      //   id: 'search_paste',
+      //   name: 'Search',
+      //   path: '/pastes/search',
+      //   target: '_self',
+      // },
     ],
   },
   {

@@ -31,6 +31,12 @@ export type Usage = Modify<
   }
 > & { name: string; rank: number };
 
+export type SearchPasteForm = {
+  species: string[];
+  format: string;
+  hasRentalCode: boolean;
+};
+
 export type Spreads = {
   label: string;
   nature: string;

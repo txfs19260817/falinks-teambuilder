@@ -1,0 +1,17 @@
+{
+  "title": "高级搜索",
+  "form": {
+    "format": {
+      "label": "对战规则"
+    },
+    "rental": {
+      "label": "必须有租借队伍码"
+    },
+    "submit": {
+      "button": "搜索",
+      "loading": "搜索中...",
+      "success": "搜索成功！",
+      "error": "搜索失败"
+    }
+  }
+}

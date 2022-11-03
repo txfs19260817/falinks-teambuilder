@@ -21,6 +21,7 @@ model Pokepaste {
   createdAt  DateTime @default(now())
   rentalCode String?
   isOfficial Boolean  @default(true)
+  jsonPaste  Json?
 
   @@index([format, createdAt(sort: Desc)])
 }
