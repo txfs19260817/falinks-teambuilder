@@ -1,10 +1,10 @@
 import { Move } from '@pkmn/data';
 import { DisplayUsageStatistics } from '@pkmn/smogon';
 import { ColumnDef, ColumnFiltersState, getCoreRowModel, getFilteredRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table';
-import Image from 'next/image';
 import { useContext, useMemo, useState } from 'react';
 import useSWR from 'swr';
 
+import { CategoryIcon } from '@/components/icons/CategoryIcon';
 import { TypeIcon } from '@/components/icons/TypeIcon';
 import Table from '@/components/table';
 import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
@@ -55,18 +55,7 @@ function MovesTable({ moveIdx }: { moveIdx: number }) {
         accessorKey: 'category',
         cell: (info) => {
           const category = info.getValue<string>();
-          return (
-            <Image
-              className="inline-block"
-              width={32}
-              height={14}
-              key={category}
-              alt={category}
-              title={category}
-              src={`/assets/moves/categories/${category}.png`}
-              loading="lazy"
-            />
-          );
+          return <CategoryIcon key={category} category={category} />;
         },
       },
       {

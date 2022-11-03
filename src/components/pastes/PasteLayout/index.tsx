@@ -7,6 +7,7 @@ import { toast } from 'react-hot-toast';
 import useSWRImmutable from 'swr/immutable';
 
 import { PokemonIcon } from '@/components/icons/PokemonIcon';
+import { TeamTypeCategoryMatrix } from '@/components/table/TeamTypeCategoryMatrix';
 import { TeamTypeChart } from '@/components/table/TeamTypeChart';
 import { PureSpriteAvatar } from '@/components/workspace/SpriteAvatar/SpriteAvatar';
 import { Pokemon } from '@/models/Pokemon';
@@ -89,6 +90,8 @@ const TeamInsight = ({ team }: { team: Pokemon[] }) => {
   return (
     <div className="flex flex-col gap-2 overflow-x-auto p-2">
       <h1 className="text-2xl font-bold">Team Insight</h1>
+      <h2 className="text-xl font-bold">Type-Category Matrix</h2>
+      <TeamTypeCategoryMatrix teamMemberCategories={Pokemon.getTeamMemberCategories(team)} />
       <h2 className="text-xl font-bold">Defense</h2>
       <TeamTypeChart teamTypeChart={defenseMap} direction={'defense'} />
       <h2 className="text-xl font-bold">Offense</h2>

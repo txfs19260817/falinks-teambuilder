@@ -37,8 +37,8 @@ export type Spreads = {
   evs: StatsTable;
 };
 
-export type ValueWithEmojiOption = {
-  value: string;
+export type ValueWithEmojiOption<T extends string = string> = {
+  value: T;
   emoji: string;
 };
 

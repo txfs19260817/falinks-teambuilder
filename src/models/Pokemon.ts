@@ -1,11 +1,11 @@
-import type { ItemName, Move, TypeEffectiveness } from '@pkmn/data';
+import type { ItemName, Move, MoveCategory, Specie, TypeEffectiveness } from '@pkmn/data';
 import { Sets, Team } from '@pkmn/sets';
 import type { PokemonSet, StatsTable } from '@pkmn/types';
 
 import DexSingleton from '@/models/DexSingleton';
 import { AppConfig } from '@/utils/AppConfig';
 import { checkArraysEqual, S4 } from '@/utils/Helpers';
-import { abilityToEffectiveness, changeMoveType, moveToEffectiveness } from '@/utils/PokemonUtils';
+import { abilityToEffectiveness, changeMoveType, getStats, moveToEffectiveness } from '@/utils/PokemonUtils';
 import type { BasePokePaste } from '@/utils/Types';
 import { ExtendedTypeEffectiveness, Type2EffectivenessMap } from '@/utils/Types';
 
@@ -75,10 +75,39 @@ export class Pokemon implements PokemonSet {
     this.shiny = shiny;
   }
 
-  static getTeamTypeChart: (team: Pokemon[]) => {
+  static getTeamMemberCategories(team: Pokemon[]): {
+    [key in MoveCategory]: Specie[];
+  } {
+    const data = DexSingleton.getGen();
+    const res: {
+      [key in MoveCategory]: Specie[];
+    } = { Physical: [], Special: [], Status: [] };
+    team.forEach((p) => {
+      const species = data.species.get(p.species);
+      if (!species) return;
+      const nature = data.natures.get(p.nature);
+      const atkStat = getStats('atk', species.baseStats.atk ?? 0, p.evs.atk, p.ivs.atk, nature, p.level);
+      const spaStat = getStats('spa', species.baseStats.spa ?? 0, p.evs.spa, p.ivs.spa, nature, p.level);
+      if (atkStat >= spaStat) {
+        res.Physical.push(species);
+      }
+      if (atkStat <= spaStat) {
+        res.Special.push(species);
+      }
+      // Rules for Status Pokémon: the Pokemon's ability is Prankster or at least 3 moves are status moves
+      if (p.ability === 'Prankster' || p.moves.filter((m) => data.moves.get(m)?.category === 'Status').length >= 3) {
+        res.Status.push(species);
+      }
+    });
+    return res;
+  }
+
+  static getTeamTypeChart = (
+    team: Pokemon[]
+  ): {
     offenseMap: Type2EffectivenessMap<TypeEffectiveness>;
     defenseMap: Type2EffectivenessMap;
-  } = (team: Pokemon[]) => {
+  } => {
     // Dex data
     const data = DexSingleton.getGen();
 

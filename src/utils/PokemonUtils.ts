@@ -1,4 +1,4 @@
-import type { Ability, Move, Nature, TypeName } from '@pkmn/data';
+import type { Ability, Move, MoveCategory, Nature, TypeName } from '@pkmn/data';
 import { TypeEffectiveness } from '@pkmn/data';
 import { DisplayUsageStatistics, LegacyDisplayUsageStatistics } from '@pkmn/smogon';
 import type { StatID, StatsTable, StatusName } from '@pkmn/types';
@@ -31,7 +31,7 @@ export const defaultIvs: StatsTable = {
   spe: 31,
 };
 
-export const typesWithEmoji: ValueWithEmojiOption[] = [
+export const typesWithEmoji: ValueWithEmojiOption<TypeName>[] = [
   { value: 'Bug', emoji: '🐞' },
   { value: 'Dark', emoji: '🌙' },
   { value: 'Dragon', emoji: '🐲' },
@@ -53,7 +53,7 @@ export const typesWithEmoji: ValueWithEmojiOption[] = [
   { value: '???', emoji: '❓' },
 ];
 
-export const moveCategoriesWithEmoji: ValueWithEmojiOption[] = [
+export const moveCategoriesWithEmoji: ValueWithEmojiOption<MoveCategory>[] = [
   { value: 'Physical', emoji: '💥' },
   { value: 'Special', emoji: '🔮' },
   { value: 'Status', emoji: '⚪' },
@@ -177,10 +177,10 @@ export const defaultSuggestedSpreads: Spreads[] = [
  * @param nature - The nature of the Pokémon. E.g. 'Adamant', 'Brave'.
  * @param level - The level of the Pokémon. Must be between 1 and 100. Defaults to 50.
  */
-export const getStats = (stat: string, base: number, ev: number, iv: number, nature: Nature, level: number = 50): number => {
+export const getStats = (stat: string, base: number, ev: number, iv: number, nature: Nature | undefined, level: number = 50): number => {
   return stat === 'hp'
     ? Math.floor((Math.floor(2 * base + iv + Math.floor(ev / 4) + 100) * level) / 100 + 10)
-    : Math.floor(((Math.floor(2 * base + iv + Math.floor(ev / 4)) * level) / 100 + 5) * (nature.plus === stat ? 1.1 : nature.minus === stat ? 0.9 : 1));
+    : Math.floor(((Math.floor(2 * base + iv + Math.floor(ev / 4)) * level) / 100 + 5) * (nature?.plus === stat ? 1.1 : nature?.minus === stat ? 0.9 : 1));
 };
 
 /**
