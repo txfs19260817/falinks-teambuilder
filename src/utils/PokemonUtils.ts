@@ -22,6 +22,15 @@ export const defaultStats: StatsTable = {
   spe: 0,
 };
 
+export const maxEVs: StatsTable = {
+  hp: maxSingleEvs,
+  atk: maxSingleEvs,
+  def: maxSingleEvs,
+  spa: maxSingleEvs,
+  spd: maxSingleEvs,
+  spe: maxSingleEvs,
+};
+
 export const defaultIvs: StatsTable = {
   hp: 31,
   atk: 31,

@@ -30,7 +30,7 @@ const MovesSetters = memo(
         {moves.map((move, i) => (
           <Select
             key={i}
-            className="w-1/2"
+            itemClassName="w-1/2"
             iconGetter={(k) => (
               <Image className="inline-block" width={20} height={20} alt={k} src={`${basePath}/assets/types/${gen.moves.get(k)?.type}.webp`} loading="lazy" />
             )}

@@ -78,7 +78,7 @@ const Index = () => {
                   />
                   <button
                     title="Draw a name randomly"
-                    className="text-2xs btn rounded-l-none"
+                    className="btn rounded-l-none tracking-tighter"
                     role="button"
                     type="button"
                     onClick={() => {

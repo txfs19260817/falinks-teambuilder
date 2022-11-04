@@ -101,6 +101,7 @@ export class TeamState {
     return this.teamState.team.length;
   }
 
+  // TODO: enable this
   getTeamTypeChart() {
     return Pokemon.getTeamTypeChart(this.teamState.team);
   }

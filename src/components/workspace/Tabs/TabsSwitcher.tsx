@@ -94,7 +94,9 @@ function TabsSwitcher({ children }: { children?: ReactNode }) {
       {children}
       {teamState.team.map((p, i) => (
         <div key={p.id} className="dropdown-right dropdown indicator">
+          {/* indicator */}
           <TabMenu idx={i} />
+          {/* tab */}
           <a role="tab" className={`tab tab-lifted tab-md md:tab-lg ${i === tabIdx ? 'tab-active' : ''}`} onClick={() => setTabIdx(i)}>
             <span className="text-sm">{i + 1}</span>
             <PokemonIcon speciesId={p.species} />
