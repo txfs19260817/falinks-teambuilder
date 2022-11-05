@@ -23,7 +23,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<PastesList>) =>
         rentalCode: hasRentalCode ? { not: null } : undefined,
         jsonPaste: {
           path: [],
-          array_contains: speciesCriterion.map(({ species, ability, item }) => ({ species, ability, item })),
+          array_contains: speciesCriterion.map(({ species, ability, item }) => ({
+            species,
+            ability: ability || undefined,
+            item: item || undefined,
+          })),
         },
       },
     })
