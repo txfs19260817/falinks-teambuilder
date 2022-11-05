@@ -14,13 +14,17 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<PastesList>) =>
   }
   const { format, hasRentalCode, speciesCriterion } = req.body as SearchPasteForm;
 
-  // search for pastes in jsonPaste JSONB field
+  // search for pastes using jsonPaste JSONB field
   const results = await prisma.pokepaste
     .findMany({
       select: { ...listPastesSelect, jsonPaste: true },
       where: {
         format: format.length > 0 ? format : undefined,
         rentalCode: hasRentalCode ? { not: null } : undefined,
+        jsonPaste: {
+          path: [],
+          array_contains: speciesCriterion.map(({ species, ability, item }) => ({ species, ability, item })),
+        },
       },
     })
     .then((pastes) =>
@@ -35,14 +39,14 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<PastesList>) =>
             (jsonPaste as unknown as PokemonSet[]).some(
               (t) =>
                 s.species === t.species &&
-                (!s.item || s.item === t.item) && // s.item is (undefined or empty string or matches) is ok
-                (!s.ability || s.ability === t.ability) && // s.ability is (undefined or empty string or matches) is ok
                 s.moves.filter((m) => m.length > 0).every((m) => t.moves.includes(m)) && // s.moves is (an array of empty string or a subset of t.moves) is ok
                 Object.entries(t.evs).every(([k, v]) => +s.minEVs[k as StatID] <= v && v <= +s.maxEVs[k as StatID])
             )
           )
       )
     );
+
+  // return the results without the jsonPaste field
   return res.status(200).json(results.map(({ jsonPaste: _, ...item }) => item));
 };
 

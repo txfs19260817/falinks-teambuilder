@@ -14,7 +14,7 @@ import { Select } from '@/components/select/Select';
 import DexSingleton from '@/models/DexSingleton';
 import { Main } from '@/templates/Main';
 import { AppConfig } from '@/utils/AppConfig';
-import { defaultStats, getMovesBySpecie, maxEVStats } from '@/utils/PokemonUtils';
+import { defaultStats, getMovesBySpecie, maxEVStats, stats } from '@/utils/PokemonUtils';
 import type { PastesList } from '@/utils/Prisma';
 import type { SearchPasteForm, SearchPastePokemonCriteria } from '@/utils/Types';
 
@@ -31,9 +31,7 @@ const Search = () => {
   const [searchResults, setSearchResults] = useState<PastesList | undefined>(undefined);
   const pokemonList = useMemo<Specie[]>(() => Array.from(gen.species), [gen]);
   const itemList = useMemo<Item[]>(() => Array.from(gen.items), [gen]);
-  // set learnset for the focused PokemonCriteria
-  const [learnset, setLearnset] = useState<Move[]>([]);
-  const [focusSpeciesIdx, setFocusSpeciesIdx] = useState<number | undefined>(undefined);
+
   const {
     register,
     handleSubmit,
@@ -51,18 +49,15 @@ const Search = () => {
     control,
     name: 'speciesCriterion',
     rules: {
-      validate: (value) => {
-        return value.length === 0 ? t('search:form.species.error') : true;
-      },
+      validate: (v) => (v.length === 0 ? t('search:form.species.error') : true),
     },
   });
-
-  // load learnset
+  // set learnset for the focused PokemonCriteria
+  const [learnset, setLearnset] = useState<Move[]>([]);
+  const [focusSpIdx, setFocusSpIdx] = useState<number | undefined>(undefined);
   useEffect(() => {
-    getMovesBySpecie(focusSpeciesIdx != null && focusSpeciesIdx < fields.length ? fields[focusSpeciesIdx]!.species : defaultPokemonCriteria.species).then(
-      setLearnset
-    );
-  }, [focusSpeciesIdx]);
+    getMovesBySpecie(focusSpIdx != null && focusSpIdx < fields.length ? fields[focusSpIdx]!.species : defaultPokemonCriteria.species).then(setLearnset);
+  }, [focusSpIdx]);
 
   const onSubmit = (data: SearchPasteForm) => {
     const promise = fetch(`/api/pastes/search`, {
@@ -75,12 +70,16 @@ const Search = () => {
     toast
       .promise(promise, {
         loading: t('search:form.submit.loading'),
-        success: t('search:form.submit.success'),
+        success: `${t('search:form.submit.success')} ↓`,
         error: (e) => `${t('search:form.submit.error')}: ${e}`,
       })
       .then((r) => r.json())
       .then((r) => {
         setSearchResults(r);
+        window.scrollTo({
+          top: document.body.scrollHeight,
+          behavior: 'smooth',
+        });
       });
   };
 
@@ -105,8 +104,8 @@ const Search = () => {
                   <div
                     key={field.id}
                     tabIndex={0}
-                    className="collapse collapse-open border border-base-300 bg-base-200 rounded-box"
-                    onClick={() => setFocusSpeciesIdx(index)}
+                    className="collapse collapse-open border border-base-300 bg-base-200 rounded-box animate-fade-in-down"
+                    onClick={() => setFocusSpIdx(index)}
                   >
                     {/* collapse title */}
                     <div className="collapse-title">
@@ -218,7 +217,7 @@ const Search = () => {
                         <span className="label-text font-bold">EVs (min to max)</span>
                       </label>
                       <div className="flex flex-wrap">
-                        {Object.keys(field.minEVs).map((stat) => (
+                        {stats.map((stat) => (
                           <div key={stat} className="grid-cols-6 grid gap-1 w-1/2 p-1">
                             <label className="uppercase">{stat}</label>
                             <input
@@ -249,7 +248,7 @@ const Search = () => {
                 {fields.length < 6 && (
                   <button
                     type="button"
-                    className="btn btn-ghost text-2xl h-full border-dashed border-2 border-base-300"
+                    className="btn btn-ghost text-2xl md:h-full border-dashed border-2 border-base-300"
                     onClick={() => append({ ...defaultPokemonCriteria })}
                   >
                     +
@@ -265,7 +264,7 @@ const Search = () => {
               </label>
               <FormatSelector
                 inputGroup={false}
-                formats={['Any', ...AppConfig.formats]}
+                formats={['', ...AppConfig.formats]}
                 defaultFormat={AppConfig.defaultFormat}
                 handleChange={(e) => setValue('format', e.target.value)}
               />
