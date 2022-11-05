@@ -13,7 +13,9 @@ export type Option = {
 
 export type SelectProps<T extends Option | Option[]> = {
   options: Option[];
-  className?: string;
+  inputSize?: 'xs' | 'sm' | 'md' | 'lg';
+  itemClassName?: string;
+  defaultValue?: T;
   value?: T;
   onChange?: (selected: T) => void;
   placeholder?: string;
@@ -31,8 +33,17 @@ export type Usage = Modify<
   }
 > & { name: string; rank: number };
 
+export type SearchPastePokemonCriteria = {
+  species: string;
+  ability?: string;
+  item?: string;
+  moves: string[];
+  minEVs: StatsTable;
+  maxEVs: StatsTable;
+};
+
 export type SearchPasteForm = {
-  species: string[];
+  speciesCriterion: SearchPastePokemonCriteria[];
   format: string;
   hasRentalCode: boolean;
 };

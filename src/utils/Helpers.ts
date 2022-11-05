@@ -88,3 +88,5 @@ export const checkArraysEqual = (a: unknown[], b: unknown[], ignoreOrder: boolea
   }
   return a.every((v, i) => v === b[i]);
 };
+
+export const isSubset = (a: unknown[], b: unknown[]) => (a == null || b == null || a.length > b.length ? false : a.every((v) => b.includes(v)));

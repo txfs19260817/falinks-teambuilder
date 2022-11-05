@@ -1,7 +1,5 @@
-import { Sprites } from '@pkmn/img';
-
+import { PureSpriteAvatar } from '@/components/icons/PureSpriteAvatar';
 import { RoundTypeIcon } from '@/components/icons/RoundTypeIcon';
-import { PureSpriteAvatar } from '@/components/workspace/SpriteAvatar/SpriteAvatar';
 import DexSingleton from '@/models/DexSingleton';
 import { wikiLink } from '@/utils/PokemonUtils';
 import type { Usage } from '@/utils/Types';
@@ -11,7 +9,7 @@ function InfoCard({ pokeUsage }: { pokeUsage: Usage }) {
   return (
     <div className="card bg-base-100 shadow-xl">
       {/* Avatar */}
-      <PureSpriteAvatar url={Sprites.getPokemon(pokeUsage.name).url} />
+      <PureSpriteAvatar species={pokeUsage.name} />
       <div className="card-body">
         {/* Name */}
         <div className="card-title">

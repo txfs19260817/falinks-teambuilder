@@ -1,5 +1,4 @@
 import type { TypeEffectiveness } from '@pkmn/data';
-import { Sprites } from '@pkmn/img';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useId, useState } from 'react';
@@ -7,9 +6,9 @@ import { toast } from 'react-hot-toast';
 import useSWRImmutable from 'swr/immutable';
 
 import { PokemonIcon } from '@/components/icons/PokemonIcon';
+import { PureSpriteAvatar } from '@/components/icons/PureSpriteAvatar';
 import { TeamTypeCategoryMatrix } from '@/components/table/TeamTypeCategoryMatrix';
 import { TeamTypeChart } from '@/components/table/TeamTypeChart';
-import { PureSpriteAvatar } from '@/components/workspace/SpriteAvatar/SpriteAvatar';
 import { Pokemon } from '@/models/Pokemon';
 import Loading from '@/templates/Loading';
 import { Paste } from '@/utils/Prisma';
@@ -43,7 +42,7 @@ const PasteAndFunctions = ({ team, paste }: { team: Pokemon[]; paste: NonNullabl
       {/* avatars */}
       <div className="hidden grid-rows-6 md:grid">
         {team.map((p) => (
-          <PureSpriteAvatar key={p.species} url={Sprites.getPokemon(p.species).url} />
+          <PureSpriteAvatar key={p.species} species={p.species} shiny={p.shiny} />
         ))}
       </div>
       <div className="grid w-1/2 grid-cols-3 justify-items-center align-middle md:hidden">

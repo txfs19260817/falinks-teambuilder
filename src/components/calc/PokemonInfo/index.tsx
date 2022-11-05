@@ -108,7 +108,7 @@ export const PokemonInfo = ({ index }: PokemonInfoProps) => {
       <div className="form-control gap-1 px-2">
         {/* Pokemon */}
         <Select
-          className="w-5/6"
+          itemClassName="w-5/6"
           options={pokemonList.map((p) => ({ value: p.name, label: p.name }))}
           onChange={(e) => {
             setPokemon(gen.species.get(e.value) ?? pokemon);
