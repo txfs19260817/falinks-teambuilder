@@ -4,6 +4,10 @@
     "format": {
       "label": "Format"
     },
+    "species": {
+      "label": "Pokémon",
+      "error": "Please add at least one Pokémon to search for."
+    },
     "rental": {
       "label": "Has Rental Code"
     },

@@ -4,6 +4,10 @@
     "format": {
       "label": "对战规则"
     },
+    "species": {
+      "label": "宝可梦",
+      "error": "请至少选择一只宝可梦"
+    },
     "rental": {
       "label": "必须有租借队伍码"
     },

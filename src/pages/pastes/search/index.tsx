@@ -8,12 +8,14 @@ import toast from 'react-hot-toast';
 import { ItemIcon } from '@/components/icons/ItemIcon';
 import { PokemonIcon } from '@/components/icons/PokemonIcon';
 import { RoundTypeIcon } from '@/components/icons/RoundTypeIcon';
+import PastesTable from '@/components/pastes/PastesTable';
 import { FormatSelector } from '@/components/select/FormatSelector';
 import { Select } from '@/components/select/Select';
 import DexSingleton from '@/models/DexSingleton';
 import { Main } from '@/templates/Main';
 import { AppConfig } from '@/utils/AppConfig';
 import { defaultStats, getMovesBySpecie, maxEVStats } from '@/utils/PokemonUtils';
+import type { PastesList } from '@/utils/Prisma';
 import type { SearchPasteForm, SearchPastePokemonCriteria } from '@/utils/Types';
 
 const defaultPokemonCriteria: SearchPastePokemonCriteria = {
@@ -26,10 +28,19 @@ const defaultPokemonCriteria: SearchPastePokemonCriteria = {
 const Search = () => {
   const gen = DexSingleton.getGen();
   const { t } = useTranslation(['common', 'search']);
+  const [searchResults, setSearchResults] = useState<PastesList | undefined>(undefined);
   const pokemonList = useMemo<Specie[]>(() => Array.from(gen.species), [gen]);
   const itemList = useMemo<Item[]>(() => Array.from(gen.items), [gen]);
+  // set learnset for the focused PokemonCriteria
   const [learnset, setLearnset] = useState<Move[]>([]);
-  const { register, handleSubmit, setValue, control } = useForm<SearchPasteForm>({
+  const [focusSpeciesIdx, setFocusSpeciesIdx] = useState<number | undefined>(undefined);
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    control,
+    formState: { errors },
+  } = useForm<SearchPasteForm>({
     defaultValues: {
       speciesCriterion: [],
       format: AppConfig.defaultFormat,
@@ -39,12 +50,19 @@ const Search = () => {
   const { fields, append, remove, update } = useFieldArray({
     control,
     name: 'speciesCriterion',
+    rules: {
+      validate: (value) => {
+        return value.length === 0 ? t('search:form.species.error') : true;
+      },
+    },
   });
 
   // load learnset
   useEffect(() => {
-    getMovesBySpecie(defaultPokemonCriteria.species).then(setLearnset);
-  }, []);
+    getMovesBySpecie(focusSpeciesIdx != null && focusSpeciesIdx < fields.length ? fields[focusSpeciesIdx]!.species : defaultPokemonCriteria.species).then(
+      setLearnset
+    );
+  }, [focusSpeciesIdx]);
 
   const onSubmit = (data: SearchPasteForm) => {
     const promise = fetch(`/api/pastes/search`, {
@@ -62,14 +80,14 @@ const Search = () => {
       })
       .then((r) => r.json())
       .then((r) => {
-        console.log(r);
+        setSearchResults(r);
       });
   };
 
   return (
     <Main title={t('search:title')}>
       <div className="flex h-full w-full flex-col items-center justify-center">
-        <div className="card my-3 w-5/6 flex-shrink-0 bg-base-100 shadow-2xl">
+        <div className="card my-2 w-full flex-shrink-0 bg-base-100 shadow-2xl">
           <form
             className="card-body"
             onSubmit={handleSubmit((data) => {
@@ -82,15 +100,20 @@ const Search = () => {
                 <span className="label-text after:text-error after:content-['_*']">Species</span>
               </label>
               {/* Species Criterion */}
-              <div className="grid grid-cols-1 gap-2">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
                 {fields.map((field, index) => (
-                  <div key={field.id} tabIndex={0} className="collapse collapse-open border border-base-300 bg-base-200 rounded-box">
+                  <div
+                    key={field.id}
+                    tabIndex={0}
+                    className="collapse collapse-open border border-base-300 bg-base-200 rounded-box"
+                    onClick={() => setFocusSpeciesIdx(index)}
+                  >
                     {/* collapse title */}
                     <div className="collapse-title">
-                      <div className="flex flex-row items-center justify-between">
-                        <PokemonIcon speciesId={field.species} />
+                      <div className="flex items-center justify-between">
+                        <span className="ml-2">{index + 1}</span>
                         <span className="ml-2">
-                          {index + 1}. {field.species}
+                          <PokemonIcon speciesId={field.species} /> {field.species}
                         </span>
                         <button className="btn btn-sm btn-error" type="button" onClick={() => remove(index)}>
                           ×
@@ -224,11 +247,16 @@ const Search = () => {
                   </div>
                 ))}
                 {fields.length < 6 && (
-                  <button type="button" className="btn btn-ghost border-dashed border-2 border-base-300" onClick={() => append({ ...defaultPokemonCriteria })}>
+                  <button
+                    type="button"
+                    className="btn btn-ghost text-2xl h-full border-dashed border-2 border-base-300"
+                    onClick={() => append({ ...defaultPokemonCriteria })}
+                  >
                     +
                   </button>
                 )}
               </div>
+              <p className="text-error text-sm">{errors.speciesCriterion?.root?.message}</p>
             </div>
             {/* Format */}
             <div className="form-control">
@@ -255,6 +283,7 @@ const Search = () => {
           </form>
         </div>
       </div>
+      {searchResults && <PastesTable pastes={searchResults} />}
     </Main>
   );
 };

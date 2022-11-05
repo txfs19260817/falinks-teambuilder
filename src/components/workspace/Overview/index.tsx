@@ -1,10 +1,13 @@
-import { useContext } from 'react';
-import { toast } from 'react-hot-toast';
+import { useContext, useMemo, useState } from 'react';
 
+import { TeamTypeCategoryMatrix } from '@/components/table/TeamTypeCategoryMatrix';
+import { TeamTypeChart } from '@/components/table/TeamTypeChart';
 import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
-import SpriteAvatar from '@/components/workspace/SpriteAvatar/SpriteAvatar';
-import { Pokemon } from '@/models/Pokemon';
-import { AppConfig } from '@/utils/AppConfig';
+import { TeamMembersGallery } from '@/components/workspace/Overview/TeamMembersGallery';
+import { TeamMetaSetters } from '@/components/workspace/Overview/TeamMetaSetters';
+
+const tabs = ['Team', 'Types', 'Defense', 'Offense'] as const;
+type Tabs = typeof tabs[number];
 
 export function OverviewTabBtn() {
   const { tabIdx, setTabIdx } = useContext(StoreContext);
@@ -16,79 +19,27 @@ export function OverviewTabBtn() {
 }
 
 function Overview() {
-  const { teamState, setTabIdx } = useContext(StoreContext);
+  const [tab, setTab] = useState<Tabs>('Team');
+  const { teamState } = useContext(StoreContext);
+  const teamCategories = useMemo(() => teamState.getTeamMemberCategories(), [teamState]);
+  const { defenseMap, offenseMap } = useMemo(() => teamState.getTeamTypeChart(), [teamState]);
 
   return (
     <div className="mockup-window border bg-base-300">
-      <div className="grid grid-cols-2 gap-2 px-2">
-        <select
-          className="select-bordered select select-sm w-full md:select-md"
-          title="Format"
-          value={teamState.format}
-          onChange={(e) => {
-            teamState.format = (e.target as HTMLSelectElement).value;
-          }}
-        >
-          <option disabled={true}>Format</option>
-          {AppConfig.formats.map((format) => (
-            <option key={format} value={format}>
-              {format}
-            </option>
-          ))}
-        </select>
-        <input
-          className="input-bordered input input-sm w-full md:input-md"
-          type="text"
-          title="Team title"
-          placeholder="Team title"
-          value={teamState.title}
-          onChange={(e) => {
-            teamState.title = (e.target as HTMLInputElement).value;
-          }}
-        />
+      <TeamMetaSetters />
+      <div className="tabs tabs-boxed">
+        {tabs.map((t) => (
+          <a key={t} className={`tab ${tab === t ? 'tab-active' : ''}`} onClick={() => setTab(t)}>
+            {t}
+          </a>
+        ))}
       </div>
-      <div className="grid gap-y-2 gap-x-2 bg-base-200 py-2 px-1 md:grid-cols-2 md:grid-rows-3 lg:grid-cols-3 lg:grid-rows-2">
-        {[0, 1, 2, 3, 4, 5].map((i) => {
-          const pm = teamState.getPokemonInTeam(i);
-          const pmPaste: string = pm ? Pokemon.exportSetToPaste(pm) : '';
-
-          return (
-            <div key={i} className="card bg-base-100 pt-4 shadow-xl">
-              <SpriteAvatar idx={i} />
-              {!pm ? (
-                <div className="card-body">
-                  <h2 className="card-title">Nothing</h2>
-                  <p>but a substitute.</p>
-                </div>
-              ) : (
-                <div className="card-body py-1 px-4">
-                  <pre className="whitespace-pre-wrap leading-5 tracking-tighter">{pmPaste}</pre>
-                  <div className="card-actions justify-end">
-                    <button
-                      className="btn-primary btn-sm btn"
-                      onClick={() => {
-                        setTabIdx(i);
-                      }}
-                    >
-                      Switch to this tab
-                    </button>
-                    <button
-                      className="btn-secondary btn-sm btn"
-                      onClick={() => {
-                        navigator.clipboard.writeText(pmPaste).then(() => toast('📋 Copied!'));
-                      }}
-                    >
-                      <span>📋</span>
-                      <span>Copy</span>
-                    </button>
-                  </div>
-                </div>
-              )}
-            </div>
-          );
-        })}
+      <div className="flex flex-col">
+        {tab === 'Team' && <TeamMembersGallery />}
+        {tab === 'Types' && <TeamTypeCategoryMatrix teamMemberCategories={teamCategories} />}
+        {tab === 'Defense' && <TeamTypeChart teamTypeChart={defenseMap} direction={'defense'} />}
+        {tab === 'Offense' && <TeamTypeChart teamTypeChart={offenseMap} direction={'offense'} />}
       </div>
-      {/* <TeamTypeChart /> */}
     </div>
   );
 }

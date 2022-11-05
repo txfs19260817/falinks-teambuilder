@@ -19,7 +19,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<PastesList>) =>
     .findMany({
       select: { ...listPastesSelect, jsonPaste: true },
       where: {
-        format,
+        format: format.length > 0 ? format : undefined,
         rentalCode: hasRentalCode ? { not: null } : undefined,
       },
     })
@@ -43,7 +43,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<PastesList>) =>
           )
       )
     );
-  return res.status(200).json(results);
+  return res.status(200).json(results.map(({ jsonPaste: _, ...item }) => item));
 };
 
 export default handler;
