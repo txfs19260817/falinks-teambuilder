@@ -9,7 +9,7 @@
       "error": "Please add at least one Pokémon to search for."
     },
     "rental": {
-      "label": "Has Rental Code"
+      "label": "Must Have Rental Code"
     },
     "submit": {
       "button": "Submit",
