@@ -96,7 +96,7 @@ const Search = () => {
             {/* Species */}
             <div className="form-control">
               <label className="label">
-                <span className="label-text after:text-error after:content-['_*']">Species</span>
+                <span className="label-text after:text-error after:content-['_*']">{t('search:form.species.label')}</span>
               </label>
               {/* Species Criterion */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
@@ -111,83 +111,85 @@ const Search = () => {
                     <div className="collapse-title">
                       <div className="flex items-center justify-between">
                         <span className="ml-2">{index + 1}</span>
-                        <span className="ml-2">
-                          <PokemonIcon speciesId={field.species} /> {field.species}
-                        </span>
+                        {/* Species */}
+                        <div className="flex gap-x-1 items-center">
+                          <PokemonIcon speciesId={field.species} />
+                          <Select
+                            itemClassName="w-5/6"
+                            inputSize="sm"
+                            options={pokemonList.map(({ name }) => ({
+                              value: name,
+                              label: name,
+                            }))}
+                            onChange={(e) => {
+                              const newPokemon = gen.species.get(e.value);
+                              if (newPokemon) {
+                                getMovesBySpecie(newPokemon.name).then(setLearnset);
+                                update(index, {
+                                  ...defaultPokemonCriteria,
+                                  species: newPokemon.name,
+                                });
+                              }
+                            }}
+                            value={{
+                              value: field.species,
+                              label: field.species,
+                            }}
+                            iconGetter={(key: string) => <PokemonIcon speciesId={key} />}
+                          />
+                        </div>
                         <button className="btn btn-sm btn-error" type="button" onClick={() => remove(index)}>
-                          ×
+                          ✕
                         </button>
                       </div>
                     </div>
                     <div className="collapse-content">
-                      {/* Species */}
-                      <label className="label">
-                        <span className="label-text font-bold">Species</span>
-                      </label>
-                      <Select
-                        itemClassName="w-5/6"
-                        inputSize="sm"
-                        options={pokemonList.map((p) => ({
-                          value: p.name,
-                          label: p.name,
-                        }))}
-                        onChange={(e) => {
-                          const newPokemon = gen.species.get(e.value);
-                          if (newPokemon) {
-                            getMovesBySpecie(newPokemon.name).then(setLearnset);
-                            update(index, {
-                              ...defaultPokemonCriteria,
-                              species: newPokemon.name,
-                            });
-                          }
-                        }}
-                        value={{ value: field.species, label: field.species }}
-                        iconGetter={(key: string) => <PokemonIcon speciesId={key} />}
-                      />
-                      {/* Item */}
-                      <label className="label">
-                        <span className="label-text font-bold">Item</span>
-                      </label>
-                      <Select
-                        itemClassName="w-5/6"
-                        inputSize="sm"
-                        options={[{ value: '', label: 'Any' }].concat(
-                          itemList.map(({ name }) => ({
-                            value: name,
-                            label: name,
-                          }))
-                        )}
-                        onChange={({ value }) => {
-                          update(index, { ...field, item: value });
-                        }}
-                        value={{
-                          value: field.item ?? '',
-                          label: field.item ?? 'Any',
-                        }}
-                        defaultValue={{ value: '', label: 'Any' }}
-                        iconGetter={(key: string) => <ItemIcon itemName={key} />}
-                      />
-                      {/* Ability */}
-                      <label className="label">
-                        <span className="label-text font-bold">Ability</span>
-                      </label>
-                      <select
-                        className="select select-bordered select-sm w-full"
-                        value={field.ability}
-                        onChange={(e) => update(index, { ...field, ability: e.target.value })}
-                      >
-                        <option value="">Any</option>
-                        {Object.values(gen.species.get(field.species)?.abilities ?? {}).map((a) => (
-                          <option key={a} value={a}>
-                            {a}
-                          </option>
-                        ))}
-                      </select>
+                      <div className="grid md:grid-rows-2 gap-1 grid-flow-col">
+                        {/* Item */}
+                        <label className="label">
+                          <span className="label-text font-bold">Item</span>
+                        </label>
+                        <Select
+                          itemClassName="w-5/6"
+                          inputSize="sm"
+                          options={[{ value: '', label: 'Any' }].concat(
+                            itemList.map(({ name }) => ({
+                              value: name,
+                              label: name,
+                            }))
+                          )}
+                          onChange={({ value }) => {
+                            update(index, { ...field, item: value });
+                          }}
+                          value={{
+                            value: field.item ?? '',
+                            label: field.item ?? 'Any',
+                          }}
+                          defaultValue={{ value: '', label: 'Any' }}
+                          iconGetter={(key: string) => <ItemIcon itemName={key} />}
+                        />
+                        {/* Ability */}
+                        <label className="label">
+                          <span className="label-text font-bold">Ability</span>
+                        </label>
+                        <select
+                          className="select select-bordered select-sm w-full"
+                          value={field.ability}
+                          onChange={(e) => update(index, { ...field, ability: e.target.value })}
+                        >
+                          <option value="">Any</option>
+                          {Object.values(gen.species.get(field.species)?.abilities ?? {}).map((a) => (
+                            <option key={a} value={a}>
+                              {a}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
                       {/* Moves */}
                       <label className="label">
                         <span className="label-text font-bold">Moves</span>
                       </label>
-                      <div className="grid grid-cols-2 gap-2">
+                      <div className="grid grid-cols-2 gap-1">
                         {field.moves.map((move, i) => (
                           <Select
                             key={i}

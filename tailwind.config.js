@@ -58,10 +58,10 @@ module.exports = {
         }
       },
       animation: {
-        'fade-in-down': 'fade-in-down 0.5s ease-out',
-        'fade-out-down': 'fade-out-down 0.5s ease-out',
-        'fade-in-up': 'fade-in-up 0.5s ease-out',
-        'fade-out-up': 'fade-out-up 0.5s ease-out'
+        'fade-in-down': 'fade-in-down 0.2s ease-out',
+        'fade-out-down': 'fade-out-down 0.2s ease-out',
+        'fade-in-up': 'fade-in-up 0.2s ease-out',
+        'fade-out-up': 'fade-out-up 0.2s ease-out'
       },
       colors: {
         gray: {
