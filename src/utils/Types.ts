@@ -15,6 +15,7 @@ export type SelectProps<T extends Option | Option[]> = {
   options: Option[];
   inputSize?: 'xs' | 'sm' | 'md' | 'lg';
   itemClassName?: string;
+  defaultValue?: T;
   value?: T;
   onChange?: (selected: T) => void;
   placeholder?: string;
@@ -42,7 +43,7 @@ export type SearchPastePokemonCriteria = {
 };
 
 export type SearchPasteForm = {
-  species: SearchPastePokemonCriteria[];
+  speciesCriterion: SearchPastePokemonCriteria[];
   format: string;
   hasRentalCode: boolean;
 };

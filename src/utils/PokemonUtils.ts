@@ -22,7 +22,7 @@ export const defaultStats: StatsTable = {
   spe: 0,
 };
 
-export const maxEVs: StatsTable = {
+export const maxEVStats: StatsTable = {
   hp: maxSingleEvs,
   atk: maxSingleEvs,
   def: maxSingleEvs,

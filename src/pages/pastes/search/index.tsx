@@ -1,5 +1,4 @@
 import type { Item, Move, Specie } from '@pkmn/data';
-import type { StatsTable } from '@pkmn/types';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useEffect, useMemo, useState } from 'react';
@@ -14,14 +13,14 @@ import { Select } from '@/components/select/Select';
 import DexSingleton from '@/models/DexSingleton';
 import { Main } from '@/templates/Main';
 import { AppConfig } from '@/utils/AppConfig';
-import { defaultStats, getMovesBySpecie, maxEVs } from '@/utils/PokemonUtils';
+import { defaultStats, getMovesBySpecie, maxEVStats } from '@/utils/PokemonUtils';
 import type { SearchPasteForm, SearchPastePokemonCriteria } from '@/utils/Types';
 
 const defaultPokemonCriteria: SearchPastePokemonCriteria = {
   species: 'Charizard',
   moves: ['', '', '', ''],
   minEVs: defaultStats,
-  maxEVs,
+  maxEVs: maxEVStats,
 };
 
 const Search = () => {
@@ -32,14 +31,14 @@ const Search = () => {
   const [learnset, setLearnset] = useState<Move[]>([]);
   const { register, handleSubmit, setValue, control } = useForm<SearchPasteForm>({
     defaultValues: {
-      species: [],
+      speciesCriterion: [],
       format: AppConfig.defaultFormat,
       hasRentalCode: false,
     },
   });
   const { fields, append, remove, update } = useFieldArray({
     control,
-    name: 'species',
+    name: 'speciesCriterion',
   });
 
   // load learnset
@@ -61,7 +60,10 @@ const Search = () => {
         success: t('search:form.submit.success'),
         error: (e) => `${t('search:form.submit.error')}: ${e}`,
       })
-      .then((r) => r.json());
+      .then((r) => r.json())
+      .then((r) => {
+        console.log(r);
+      });
   };
 
   return (
@@ -79,13 +81,17 @@ const Search = () => {
               <label className="label">
                 <span className="label-text after:text-error after:content-['_*']">Species</span>
               </label>
+              {/* Species Criterion */}
               <div className="grid grid-cols-1 gap-2">
                 {fields.map((field, index) => (
-                  <div key={field.id} tabIndex={0} className="collapse collapse-open border border-base-300 bg-base-100 rounded-box">
+                  <div key={field.id} tabIndex={0} className="collapse collapse-open border border-base-300 bg-base-200 rounded-box">
+                    {/* collapse title */}
                     <div className="collapse-title">
                       <div className="flex flex-row items-center justify-between">
                         <PokemonIcon speciesId={field.species} />
-                        <span className="ml-2">{field.species}</span>
+                        <span className="ml-2">
+                          {index + 1}. {field.species}
+                        </span>
                         <button className="btn btn-sm btn-error" type="button" onClick={() => remove(index)}>
                           ×
                         </button>
@@ -136,6 +142,7 @@ const Search = () => {
                           value: field.item ?? '',
                           label: field.item ?? 'Any',
                         }}
+                        defaultValue={{ value: '', label: 'Any' }}
                         iconGetter={(key: string) => <ItemIcon itemName={key} />}
                       />
                       {/* Ability */}
@@ -174,6 +181,7 @@ const Search = () => {
                               value: move,
                               label: move,
                             }}
+                            defaultValue={{ value: '', label: '' }}
                             onChange={(e) => {
                               const newMoves = [...field.moves];
                               newMoves[i] = e.value;
@@ -195,17 +203,9 @@ const Search = () => {
                               step={4}
                               min={0}
                               max={252}
+                              placeholder="0"
                               className="input input-bordered input-xs input-secondary col-span-2"
-                              value={field.minEVs[stat as keyof StatsTable]}
-                              onChange={(e) =>
-                                update(index, {
-                                  ...field,
-                                  minEVs: {
-                                    ...field.minEVs,
-                                    [stat]: Math.min(252, Math.max(0, +e.target.value)),
-                                  },
-                                })
-                              }
+                              {...register(`speciesCriterion.${index}.minEVs.${stat}` as `speciesCriterion.${number}.minEVs.hp`)}
                             />
                             <span className="text-center">~</span>
                             <input
@@ -213,17 +213,9 @@ const Search = () => {
                               step={4}
                               min={0}
                               max={252}
+                              placeholder="252"
                               className="input input-bordered input-xs input-primary col-span-2"
-                              value={field.maxEVs[stat as keyof StatsTable]}
-                              onChange={(e) =>
-                                update(index, {
-                                  ...field,
-                                  maxEVs: {
-                                    ...field.maxEVs,
-                                    [stat]: Math.min(252, Math.max(0, +e.target.value)),
-                                  },
-                                })
-                              }
+                              {...register(`speciesCriterion.${index}.maxEVs.${stat}` as `speciesCriterion.${number}.maxEVs.hp`)}
                             />
                           </div>
                         ))}
@@ -232,7 +224,7 @@ const Search = () => {
                   </div>
                 ))}
                 {fields.length < 6 && (
-                  <button type="button" className="btn btn-ghost border-dashed border-2 border-base-300" onClick={() => append(defaultPokemonCriteria)}>
+                  <button type="button" className="btn btn-ghost border-dashed border-2 border-base-300" onClick={() => append({ ...defaultPokemonCriteria })}>
                     +
                   </button>
                 )}

@@ -1,9 +1,18 @@
 import { useCombobox } from 'downshift';
 import { useId, useMemo, useState } from 'react';
 
-import { Option, SelectProps } from '@/utils/Types';
+import type { Option, SelectProps } from '@/utils/Types';
 
-export const Select = ({ options, value, onChange, iconGetter, placeholder = '...', itemClassName = 'w-full', inputSize = 'md' }: SelectProps<Option>) => {
+export const Select = ({
+  options,
+  value,
+  onChange,
+  iconGetter,
+  defaultValue,
+  placeholder = '...',
+  itemClassName = 'w-full',
+  inputSize = 'md',
+}: SelectProps<Option>) => {
   const getOptionsFilter = (inputValue?: Option['value']) => (option: Option) => !inputValue || option.value.toLowerCase().includes(inputValue.toLowerCase());
   const inputId = useId();
   const [inputValue, setInputValue] = useState('');
@@ -11,7 +20,15 @@ export const Select = ({ options, value, onChange, iconGetter, placeholder = '..
   const items = useMemo(() => options.filter(getOptionsFilter(inputValue)), [inputValue, options]);
   const { isOpen, getToggleButtonProps, getMenuProps, getInputProps, getComboboxProps, highlightedIndex, getItemProps } = useCombobox({
     onInputValueChange(changes) {
-      setInputValue(changes.inputValue ?? '');
+      const newInputValue = changes.inputValue ?? '';
+      setInputValue(newInputValue);
+      // if user clears the input, reset the selected item
+      if (newInputValue.length === 0 && defaultValue) {
+        setSelectedItem(defaultValue);
+        if (onChange) {
+          onChange(defaultValue);
+        }
+      }
     },
     items,
     selectedItem,
