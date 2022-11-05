@@ -14,7 +14,7 @@ import { Select } from '@/components/select/Select';
 import DexSingleton from '@/models/DexSingleton';
 import { Main } from '@/templates/Main';
 import { AppConfig } from '@/utils/AppConfig';
-import { defaultStats, getMovesBySpecie, maxEVStats } from '@/utils/PokemonUtils';
+import { defaultStats, getMovesBySpecie, maxEVStats, stats } from '@/utils/PokemonUtils';
 import type { PastesList } from '@/utils/Prisma';
 import type { SearchPasteForm, SearchPastePokemonCriteria } from '@/utils/Types';
 
@@ -217,7 +217,7 @@ const Search = () => {
                         <span className="label-text font-bold">EVs (min to max)</span>
                       </label>
                       <div className="flex flex-wrap">
-                        {Object.keys(field.minEVs).map((stat) => (
+                        {stats.map((stat) => (
                           <div key={stat} className="grid-cols-6 grid gap-1 w-1/2 p-1">
                             <label className="uppercase">{stat}</label>
                             <input

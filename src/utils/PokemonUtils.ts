@@ -1,5 +1,4 @@
-import type { Ability, Move, MoveCategory, Nature, TypeName } from '@pkmn/data';
-import { TypeEffectiveness } from '@pkmn/data';
+import type { Ability, Move, MoveCategory, Nature, TypeEffectiveness, TypeName } from '@pkmn/data';
 import { DisplayUsageStatistics, LegacyDisplayUsageStatistics } from '@pkmn/smogon';
 import type { StatID, StatsTable, StatusName } from '@pkmn/types';
 import { MovesetStatistics, Statistics, UsageStatistics } from 'smogon';
@@ -8,6 +7,8 @@ import DexSingleton from '@/models/DexSingleton';
 import { AppConfig } from '@/utils/AppConfig';
 import { convertObjectNumberValuesToFraction, filterSortLimitObjectByValues, getRandomElement, urlPattern } from '@/utils/Helpers';
 import type { Spreads, Usage, ValueWithEmojiOption } from '@/utils/Types';
+
+export const stats: StatID[] = ['hp', 'atk', 'def', 'spa', 'spd', 'spe'];
 
 const maxTotalEvs = 508;
 
