@@ -1,5 +1,6 @@
 import '../styles/global.css';
 
+import { Analytics } from '@vercel/analytics/react';
 import { AppProps } from 'next/app';
 import { appWithTranslation } from 'next-i18next';
 import NextNProgress from 'nextjs-progressbar';
@@ -13,6 +14,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => (
   <>
     <NextNProgress color={AppConfig.themeColor} />
     <Component {...pageProps} />
+    <Analytics />
   </>
 );
 
