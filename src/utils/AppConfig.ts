@@ -62,6 +62,12 @@ const routes: Route[] = [
     target: '_self',
   },
   {
+    id: 'gen9dex',
+    name: 'Gen 9 Dex',
+    path: '/gen9dex',
+    target: '_self',
+  },
+  {
     id: 'github',
     name: 'GitHub',
     path: 'https://github.com/txfs19260817/falinks-teambuilder',
