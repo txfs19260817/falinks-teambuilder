@@ -16,6 +16,7 @@ type Gen9Dex = {
   id: number;
   num: number; // regional dex number
   name: string;
+  raw_name: string;
   stats: StatsTable;
   type: string[];
   abilities: string[];
@@ -49,6 +50,10 @@ function InfoCard({ pokemon, abilities }: { pokemon: Gen9Dex; abilities: Gen9Gen
             </div>
           </div>
           <div role="listitem">
+            <h3 className="font-bold">Egg Groups : </h3>
+            <div className="flex flex-row gap-2">{pokemon.egg_groups.join(', ')}</div>
+          </div>
+          <div role="listitem">
             <h3 className="font-bold">Abilities : </h3>
             <div className="flex flex-col gap-2">
               {abilities.map(({ name, desc }) => (
@@ -62,7 +67,6 @@ function InfoCard({ pokemon, abilities }: { pokemon: Gen9Dex; abilities: Gen9Gen
             </div>
           </div>
           <div role="listitem">
-            {/* Abilities list */}
             <h3 className="font-bold">Base : </h3>
             {Object.entries(pokemon.stats).map(([key, value]) => (
               <div role="progressbar" key={key} className="flex flex-wrap items-center justify-between px-1 text-sm">
@@ -130,7 +134,7 @@ export const getStaticProps: GetStaticProps<
   // get the pokemon data
   const dexContents = fs.readFileSync(join(process.cwd(), 'public/assets/gen9dex/pokemon.json'), 'utf8');
   const dex = JSON.parse(dexContents) as Gen9Dex[];
-  const pokemon = dex.find((p) => p.name === params?.name)!;
+  const pokemon = dex.find((p) => p.raw_name === params?.name)!;
 
   // get the ability data
   const abilityContents = fs.readFileSync(join(process.cwd(), 'public/assets/gen9dex/ability.json'), 'utf8');
@@ -157,11 +161,11 @@ export const getStaticPaths: GetStaticPaths = async (context) => {
   const dex = JSON.parse(dexContents) as Gen9Dex[];
   const paths =
     context.locales?.flatMap((locale) =>
-      dex.map(({ name }) => ({
-        params: { name },
+      dex.map(({ raw_name }) => ({
+        params: { name: raw_name },
         locale,
       }))
-    ) ?? dex.map(({ name }) => ({ params: { name } }));
+    ) ?? dex.map(({ raw_name }) => ({ params: { name: raw_name } }));
 
   return {
     paths,

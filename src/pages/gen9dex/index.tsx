@@ -31,6 +31,7 @@ type Gen9Dex = {
   id: number;
   num: number; // reginal dex number
   name: string;
+  raw_name: string;
   stats: StatsTable;
   type: string[];
   abilities: string[];
@@ -137,9 +138,9 @@ const DexTable = ({ dex }: { dex: Gen9Dex[] }) => {
     },
     {
       header: 'Details',
-      accessorKey: 'id',
-      cell: ({ row }) => (
-        <Link href={`/gen9dex/${row.original.name}`}>
+      accessorKey: 'raw_name',
+      cell: ({ getValue }) => (
+        <Link href={`/gen9dex/${getValue<string>()}`}>
           <a className="btn-secondary btn-xs btn">Details</a>
         </Link>
       ),
