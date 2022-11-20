@@ -1,6 +1,6 @@
 import type { TypeName } from '@pkmn/data';
 import { Icons } from '@pkmn/img';
-import Image from 'next/image';
+import Image from 'next/legacy/image';
 
 export function TypeIcon({ typeName }: { typeName: string | TypeName }) {
   return (

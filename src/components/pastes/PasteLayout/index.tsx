@@ -75,8 +75,8 @@ const PasteAndFunctions = ({ team, paste }: { team: Pokemon[]; paste: NonNullabl
           <button className="btn-secondary btn-sm btn" type="button" onClick={handleShare}>
             Share
           </button>
-          <Link href={`/room/room_${roomId}/?protocol=WebSocket&packed=${Pokemon.convertPasteToPackedTeam(paste.paste)}`}>
-            <a className="btn-accent btn-sm btn">Open in Room</a>
+          <Link className="btn-accent btn-sm btn" href={`/room/room_${roomId}/?protocol=WebSocket&packed=${Pokemon.convertPasteToPackedTeam(paste.paste)}`}>
+            Open in Room
           </Link>
         </div>
       </div>

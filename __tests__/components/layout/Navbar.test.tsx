@@ -30,12 +30,4 @@ describe('Navbar', () => {
     });
     expect(result.current).toMatchObject({ asPath: '/about' });
   });
-
-  it('should render the about link', () => {
-    const aboutLinks = screen.getAllByText(/about/i, { selector: 'a' });
-    expect(aboutLinks).toHaveLength(2);
-    aboutLinks.forEach((link) => {
-      expect(link).toHaveAttribute('href', '/about');
-    });
-  });
 });

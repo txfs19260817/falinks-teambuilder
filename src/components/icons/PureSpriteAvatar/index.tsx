@@ -1,6 +1,6 @@
 import { Sprites } from '@pkmn/img';
 import { GenderName, GenerationNum } from '@pkmn/types';
-import Image from 'next/image';
+import Image from 'next/legacy/image';
 
 import { AppConfig } from '@/utils/AppConfig';
 

@@ -65,10 +65,8 @@ export const PresetsSubComponent = (row: Row<Specie>) => {
                   </h6>
                   <pre className="h-40 whitespace-pre-wrap text-xs leading-tight tracking-tighter">{p.paste}</pre>
                   <div className="card-actions justify-end">
-                    <Link href={`/pastes/${p.id}/`} passHref>
-                      <a role="button" className="btn-secondary btn-xs btn lg:btn-sm" target="_blank">
-                        Show team
-                      </a>
+                    <Link href={`/pastes/${p.id}/`} className="btn-secondary btn-xs btn lg:btn-sm" target="_blank">
+                      Show team
                     </Link>
                     <button type="button" className="btn-primary btn-xs btn lg:btn-sm" onClick={() => handlePresetClick(p.paste)}>
                       Apply

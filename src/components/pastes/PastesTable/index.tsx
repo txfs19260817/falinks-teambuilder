@@ -65,8 +65,8 @@ const PastesTable = ({ pastes }: { pastes: PastesList }) => {
       header: 'Details',
       accessorKey: 'id',
       cell: ({ getValue }) => (
-        <Link href={`/pastes/${getValue<string>()}`}>
-          <a className="btn-secondary btn-xs btn">Details</a>
+        <Link href={`/pastes/${getValue<string>()}`} className="btn-secondary btn-xs btn">
+          Details
         </Link>
       ),
       enableColumnFilter: false,

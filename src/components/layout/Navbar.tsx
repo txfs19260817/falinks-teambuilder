@@ -53,10 +53,8 @@ const RoutesList = ({ className }: { className: string }) => {
             <ul tabIndex={-1} className="dropdown-content menu rounded-box bg-neutral p-2 shadow">
               {route.children.map((cr) => (
                 <li key={cr.id}>
-                  <Link href={cr.path} passHref>
-                    <a target={cr.target} rel="noopener noreferrer" className="border-none">
-                      {t(cr.id, { defaultValue: cr.name })}
-                    </a>
+                  <Link href={cr.path} target={cr.target} rel="noopener noreferrer" className="border-none">
+                    {t(cr.id, { defaultValue: cr.name })}
                   </Link>
                 </li>
               ))}
@@ -64,10 +62,8 @@ const RoutesList = ({ className }: { className: string }) => {
           </li>
         ) : (
           <li key={route.id}>
-            <Link href={route.path} passHref>
-              <a target={route.target} rel="noopener noreferrer" className="border-none">
-                {t(route.id, { defaultValue: route.name })}
-              </a>
+            <Link href={route.path} target={route.target} rel="noopener noreferrer" className="border-none">
+              {t(route.id, { defaultValue: route.name })}
             </Link>
           </li>
         )
@@ -88,10 +84,8 @@ const Navbar = () => {
           </label>
           <RoutesList className="dropdown-content menu rounded-box bg-neutral p-2 text-neutral-content shadow" />
         </div>
-        <Link href="/">
-          <a title={AppConfig.title} aria-label={AppConfig.title} className="btn-ghost btn text-lg normal-case md:text-xl">
-            {AppConfig.title}
-          </a>
+        <Link href="/" title={AppConfig.title} aria-label={AppConfig.title} className="btn-ghost btn text-lg normal-case md:text-xl">
+          {AppConfig.title}
         </Link>
       </div>
       <div className="navbar-center hidden lg:flex">

@@ -1,5 +1,5 @@
 import { Generation, Move } from '@pkmn/data';
-import Image from 'next/image';
+import Image from 'next/legacy/image';
 import { memo } from 'react';
 
 import { Select } from '@/components/select/Select';

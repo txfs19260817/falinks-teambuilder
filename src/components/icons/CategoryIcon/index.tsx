@@ -1,5 +1,5 @@
 import { MoveCategory } from '@pkmn/data';
-import Image from 'next/image';
+import Image from 'next/legacy/image';
 import { useRouter } from 'next/router';
 
 export function CategoryIcon({ category }: { category: string | MoveCategory }) {

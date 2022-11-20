@@ -1,4 +1,4 @@
-import Image from 'next/image';
+import Image from 'next/legacy/image';
 
 // Loading usually wrapped in a <Main> component
 const Loading = () => {
