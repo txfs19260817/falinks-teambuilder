@@ -1,3 +1,4 @@
+import { Move } from '@pkmn/data';
 import { StatsTable } from '@pkmn/types';
 import fs from 'fs';
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next';
@@ -82,18 +83,30 @@ function InfoCard({ pokemon, abilities }: { pokemon: Gen9Dex; abilities: Gen9Gen
   );
 }
 
-function GeneralDataTable({ tableTitle, data, iconGetter }: { tableTitle: string; data: Gen9GeneralData[]; iconGetter: (key: string) => JSX.Element }) {
+function MovesDataTable({ tableTitle, data, iconGetter }: { tableTitle: string; data: Gen9GeneralData[]; iconGetter: (key: string) => JSX.Element }) {
+  const movesData = data
+    .map(({ name }) => {
+      return DexSingleton.getGen().moves.get(name);
+    })
+    .filter((move) => move !== undefined) as Move[];
   return (
     <table className="table-zebra table-compact table w-full">
       <thead>
         <tr>
           <th className="w-1/12">#</th>
           <th>{tableTitle}</th>
+          <th className="w-1/12">Type</th>
+          <th className="w-1/12">Category</th>
+          <th className="w-1/12">Power</th>
+          <th className="w-1/12">Accuracy</th>
+          <th className="w-1/12">PP</th>
+          <th className="w-1/12">Target</th>
+          <th className="w-1/12">Priority</th>
           <th className="w-1/12">Description</th>
         </tr>
       </thead>
       <tbody>
-        {data.map(({ name, desc }, index) => {
+        {movesData.map(({ name, type, category, basePower, accuracy, pp, target, priority, shortDesc }, index) => {
           return (
             <tr key={index}>
               <td>{index + 1}</td>
@@ -103,7 +116,14 @@ function GeneralDataTable({ tableTitle, data, iconGetter }: { tableTitle: string
                   {name}
                 </a>
               </td>
-              <td>{desc}</td>
+              <td>{type}</td>
+              <td>{category}</td>
+              <td>{basePower}</td>
+              <td>{accuracy}</td>
+              <td>{pp}</td>
+              <td>{target}</td>
+              <td>{priority}</td>
+              <td>{shortDesc}</td>
             </tr>
           );
         })}
@@ -117,7 +137,7 @@ const NamePage = ({ pokemon, abilities, moves }: InferGetStaticPropsType<typeof 
     <Main title={`${pokemon.name} - Gen 9 Dex`}>
       <InfoCard pokemon={pokemon} abilities={abilities} />
       <div className="flex flex-col gap-2 overflow-x-auto p-2">
-        <GeneralDataTable tableTitle="Moves" data={moves} iconGetter={(k) => <RoundTypeIcon typeName={DexSingleton.getGen().moves.get(k)?.type ?? '???'} />} />
+        <MovesDataTable tableTitle="Moves" data={moves} iconGetter={(k) => <RoundTypeIcon typeName={DexSingleton.getGen().moves.get(k)?.type ?? '???'} />} />
       </div>
     </Main>
   );

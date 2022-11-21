@@ -85,14 +85,14 @@ const PasteAndFunctions = ({ team, paste }: { team: Pokemon[]; paste: NonNullabl
 };
 
 const TeamInsight = ({ team }: { team: Pokemon[] }) => {
-  const { defenseMap, offenseMap } = Pokemon.getTeamTypeChart(team);
+  const { defenseMap, offenseMap, defenseTeraMap } = Pokemon.getTeamTypeChart(team);
   return (
     <div className="flex flex-col gap-2 overflow-x-auto p-2">
       <h1 className="text-2xl font-bold">Team Insight</h1>
       <h2 className="text-xl font-bold">Type-Category Matrix</h2>
       <TeamTypeCategoryMatrix teamMemberCategories={Pokemon.getTeamMemberCategories(team)} />
       <h2 className="text-xl font-bold">Defense</h2>
-      <TeamTypeChart teamTypeChart={defenseMap} direction={'defense'} />
+      <TeamTypeChart teamTypeChart={defenseMap} additionalTypeChart={defenseTeraMap} direction={'defense'} />
       <h2 className="text-xl font-bold">Offense</h2>
       <TeamTypeChart<TypeEffectiveness> teamTypeChart={offenseMap} direction={'offense'} />
     </div>

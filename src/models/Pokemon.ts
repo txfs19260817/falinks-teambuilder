@@ -1,4 +1,4 @@
-import type { ItemName, Move, MoveCategory, Specie, TypeEffectiveness } from '@pkmn/data';
+import type { ItemName, Move, MoveCategory, Specie, Type, TypeEffectiveness } from '@pkmn/data';
 import { Sets, Team } from '@pkmn/sets';
 import type { PokemonSet, StatsTable } from '@pkmn/types';
 
@@ -40,6 +40,8 @@ export class Pokemon implements PokemonSet {
 
   gigantamax?: boolean;
 
+  teraType?: string;
+
   happiness?: number;
 
   shiny?: boolean;
@@ -56,6 +58,7 @@ export class Pokemon implements PokemonSet {
     ivs?: StatsTable,
     level?: number,
     gigantamax?: boolean,
+    teraType?: string,
     happiness?: number,
     shiny?: boolean
   ) {
@@ -71,6 +74,7 @@ export class Pokemon implements PokemonSet {
     this.ivs = ivs || { hp: 31, atk: 31, def: 31, spa: 31, spd: 31, spe: 31 };
     this.level = level || 50;
     this.gigantamax = gigantamax;
+    this.teraType = teraType;
     this.happiness = happiness;
     this.shiny = shiny;
   }
@@ -107,6 +111,7 @@ export class Pokemon implements PokemonSet {
   ): {
     offenseMap: Type2EffectivenessMap<TypeEffectiveness>;
     defenseMap: Type2EffectivenessMap;
+    defenseTeraMap: Type2EffectivenessMap;
   } => {
     // Dex data
     const data = DexSingleton.getGen();
@@ -148,6 +153,21 @@ export class Pokemon implements PokemonSet {
       ])
     );
 
+    // key: TypeName, value: extended damage multiplier to species ID
+    const defenseTeraMap: Type2EffectivenessMap = new Map(
+      allTypes.map((t) => [
+        t.name,
+        {
+          0: [],
+          0.25: [],
+          0.5: [],
+          1: [],
+          2: [],
+          4: [],
+        },
+      ])
+    );
+
     // key: TypeName, value: damage multiplier to move ID
     const offenseMap: Type2EffectivenessMap<TypeEffectiveness> = new Map(
       allTypes.map((t) => [
@@ -161,15 +181,15 @@ export class Pokemon implements PokemonSet {
       ])
     );
 
-    // Build the defense map
+    // Build the defense map & defense tera map
     // for each species, get its type damage taken from all 18 types
-    teamSpecies.forEach((species, i) => {
-      if (!species) return;
+    teamSpecies.forEach((teamMemberSpecies, i) => {
+      if (!teamMemberSpecies) return;
       allTypes.forEach((curType) => {
         // get the current team member's types
-        const speciesTypes = species.types.map((st) => data.types.get(st)!);
+        const speciesTypes = teamMemberSpecies.types.map((st) => data.types.get(st)!) as [Type] | [Type, Type];
 
-        // Types Check: compute the damage ratio of the current type to the current species
+        // Types check: compute the damage ratio of the current type to the current species
         let typeEffectiveness = speciesTypes.reduce((acc, t) => acc * curType.effectiveness[t.name], 1);
 
         // Ability check: if the current team member's ability has an immunity/reduction to the current type
@@ -177,14 +197,22 @@ export class Pokemon implements PokemonSet {
         if (immunity) {
           typeEffectiveness *= immunity.rate;
         }
-        defenseMap.get(curType.name)![typeEffectiveness as ExtendedTypeEffectiveness].push(species.id);
+        defenseMap.get(curType.name)![typeEffectiveness as ExtendedTypeEffectiveness].push(teamMemberSpecies.id);
+
+        // repeat for the Tera type defense map
+        const spTeraType = data.types.get(team[i]?.teraType || '') ?? speciesTypes[0];
+        typeEffectiveness = curType.effectiveness[spTeraType.name];
+        if (immunity) {
+          typeEffectiveness *= immunity.rate;
+        }
+        defenseTeraMap.get(curType.name)![typeEffectiveness as ExtendedTypeEffectiveness].push(teamMemberSpecies.id);
       });
     });
 
     // Build the offense map
     // for each species, get its moves' type damage dealt to all 18 types
-    teamSpecies.forEach((species, i) => {
-      if (!species) return;
+    teamSpecies.forEach((teamMemberSpecies, i) => {
+      if (!teamMemberSpecies) return;
       allTypes.forEach((curType) => {
         // get the current team member's moves
         const speciesMoves = <Move[]>team[i]!.moves.filter((m) => m.length > 0)
@@ -205,7 +233,7 @@ export class Pokemon implements PokemonSet {
         offenseMap.set(curType.name, oldValue);
       });
     });
-    return { defenseMap, offenseMap };
+    return { defenseMap, offenseMap, defenseTeraMap };
   };
 
   static pokePasteURLFetcher = (url: string): Promise<BasePokePaste> =>
@@ -230,8 +258,8 @@ export class Pokemon implements PokemonSet {
   }
 
   static importSet(s: string): Pokemon {
-    const { species, name, item, ability, moves, nature, evs, gender, ivs, level, gigantamax, happiness, shiny } = Sets.importSet(s);
-    return new Pokemon(species as string, name, item, ability, moves, nature, evs, gender, ivs, level, gigantamax, happiness, shiny);
+    const { species, name, item, ability, moves, nature, evs, gender, ivs, level, gigantamax, teraType, happiness, shiny } = Sets.importSet(s);
+    return new Pokemon(species as string, name, item, ability, moves, nature, evs, gender, ivs, level, gigantamax, teraType, happiness, shiny);
   }
 
   static convertPasteToJSON(s: string): string {
@@ -240,7 +268,8 @@ export class Pokemon implements PokemonSet {
 
   static convertPasteToTeam(s: string): Pokemon[] | undefined {
     return Team.import(s)?.team.map(
-      (p) => new Pokemon(p.species!, p.name, p.item, p.ability, p.moves, p.nature, p.evs, p.gender, p.ivs, p.level, p.gigantamax, p.happiness, p.shiny)
+      (p) =>
+        new Pokemon(p.species!, p.name, p.item, p.ability, p.moves, p.nature, p.evs, p.gender, p.ivs, p.level, p.gigantamax, p.teraType, p.happiness, p.shiny)
     );
   }
 

@@ -34,7 +34,7 @@ function SpeciesTable() {
 
   // table settings
   const [data, setData] = useState<Specie[]>(() => [...Array.from(DexSingleton.getGen().species)]);
-  const { data: usages, error } = useSWR<Usage[]>(`/api/usages/format/${teamState.format}`, (u) => fetch(u).then((res) => res.json()), {
+  const { data: usages, error } = useSWR<Usage[]>(`/api/usages/format/${teamState.format}`, (u) => fetch(u).then((r) => r.json()), {
     fallbackData: [],
   });
   if (error) {

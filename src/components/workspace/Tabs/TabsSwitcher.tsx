@@ -79,7 +79,7 @@ function TabsSwitcher({ children }: { children?: ReactNode }) {
   const { teamState, tabIdx, setTabIdx, focusedFieldDispatch } = useContext(StoreContext);
 
   const newTab = () => {
-    const newLen = teamState.addPokemonToTeam(new Pokemon('Incineroar'));
+    const newLen = teamState.addPokemonToTeam(new Pokemon('Grimmsnarl'));
     setTabIdx(newLen - 1);
     focusedFieldDispatch({
       type: 'set',

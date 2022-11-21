@@ -1,7 +1,6 @@
 import AbilityInput from '@/components/workspace/Abilities/AbilityInput';
 import FocusedFieldSwitch from '@/components/workspace/FocusedField';
 import GenderPicker from '@/components/workspace/Gender/GenderPicker';
-import GMaxSwitch from '@/components/workspace/GMax/GMaxSwitch';
 import ItemInput from '@/components/workspace/Items/ItemInput';
 import LevelSetter from '@/components/workspace/Level/LevelSetter';
 import MoveInput from '@/components/workspace/Moves/MoveInput';
@@ -10,6 +9,7 @@ import SpeciesInput from '@/components/workspace/PokemonSpecies/SpeciesInput';
 import ShinyToggle from '@/components/workspace/Shiny/ShinyToggle';
 import SpriteAvatar from '@/components/workspace/SpriteAvatar/SpriteAvatar';
 import StatsClickable from '@/components/workspace/Stats/StatsClickable';
+import TeraTypeSelect from '@/components/workspace/TeraTypeSelect';
 
 const PokemonPanel = () => {
   return (
@@ -32,10 +32,10 @@ const PokemonPanel = () => {
             <LevelSetter />
             {/* Gender */}
             <GenderPicker />
-            {/* Shiny & Gigantamax */}
+            {/* Shiny & TeraType */}
             <div className="flex">
               <ShinyToggle />
-              <GMaxSwitch />
+              <TeraTypeSelect />
             </div>
             {/* Item */}
             <ItemInput />

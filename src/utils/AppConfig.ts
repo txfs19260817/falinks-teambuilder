@@ -120,7 +120,7 @@ const usefulLinks = [
 
 // the first element serves as the default format
 // NOTE: change the rewrite rule in `next.config.js` if the default format is changed
-const formats = ['gen8spikemuthcup', 'gen8battlestadiumdoublesseries13', 'gen8vgc2022', 'gen8ou', 'gen8bdspou'];
+const formats = ['gen9doublesou', 'gen9ou', 'gen8spikemuthcup', 'gen8battlestadiumdoublesseries13', 'gen8vgc2022', 'gen8ou', 'gen8bdspou'];
 
 export const AppConfig = {
   site_name: 'Falinks Teambuilder',
@@ -131,7 +131,7 @@ export const AppConfig = {
   locales: ['en', 'zh-Hans'],
   themeColor: '#f9da55',
   maxPokemonPerTeam: 6,
-  defaultGen: 8,
+  defaultGen: 9,
   defaultFormat: formats[0]!,
   themes: tailwindConfig.daisyui.themes as string[],
   dbName: 'falinks',

@@ -30,7 +30,7 @@ const nextConfig = {
     return [
       {
         source: '/pastes/vgc',
-        destination: '/pastes/vgc/gen8spikemuthcup'
+        destination: '/pastes/vgc/gen8spikemuthcup' // Update the path when a new VGC format is released
       },
       {
         source: '/usages',

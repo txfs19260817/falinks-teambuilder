@@ -1,4 +1,4 @@
-import type { Ability, Move, MoveCategory, Nature, TypeEffectiveness, TypeName } from '@pkmn/data';
+import type { Ability, Move, MoveCategory, Nature, Specie, TypeEffectiveness, TypeName } from '@pkmn/data';
 import { DisplayUsageStatistics, LegacyDisplayUsageStatistics } from '@pkmn/smogon';
 import type { StatID, StatsTable, StatusName } from '@pkmn/types';
 import { MovesetStatistics, Statistics, UsageStatistics } from 'smogon';
@@ -315,13 +315,17 @@ export const getRandomTrainerName = () => getRandomElement(trainerNames) || 'Tra
  * Get the raw usage statistics from the Smogon API for the given format
  * @param format - The format to get usage statistics for. Defaults to `AppConfig.defaultFormat`.
  */
-export const getLatestUsageByFormat: (format?: string) => Promise<UsageStatistics> = async (format: string = AppConfig.defaultFormat) => {
+export const getLatestUsageByFormat: (format?: string) => Promise<UsageStatistics | null> = async (format: string = AppConfig.defaultFormat) => {
   const { url, latestDate, process } = Statistics;
   const latest = await latestDate(format, true);
   const year = new Date().getFullYear();
   const month = new Date().getMonth(); // 0-11
   const date = latest?.date ?? (month === 0 ? `${year}-${`${month}`.padStart(2, '0')}` : `${year - 1}-12`);
-  return process(await fetch(url(date, format)).then((r) => r.text()));
+  try {
+    return process(await fetch(url(date, format)).then((r) => r.text()));
+  } catch (e) {
+    return null;
+  }
 };
 
 /**
@@ -367,13 +371,14 @@ export const trimUsage = (
  * Convert the raw usage statistics to a more usable format
  * @param format - The format to get usage statistics for. Defaults to `AppConfig.defaultFormat`.
  */
-export const postProcessUsage = (format: string = AppConfig.defaultFormat): Promise<Usage[]> => {
-  return getLatestUsageByFormat(format).then((r) =>
-    Object.entries(r.data)
-      .map(([name, obj]) => ({ name, ...obj }))
-      .sort((a, b) => b.usage - a.usage)
-      .map((u, i) => trimUsage(u, i))
-  );
+export const postProcessUsage = async (format: string = AppConfig.defaultFormat): Promise<Usage[]> => {
+  const usage = await getLatestUsageByFormat(format);
+  return !usage
+    ? []
+    : Object.entries(usage.data)
+        .map(([name, obj]) => ({ name, ...obj }))
+        .sort((a, b) => b.usage - a.usage)
+        .map((u, i) => trimUsage(u, i));
 };
 
 /**
@@ -414,12 +419,40 @@ export const getAbilitiesBySpecie = (speciesName?: string): Ability[] => {
  */
 export const getMovesBySpecie = (speciesName?: string): Promise<Move[]> => {
   const gen = DexSingleton.getGen();
+  const species = gen.species.get(speciesName ?? '');
+  // return all moves as the default behavior
+  if (!species) {
+    return Promise.resolve(Array.from(gen.moves));
+  }
+
+  // read learnset by species
   return gen.learnsets.get(speciesName || '').then(async (l) => {
-    const res = Object.entries(l?.learnset ?? []).flatMap((e) => gen.moves.get(e[0]) ?? []);
+    const res = Object.entries(l?.learnset ?? [])
+      .filter((e) => e[1].some((s) => s.startsWith(`${AppConfig.defaultGen}`)))
+      .flatMap((e) => gen.moves.get(e[0]) ?? []);
+
+    // if the species is a forme, add the base species' moves
     const baseSpecies = gen.species.get(speciesName || '')?.baseSpecies ?? '';
     if (baseSpecies !== speciesName && baseSpecies !== '') {
       const baseSpeciesMoves = await getMovesBySpecie(baseSpecies);
       res.push(...baseSpeciesMoves);
+    }
+
+    // get egg moves from its basic species
+    if (species.prevo) {
+      let basicSpecies: Specie | undefined = species;
+      while (basicSpecies && basicSpecies.prevo) {
+        basicSpecies = gen.species.get(basicSpecies.prevo);
+      }
+      const eggMoves =
+        basicSpecies != null
+          ? await gen.learnsets.get(basicSpecies.name).then((le) =>
+              Object.entries(le?.learnset ?? [])
+                .filter((e) => e[1].some((s) => s.startsWith(`${AppConfig.defaultGen}E`)))
+                .flatMap((e) => gen.moves.get(e[0]) ?? [])
+            )
+          : [];
+      res.push(...eggMoves);
     }
     return res;
   });

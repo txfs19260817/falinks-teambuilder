@@ -18,7 +18,7 @@ class DexSingleton {
     this.dex = Dex.forGen(this.genNum);
     this.gen = new Generations(Dex, (d: Data) => {
       if (!d.exists) return false;
-      if ('isNonstandard' in d && d.isNonstandard) return d.isNonstandard === 'Gigantamax';
+      if ('isNonstandard' in d && d.isNonstandard) return genNum === 8 ? d.isNonstandard === 'Gigantamax' : false;
       if (d.kind === 'Ability' && d.id === 'noability') return false;
       return !('tier' in d && ['Illegal', 'Unreleased'].includes(d.tier));
     }).get(this.genNum);

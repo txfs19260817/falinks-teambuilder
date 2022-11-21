@@ -21,7 +21,7 @@ function LevelSetter() {
   return (
     <div className="flex space-x-0.5 text-sm lg:text-lg">
       <span>Level: </span>
-      <input type="number" value={level} min={0} max={100} className="input input-xs w-full md:input-sm" onChange={handleChange} />
+      <input type="number" value={level} min={0} max={100} className="input input-bordered input-primary input-xs w-full md:input-sm" onChange={handleChange} />
     </div>
   );
 }

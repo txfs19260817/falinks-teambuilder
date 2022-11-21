@@ -8,6 +8,7 @@ import { CategoryIcon } from '@/components/icons/CategoryIcon';
 import { TypeIcon } from '@/components/icons/TypeIcon';
 import Table from '@/components/table';
 import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
+import Loading from '@/templates/Loading';
 import { getMovesBySpecie } from '@/utils/PokemonUtils';
 
 function MovesTable({ moveIdx }: { moveIdx: number }) {
@@ -40,6 +41,9 @@ function MovesTable({ moveIdx }: { moveIdx: number }) {
       .flatMap((name) => learnableMoves.find((m) => m.name === name) || [])
       .concat(learnableMoves.filter(({ name }) => !popularMoveNames.includes(name)));
   }, [learnableMoves, popularMoveNames]);
+
+  // use a loading component as reading learnset is async
+  const isLoading = !learnableMoves;
 
   // table settings
   const columns = useMemo<ColumnDef<Move>[]>(
@@ -117,10 +121,11 @@ function MovesTable({ moveIdx }: { moveIdx: number }) {
     if (!move) return;
     teamState.updatePokemonOneMoveInTeam(tabIdx, moveIdx, move.name);
     focusedFieldDispatch({ type: 'next', payload: focusedFieldState });
+    setGlobalFilter(''); // clear search words applied to the table
   };
 
-  // table render
-  return <Table<Move> instance={instance} handleRowClick={handleRowClick} enablePagination={false} />;
+  // renders
+  return isLoading ? <Loading /> : <Table<Move> instance={instance} handleRowClick={handleRowClick} enablePagination={false} />;
 }
 
 export default MovesTable;

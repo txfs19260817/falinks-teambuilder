@@ -68,8 +68,21 @@ function typeToBgClass(type: string) {
   }
 }
 
-function TableCell({ direction, id }: { direction: 'offense' | 'defense'; id: string }) {
-  if (direction === 'defense') return <PokemonIcon speciesId={id} />;
+function TableCell({ direction, id, bordered = false }: { direction: 'offense' | 'defense'; id: string; bordered?: boolean }) {
+  // defense
+  if (direction === 'defense') {
+    // add hexagon border for, e.g., tera-typed species
+    return !bordered ? (
+      <PokemonIcon speciesId={id} />
+    ) : (
+      <div className="avatar" title="Terastallized">
+        <div className="mask mask-hexagon bg-info">
+          <PokemonIcon speciesId={id} />
+        </div>
+      </div>
+    );
+  }
+
   // offense
   const move = DexSingleton.getGen().moves.get(id);
   if (!move) return null;
@@ -85,9 +98,11 @@ function TableCell({ direction, id }: { direction: 'offense' | 'defense'; id: st
 export function TeamTypeChart<T extends ExtendedTypeEffectiveness | TypeEffectiveness = ExtendedTypeEffectiveness>({
   teamTypeChart,
   direction,
+  additionalTypeChart,
 }: {
   teamTypeChart: Type2EffectivenessMap<T>;
   direction: T extends TypeEffectiveness ? 'offense' : 'defense';
+  additionalTypeChart?: Type2EffectivenessMap<T>; // for defensive tera type chart
 }) {
   const multipliers = (direction === 'offense' ? Array.from([0, 0.5, 1, 2]) : Array.from([0, 0.25, 0.5, 1, 2, 4])) as Array<T>;
   return (
@@ -118,6 +133,8 @@ export function TeamTypeChart<T extends ExtendedTypeEffectiveness | TypeEffectiv
                   {mul2Ids[multiplier].map((id) => (
                     <TableCell key={id} direction={direction} id={id} />
                   ))}
+                  {additionalTypeChart &&
+                    additionalTypeChart.get(typeName)?.[multiplier].map((id) => <TableCell key={id} direction={direction} id={id} bordered={true} />)}
                 </div>
               </td>
             ))}

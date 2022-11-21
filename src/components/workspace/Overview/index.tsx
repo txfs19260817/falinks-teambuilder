@@ -22,7 +22,7 @@ function Overview() {
   const [tab, setTab] = useState<Tabs>('Team');
   const { teamState } = useContext(StoreContext);
   const teamCategories = useMemo(() => teamState.getTeamMemberCategories(), [teamState]);
-  const { defenseMap, offenseMap } = useMemo(() => teamState.getTeamTypeChart(), [teamState]);
+  const { defenseMap, offenseMap, defenseTeraMap } = useMemo(() => teamState.getTeamTypeChart(), [teamState]);
 
   return (
     <div className="mockup-window border bg-base-300">
@@ -37,7 +37,7 @@ function Overview() {
       <div className="flex flex-col">
         {tab === 'Team' && <TeamMembersGallery />}
         {tab === 'Types' && <TeamTypeCategoryMatrix teamMemberCategories={teamCategories} />}
-        {tab === 'Defense' && <TeamTypeChart teamTypeChart={defenseMap} direction={'defense'} />}
+        {tab === 'Defense' && <TeamTypeChart teamTypeChart={defenseMap} additionalTypeChart={defenseTeraMap} direction={'defense'} />}
         {tab === 'Offense' && <TeamTypeChart teamTypeChart={offenseMap} direction={'offense'} />}
       </div>
     </div>

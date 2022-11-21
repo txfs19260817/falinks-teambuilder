@@ -190,7 +190,7 @@ const IndexPage = ({ dex }: InferGetStaticPropsType<typeof getStaticProps>) => {
 
 export const getStaticProps: GetStaticProps<{ dex: Gen9Dex[] } & SSRConfig> = async ({ locale }) => {
   const dexContents = fs.readFileSync(join(process.cwd(), 'public/assets/gen9dex/pokemon.json'), 'utf8');
-  const dex = JSON.parse(dexContents) as Gen9Dex[];
+  const dex = (JSON.parse(dexContents) as Gen9Dex[]).filter((p) => p.num < 999).sort((a, b) => a.num - b.num);
 
   return {
     props: {

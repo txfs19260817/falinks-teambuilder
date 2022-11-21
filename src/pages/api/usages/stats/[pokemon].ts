@@ -8,7 +8,7 @@ import { ensureInteger } from '@/utils/Helpers';
 
 const gens = new Generations(Dex);
 const smogon = new Smogon(fetch);
-const fallbackFormat = 'gen8battlestadiumdoubles' as ID;
+const fallbackFormat = 'gen8battlestadiumdoubles' as ID; // TODO: update it when comes to the first gen9 format
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<Awaited<ReturnType<Smogon['stats']>>>) => {
   if (req.method !== 'GET') {
