@@ -10,11 +10,10 @@ import { TeamTypeCategoryMatrix } from '@/components/table/TeamTypeCategoryMatri
 import { TeamTypeChart } from '@/components/table/TeamTypeChart';
 import { Pokemon } from '@/models/Pokemon';
 import Loading from '@/templates/Loading';
-import { S4 } from '@/utils/Helpers';
 import { Paste } from '@/utils/Prisma';
 
 const PasteAndFunctions = ({ team, paste }: { team: Pokemon[]; paste: NonNullable<Paste> }) => {
-  const { locale, push } = useRouter();
+  const { locale } = useRouter();
 
   // handlers
   const handleCopy = () => {
@@ -34,10 +33,6 @@ const PasteAndFunctions = ({ team, paste }: { team: Pokemon[]; paste: NonNullabl
         .writeText(window.location.href)
         .then(() => toast('📋 The link has been copied to your clipboard as your browser does not support Web Share API.'));
     }
-  };
-
-  const handleOpenInRoom = () => {
-    push(`/room/room_${S4()}${S4()}/?protocol=WebSocket&packed=${Pokemon.convertPasteToPackedTeam(paste.paste)}`);
   };
 
   return (
@@ -78,9 +73,15 @@ const PasteAndFunctions = ({ team, paste }: { team: Pokemon[]; paste: NonNullabl
           <button className="btn-secondary btn-sm btn" type="button" onClick={handleShare}>
             Share
           </button>
-          <button className="btn-accent btn-sm btn" type="button" onClick={handleOpenInRoom}>
-            Open in Room
-          </button>
+          {/* <button */}
+          {/*  className="btn-accent btn-sm btn" */}
+          {/*  type="button" */}
+          {/*  onClick={() => { */}
+          {/*    push(`/room/room_${S4()}${S4()}/?protocol=WebSocket&packed=${Pokemon.convertPasteToPackedTeam(paste.paste)}`); */}
+          {/*  }} */}
+          {/* > */}
+          {/*  Open in Room */}
+          {/* </button> */}
         </div>
       </div>
     </div>

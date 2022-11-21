@@ -1,7 +1,6 @@
 import Link from 'next/link';
 
 import HelpTour from '@/components/workspace/Toolbox/HelpTour';
-import LoadInShowdown from '@/components/workspace/Toolbox/LoadInShowdown';
 import ShareLink from '@/components/workspace/Toolbox/ShareLink';
 import { AppConfig } from '@/utils/AppConfig';
 
@@ -13,9 +12,9 @@ const Toolbox = () => {
           <li>
             <ShareLink />
           </li>
-          <li>
-            <LoadInShowdown />
-          </li>
+          {/* <li> */}
+          {/*  <LoadInShowdown /> */}
+          {/* </li> */}
           {/* Dialog buttons */}
           {AppConfig.dialogProps.map(({ id, emoji, text, title }) => (
             <li key={id}>
