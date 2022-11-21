@@ -120,7 +120,7 @@ const usefulLinks = [
 
 // the first element serves as the default format
 // NOTE: change the rewrite rule in `next.config.js` if the default format is changed
-const formats = ['gen9doublesou', 'gen9ou', 'gen8spikemuthcup', 'gen8battlestadiumdoublesseries13', 'gen8vgc2022', 'gen8ou', 'gen8bdspou'];
+const formats = ['gen9doublesou', 'gen9ou', 'gen8spikemuthcup', 'gen8battlestadiumdoublesseries13', 'gen8vgc2022', 'gen8ou'];
 
 export const AppConfig = {
   site_name: 'Falinks Teambuilder',

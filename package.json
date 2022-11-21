@@ -4,7 +4,7 @@
   "description": "A Pokémon teambuilder allows multiple users to work on the same team collaboratively",
   "scripts": {
     "build": "next build",
-    "build-prod": "run-s clean build export",
+    "build-prod-local": "run-s clean build start",
     "build-stats": "cross-env ANALYZE=true npm run build",
     "build-types": "tsc --noEmit --pretty --skipLibCheck",
     "clean": "rimraf .next out coverage",
@@ -54,7 +54,7 @@
     "eslint-config-next": "^13.0.4",
     "gray-matter": "^4.0.3",
     "i18next": "^22.0.6",
-    "next": "^13.0.4",
+    "next": "^13.0.5-canary.3",
     "next-i18next": "^13.0.0",
     "next-pwa": "^5.6.0",
     "next-seo": "^5.14.1",

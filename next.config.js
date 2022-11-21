@@ -39,6 +39,15 @@ const nextConfig = {
     ];
   },
   i18n
+  // compress: false,
+  // webpack(webpackConfig) {
+  //   return {
+  //     ...webpackConfig,
+  //     optimization: {
+  //       minimize: false
+  //     }
+  //   };
+  // }
 };
 
 module.exports = withBundleAnalyzer(withPWA(nextConfig));
