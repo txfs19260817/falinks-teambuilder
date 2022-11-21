@@ -1,6 +1,6 @@
 {
   "name": "falinks-teambuilder",
-  "version": "1.1.5",
+  "version": "1.1.6",
   "description": "A Pokémon teambuilder allows multiple users to work on the same team collaboratively",
   "scripts": {
     "build": "next build",
