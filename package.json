@@ -30,11 +30,11 @@
     "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
   },
   "dependencies": {
-    "@pkmn/data": "^0.7.0",
-    "@pkmn/dex": "^0.7.0",
-    "@pkmn/dex-types": "^0.7.0",
+    "@pkmn/data": "^0.7.1",
+    "@pkmn/dex": "^0.7.1",
+    "@pkmn/dex-types": "^0.7.1",
     "@pkmn/img": "^0.2.0",
-    "@pkmn/sets": "^0.5.0",
+    "@pkmn/sets": "^5.0.0",
     "@pkmn/smogon": "^0.1.0",
     "@pkmn/types": "^3.0.0",
     "@prisma/client": "^4.6.1",
