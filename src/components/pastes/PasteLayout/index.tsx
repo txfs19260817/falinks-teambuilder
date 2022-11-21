@@ -1,7 +1,6 @@
 import type { TypeEffectiveness } from '@pkmn/data';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useId, useState } from 'react';
+import { useState } from 'react';
 import { toast } from 'react-hot-toast';
 import useSWRImmutable from 'swr/immutable';
 
@@ -11,11 +10,11 @@ import { TeamTypeCategoryMatrix } from '@/components/table/TeamTypeCategoryMatri
 import { TeamTypeChart } from '@/components/table/TeamTypeChart';
 import { Pokemon } from '@/models/Pokemon';
 import Loading from '@/templates/Loading';
+import { S4 } from '@/utils/Helpers';
 import { Paste } from '@/utils/Prisma';
 
 const PasteAndFunctions = ({ team, paste }: { team: Pokemon[]; paste: NonNullable<Paste> }) => {
-  const roomId = useId();
-  const { locale } = useRouter();
+  const { locale, push } = useRouter();
 
   // handlers
   const handleCopy = () => {
@@ -35,6 +34,10 @@ const PasteAndFunctions = ({ team, paste }: { team: Pokemon[]; paste: NonNullabl
         .writeText(window.location.href)
         .then(() => toast('📋 The link has been copied to your clipboard as your browser does not support Web Share API.'));
     }
+  };
+
+  const handleOpenInRoom = () => {
+    push(`/room/room_${S4()}${S4()}/?protocol=WebSocket&packed=${Pokemon.convertPasteToPackedTeam(paste.paste)}`);
   };
 
   return (
@@ -75,9 +78,9 @@ const PasteAndFunctions = ({ team, paste }: { team: Pokemon[]; paste: NonNullabl
           <button className="btn-secondary btn-sm btn" type="button" onClick={handleShare}>
             Share
           </button>
-          <Link className="btn-accent btn-sm btn" href={`/room/room_${roomId}/?protocol=WebSocket&packed=${Pokemon.convertPasteToPackedTeam(paste.paste)}`}>
+          <button className="btn-accent btn-sm btn" type="button" onClick={handleOpenInRoom}>
             Open in Room
-          </Link>
+          </button>
         </div>
       </div>
     </div>
