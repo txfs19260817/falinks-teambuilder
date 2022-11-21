@@ -1,10 +1,10 @@
 {
   "name": "falinks-teambuilder",
-  "version": "1.1.6",
+  "version": "1.1.7",
   "description": "A Pokémon teambuilder allows multiple users to work on the same team collaboratively",
   "scripts": {
     "build": "next build",
-    "build-prod": "run-s clean build export",
+    "build-prod-local": "run-s clean build start",
     "build-stats": "cross-env ANALYZE=true npm run build",
     "build-types": "tsc --noEmit --pretty --skipLibCheck",
     "clean": "rimraf .next out coverage",
@@ -30,11 +30,11 @@
     "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
   },
   "dependencies": {
-    "@pkmn/data": "^0.7.0",
-    "@pkmn/dex": "^0.7.0",
-    "@pkmn/dex-types": "^0.7.0",
+    "@pkmn/data": "^0.7.1",
+    "@pkmn/dex": "^0.7.1",
+    "@pkmn/dex-types": "^0.7.1",
     "@pkmn/img": "^0.2.0",
-    "@pkmn/sets": "^0.5.0",
+    "@pkmn/sets": "^5.0.0",
     "@pkmn/smogon": "^0.1.0",
     "@pkmn/types": "^3.0.0",
     "@prisma/client": "^4.6.1",
@@ -54,7 +54,7 @@
     "eslint-config-next": "^13.0.4",
     "gray-matter": "^4.0.3",
     "i18next": "^22.0.6",
-    "next": "^13.0.4",
+    "next": "^13.0.5-canary.3",
     "next-i18next": "^13.0.0",
     "next-pwa": "^5.6.0",
     "next-seo": "^5.14.1",
