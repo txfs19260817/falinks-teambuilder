@@ -5,7 +5,8 @@
       "label": "作者",
       "placeholder": "请输入作者名",
       "description": "无需注册，用于在房间内显示",
-      "button": "随机抽选一个"
+      "button": "抽选一个",
+      "button_title": "随机抽选一个作者名"
     },
     "pokepaste": {
       "label": "PokéPaste 链接",

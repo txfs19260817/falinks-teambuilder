@@ -259,7 +259,6 @@ export const trainerNames = [
   'Lisia',
   'Looker',
   'Lorelei',
-  'Lt. Surge',
   'Lucas',
   'Lusamine',
   'Lyra',

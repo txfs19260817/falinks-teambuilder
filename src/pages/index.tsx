@@ -52,11 +52,15 @@ const Index = () => {
         <div className="hero-overlay bg-opacity-75"></div>
         <div className="hero-content flex-col text-neutral-content lg:flex-row">
           <div className="text-center lg:text-left">
-            <h1 className="text-4xl font-bold md:text-5xl">{AppConfig.title}</h1>
+            <h1 aria-label="Applicaton Name" aria-level={1} className="text-4xl font-bold md:text-5xl">
+              {AppConfig.title}
+            </h1>
             <p className="py-6">{t('home:slogan')}</p>
           </div>
           <div className="card w-full max-w-sm flex-shrink-0 bg-base-100 shadow-2xl">
             <form
+              role="form"
+              aria-label="Create Room Form"
               className="card-body"
               onSubmit={handleSubmit((data) => {
                 gotoRoom(data);
@@ -69,6 +73,8 @@ const Index = () => {
                 <div className="flex">
                   <input
                     id={'userName'}
+                    role="textbox"
+                    aria-label="Author Name"
                     type="text"
                     placeholder={t('home:form.author.placeholder')}
                     required={true}
@@ -77,9 +83,10 @@ const Index = () => {
                     {...register('userName', { required: true })}
                   />
                   <button
-                    title="Draw a name randomly"
+                    title={t('home:form.author.button_title')}
                     className="btn rounded-l-none tracking-tighter"
                     role="button"
+                    aria-label="Draw a name randomly"
                     type="button"
                     onClick={() => {
                       setValue('userName', getRandomTrainerName());
@@ -97,6 +104,8 @@ const Index = () => {
                 <input
                   id={'pokePasteUrl'}
                   type="url"
+                  role="textbox"
+                  aria-label="PokePaste URL"
                   placeholder="https://pokepast.es/a00ca5bc26cda7e9"
                   maxLength={72}
                   className="input-bordered input text-base-content placeholder:text-base-content/50"
@@ -111,6 +120,8 @@ const Index = () => {
                 <input
                   id={'roomName'}
                   type="text"
+                  role="textbox"
+                  aria-label="Room Name"
                   placeholder={t('home:form.room.placeholder')}
                   required={true}
                   maxLength={50}
@@ -129,14 +140,25 @@ const Index = () => {
                       <label className="badge flex" htmlFor={protocol}>
                         {protocol}
                       </label>
-                      <input {...register('protocolName')} className="radio" type="radio" id={protocol} key={protocol} value={protocol} />
+                      <input
+                        {...register('protocolName')}
+                        className="radio"
+                        type="radio"
+                        id={protocol}
+                        key={protocol}
+                        value={protocol}
+                        role="radio"
+                        aria-label={protocol}
+                      />
                     </div>
                   ))}
                 </div>
                 <p className="text-xs text-base-content/50">{t('home:form.protocol.description')}</p>
               </div>
               <div className="form-control mt-6">
-                <button className="btn-primary btn">{t('home:form.submit')}</button>
+                <button className="btn-primary btn" role={'button'} aria-label={'Create Room Submit Button'}>
+                  {t('home:form.submit')}
+                </button>
               </div>
             </form>
           </div>

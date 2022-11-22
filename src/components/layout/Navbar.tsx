@@ -53,7 +53,7 @@ const RoutesList = ({ className }: { className: string }) => {
             <ul tabIndex={-1} className="dropdown-content menu rounded-box bg-neutral p-2 shadow">
               {route.children.map((cr) => (
                 <li key={cr.id}>
-                  <Link href={cr.path} target={cr.target} rel="noopener noreferrer" className="border-none">
+                  <Link href={cr.path} target={cr.target} rel="noopener noreferrer" className="border-none" role="menuitem" aria-label={cr.id}>
                     {t(cr.id, { defaultValue: cr.name })}
                   </Link>
                 </li>
@@ -62,7 +62,7 @@ const RoutesList = ({ className }: { className: string }) => {
           </li>
         ) : (
           <li key={route.id}>
-            <Link href={route.path} target={route.target} rel="noopener noreferrer" className="border-none">
+            <Link href={route.path} target={route.target} rel="noopener noreferrer" className="border-none" role="menuitem" aria-label={route.id}>
               {t(route.id, { defaultValue: route.name })}
             </Link>
           </li>
@@ -77,7 +77,8 @@ const Navbar = () => {
     <nav className="navbar sticky top-0 z-50 bg-neutral text-neutral-content">
       <div className="navbar-start">
         <div className="dropdown">
-          <label tabIndex={0} className="btn-ghost btn lg:hidden">
+          {/* Hamberger menu button */}
+          <label tabIndex={0} className="btn-ghost btn lg:hidden" aria-label="Open Menu" role="button">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h8m-8 6h16" />
             </svg>

@@ -5,7 +5,8 @@
       "label": "Author Name",
       "placeholder": "Enter your name",
       "description": "No registration required. It will be used to identify you in the room.",
-      "button": "Draw a name"
+      "button": "Draw a name",
+      "button_title": "Draw an author name randomly"
     },
     "pokepaste": {
       "label": "PokéPaste Link",
