@@ -65,6 +65,8 @@ test('should navigate to the about page', async ({ page, isMobile, baseURL }) =>
   await expect(link).toHaveAttribute('href', '/about/');
   // Click the "About" link
   await link.click();
+  // Wait for navigation
+  await page.waitForNavigation();
   // The new URL should end with "/about/"
   await expect(page).toHaveURL(/\/about\/$/);
   // The new page should contain a h1 with "Welcome"
@@ -84,6 +86,31 @@ test('should navigate to the usage page', async ({ page, isMobile, baseURL }) =>
   await expect(link).toHaveAttribute('href', '/usages/');
   // Click the "Usage" link
   await link.click();
+  // Wait for navigation
+  await page.waitForNavigation();
   // The new URL should contain "/usages"
   await expect(page).toHaveURL(/\/usages/);
+});
+
+test('should navigate to the User Paste page', async ({ page, isMobile, baseURL }) => {
+  // Start from the index page
+  await page.goto(baseURL || 'http://localhost:3000/');
+  // Expand menu by clicking on the hamburger menu for mobile devices
+  if (isMobile) {
+    await page.getByRole('button', { name: 'Open Menu' }).click();
+  }
+  // Hover the "Paste" link
+  await page.getByRole('listitem').filter({ hasText: 'Paste' }).locator('a').first().hover();
+  // Create a locator for the "User Paste" link
+  const link = page.getByRole('menuitem', { name: 'user_paste' });
+  // Expect an attribute "to be strictly equal" to the value.
+  await expect(link).toHaveAttribute('href', '/pastes/public/');
+  // Click the "User Paste" link
+  await link.click();
+  // Wait for navigation
+  await page.waitForNavigation();
+  // The new URL should contain "/pastes/public"
+  await expect(page).toHaveURL(/\/pastes\/public/);
+  // The new page should contain a cell with "Go Team Rotom"
+  await expect(page.getByRole('cell', { name: 'Go Team Rotom!' })).toBeVisible();
 });

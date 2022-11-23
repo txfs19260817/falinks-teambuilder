@@ -20,6 +20,7 @@ export type SelectProps<T extends Option | Option[]> = {
   onChange?: (selected: T) => void;
   placeholder?: string;
   iconGetter?: (key: string) => JSX.Element;
+  ariaLabel?: string;
 };
 
 export type Usage = Modify<

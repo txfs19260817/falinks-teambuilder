@@ -101,9 +101,12 @@ function Page(data: InferGetStaticPropsType<typeof getStaticProps>) {
 export const getStaticProps: GetStaticProps<{ usages: Usage[]; format: string } & SSRConfig, { format: string }> = async ({ params, locale }) => {
   const format = params?.format ?? AppConfig.defaultFormat;
   const usages = await postProcessUsage(format);
+  const N = 100;
+
   return {
     props: {
-      usages,
+      // pick the top N entries
+      usages: usages.slice(0, N),
       format,
       ...(await serverSideTranslations(locale ?? AppConfig.defaultLocale, ['common'])),
     },
