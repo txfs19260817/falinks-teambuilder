@@ -1,11 +1,14 @@
 import { expect, test } from '@playwright/test';
 
-test('should navigate to a new room', async ({ page, baseURL, browser }) => {
+test('should navigate to a new room', async ({ page, baseURL, browser, browserName }) => {
   // Start from the index page
   await page.goto(baseURL || 'http://localhost:3000/');
   // Click the "Draw a name" button to get an author name
   await page.getByRole('button', { name: 'Draw a name' }).click();
   await expect(page.getByRole('textbox', { name: 'Author' })).toHaveValue(/^[a-zA-Z ]*$/);
+  // Fill the room name with Date.now() + browserName
+  const currentRoomName = `${Date.now()}${browserName}`;
+  await page.getByRole('textbox', { name: 'Room name' }).fill(`${currentRoomName}${browserName}`);
   // Click the "Create Room" button
   await page.getByRole('button', { name: 'Create Room' }).click();
   // Wait for navigation
@@ -37,11 +40,11 @@ test('should navigate to a new room', async ({ page, baseURL, browser }) => {
   await page.getByRole('cell', { name: 'Earthquake' }).click();
   await page.getByRole('cell', { name: 'Protect' }).click();
   await page.getByLabel('Move 3').click();
-  await page.getByLabel('Move 3').fill('rd');
+  await page.getByLabel('Move 3').fill('er');
   await page.getByRole('cell', { name: 'Order Up' }).click();
   await page.getByLabel('Move 4').click();
-  await page.getByLabel('Move 4').fill('wave');
-  await page.getByRole('cell', { name: 'Wave Crash' }).click();
+  await page.getByLabel('Move 4').fill('li');
+  await page.getByRole('cell', { name: 'Liquidation' }).click();
   await page.getByRole('listbox', { name: 'Suggested EV spreads' }).selectOption('Bulky Physical Sweeper: 252 HP / 252 Atk / 4 SpD / (+Atk, -SpA)');
 
   // verify the outcome on the second page
