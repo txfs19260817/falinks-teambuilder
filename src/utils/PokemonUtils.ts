@@ -141,7 +141,7 @@ export const defaultSuggestedSpreads: Spreads[] = [
     label: 'Fast Special Sweeper: 4 HP / 252 SpA / 252 Spe / (+SpA, -Atk)',
   },
   {
-    nature: 'Modest',
+    nature: 'Adamant',
     evs: {
       hp: 252,
       atk: 252,

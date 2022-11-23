@@ -12,7 +12,12 @@ type Tabs = typeof tabs[number];
 export function OverviewTabBtn() {
   const { tabIdx, setTabIdx } = useContext(StoreContext);
   return (
-    <button className={`tab tab-lifted tab-md md:tab-lg ${tabIdx === -1 ? 'tab-active' : 'text-info-content bg-info'}`} onClick={() => setTabIdx(-1)}>
+    <button
+      role="tab"
+      aria-label="Overview"
+      className={`tab tab-lifted tab-md md:tab-lg ${tabIdx === -1 ? 'tab-active' : 'text-info-content bg-info'}`}
+      onClick={() => setTabIdx(-1)}
+    >
       Overview
     </button>
   );
@@ -29,7 +34,7 @@ function Overview() {
       <TeamMetaSetters />
       <div className="tabs tabs-boxed">
         {tabs.map((t) => (
-          <a key={t} className={`tab ${tab === t ? 'tab-active' : ''}`} onClick={() => setTab(t)}>
+          <a role="tab" aria-label={t} key={t} className={`tab ${tab === t ? 'tab-active' : ''}`} onClick={() => setTab(t)}>
             {t}
           </a>
         ))}

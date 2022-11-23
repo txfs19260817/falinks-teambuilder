@@ -97,7 +97,12 @@ function TabsSwitcher({ children }: { children?: ReactNode }) {
           {/* indicator */}
           <TabMenu idx={i} />
           {/* tab */}
-          <a role="tab" className={`tab tab-lifted tab-md md:tab-lg ${i === tabIdx ? 'tab-active' : ''}`} onClick={() => setTabIdx(i)}>
+          <a
+            role="tab"
+            aria-label={`Tab ${i + 1}`}
+            className={`tab tab-lifted tab-md md:tab-lg ${i === tabIdx ? 'tab-active' : ''}`}
+            onClick={() => setTabIdx(i)}
+          >
             <span className="text-sm">{i + 1}</span>
             <PokemonIcon speciesId={p.species} />
             <span>{p.species}</span>
@@ -108,7 +113,7 @@ function TabsSwitcher({ children }: { children?: ReactNode }) {
       {teamState.teamLength < AppConfig.maxPokemonPerTeam && (
         // Show tooltip if no Pokémon in team
         <div className={`tooltip-right tooltip-secondary ${teamState.teamLength === 0 ? 'tooltip tooltip-open' : ''}`} data-tip="Add the first Pokémon">
-          <button className="tab tab-lifted tab-active tab-md md:tab-lg" onClick={() => newTab()}>
+          <button className="tab tab-lifted tab-active tab-md md:tab-lg" onClick={() => newTab()} role="tab" aria-label="Add new tab">
             +
           </button>
         </div>
