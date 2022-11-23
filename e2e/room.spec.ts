@@ -13,7 +13,7 @@ test('should navigate to a new room', async ({ page, baseURL, browser, browserNa
   // Enter to submit the form
   await roomNameInput.press('Enter');
   // Wait for navigation
-  await page.waitForNavigation();
+  await page.waitForNavigation({ waitUntil: 'networkidle' });
   // The new URL should contain currentRoomName
   await expect(page).toHaveURL(new RegExp(`/${currentRoomName}/`));
 
