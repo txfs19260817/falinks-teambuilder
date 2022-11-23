@@ -8,13 +8,14 @@ test('should navigate to a new room', async ({ page, baseURL, browser, browserNa
   await expect(page.getByRole('textbox', { name: 'Author' })).toHaveValue(/^[a-zA-Z ]*$/);
   // Fill the room name with Date.now() + browserName
   const currentRoomName = `${Date.now()}${browserName}`;
-  await page.getByRole('textbox', { name: 'Room name' }).fill(`${currentRoomName}${browserName}`);
-  // Click the "Create Room" button
-  await page.getByRole('button', { name: 'Create Room' }).click();
+  const roomNameInput = page.getByRole('textbox', { name: 'Room name' });
+  await roomNameInput.fill(currentRoomName);
+  // Enter to submit the form
+  await roomNameInput.press('Enter');
   // Wait for navigation
   await page.waitForNavigation();
-  // The new URL should contain "/room/"
-  await expect(page).toHaveURL(/\/room\//);
+  // The new URL should contain currentRoomName
+  await expect(page).toHaveURL(new RegExp(`/${currentRoomName}/`));
 
   // Start collaboarting
   // Create another page in another browser context
