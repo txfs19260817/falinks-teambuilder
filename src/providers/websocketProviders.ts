@@ -5,9 +5,18 @@ import { WebsocketProvider } from 'y-websocket';
 import { StoreContextType } from '@/models/TeamState';
 import { Providers } from '@/providers/baseProviders';
 
-const serverUrl = 'wss://falinks-teambuilder-ws-server.onrender.com';
+const serverUrl = 'wss://falinks-teambuilder.herokuapp.com/';
 
 let instance: WebsocketProviders;
+
+function pingWebsocketServer(): Promise<boolean> {
+  // rewrite the protocol of `serverUrl` from 'wss' to 'https'
+  const url = serverUrl.replace(/^wss/, 'https');
+  // fetch the url with mode: 'no-cors' for ping
+  return fetch(url, { mode: 'no-cors' })
+    .then((res) => res.ok || res.status === 200)
+    .catch(() => false);
+}
 
 class WebsocketProviders extends Providers<WebsocketProvider> {
   constructor() {
@@ -30,4 +39,4 @@ class WebsocketProviders extends Providers<WebsocketProvider> {
 
 const singletonWebsocketProviders = Object.freeze(new WebsocketProviders());
 
-export { singletonWebsocketProviders };
+export { pingWebsocketServer, singletonWebsocketProviders };
