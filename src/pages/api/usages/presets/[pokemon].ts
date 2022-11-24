@@ -37,6 +37,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Data[]>) => {
   if (baseSpecies && baseSpecies !== pokemon) {
     searchTerms.push(baseSpecies);
   }
+  // sanitize the input manually to search with input having space
+  const searchTermsString = searchTerms.map((s) => s.split(' ').join('&')).join('&');
 
   // full-text search paste
   const results = await prisma.pokepaste.findMany({
@@ -44,7 +46,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Data[]>) => {
       isOfficial: true,
       format: typeof format === 'string' ? format : AppConfig.defaultFormat,
       paste: {
-        search: searchTerms.join('&'),
+        search: searchTermsString,
       },
     },
     orderBy: {

@@ -1,7 +1,6 @@
 /* eslint max-classes-per-file: "off" */
 import { getYjsDoc, syncedStore } from '@syncedstore/core';
 import { MappedTypeDescription } from '@syncedstore/core/types/doc';
-import { toast } from 'react-hot-toast';
 import { UndoManager } from 'yjs';
 
 import { Pokemon } from '@/models/Pokemon';
@@ -91,8 +90,6 @@ class TeamState {
     const log = `${new Date().toLocaleTimeString()} - ${this.username}: ${s}`;
     // push to history array
     this.teamState.history.push(log);
-    // also toast it
-    toast(log, { position: 'bottom-right' });
   };
 
   clearHistory = () => {
@@ -172,7 +169,7 @@ class TeamState {
       this.teamState.team[tabIdx]![key] = newValue;
     }
     // update history
-    this.addHistory(`Changed ${key} of ${this.teamState.team[tabIdx]!.name} from ${JSON.stringify(oldValue)} to ${JSON.stringify(newValue)}`);
+    this.addHistory(`Changed ${key} of ${this.teamState.team[tabIdx]!.species} from ${JSON.stringify(oldValue)} to ${JSON.stringify(newValue)}`);
     return true;
   };
 

@@ -9,22 +9,22 @@ const autoTeraTypeLiteral = '(Auto)';
 function TeraTypeSelect() {
   const { teamState, tabIdx } = useContext(StoreContext);
   const defaultTeraType = DexSingleton.getGen().species.get(teamState.getPokemonInTeam(tabIdx)?.species ?? '')?.types[0] ?? 'Normal';
-  const [teratype, setTeraType] = useState<string>(defaultTeraType);
+  const [teratype, setTeratype] = useState<string>(defaultTeraType);
 
   // receive changes from other users
   useEffect(() => {
     if (!teamState.getPokemonInTeam(tabIdx)) return;
-    setTeraType(teamState.getPokemonInTeam(tabIdx)?.teraType || '');
+    setTeratype(teamState.getPokemonInTeam(tabIdx)?.teraType || defaultTeraType);
   }, [teamState.getPokemonInTeam(tabIdx)?.teraType]);
 
   // emit changes to other users
   const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
     const newTeraType = e.target.value;
     if (newTeraType === autoTeraTypeLiteral) {
-      setTeraType(defaultTeraType);
+      setTeratype(defaultTeraType);
       teamState.updatePokemonInTeam(tabIdx, 'teraType', defaultTeraType);
     } else {
-      setTeraType(newTeraType);
+      setTeratype(newTeraType);
       teamState.updatePokemonInTeam(tabIdx, 'teraType', newTeraType);
     }
   };

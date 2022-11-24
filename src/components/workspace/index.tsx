@@ -79,13 +79,13 @@ function Workspace({ roomName, protocolName, basePokePaste }: WorkspaceProps) {
           if (added.length > 0) {
             toast(`${(membersMap.get(added[0]) as ClientInfo)?.user?.name || 'A trainer'} (${added[0]}) joined the room, welcome!`, {
               icon: '👏',
-              position: 'bottom-right',
+              position: 'top-right',
             });
           }
           if (removed.length > 0) {
             toast(`A trainer (${removed[0]}) left the room, bye!`, {
               icon: '👋',
-              position: 'bottom-right',
+              position: 'top-right',
             });
           }
         }
