@@ -17,7 +17,7 @@ test('should navigate to a new room', async ({ page, baseURL, browser, browserNa
   // The new URL should contain currentRoomName
   await expect(page).toHaveURL(new RegExp(`/${currentRoomName}/`));
 
-  // Start collaboarting
+  // Start collaborating
   // Create another page in another browser context
   const context = await browser.newContext();
   const page2 = await context.newPage();
@@ -57,4 +57,16 @@ test('should navigate to a new room', async ({ page, baseURL, browser, browserNa
   await expect(page2.getByRole('cell', { name: 'spa stat' })).toHaveText('76');
   await expect(page2.getByRole('cell', { name: 'spd stat' })).toHaveText('86');
   await expect(page2.getByRole('cell', { name: 'spe stat' })).toHaveText('55');
+});
+
+test('should undo and redo', async ({ page, baseURL, browserName }) => {
+  // Start from the room page
+  await page.goto(baseURL ? `${baseURL}/room/${Date.now()}${browserName}` : `http://localhost:3000/room/${Date.now()}${browserName}`);
+  await page.getByRole('tab', { name: 'Add new tab' }).click();
+  const tab1 = page.getByRole('tab', { name: 'Tab 1' });
+  await expect(tab1).toBeVisible();
+  await page.getByRole('button', { name: '↩️ Undo' }).click();
+  await expect(tab1).not.toBeVisible();
+  await page.getByRole('button', { name: '↪️ Redo' }).click();
+  await expect(tab1).toBeVisible();
 });

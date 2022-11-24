@@ -82,6 +82,8 @@ const toolboxIDs: Record<string, string> = {
   importModal: 'import-ps-modal',
   postModal: 'post-pokepaste-modal',
   historyModal: 'history-modal',
+  undoButton: 'undo-btn',
+  redoButton: 'redo-btn',
 };
 
 const dialogProps = [
@@ -111,13 +113,6 @@ const dialogProps = [
   },
 ];
 
-const usefulLinks = [
-  {
-    name: '📟 DamageCalc',
-    url: 'https://www.pikalytics.com/calc',
-  },
-];
-
 // the first element serves as the default format
 // NOTE: change the rewrite rule in `next.config.js` if the default format is changed
 const formats = ['gen9doublesou', 'gen9ou', 'gen8spikemuthcup', 'gen8battlestadiumdoublesseries13', 'gen8vgc2022', 'gen8ou'];
@@ -143,7 +138,6 @@ export const AppConfig = {
   toolboxIDs,
   formats,
   dialogProps,
-  usefulLinks,
   routes,
 };
 

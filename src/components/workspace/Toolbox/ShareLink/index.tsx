@@ -24,7 +24,7 @@ function ShareLink() {
       }}
     >
       <span>🔗</span>
-      <span>Share Link</span>
+      <span>Share</span>
     </button>
   );
 }

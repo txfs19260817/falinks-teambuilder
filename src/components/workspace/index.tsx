@@ -1,5 +1,4 @@
 import { TourProvider } from '@reactour/tour';
-import { syncedStore } from '@syncedstore/core';
 import { useSyncedStore } from '@syncedstore/react';
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
@@ -16,7 +15,7 @@ import { NotesDialog } from '@/components/workspace/Toolbox/Notes';
 import { PostPokepasteDialog } from '@/components/workspace/Toolbox/PostPokepaste';
 import { Client, ClientInfo } from '@/models/Client';
 import { Pokemon } from '@/models/Pokemon';
-import { Metadata, StoreContextType, TeamChangelog, TeamState } from '@/models/TeamState';
+import { TeamState, TeamStore } from '@/models/TeamState';
 import { getProvidersByProtocolName, SupportedProtocolProvider } from '@/providers';
 import { BaseProvider } from '@/providers/baseProviders';
 import { AppConfig, roomTourSteps } from '@/utils/AppConfig';
@@ -28,12 +27,7 @@ export type WorkspaceProps = {
   basePokePaste?: BasePokePaste;
 };
 
-const teamStore = syncedStore<StoreContextType>({
-  metadata: {} as Metadata,
-  team: [] as Pokemon[],
-  notes: 'xml',
-  history: [] as TeamChangelog[],
-});
+const teamStore = new TeamStore();
 
 function Workspace({ roomName, protocolName, basePokePaste }: WorkspaceProps) {
   // States
@@ -47,7 +41,7 @@ function Workspace({ roomName, protocolName, basePokePaste }: WorkspaceProps) {
   // Initialize synced store
   // Only `teamState` in this level is instance of MappedTypeDescription.
   // Its children are instances of class TeamState.
-  const teamState = useSyncedStore(teamStore);
+  const teamState = useSyncedStore(teamStore.store);
   if (teamState.metadata.roomName !== roomName) {
     teamState.metadata.roomName = roomName;
   }
@@ -62,7 +56,7 @@ function Workspace({ roomName, protocolName, basePokePaste }: WorkspaceProps) {
   useEffect(() => {
     // set up provider
     const providers = getProvidersByProtocolName(protocolName);
-    const providerInstance: BaseProvider = providers.getOrCreateProvider(roomName, teamStore);
+    const providerInstance: BaseProvider = providers.getOrCreateProvider(roomName, teamStore.store);
     providerInstance.connect();
     // create client
     const clientInstance = new Client(providerInstance, localStorage.getItem('username') || undefined);
@@ -73,7 +67,7 @@ function Workspace({ roomName, protocolName, basePokePaste }: WorkspaceProps) {
       ({ added, removed }: { added: Array<any>; updated: Array<any>; removed: Array<any> }, origin: BaseProvider | 'local') => {
         if (!origin) return;
         if (origin === 'local') {
-          // it can be 'local' when the client is initialized
+          // it can be a literal 'local' when the client is initialized
           teamState.metadata.authors = [localStorage.getItem('username') || 'Trainer'];
           return;
         }
@@ -122,7 +116,7 @@ function Workspace({ roomName, protocolName, basePokePaste }: WorkspaceProps) {
     <TourProvider steps={roomTourSteps}>
       <StoreContextProvider
         value={{
-          teamState: new TeamState(teamState),
+          teamState: new TeamState(teamState, teamStore),
           tabIdx,
           setTabIdx,
           focusedFieldState,
@@ -145,7 +139,7 @@ function Workspace({ roomName, protocolName, basePokePaste }: WorkspaceProps) {
             <ImportShowdownDialog />
             <HistoryDialog />
             <PostPokepasteDialog />
-            <NotesDialog store={teamStore} client={client} />
+            <NotesDialog store={teamStore.store} client={client} />
           </>
         )}
       </StoreContextProvider>

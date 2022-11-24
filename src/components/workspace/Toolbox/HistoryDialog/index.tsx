@@ -6,7 +6,7 @@ import { AppConfig } from '@/utils/AppConfig';
 export function HistoryDialog() {
   const { teamState } = useContext(StoreContext);
   const [isOpen, setIsOpen] = useState(false);
-  const [historyLiteralList, setHistoryLiteralList] = useState<string[]>([]);
+  const [historyLogs, setHistoryLogs] = useState<string[]>([]);
   const modalRef = useRef<HTMLLabelElement>(null);
 
   // lazy load showdown
@@ -15,7 +15,7 @@ export function HistoryDialog() {
     if (modalRef.current) {
       modalRef.current.scrollLeft = 100000; // rtl
     }
-    setHistoryLiteralList(teamState.historyLiteral); // lazy load
+    setHistoryLogs(teamState.history); // lazy load
   }, [isOpen]);
 
   return (
@@ -37,7 +37,7 @@ export function HistoryDialog() {
           <div className="ml-2 mt-2" dir="ltr">
             <h3 className="text-lg font-bold">Edit History</h3>
             <ul className="steps steps-vertical">
-              {historyLiteralList.map((change, idx) => (
+              {historyLogs.map((change, idx) => (
                 <li key={idx} className="step-primary step text-xs">
                   {change}
                 </li>
@@ -48,7 +48,7 @@ export function HistoryDialog() {
             className="modal-action"
             onClick={() => {
               teamState.clearHistory();
-              setHistoryLiteralList([]);
+              setHistoryLogs([]);
             }}
           >
             <button className="btn-primary btn-sm btn">Clear</button>

@@ -1,40 +1,85 @@
+/* eslint max-classes-per-file: "off" */
+import { getYjsDoc, syncedStore } from '@syncedstore/core';
 import { MappedTypeDescription } from '@syncedstore/core/types/doc';
+import { toast } from 'react-hot-toast';
+import { UndoManager } from 'yjs';
 
 import { Pokemon } from '@/models/Pokemon';
 import { AppConfig } from '@/utils/AppConfig';
 import { S4 } from '@/utils/Helpers';
 
-export type TeamChangelog = {
-  username: string;
-  tabIdx: number;
-  category: string;
-  oldValue: string;
-  newValue: string;
-};
-
-export type Metadata = {
+type Metadata = {
   title: string;
-  notes: string;
+  notes: string; // it's a readonly field
   authors: string[];
   roomName: string;
   format: string;
 };
 
-export type StoreContextType = {
+type StoreContextType = {
   team: Pokemon[];
   metadata: Metadata;
   notes: any; // for Tiptap to work collaboratively only. The notes field is in metadata.
-  history: TeamChangelog[];
+  history: string[];
 };
 
-export class TeamState {
+class TeamStore {
+  private readonly _store: MappedTypeDescription<StoreContextType>;
+
+  private readonly teamUndoManager: UndoManager;
+
+  constructor() {
+    this._store = syncedStore<StoreContextType>({
+      metadata: {} as Metadata,
+      team: [] as Pokemon[],
+      notes: 'xml',
+      history: [] as string[],
+    });
+
+    // undo manager
+    const doc = getYjsDoc(this._store);
+    const team = doc.getArray<Pokemon[]>('team');
+    this.teamUndoManager = new UndoManager(team);
+  }
+
+  get store() {
+    return this._store;
+  }
+
+  public teamUndo() {
+    return this.teamUndoManager.undo();
+  }
+
+  public teamRedo() {
+    return this.teamUndoManager.redo();
+  }
+}
+
+class TeamState {
   private teamState: MappedTypeDescription<StoreContextType>;
+
+  private readonly teamStore: TeamStore;
 
   private readonly username: string;
 
-  constructor(teamState: MappedTypeDescription<StoreContextType>, username?: string) {
+  constructor(teamState: MappedTypeDescription<StoreContextType>, teamStore: TeamStore, username?: string) {
     this.teamState = teamState;
+    this.teamStore = teamStore;
     this.username = username || localStorage.getItem('username') || 'Trainer';
+  }
+
+  public teamUndo() {
+    const r = this.teamStore.teamUndo();
+    const isDelete = r != null && r.deletions.clients.size > 0;
+    const isAdd = r != null && r.insertions.clients.size > 0;
+    this.addHistory(`Undo ${isDelete && isAdd ? 'edit' : isDelete ? 'delete' : isAdd ? 'add' : ''}`);
+  }
+
+  public teamRedo() {
+    const r = this.teamStore.teamRedo();
+    const isDelete = r != null && r.deletions.clients.size > 0;
+    const isAdd = r != null && r.insertions.clients.size > 0;
+    this.addHistory(`Redo ${isDelete && isAdd ? 'edit' : isDelete ? 'delete' : isAdd ? 'add' : ''}`);
   }
 
   /* History */
@@ -42,18 +87,13 @@ export class TeamState {
     return this.teamState.history;
   }
 
-  get historyLiteral() {
-    return this.teamState.history.map(
-      (h) =>
-        `${h.username} ${h.category}${h.oldValue.length > 0 ? ` <${h.oldValue}>` : ''}${h.newValue.length > 0 ? ` to <${h.newValue}>` : ''} on tab ${
-          h.tabIdx + 1
-        }`
-    );
-  }
-
-  private pushHistory(history: TeamChangelog) {
-    this.teamState.history.push(history);
-  }
+  private addHistory = (s: string) => {
+    const log = `${new Date().toLocaleTimeString()} - ${this.username}: ${s}`;
+    // push to history array
+    this.teamState.history.push(log);
+    // also toast it
+    toast(log, { position: 'bottom-right' });
+  };
 
   clearHistory = () => {
     this.teamState.history.splice(0, this.teamState.history.length);
@@ -119,7 +159,7 @@ export class TeamState {
   }
 
   // https://typeofnan.dev/how-to-make-one-function-argument-dependent-on-another-in-typescript/
-  updatePokemonInTeam = <K extends keyof typeof Pokemon.prototype>(tabIdx: number, key: K, newValue: Pokemon[K], recordHistory = true): boolean => {
+  updatePokemonInTeam = <K extends keyof typeof Pokemon.prototype>(tabIdx: number, key: K, newValue: Pokemon[K]): boolean => {
     // validate
     if (tabIdx < 0 || tabIdx > this.teamState.team.length) {
       return false;
@@ -131,31 +171,14 @@ export class TeamState {
     } else {
       this.teamState.team[tabIdx]![key] = newValue;
     }
-
-    // update history optionally
-    if (recordHistory) {
-      this.pushHistory({
-        username: this.username,
-        tabIdx,
-        category: `set ${key}`,
-        oldValue: typeof oldValue === 'string' ? oldValue : JSON.stringify(oldValue),
-        newValue: typeof newValue === 'string' ? newValue : JSON.stringify(newValue),
-      });
-    }
+    // update history
+    this.addHistory(`Changed ${key} of ${this.teamState.team[tabIdx]!.name} from ${JSON.stringify(oldValue)} to ${JSON.stringify(newValue)}`);
     return true;
   };
 
   addPokemonToTeam = (pokemon: Pokemon): number => {
-    const newLength = this.teamState.team.push(pokemon);
-    // update history
-    this.pushHistory({
-      username: this.username,
-      tabIdx: newLength - 1,
-      category: 'added Pokémon',
-      oldValue: '',
-      newValue: pokemon.species,
-    });
-    return newLength;
+    this.addHistory(`Added ${pokemon.species}`);
+    return this.teamState.team.push(pokemon);
   };
 
   splicePokemonTeam = (start: number, deleteCount: number, ...items: Pokemon[]): Pokemon[] => {
@@ -165,23 +188,7 @@ export class TeamState {
       .join(', ');
     const newTeam = this.teamState.team.splice(start, deleteCount, ...items);
     // update history depending on whether we're replacing or deleting
-    if (items.length === 0) {
-      this.pushHistory({
-        username: this.username,
-        tabIdx: start,
-        category: 'deleted Pokémon',
-        oldValue: oldTeamNames,
-        newValue: '',
-      });
-    } else {
-      this.pushHistory({
-        username: this.username,
-        tabIdx: start,
-        category: 'replaced Pokémon',
-        oldValue: oldTeamNames,
-        newValue: items.map((p) => p.species).join(', '),
-      });
-    }
+    this.addHistory(items.length === 0 ? `Deleted ${oldTeamNames}` : `Replaced ${oldTeamNames} with ${items.map((p) => p.species).join(', ')}`);
     return newTeam;
   };
 
@@ -193,14 +200,7 @@ export class TeamState {
     const oldMove = this.teamState.team[tabIdx]?.moves[moveIdx] ?? '';
     this.teamState.team[tabIdx]!.moves.splice(moveIdx, 1, newMove);
     // update history
-    this.pushHistory({
-      username: this.username,
-      tabIdx,
-      category: 'set a move',
-      oldValue: oldMove,
-      newValue: newMove,
-    });
-
+    this.addHistory(`Changed move ${moveIdx + 1} of ${this.teamState.team[tabIdx]!.species} from ${oldMove} to ${newMove}`);
     return true;
   };
 
@@ -211,3 +211,6 @@ export class TeamState {
     return this.teamState.team[tabIdx];
   };
 }
+
+export { TeamState, TeamStore };
+export type { Metadata, StoreContextType };
