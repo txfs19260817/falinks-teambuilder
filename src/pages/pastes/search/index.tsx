@@ -136,6 +136,7 @@ const Search = () => {
                               label: field.species,
                             }}
                             iconGetter={(key: string) => <PokemonIcon speciesId={key} />}
+                            ariaLabel={`Pokemon Select ${index}`}
                           />
                         </div>
                         <button className="btn btn-sm btn-error" type="button" onClick={() => remove(index)}>
@@ -167,6 +168,7 @@ const Search = () => {
                           }}
                           defaultValue={{ value: '', label: 'Any' }}
                           iconGetter={(key: string) => <ItemIcon itemName={key} />}
+                          ariaLabel={`Item Select ${index}`}
                         />
                         {/* Ability */}
                         <label className="label">
@@ -176,6 +178,8 @@ const Search = () => {
                           className="select select-bordered select-sm w-full"
                           value={field.ability}
                           onChange={(e) => update(index, { ...field, ability: e.target.value })}
+                          role="listbox"
+                          aria-label={`Ability Select ${index}`}
                         >
                           <option value="">Any</option>
                           {Object.values(gen.species.get(field.species)?.abilities ?? {}).map((a) => (
@@ -211,6 +215,7 @@ const Search = () => {
                               newMoves[i] = e.value;
                               update(index, { ...field, moves: newMoves });
                             }}
+                            ariaLabel={`Move ${i + 1} Select ${index}`}
                           />
                         ))}
                       </div>
@@ -224,6 +229,8 @@ const Search = () => {
                             <label className="uppercase">{stat}</label>
                             <input
                               type="number"
+                              role="spinbutton"
+                              aria-label={`${stat} min ${index}`}
                               step={4}
                               min={0}
                               max={252}
@@ -234,6 +241,8 @@ const Search = () => {
                             <span className="text-center">~</span>
                             <input
                               type="number"
+                              role="spinbutton"
+                              aria-label={`${stat} max ${index}`}
                               step={4}
                               min={0}
                               max={252}

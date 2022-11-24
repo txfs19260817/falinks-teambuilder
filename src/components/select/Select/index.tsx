@@ -12,6 +12,7 @@ export const Select = ({
   placeholder = '...',
   itemClassName = 'w-full',
   inputSize = 'md',
+  ariaLabel = 'Select',
 }: SelectProps<Option>) => {
   const getOptionsFilter = (inputValue?: Option['value']) => (option: Option) => !inputValue || option.value.toLowerCase().includes(inputValue.toLowerCase());
   const inputId = useId();
@@ -49,15 +50,18 @@ export const Select = ({
             {...getInputProps()}
             id={inputId}
             type="search"
+            role="listbox"
+            aria-label={ariaLabel}
             placeholder={placeholder}
             className={`input-bordered input w-full ${
               inputSize === 'xs' ? 'input-xs' : inputSize === 'sm' ? 'input-sm' : inputSize === 'lg' ? 'input-lg' : ''
             }`}
           />
           <button
-            aria-label="toggle menu"
             className={`btn ${inputSize === 'xs' ? 'btn-xs' : inputSize === 'sm' ? 'btn-sm' : inputSize === 'lg' ? 'btn-lg' : ''}`}
             type="button"
+            role="button"
+            aria-label="toggle menu"
             {...getToggleButtonProps()}
           >
             {isOpen ? '▲' : '▼'}
@@ -71,6 +75,7 @@ export const Select = ({
               className={`p-1 flex flex-col ${highlightedIndex === index ? 'bg-base-300' : ''} ${selectedItem === item ? 'font-bold' : ''}`}
               key={`${item.value}${index}`}
               {...getItemProps({ item, index })}
+              aria-label={item.label}
             >
               <span>
                 {iconGetter && iconGetter(item.value)}

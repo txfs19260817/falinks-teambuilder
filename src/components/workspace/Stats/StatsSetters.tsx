@@ -140,6 +140,8 @@ function StatsSetters() {
                 <span>+</span>
                 <input
                   type="radio"
+                  role="radio"
+                  aria-label={`plus-${stat}`}
                   name={`plus-${stat}`}
                   className="radio-primary radio radio-xs md:radio-sm"
                   checked={nature.plus === stat}
@@ -148,6 +150,8 @@ function StatsSetters() {
                 />
                 <input
                   type="radio"
+                  role="radio"
+                  aria-label={`minus-${stat}`}
                   name={`minus-${stat}`}
                   className="radio-secondary radio radio-xs md:radio-sm"
                   checked={nature.minus === stat}
@@ -160,6 +164,8 @@ function StatsSetters() {
             {/* EVs - number input */}
             <input
               type="number"
+              role="spinbutton"
+              aria-label={`${stat} EV input`}
               id={`ev-${stat}-number`}
               min="0"
               max="252"
@@ -177,6 +183,8 @@ function StatsSetters() {
             {/* EVs - range slider */}
             <input
               type="range"
+              role="slider"
+              aria-label={`${stat} EV slider`}
               id={`ev-${stat}-range`}
               min="0"
               max="252"
@@ -190,6 +198,8 @@ function StatsSetters() {
             {/* IVs - number input */}
             <input
               type="number"
+              role="spinbutton"
+              aria-label={`${stat} IV input`}
               id={`iv-${stat}-number`}
               min="0"
               max="31"
@@ -198,7 +208,9 @@ function StatsSetters() {
               onChange={(e) => handleIVInputChange(e, stat)}
             />
             {/* Final Stat */}
-            <span>{getStats(stat, b, ev, iv, nature, lv)}</span>
+            <span role="cell" aria-label={`${stat} stat`}>
+              {getStats(stat, b, ev, iv, nature, lv)}
+            </span>
           </div>
         );
       })}
@@ -219,7 +231,13 @@ function StatsSetters() {
         <span className="col-span-2 text-center font-bold uppercase" role="columnheader">
           Suggestions:
         </span>
-        <select className="select-bordered select select-xs col-span-6 md:select-sm" defaultValue="" onChange={handleSuggestionSelectChange}>
+        <select
+          className="select-bordered select select-xs col-span-6 md:select-sm"
+          defaultValue=""
+          onChange={handleSuggestionSelectChange}
+          role="listbox"
+          aria-label="Suggested EV spreads"
+        >
           <option value="" disabled>
             Suggested EVs spreads
           </option>

@@ -17,7 +17,13 @@ export const FormatSelector = ({
     return (
       <div className="input-group-xs input-group">
         <span>Format</span>
-        <select className="select-bordered select select-sm w-48 overflow-ellipsis" defaultValue={defaultFormat} onChange={handleChange}>
+        <select
+          className="select-bordered select select-sm w-48 overflow-ellipsis"
+          defaultValue={defaultFormat}
+          onChange={handleChange}
+          role="listbox"
+          aria-label="Format Selector"
+        >
           {formats.map((f) => (
             <option key={f} value={f}>
               {f}
@@ -28,7 +34,13 @@ export const FormatSelector = ({
     );
   }
   return (
-    <select className="select-bordered select select-sm overflow-ellipsis" defaultValue={defaultFormat} onChange={handleChange}>
+    <select
+      className="select-bordered select select-sm overflow-ellipsis"
+      defaultValue={defaultFormat}
+      onChange={handleChange}
+      role="listbox"
+      aria-label="Format Selector"
+    >
       {formats.map((f) => (
         <option key={f} value={f}>
           {f}

@@ -20,7 +20,10 @@ UserScript to enhance the experience of using Falinks Teambuilder with Pokémon 
 Requirements:
 
 - Node.js: 16.x (used `.at()`)
-- MongoDB Atlas (used Atlas Search). Set environment variables `MONGODB_URI` and `MONGODB_APIKEY`
+- PostgreSQL URLs required by Prisma (
+  see [Prisma docs](https://www.prisma.io/docs/concepts/components/prisma-migrate/shadow-database#shadow-database-user-permissions))
+    - `DATABASE_URL`: For development / production
+    - `SHADOW_DATABASE_URL`: Cloud-hosted shadow databases must be created manually
 
 ### Install
 
@@ -44,20 +47,8 @@ npm run test
 
 Contributions, issues and feature requests are welcome!
 
-Feel free to check [issues page](https://github.com/txfs19260817/falinks-teambuilder/issues).
-
-## Roadmap
-
-- [X] Collaborate text editor
-- [ ] Usage Tour
-- [X] Statistics
-- [ ] Save & Load
-- [X] Integrate with [Pokémon Showdown](https://play.pokemonshowdown.com/)
-- [X] Suggested EVs spreads
-- [X] Single Pokémon paste import/export
-- [X] Team Gallery
-- [X] Usage sorting
-- [X] I18n
+Feel free to check [issues page](https://github.com/txfs19260817/falinks-teambuilder/issues)
+and [discussions page](https://github.com/txfs19260817/falinks-teambuilder/discussions).
 
 ## Acknowledgements
 
