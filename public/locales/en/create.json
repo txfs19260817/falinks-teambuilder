@@ -29,6 +29,15 @@
     "format": {
       "label": "Format"
     },
+    "team": {
+      "label": "Team"
+    },
+    "created at": {
+      "label": "Created at"
+    },
+    "details": {
+      "label": "Details"
+    },
     "public": {
       "public": "Public",
       "private": "Private",

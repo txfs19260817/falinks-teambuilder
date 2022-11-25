@@ -36,7 +36,7 @@ export const getStaticProps: GetStaticProps<{ pastes: PastesList; format: string
     props: {
       pastes: JSON.parse(JSON.stringify(pastes)),
       format,
-      ...(await serverSideTranslations(locale ?? AppConfig.defaultLocale, ['common'])),
+      ...(await serverSideTranslations(locale ?? AppConfig.defaultLocale, ['common', 'create'])),
     },
   };
 };

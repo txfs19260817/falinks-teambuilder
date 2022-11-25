@@ -29,6 +29,15 @@
     "format": {
       "label": "对战规则"
     },
+    "team": {
+      "label": "队伍"
+    },
+    "created at": {
+      "label": "创建于"
+    },
+    "details": {
+      "label": "详情"
+    },
     "public": {
       "public": "公开",
       "private": "私密",

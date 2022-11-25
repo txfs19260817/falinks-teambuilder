@@ -1,5 +1,6 @@
 import type { TypeEffectiveness } from '@pkmn/data';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
 import { useState } from 'react';
 import { toast } from 'react-hot-toast';
 import useSWRImmutable from 'swr/immutable';
@@ -88,24 +89,30 @@ const PasteAndFunctions = ({ team, paste }: { team: Pokemon[]; paste: NonNullabl
 };
 
 const TeamInsight = ({ team }: { team: Pokemon[] }) => {
+  const { t } = useTranslation('table');
   const { defenseMap, offenseMap, defenseTeraMap } = Pokemon.getTeamTypeChart(team);
   return (
     <div className="flex flex-col gap-2 overflow-x-auto p-2">
-      <h1 className="text-2xl font-bold">Team Insight</h1>
-      <h2 className="text-xl font-bold">Type-Category Matrix</h2>
+      <h1 className="text-2xl font-bold">{t('insights')}</h1>
+      {/* type category matrix */}
+      <h2 className="text-xl font-bold">{t('type_category_matrix')}</h2>
       <TeamTypeCategoryMatrix teamMemberCategories={Pokemon.getTeamMemberCategories(team)} />
-      <h2 className="text-xl font-bold">Defense</h2>
+      {/* defense map */}
+      <h2 className="text-xl font-bold">{t('defense')}</h2>
       <TeamTypeChart teamTypeChart={defenseMap} additionalTypeChart={defenseTeraMap} direction={'defense'} />
-      <h2 className="text-xl font-bold">Offense</h2>
+      {/* offense map */}
+      <h2 className="text-xl font-bold">{t('offense')}</h2>
       <TeamTypeChart<TypeEffectiveness> teamTypeChart={offenseMap} direction={'offense'} />
     </div>
   );
 };
 
-type Tabs = 'Team' | 'Insight';
+const tabs = ['Team', 'Insights'] as const;
+type Tabs = typeof tabs[number];
 
 const PasteLayout = ({ id }: { id: string }) => {
-  const [tab, setTab] = useState<Tabs>('Team');
+  const { t } = useTranslation('table');
+  const [currentTab, setCurrentTab] = useState<Tabs>('Team');
   const { data: paste, error } = useSWRImmutable<Paste>(id, (i) => fetch(`/api/pastes/${i}`).then((res) => res.json()));
 
   if (error) {
@@ -118,13 +125,14 @@ const PasteLayout = ({ id }: { id: string }) => {
   return (
     <>
       <div className="tabs tabs-boxed">
-        {['Team', 'Insight'].map((t) => (
-          <a key={t} className={`tab ${tab === t ? 'tab-active' : ''}`} onClick={() => setTab(t as Tabs)}>
-            {t}
+        {['Team', 'Insights'].map((tab) => (
+          <a key={tab} className={`tab ${currentTab === tab ? 'tab-active' : ''}`} onClick={() => setCurrentTab(tab as Tabs)}>
+            {t(tab.toLowerCase())}
           </a>
         ))}
       </div>
-      {tab === 'Team' ? <PasteAndFunctions team={team} paste={paste} /> : <TeamInsight team={team} />}
+      {currentTab === 'Team' && <PasteAndFunctions team={team} paste={paste} />}
+      {currentTab === 'Insights' && <TeamInsight team={team} />}
     </>
   );
 };

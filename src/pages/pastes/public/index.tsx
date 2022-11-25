@@ -18,7 +18,7 @@ export const getServerSideProps: GetServerSideProps<{ pastes: PastesList }> = as
   return {
     props: {
       pastes: JSON.parse(JSON.stringify(pastes)) as PastesList,
-      ...(await serverSideTranslations(context.locale ?? 'en', ['common']))
+      ...(await serverSideTranslations(context.locale ?? 'en', ['common', 'create']))
     }
   };
 };

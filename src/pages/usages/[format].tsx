@@ -1,6 +1,6 @@
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next';
 import { useRouter } from 'next/router';
-import { SSRConfig } from 'next-i18next';
+import { SSRConfig, useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useId, useState } from 'react';
 
@@ -22,6 +22,7 @@ import type { Usage } from '@/utils/Types';
 const UsagePage = ({ usages, format }: { usages: Usage[]; format: string }) => {
   const drawerID = useId();
   const { push } = useRouter();
+  const { t } = useTranslation(['common']);
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
   const [pokemonNameFilter, setPokemonNameFilter] = useState<string>('');
 
@@ -40,7 +41,9 @@ const UsagePage = ({ usages, format }: { usages: Usage[]; format: string }) => {
                 </svg>
               </label>
             </div>
-            <div className="mx-2 flex-1 px-2">Usages - {format}</div>
+            <div className="mx-2 flex-1 px-2">
+              {t('common:usages')} - {format}
+            </div>
           </nav>
           {/* Main Content */}
           {Array.isArray(usages) && usages.length > selectedIndex && (

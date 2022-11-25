@@ -140,8 +140,8 @@ const DexTable = ({ dex }: { dex: Gen9Dex[] }) => {
       header: 'Details',
       accessorKey: 'raw_name',
       cell: ({ getValue }) => (
-        <Link className="btn-secondary btn-xs btn" href={`/gen9dex/${getValue<string>()}`}>
-          Details
+        <Link className="btn-outline btn-ghost btn-xs btn" href={`/gen9dex/${getValue<string>()}`}>
+          ℹ️
         </Link>
       ),
       enableColumnFilter: false,

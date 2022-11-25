@@ -1,7 +1,8 @@
 import type { TypeEffectiveness } from '@pkmn/data';
+import { useTranslation } from 'next-i18next';
 
 import { PokemonIcon } from '@/components/icons/PokemonIcon';
-import { TypeIcon } from '@/components/icons/TypeIcon';
+import { RoundTypeIcon } from '@/components/icons/RoundTypeIcon';
 import DexSingleton from '@/models/DexSingleton';
 import { typesWithEmoji } from '@/utils/PokemonUtils';
 import type { ExtendedTypeEffectiveness, Type2EffectivenessMap } from '@/utils/Types';
@@ -104,12 +105,17 @@ export function TeamTypeChart<T extends ExtendedTypeEffectiveness | TypeEffectiv
   direction: T extends TypeEffectiveness ? 'offense' : 'defense';
   additionalTypeChart?: Type2EffectivenessMap<T>; // for defensive tera type chart
 }) {
+  const { t } = useTranslation(['common', 'table']);
   const multipliers = (direction === 'offense' ? Array.from([0, 0.5, 1, 2]) : Array.from([0, 0.25, 0.5, 1, 2, 4])) as Array<T>;
   return (
     <table className="table-compact table">
       <thead>
         <tr>
-          <th>Type</th>
+          <th>
+            {t('common:types.type', {
+              defaultValue: 'Type',
+            })}
+          </th>
           {multipliers.map((multiplier) => (
             // hide the 1x multiplier for mobile
             <th key={multiplier} className={`${multiplier === 1 ? 'hidden md:table-cell' : ''}`}>
@@ -122,7 +128,7 @@ export function TeamTypeChart<T extends ExtendedTypeEffectiveness | TypeEffectiv
         {Array.from(teamTypeChart).map(([typeName, mul2Ids]) => (
           <tr key={typeName}>
             <td>
-              <TypeIcon typeName={typeName} />
+              <RoundTypeIcon typeName={typeName} /> {t(`common:types.${typeName.toLowerCase()}`)}
             </td>
             {multipliers.map((multiplier) => (
               <td

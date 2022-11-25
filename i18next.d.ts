@@ -6,6 +6,7 @@ import common from 'public/locales/en/common.json';
 import create from 'public/locales/en/create.json';
 import home from 'public/locales/en/home.json';
 import search from 'public/locales/en/search.json';
+import table from 'public/locales/en/table.json';
 
 declare module 'i18next' {
   // Extend CustomTypeOptions
@@ -18,6 +19,7 @@ declare module 'i18next' {
       home: typeof home;
       create: typeof create;
       search: typeof search;
+      table: typeof table;
     };
     // other
     returnNull: false;
