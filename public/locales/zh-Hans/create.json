@@ -11,7 +11,7 @@
     },
     "paste": {
       "label": "Paste",
-      "placeholder": "Showdown 格式队伍文本",
+      "placeholder": "Showdown 格式队伍文本或者PokePaste链接",
       "error": "无效的队伍文本"
     },
     "notes": {

@@ -101,8 +101,8 @@ test('should navigate to the User Paste page', async ({ page, isMobile, baseURL 
   }
   // Hover the "Paste" link
   await page.getByRole('listitem').filter({ hasText: 'Paste' }).locator('a').first().hover();
-  // Create a locator for the "User Paste" link
-  const link = page.getByRole('menuitem', { name: 'user_paste' });
+  // Create a locator for the id="public_pastes" link
+  const link = page.getByRole('menuitem', { name: 'public_pastes' });
   // Expect an attribute "to be strictly equal" to the value.
   await expect(link).toHaveAttribute('href', '/pastes/public/');
   // Click the "User Paste" link

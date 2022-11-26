@@ -11,7 +11,7 @@
     },
     "paste": {
       "label": "Paste",
-      "placeholder": "Showdown importable here",
+      "placeholder": "Showdown importable or PokePaste link",
       "error": "Invalid paste"
     },
     "notes": {

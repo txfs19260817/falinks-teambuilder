@@ -24,8 +24,8 @@ const routes: Route[] = [
     target: '',
     children: [
       {
-        id: 'user_paste',
-        name: 'User Paste',
+        id: 'public_pastes',
+        name: 'User Shared',
         path: '/pastes/public',
         target: '_self',
       },
@@ -56,15 +56,15 @@ const routes: Route[] = [
     target: '_self',
   },
   {
-    id: 'about',
-    name: 'About',
-    path: '/about',
-    target: '_self',
-  },
-  {
     id: 'gen9dex',
     name: 'Gen 9 Dex',
     path: '/gen9dex',
+    target: '_self',
+  },
+  {
+    id: 'about',
+    name: 'About',
+    path: '/about',
     target: '_self',
   },
   {

@@ -7,6 +7,7 @@ import { FormatSelector } from '@/components/select/FormatSelector';
 import { Pokemon } from '@/models/Pokemon';
 import { Main } from '@/templates/Main';
 import { AppConfig } from '@/utils/AppConfig';
+import { isValidPokePasteURL } from '@/utils/PokemonUtils';
 
 type CreatePasteForm = {
   author: string;
@@ -26,6 +27,7 @@ const Create = () => {
     register,
     handleSubmit,
     setValue,
+    setError,
     formState: { errors },
   } = useForm<CreatePasteForm>({
     defaultValues: {
@@ -38,16 +40,14 @@ const Create = () => {
     },
   });
 
-  const onSubmit = (data: CreatePasteForm) => {
+  const postData = async (data: CreatePasteForm) => {
     const promise = fetch(`/api/pastes/create`, {
       method: 'POST',
       redirect: 'follow',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),
     });
-    toast
+    await toast
       .promise(promise, {
         loading: t('create:form.submit.loading'),
         success: t('create:form.submit.success'),
@@ -58,6 +58,25 @@ const Create = () => {
           window.location.href = r.url;
         }
       });
+  };
+
+  const onSubmit = (data: CreatePasteForm) => {
+    // check if the paste field is a PokePaste link
+    if (isValidPokePasteURL(data.paste)) {
+      Pokemon.pokePasteURLFetcher(data.paste)
+        .then(({ paste }) => {
+          data.paste = paste;
+        })
+        .then(() => postData(data))
+        .catch((err) => {
+          setError('paste', {
+            type: 'custom',
+            message: `${t('create:invalidPokePaste')}: ${err}`,
+          });
+        });
+    } else {
+      postData(data);
+    }
   };
 
   return (
@@ -121,8 +140,8 @@ const Create = () => {
               <input
                 id="rentalCode"
                 type="text"
-                placeholder="0000 0000 0000 00"
-                maxLength={20}
+                placeholder="ABCDEF"
+                maxLength={18}
                 className="input-bordered input input-sm text-base-content"
                 {...register('rentalCode', { required: false })}
               />
@@ -150,7 +169,7 @@ const Create = () => {
                 rows={6}
                 {...register('paste', {
                   required: true,
-                  validate: (value) => Pokemon.convertPasteToTeam(value) != null || t('create:form.paste.error'),
+                  validate: (v) => isValidPokePasteURL(v) || Pokemon.convertPasteToTeam(v) != null || t('create:form.paste.error'),
                 })}
               />
               {errors.paste && <p className="text-xs text-error-content">{errors.paste.message}</p>}
