@@ -160,7 +160,7 @@ export const roomTourSteps = [
   },
   {
     selector: `#${toolboxIDs.postModal}-btn`,
-    content: "If you'd like to share your team with the world, you may do so by exporting it to PokePaste or publishing it on our Pastes page.",
+    content: "If you'd like to share your team or save the progress, you may do so by exporting it to PokePaste or publishing it on our Pastes page.",
   },
   {
     selector: `#${toolboxIDs.notesModal}-btn`,

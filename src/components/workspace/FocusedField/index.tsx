@@ -10,7 +10,8 @@ import StatsSetters from '@/components/workspace/Stats/StatsSetters';
 
 // A reducer hook to automatically move to the next field based on the current one
 // e.g. if the user pick a Pokémon Species, it will move to the Item field
-export function useFieldAutoChange(initialState: FocusedFieldToIdx) {
+// At the same time, reset the global filter on the tables
+export function useFieldAutoChange(initialState: FocusedFieldToIdx, setGlobalFilter: (filter: string) => void) {
   return useReducer<Reducer<FocusedFieldToIdx, FocusedFieldAction>>((curState: FocusedFieldToIdx, action: FocusedFieldAction) => {
     const { type, payload } = action;
     switch (type) {
@@ -19,15 +20,19 @@ export function useFieldAutoChange(initialState: FocusedFieldToIdx) {
       case 'next': {
         const [field, idx] = (Object.entries(curState)[0] ?? ['', 0]) as [FocusedField, number]; // idx is only used for switching between moves
         if (field === FocusedField.Species) {
+          setGlobalFilter('');
           return { Item: 0 };
         }
         if (field === FocusedField.Item) {
+          setGlobalFilter('');
           return { Ability: 0 };
         }
         if (field === FocusedField.Ability) {
+          setGlobalFilter('');
           return { Moves: 0 };
         }
         if (field === FocusedField.Moves) {
+          setGlobalFilter('');
           if (idx <= 2) {
             return { Moves: idx + 1 };
           }
@@ -36,7 +41,7 @@ export function useFieldAutoChange(initialState: FocusedFieldToIdx) {
         return payload;
       }
       default:
-        throw new Error();
+        throw new Error(`Unknown action type: '${type}'`);
     }
   }, initialState);
 }

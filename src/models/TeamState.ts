@@ -1,8 +1,10 @@
 /* eslint max-classes-per-file: "off" */
+import { Generation } from '@pkmn/data';
 import { getYjsDoc, syncedStore } from '@syncedstore/core';
 import { MappedTypeDescription } from '@syncedstore/core/types/doc';
 import { UndoManager } from 'yjs';
 
+import DexSingleton from '@/models/DexSingleton';
 import { Pokemon } from '@/models/Pokemon';
 import { AppConfig } from '@/utils/AppConfig';
 import { S4 } from '@/utils/Helpers';
@@ -156,10 +158,10 @@ class TeamState {
   }
 
   // https://typeofnan.dev/how-to-make-one-function-argument-dependent-on-another-in-typescript/
-  updatePokemonInTeam = <K extends keyof typeof Pokemon.prototype>(tabIdx: number, key: K, newValue: Pokemon[K]): boolean => {
+  updatePokemonInTeam = <K extends keyof typeof Pokemon.prototype>(tabIdx: number, key: K, newValue: Pokemon[K]): void => {
     // validate
     if (tabIdx < 0 || tabIdx > this.teamState.team.length) {
-      return false;
+      return;
     }
     // update
     const oldValue = this.teamState.team[tabIdx]![key];
@@ -169,8 +171,19 @@ class TeamState {
       this.teamState.team[tabIdx]![key] = newValue;
     }
     // update history
-    this.addHistory(`Changed ${key} of ${this.teamState.team[tabIdx]!.species} from ${JSON.stringify(oldValue)} to ${JSON.stringify(newValue)}`);
-    return true;
+    // check if the new value is valid before adding to history
+    if (!newValue) return;
+    let newValueStr = JSON.stringify(newValue);
+    if (key === 'species' || key === 'item' || key === 'ability') {
+      const propKey: keyof Generation = key === 'item' ? 'items' : key === 'ability' ? 'abilities' : 'species';
+      const newValueObj = DexSingleton.getGen()[propKey].get(newValueStr);
+      if (newValueObj) {
+        newValueStr = newValueObj.name;
+      } else {
+        return;
+      }
+    }
+    this.addHistory(`Changed ${key} of ${this.teamState.team[tabIdx]!.species} from ${JSON.stringify(oldValue)} to ${newValueStr}`);
   };
 
   addPokemonToTeam = (pokemon: Pokemon): number => {
@@ -189,16 +202,20 @@ class TeamState {
     return newTeam;
   };
 
-  updatePokemonOneMoveInTeam = (tabIdx: number, moveIdx: number, newMove: string): boolean => {
+  updatePokemonOneMoveInTeam = (tabIdx: number, moveIdx: number, newMoveName: string): void => {
     // validate
     if (tabIdx < 0 || tabIdx > this.teamState.team.length) {
-      return false;
+      return;
     }
-    const oldMove = this.teamState.team[tabIdx]?.moves[moveIdx] ?? '';
-    this.teamState.team[tabIdx]!.moves.splice(moveIdx, 1, newMove);
+    const oldMoveName = this.teamState.team[tabIdx]?.moves[moveIdx] ?? '';
+    this.teamState.team[tabIdx]!.moves.splice(moveIdx, 1, newMoveName);
+    // check if the new move is valid
+    const newMove = DexSingleton.getGen().moves.get(newMoveName);
+    if (newMove == null) {
+      return;
+    }
     // update history
-    this.addHistory(`Changed move ${moveIdx + 1} of ${this.teamState.team[tabIdx]!.species} from ${oldMove} to ${newMove}`);
-    return true;
+    this.addHistory(`Changed move ${moveIdx + 1} of ${this.teamState.team[tabIdx]!.species} from ${oldMoveName} to ${newMove.name}`);
   };
 
   getPokemonInTeam = (tabIdx: number) => {

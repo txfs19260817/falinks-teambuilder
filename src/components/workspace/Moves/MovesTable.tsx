@@ -121,7 +121,6 @@ function MovesTable({ moveIdx }: { moveIdx: number }) {
     if (!move) return;
     teamState.updatePokemonOneMoveInTeam(tabIdx, moveIdx, move.name);
     focusedFieldDispatch({ type: 'next', payload: focusedFieldState });
-    setGlobalFilter(''); // clear search words applied to the table
   };
 
   // renders

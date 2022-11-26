@@ -205,7 +205,6 @@ function SpeciesTable() {
     if (!specie) return;
     teamState.splicePokemonTeam(tabIdx, 1, new Pokemon(specie.name, '', specie.requiredItem));
     focusedFieldDispatch({ type: 'next', payload: focusedFieldState });
-    setGlobalFilter(''); // clear search words on table
   };
 
   // table render

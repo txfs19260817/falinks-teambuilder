@@ -23,7 +23,6 @@ function MoveInput({ moveIdx }: { moveIdx: number }) {
   };
 
   const handleFocus = () => {
-    setGlobalFilter(''); // clear search words on table
     focusedFieldDispatch({ type: 'set', payload: thisFocusedFieldState });
   };
 

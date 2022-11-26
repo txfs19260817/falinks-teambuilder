@@ -34,9 +34,12 @@ function Workspace({ roomName, protocolName, basePokePaste }: WorkspaceProps) {
   const [client, setClient] = useState<Client | undefined>();
   const [tabIdx, setTabIdx] = useState<number>(0);
   const [globalFilter, setGlobalFilter] = useState('');
-  const [focusedFieldState, focusedFieldDispatch] = useFieldAutoChange({
-    Species: 0,
-  });
+  const [focusedFieldState, focusedFieldDispatch] = useFieldAutoChange(
+    {
+      Species: 0,
+    },
+    setGlobalFilter
+  );
 
   // Initialize synced store
   // Only `teamState` in this level is instance of MappedTypeDescription.
@@ -62,38 +65,37 @@ function Workspace({ roomName, protocolName, basePokePaste }: WorkspaceProps) {
     const clientInstance = new Client(providerInstance, localStorage.getItem('username') || undefined);
     setClient(clientInstance);
     // add a listener to update members in this room
-    providerInstance.awareness.on(
-      'change',
-      ({ added, removed }: { added: Array<any>; updated: Array<any>; removed: Array<any> }, origin: BaseProvider | 'local') => {
-        if (!origin) return;
-        if (origin === 'local') {
-          // it can be a literal 'local' when the client is initialized
-          teamState.metadata.authors = [localStorage.getItem('username') || 'Trainer'];
-          return;
+    const membersChangedListener = ({ added, removed }: { added: Array<any>; updated: Array<any>; removed: Array<any> }, origin: BaseProvider | 'local') => {
+      if (!origin) return;
+      if (origin === 'local') {
+        // it can be a literal 'local' when the client is initialized
+        teamState.metadata.authors = [localStorage.getItem('username') || 'Trainer'];
+        return;
+      }
+      if (origin.awareness) {
+        // connected with others, update members to metadata
+        const membersMap = origin.awareness.getStates();
+        teamState.metadata.authors = Array.from(membersMap.values() as Iterable<ClientInfo>).map((c) => c.user.name);
+        // show a notification if someone joined/leaved
+        if (added.length > 0) {
+          toast(`${(membersMap.get(added[0]) as ClientInfo)?.user?.name || 'A trainer'} (${added[0]}) joined the room, welcome!`, {
+            icon: '👏',
+            position: 'top-right',
+          });
         }
-        if (origin.awareness) {
-          // connected with others, update members to metadata
-          const membersMap = origin.awareness.getStates();
-          teamState.metadata.authors = Array.from(membersMap.values() as Iterable<ClientInfo>).map((c) => c.user.name);
-          // show a notification if someone joined/leaved
-          if (added.length > 0) {
-            toast(`${(membersMap.get(added[0]) as ClientInfo)?.user?.name || 'A trainer'} (${added[0]}) joined the room, welcome!`, {
-              icon: '👏',
-              position: 'top-right',
-            });
-          }
-          if (removed.length > 0) {
-            toast(`A trainer (${removed[0]}) left the room, bye!`, {
-              icon: '👋',
-              position: 'top-right',
-            });
-          }
+        if (removed.length > 0) {
+          toast(`A trainer (${removed[0]}) left the room, bye!`, {
+            icon: '👋',
+            position: 'top-right',
+          });
         }
       }
-    );
+    };
+    providerInstance.awareness.on('change', membersChangedListener);
 
     // Disconnect on unmount
     return () => {
+      providerInstance.awareness.off('change', membersChangedListener);
       providers.disconnectByRoomName(roomName);
     };
   }, []);
