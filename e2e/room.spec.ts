@@ -70,3 +70,69 @@ test('should undo and redo', async ({ page, baseURL, browserName }) => {
   await page.getByRole('button', { name: '↪️ Redo' }).click();
   await expect(tab1).toBeVisible();
 });
+
+test('should have room history', async ({ page, baseURL, browserName }) => {
+  // Start from the index page
+  await page.goto(baseURL || 'http://localhost:3000/');
+  // Fill room form to create the first room
+  await page.getByRole('button', { name: 'Draw a name randomly' }).click();
+  await page.getByRole('textbox', { name: 'PokePaste URL' }).fill('https://pokepast.es/a00ca5bc26cda7e9');
+  const roomName1 = `h1-${Date.now()}${browserName}`;
+  await page.getByRole('textbox', { name: 'Room name' }).fill(roomName1);
+  await page.getByRole('textbox', { name: 'Room name' }).press('Enter');
+  // Wait for navigation
+  await page.waitForNavigation({ waitUntil: 'networkidle' });
+
+  // Back to the index page
+  await page.getByRole('link', { name: 'Falinks Teambuilder' }).click();
+  // Wait for navigation
+  await page.waitForNavigation({ waitUntil: 'networkidle' });
+  // Check out the room history tab
+  await page.getByRole('tab', { name: 'Tab room history' }).click();
+
+  // Go to the room 1
+  await page.getByRole('link', { name: `Room ${roomName1} link` }).click();
+  // Wait for navigation
+  await page.waitForNavigation({ waitUntil: 'networkidle' });
+  // Ensure there are 6 Pokémon in the team
+  await page.getByRole('tab', { name: 'Tab 6' }).isVisible();
+
+  // Back to the index page
+  await page.getByRole('link', { name: 'Falinks Teambuilder' }).click();
+  // Wait for navigation
+  await page.waitForNavigation({ waitUntil: 'networkidle' });
+
+  // Fill room form to create the second room
+  await page.getByRole('tab', { name: 'Tab new room' }).click();
+  const roomName2 = `h2-${Date.now()}${browserName}`;
+  await page.getByRole('textbox', { name: 'Room name' }).fill(roomName2);
+  await page.getByRole('textbox', { name: 'Room name' }).press('Enter');
+  // Wait for navigation
+  await page.waitForNavigation({ waitUntil: 'networkidle' });
+
+  // Add a Pikachu to the team
+  await page.getByRole('tab', { name: 'Add new tab' }).click();
+  await page.getByPlaceholder('Species').click();
+  await page.getByPlaceholder('Species').press('Control+a');
+  await page.getByPlaceholder('Species').fill('pika');
+  await page.getByRole('cell', { name: 'Pikachu' }).click();
+
+  // Back to the index page
+  await page.getByRole('link', { name: 'Falinks Teambuilder' }).click();
+  // Wait for navigation
+  await page.waitForNavigation({ waitUntil: 'networkidle' });
+
+  // Check out the room history tab
+  await page.getByRole('tab', { name: 'Tab room history' }).click();
+  // Ensure there are 2 rooms in the history
+  await page.getByRole('link', { name: `Room ${roomName1} link` }).isVisible();
+  await page.getByRole('link', { name: `Room ${roomName2} link` }).isVisible();
+
+  // Delete the first room and ensure it is gone
+  await page.getByRole('button', { name: `Delete ${roomName1} room` }).click();
+  await page.getByRole('link', { name: `Room ${roomName1} link` }).isHidden();
+
+  // Clear the room history and ensure it is gone
+  await page.getByRole('button', { name: 'Clear History' }).click();
+  await page.getByRole('alert', { name: 'No room history' }).isVisible();
+});

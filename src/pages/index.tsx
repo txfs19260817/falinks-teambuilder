@@ -202,7 +202,7 @@ const RoomHistory = () => {
   };
 
   return roomHistory.length === 0 ? (
-    <div className="text-base-content text-center my-2 md:my-auto">
+    <div className="text-base-content text-center my-2 md:my-auto" role="alert" aria-label="No room history">
       {t('home:history.empty', {
         defaultValue: 'No room visited, enjoy a cup of coffee ☕',
       })}
@@ -214,7 +214,13 @@ const RoomHistory = () => {
         const room = v[key];
         return (
           <div key={key} className="flex">
-            <button role="link" className="btn no-animation normal-case text-xs flex-1" onClick={() => router.push(`/room/${key}`)}>
+            {/* Room button */}
+            <button
+              role="link"
+              aria-label={`Room ${key} link`}
+              className="btn no-animation normal-case text-xs flex-1"
+              onClick={() => router.push(`/room/${key}`)}
+            >
               <div className="flex flex-col justify-between">
                 <span className="whitespace-nowrap">{`[${room?.format}] ${key}`}</span>
                 <span>
@@ -284,6 +290,8 @@ const Index = () => {
             <div className="tabs">
               {tabs.map((tabName) => (
                 <a
+                  role="tab"
+                  aria-label={`Tab ${tabName}`}
                   key={tabName}
                   onClick={() => setTab(tabName)}
                   className={`tab tab-lg tab-lifted ${tab === tabName ? 'tab-active' : 'bg-base-100'} capitalize`}
