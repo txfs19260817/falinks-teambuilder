@@ -1,5 +1,9 @@
 {
   "slogan": "Build the next sweeping Pokémon team with the power of collaborative",
+  "tabs": {
+    "new room": "New Room",
+    "room history": "Room History"
+  },
   "form": {
     "author": {
       "label": "Author Name",
@@ -22,5 +26,10 @@
       "description": "Communication Protocol. Try another if one is not working."
     },
     "submit": "Create / Join"
+  },
+  "history": {
+    "empty": "No room visited, enjoy a cup of coffee ☕️",
+    "delete": "Delete",
+    "clear": "Clear History"
   }
 }

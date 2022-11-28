@@ -1,6 +1,6 @@
 /* eslint max-classes-per-file: "off" */
 import { Generation } from '@pkmn/data';
-import { getYjsDoc, syncedStore } from '@syncedstore/core';
+import { getYjsDoc } from '@syncedstore/core';
 import { MappedTypeDescription } from '@syncedstore/core/types/doc';
 import { UndoManager } from 'yjs';
 
@@ -24,63 +24,27 @@ type StoreContextType = {
   history: string[];
 };
 
-class TeamStore {
-  private readonly _store: MappedTypeDescription<StoreContextType>;
+class TeamState {
+  private teamState: MappedTypeDescription<StoreContextType>;
+
+  private readonly teamStore: MappedTypeDescription<StoreContextType>;
+
+  private readonly username: string;
 
   private readonly teamUndoManager: UndoManager;
 
-  constructor() {
-    this._store = syncedStore<StoreContextType>({
-      metadata: {} as Metadata,
-      team: [] as Pokemon[],
-      notes: 'xml',
-      history: [] as string[],
-    });
-
+  constructor(teamState: MappedTypeDescription<StoreContextType>, teamStore: MappedTypeDescription<StoreContextType>, username?: string) {
+    this.teamState = teamState;
+    this.teamStore = teamStore;
+    this.username = username || localStorage.getItem('username') || 'Trainer';
     // undo manager
-    const doc = getYjsDoc(this._store);
+    const doc = getYjsDoc(teamStore);
     const team = doc.getArray<Pokemon[]>('team');
     this.teamUndoManager = new UndoManager(team);
   }
 
   get store() {
-    return this._store;
-  }
-
-  public teamUndo() {
-    return this.teamUndoManager.undo();
-  }
-
-  public teamRedo() {
-    return this.teamUndoManager.redo();
-  }
-}
-
-class TeamState {
-  private teamState: MappedTypeDescription<StoreContextType>;
-
-  private readonly teamStore: TeamStore;
-
-  private readonly username: string;
-
-  constructor(teamState: MappedTypeDescription<StoreContextType>, teamStore: TeamStore, username?: string) {
-    this.teamState = teamState;
-    this.teamStore = teamStore;
-    this.username = username || localStorage.getItem('username') || 'Trainer';
-  }
-
-  public teamUndo() {
-    const r = this.teamStore.teamUndo();
-    const isDelete = r != null && r.deletions.clients.size > 0;
-    const isAdd = r != null && r.insertions.clients.size > 0;
-    this.addHistory(`Undo ${isDelete && isAdd ? 'edit' : isDelete ? 'delete' : isAdd ? 'add' : ''}`);
-  }
-
-  public teamRedo() {
-    const r = this.teamStore.teamRedo();
-    const isDelete = r != null && r.deletions.clients.size > 0;
-    const isAdd = r != null && r.insertions.clients.size > 0;
-    this.addHistory(`Redo ${isDelete && isAdd ? 'edit' : isDelete ? 'delete' : isAdd ? 'add' : ''}`);
+    return this.teamStore;
   }
 
   /* History */
@@ -187,6 +151,7 @@ class TeamState {
   };
 
   addPokemonToTeam = (pokemon: Pokemon): number => {
+    // update history
     this.addHistory(`Added ${pokemon.species}`);
     return this.teamState.team.push(pokemon);
   };
@@ -224,7 +189,21 @@ class TeamState {
     }
     return this.teamState.team[tabIdx];
   };
+
+  public teamUndo() {
+    const r = this.teamUndoManager.undo();
+    const isDelete = r != null && r.deletions.clients.size > 0;
+    const isAdd = r != null && r.insertions.clients.size > 0;
+    this.addHistory(`Undo ${isDelete && isAdd ? 'edit' : isDelete ? 'delete' : isAdd ? 'add' : ''}`);
+  }
+
+  public teamRedo() {
+    const r = this.teamUndoManager.redo();
+    const isDelete = r != null && r.deletions.clients.size > 0;
+    const isAdd = r != null && r.insertions.clients.size > 0;
+    this.addHistory(`Redo ${isDelete && isAdd ? 'edit' : isDelete ? 'delete' : isAdd ? 'add' : ''}`);
+  }
 }
 
-export { TeamState, TeamStore };
-export type { Metadata, StoreContextType };
+export { TeamState };
+export type { StoreContextType };

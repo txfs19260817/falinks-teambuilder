@@ -7,16 +7,16 @@ import StarterKit from '@tiptap/starter-kit';
 import { useContext } from 'react';
 
 import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
-import { Client } from '@/models/Client';
 import { AppConfig } from '@/utils/AppConfig';
 import { invertColor } from '@/utils/Helpers';
 
 type EditorProps = {
   store: MappedTypeDescription<any>;
-  client: Client;
+  provider: any;
+  user: Record<string, any>;
 };
 
-export function NotesDialog({ store, client }: EditorProps) {
+export function NotesDialog({ store, provider, user }: EditorProps) {
   const { teamState } = useContext(StoreContext);
   const editor = useEditor({
     editorProps: {
@@ -36,20 +36,20 @@ export function NotesDialog({ store, client }: EditorProps) {
         fragment: store.notes,
       }),
       CollaborationCursor.configure({
-        provider: client.provider,
-        user: client.clientInfo.user,
-        render: (user) => {
+        provider,
+        user,
+        render: (u) => {
           const cursor = document.createElement('span');
 
           cursor.classList.add('collaboration-cursor__caret');
-          cursor.setAttribute('style', `border-color: ${user.color}`);
+          cursor.setAttribute('style', `border-color: ${u.color}`);
 
           const label = document.createElement('div');
 
           label.classList.add('collaboration-cursor__label');
-          label.style.color = invertColor(user.color);
-          label.style.backgroundColor = user.color;
-          label.insertBefore(document.createTextNode(user.name), null);
+          label.style.color = invertColor(u.color);
+          label.style.backgroundColor = u.color;
+          label.insertBefore(document.createTextNode(u.name), null);
           cursor.insertBefore(label, null);
 
           return cursor;

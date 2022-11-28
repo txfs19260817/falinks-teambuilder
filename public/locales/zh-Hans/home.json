@@ -1,5 +1,9 @@
 {
   "slogan": "以群体智慧构建下一支强劲的队伍",
+  "tabs": {
+    "new room": "新房间",
+    "room history": "历史记录"
+  },
   "form": {
     "author": {
       "label": "作者",
@@ -22,5 +26,10 @@
       "description": "可用通信协议，如果一个协议不可用，你可以尝试切换到另一个"
     },
     "submit": "创建 / 加入"
+  },
+  "history": {
+    "empty": "没有历史记录，请享受这杯咖啡 ☕️",
+    "delete": "删除",
+    "clear": "清空历史记录"
   }
 }
