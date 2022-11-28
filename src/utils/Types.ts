@@ -72,3 +72,8 @@ export type ExtendedTypeEffectiveness = TypeEffectiveness | 0.25 | 4;
 
 // key: TypeName, value: damage multiplier to species ID
 export type Type2EffectivenessMap<T extends ExtendedTypeEffectiveness | TypeEffectiveness = ExtendedTypeEffectiveness> = Map<TypeName, Record<T, string[]>>;
+
+export type IndexedDBTeam = {
+  species: string[];
+  format: string;
+};
