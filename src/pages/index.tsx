@@ -208,55 +208,58 @@ const RoomHistory = () => {
       })}
     </div>
   ) : (
-    <div className="card-body">
-      {roomHistory.map((v) => {
-        const key = Object.keys(v)[0]!;
-        const room = v[key];
-        return (
-          <div key={key} className="flex">
-            {/* Room button */}
-            <button
-              role="link"
-              aria-label={`Room ${key} link`}
-              className="btn no-animation normal-case text-xs flex-1"
-              onClick={() => router.push(`/room/${key}`)}
-            >
-              <div className="flex flex-col justify-between">
-                <span className="whitespace-nowrap">{`[${room?.format}] ${key}`}</span>
-                <span>
-                  {room?.species.map((s, i) => (
-                    <PokemonIcon speciesId={s} key={i} />
-                  ))}
-                </span>
-              </div>
-            </button>
-            {/* Delete Button */}
-            <button
-              role="button"
-              aria-label={`Delete ${key} room`}
-              title={t('home:history.delete', { defaultValue: 'Delete' })}
-              className="btn btn-error flex-shrink-0"
-              onClick={() => {
-                handleDeleteRoom(key);
-              }}
-            >
-              🗑️
-            </button>
-          </div>
-        );
-      })}
-      <div className="card-actions">
+    <>
+      <div className="card-body max-h-[492px] overflow-y-auto">
+        {roomHistory.reverse().map((v) => {
+          const key = Object.keys(v)[0]!;
+          const room = v[key];
+          return (
+            <div key={key} className="flex justify-center items-center gap-1">
+              {/* Room button */}
+              <button
+                role="link"
+                aria-label={`Room ${key} link`}
+                className="btn no-animation normal-case text-xs flex-1"
+                onClick={() => router.push(`/room/${key}`)}
+              >
+                <div className="flex flex-col justify-between">
+                  <span className="whitespace-nowrap">{`[${room?.format}] ${key}`}</span>
+                  <span>
+                    {room?.species.map((s, i) => (
+                      <PokemonIcon speciesId={s} key={i} />
+                    ))}
+                  </span>
+                </div>
+              </button>
+              {/* Delete Button */}
+              <button
+                role="button"
+                aria-label={`Delete ${key} room`}
+                title={t('home:history.delete', { defaultValue: 'Delete' })}
+                className="btn btn-error flex-shrink-0 btn-sm"
+                onClick={() => {
+                  handleDeleteRoom(key);
+                }}
+              >
+                🗑️
+              </button>
+            </div>
+          );
+        })}
+        {/* Clear History button */}
+      </div>
+      <div className="flex justify-end px-2 py-4">
         <button
           role="button"
           aria-label="Clear History"
           title={t('home:history.clear', { defaultValue: 'Clear History' })}
-          className="btn btn-primary"
+          className="btn btn-primary btn-sm"
           onClick={handleClearHistory}
         >
           {t('home:history.clear', { defaultValue: 'Clear History' })}
         </button>
       </div>
-    </div>
+    </>
   );
 };
 
@@ -286,7 +289,7 @@ const Index = () => {
           </div>
 
           {/* Room Panel */}
-          <div className="w-full max-w-sm flex-shrink-0">
+          <div className="w-full max-w-md flex-shrink-0">
             <div className="tabs">
               {tabs.map((tabName) => (
                 <a
