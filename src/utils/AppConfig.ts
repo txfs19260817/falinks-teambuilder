@@ -115,7 +115,7 @@ const dialogProps = [
 
 // the first element serves as the default format
 // NOTE: change the rewrite rule in `next.config.js` if the default format is changed
-const formats = ['gen9doublesou', 'gen9ou', 'gen8spikemuthcup', 'gen8battlestadiumdoublesseries13', 'gen8vgc2022', 'gen8ou'];
+const formats = ['gen9vgc2023series1', 'gen9doublesou', 'gen9ou', 'gen8spikemuthcup', 'gen8battlestadiumdoublesseries13', 'gen8vgc2022', 'gen8ou'];
 
 export const AppConfig = {
   site_name: 'Falinks Teambuilder',
