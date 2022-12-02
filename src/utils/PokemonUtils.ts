@@ -568,8 +568,10 @@ export const moveToEffectiveness = (
  * @param move
  * @param abilityName
  * @param itemName
+ * @param teraTypeName
  */
-export const changeMoveType = (move: Move, abilityName: string | undefined, itemName: string | undefined): Move => {
+export const changeMoveType = (move: Move, abilityName: string | undefined, itemName: string | undefined, teraTypeName: TypeName | undefined): Move => {
+  if (move.name === 'Tera Blast' && teraTypeName) return { ...move, type: teraTypeName };
   if (abilityName === 'Normalize') return { ...move, type: 'Normal' };
   if (abilityName === 'Pixilate' && move.type === 'Normal') return { ...move, type: 'Fairy' };
   if (abilityName === 'Refrigerate' && move.type === 'Normal') return { ...move, type: 'Ice' };

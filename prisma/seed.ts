@@ -84,7 +84,7 @@ async function ensureJSONPastes() {
 }
 
 async function main() {
-  const filePaths = ['./prisma/seeds/s12.json', './prisma/seeds/s13.json', './prisma/seeds/spikemuth.json'];
+  const filePaths = ['./prisma/seeds/s1.json'];
   const upsertPromises = filePaths.flatMap((filepath) => {
     const seedData = readSeedJSON(filepath);
     return seedData.map((seed) => {

@@ -224,7 +224,10 @@ export class Pokemon implements PokemonSet {
         speciesMoves.forEach((move) => {
           const specialTypeEffectiveness = moveToEffectiveness(move).find(({ typeName }) => typeName === curType.name)?.rate;
           const typeEffectiveness =
-            specialTypeEffectiveness ?? data.types.get(changeMoveType(move, team[i]?.ability, team[i]?.item).type)!.effectiveness[curType.name];
+            specialTypeEffectiveness ??
+            data.types.get(changeMoveType(move, team[i]?.ability, team[i]?.item, data.types.get(team[i]?.teraType || '')?.name).type)!.effectiveness[
+              curType.name
+            ];
           // ensure no duplicates
           if (!oldValue[typeEffectiveness].includes(move.id)) {
             oldValue[typeEffectiveness].push(move.id);

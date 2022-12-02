@@ -65,7 +65,7 @@ const PastesTable = ({ pastes }: { pastes: PastesList }) => {
       header: 'Details',
       accessorKey: 'id',
       cell: ({ getValue }) => (
-        <Link href={`/pastes/${getValue<string>()}`} className="btn-outline btn-ghost btn-xs btn">
+        <Link href={`/pastes/${getValue<string>()}`} className="btn-outline btn-ghost btn-xs btn" target="_blank">
           ℹ️
         </Link>
       ),

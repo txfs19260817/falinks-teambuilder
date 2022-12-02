@@ -10,6 +10,35 @@ const gens = new Generations(Dex);
 const smogon = new Smogon(fetch);
 const fallbackFormat = 'gen8battlestadiumdoubles' as ID; // TODO: update it when comes to the first gen9 format
 
+/**
+ * @swagger
+ * /api/usages/stats/{pokemon}:
+ *  get:
+ *    description: Usage statistics for a Pokémon. Mainly used by the Team Builder to sort items, moves, abilities, etc. by usage.
+ *    parameters:
+ *    - in: path
+ *      name: pokemon
+ *      schema:
+ *        type: string
+ *        required: true
+ *        example: "Gengar"
+ *      description: The Pokémon species to get the usage statistics for.
+ *      required: true
+ *    - in: query
+ *      name: format
+ *      schema:
+ *        type: string
+ *        required: false
+ *        default: "gen8battlestadiumdoubles"
+ *      description: The format to get the usage statistics for.
+ *    - in: query
+ *      name: gen
+ *      schema:
+ *        type: integer
+ *        required: false
+ *        default: 9
+ *      description: The generation to get the usage statistics for.
+ */
 const handler = async (req: NextApiRequest, res: NextApiResponse<Awaited<ReturnType<Smogon['stats']>>>) => {
   if (req.method !== 'GET') {
     return res.status(405);
