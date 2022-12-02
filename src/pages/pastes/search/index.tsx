@@ -259,7 +259,7 @@ const Search = () => {
                 {fields.length < 6 && (
                   <button
                     type="button"
-                    className="btn btn-ghost text-2xl md:h-full border-dashed border-2 border-base-300"
+                    className="btn btn-ghost text-2xl border-dashed border-2 border-base-300"
                     onClick={() => append({ ...defaultPokemonCriteria })}
                   >
                     +
