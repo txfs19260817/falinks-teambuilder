@@ -38,6 +38,7 @@ export const getStaticProps: GetStaticProps<{ pastes: PastesList; format: string
       format,
       ...(await serverSideTranslations(locale ?? AppConfig.defaultLocale, ['common', 'create'])),
     },
+    revalidate: 60 * 60, // 1 hour
   };
 };
 
@@ -52,7 +53,7 @@ export const getStaticPaths: GetStaticPaths = async (context) => {
 
   return {
     paths,
-    fallback: false,
+    fallback: 'blocking',
   };
 };
 
