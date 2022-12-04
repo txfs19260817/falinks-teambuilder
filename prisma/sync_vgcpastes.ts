@@ -1,4 +1,4 @@
-/* eslint-disable import/no-extraneous-dependencies, import/extensions, no-console */
+/* eslint-disable import/no-extraneous-dependencies, import/extensions, no-await-in-loop, no-console */
 import { Team } from '@pkmn/sets';
 import { Pokepaste, Prisma, PrismaClient } from '@prisma/client';
 import cuid from 'cuid';
@@ -109,10 +109,17 @@ async function updatePGDatabase(data: Pokepaste[], format: keyof typeof format2g
 
 async function main() {
   const formats = Object.keys(format2gid) as (keyof typeof format2gid)[];
-  formats.forEach(async (format) => {
+  // eslint-disable-next-line no-restricted-syntax
+  for (const format of formats) {
     const data = await extractFromGoogleSheet(format);
+    console.log(`Extracted ${data.length} pastes for ${format}`);
     await updatePGDatabase(data, format);
-  });
+  }
+
+  console.log('Done');
+  await prisma.$disconnect();
 }
 
-main();
+(async () => {
+  await main();
+})();
