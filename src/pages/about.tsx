@@ -1,13 +1,14 @@
 import { GetStaticProps, InferGetStaticPropsType } from 'next';
-import { SSRConfig } from 'next-i18next';
+import { SSRConfig, useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import { Main } from '@/templates/Main';
 import { getMDDocBySlug, markdownToHtml } from '@/utils/Markdown';
 
 const About = ({ content }: InferGetStaticPropsType<typeof getStaticProps>) => {
+  const { t } = useTranslation(['common']);
   return (
-    <Main title="About">
+    <Main title={t('common.routes.about.title')} description={t('common.routes.about.description')}>
       <article className="prose p-4 lg:prose-xl" dangerouslySetInnerHTML={{ __html: content }}></article>
     </Main>
   );

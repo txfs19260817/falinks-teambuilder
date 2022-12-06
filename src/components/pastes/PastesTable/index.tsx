@@ -13,6 +13,7 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 import Link from 'next/link';
+import { useTranslation } from 'next-i18next';
 import { useContext, useState } from 'react';
 
 import { PokemonIcon } from '@/components/icons/PokemonIcon';
@@ -22,22 +23,23 @@ import { Pokemon } from '@/models/Pokemon';
 import type { PastesList, PastesListItem } from '@/utils/Prisma';
 
 const PastesTable = ({ pastes }: { pastes: PastesList }) => {
+  const { t } = useTranslation(['common']);
   const { globalFilter, setGlobalFilter } = useContext(StoreContext);
 
   // table settings
   const columns: ColumnDef<PastesListItem>[] = [
     {
-      header: 'Title',
+      header: t('common.title'),
       accessorKey: 'title',
       cell: ({ getValue }) => <span title={getValue<string>()}>{`${getValue<string>().substring(0, 32)}`}</span>,
     },
     {
-      header: 'Author',
+      header: t('common.author'),
       accessorKey: 'author',
       cell: ({ getValue }) => <span title={getValue<string>()}>{`${getValue<string>().substring(0, 16)}`}</span>,
     },
     {
-      header: 'Team',
+      header: t('common.team'),
       id: 'paste',
       accessorKey: 'paste',
       cell: ({ getValue }) => (
@@ -55,17 +57,17 @@ const PastesTable = ({ pastes }: { pastes: PastesList }) => {
       enableMultiSort: false,
     },
     {
-      header: 'Created At',
+      header: t('common.createdAt'),
       accessorKey: 'createdAt',
       cell: ({ getValue }) => <span>{new Date(getValue<string>()).toLocaleDateString()}</span>,
       enableColumnFilter: false,
       enableGlobalFilter: false,
     },
     {
-      header: 'Details',
+      header: t('common.detail', { count: 2 }),
       accessorKey: 'id',
       cell: ({ getValue }) => (
-        <Link href={`/pastes/${getValue<string>()}`} className="btn-outline btn-ghost btn-xs btn" target="_blank">
+        <Link role="button" href={`/pastes/${getValue<string>()}`} className="btn-outline btn-ghost btn-xs btn" target="_blank">
           ℹ️
         </Link>
       ),

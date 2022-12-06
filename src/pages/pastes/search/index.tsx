@@ -14,12 +14,12 @@ import { Select } from '@/components/select/Select';
 import DexSingleton from '@/models/DexSingleton';
 import { Main } from '@/templates/Main';
 import { AppConfig } from '@/utils/AppConfig';
-import { defaultStats, getMovesBySpecie, maxEVStats, stats } from '@/utils/PokemonUtils';
+import { defaultStats, getMovesBySpecie, getPokemonTranslationKey, maxEVStats, stats } from '@/utils/PokemonUtils';
 import type { PastesList } from '@/utils/Prisma';
 import type { SearchPasteForm, SearchPastePokemonCriteria } from '@/utils/Types';
 
 const defaultPokemonCriteria: SearchPastePokemonCriteria = {
-  species: 'Charizard',
+  species: 'Garchomp',
   moves: ['', '', '', ''],
   minEVs: defaultStats,
   maxEVs: maxEVStats,
@@ -27,7 +27,7 @@ const defaultPokemonCriteria: SearchPastePokemonCriteria = {
 
 const Search = () => {
   const gen = DexSingleton.getGen();
-  const { t } = useTranslation(['common', 'search']);
+  const { t } = useTranslation(['common', 'search', 'species', 'moves', 'abilities', 'items']);
   const [searchResults, setSearchResults] = useState<PastesList | undefined>(undefined);
   const pokemonList = useMemo<Specie[]>(() => Array.from(gen.species), [gen]);
   const itemList = useMemo<Item[]>(() => Array.from(gen.items), [gen]);
@@ -49,10 +49,10 @@ const Search = () => {
     control,
     name: 'speciesCriterion',
     rules: {
-      validate: (v) => (v.length === 0 ? t('search:form.species.error') : true),
+      validate: (v) => (v.length === 0 ? t('search.form.species.error') : true),
     },
   });
-  // set learnset for the focused PokemonCriteria
+  // set learnset for the focused PokemonCriteria, e.g., when a move selector is focused, the learnset gets started to be loaded
   const [learnset, setLearnset] = useState<Move[]>([]);
   const [focusSpIdx, setFocusSpIdx] = useState<number | undefined>(undefined);
   useEffect(() => {
@@ -69,9 +69,9 @@ const Search = () => {
     });
     toast
       .promise(promise, {
-        loading: t('search:form.submit.loading'),
-        success: `${t('search:form.submit.success')} ↓`,
-        error: (e) => `${t('search:form.submit.error')}: ${e}`,
+        loading: t('search.form.submit.loading'),
+        success: `${t('search.form.submit.success')} ↓`,
+        error: (e) => `${t('search.form.submit.error')}: ${e}`,
       })
       .then((r) => r.json())
       .then((r) => {
@@ -84,7 +84,7 @@ const Search = () => {
   };
 
   return (
-    <Main title={t('search:title')}>
+    <Main title={t('common.routes.search_paste.title')} description={t('common.routes.search_paste.description')}>
       <div className="flex h-full w-full flex-col items-center justify-center">
         <div className="card my-2 w-full flex-shrink-0 bg-base-100 shadow-2xl">
           <form
@@ -96,15 +96,15 @@ const Search = () => {
             {/* Species */}
             <div className="form-control">
               <label className="label">
-                <span className="label-text after:text-error after:content-['_*']">{t('search:form.species.label')}</span>
+                <span className="label-text after:text-error after:content-['_*']">{t('search.form.species.label')}</span>
               </label>
               {/* Species Criterion */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
+              <div className="grid grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-3">
                 {fields.map((field, index) => (
                   <div
                     key={field.id}
                     tabIndex={0}
-                    className="collapse collapse-open border border-base-300 bg-base-200 rounded-box animate-fade-in-down"
+                    className="collapse-open rounded-box collapse animate-fade-in-down border border-base-300 bg-base-200"
                     onClick={() => setFocusSpIdx(index)}
                   >
                     {/* collapse title */}
@@ -112,14 +112,14 @@ const Search = () => {
                       <div className="flex items-center justify-between">
                         <span className="ml-2">{index + 1}</span>
                         {/* Species */}
-                        <div className="flex gap-x-1 items-center">
+                        <div className="flex items-center gap-x-1">
                           <PokemonIcon speciesId={field.species} />
                           <Select
                             itemClassName="w-5/6"
                             inputSize="sm"
                             options={pokemonList.map(({ name }) => ({
                               value: name,
-                              label: name,
+                              label: t(getPokemonTranslationKey(name, 'species')),
                             }))}
                             onChange={(e) => {
                               const newPokemon = gen.species.get(e.value);
@@ -133,30 +133,30 @@ const Search = () => {
                             }}
                             value={{
                               value: field.species,
-                              label: field.species,
+                              label: t(getPokemonTranslationKey(field.species, 'species')),
                             }}
                             iconGetter={(key: string) => <PokemonIcon speciesId={key} />}
                             ariaLabel={`Pokemon Select ${index}`}
                           />
                         </div>
-                        <button className="btn btn-sm btn-error" type="button" onClick={() => remove(index)}>
+                        <button className="btn-error btn-sm btn" type="button" onClick={() => remove(index)}>
                           ✕
                         </button>
                       </div>
                     </div>
                     <div className="collapse-content">
-                      <div className="grid md:grid-rows-2 gap-1 grid-flow-col">
+                      <div className="grid grid-flow-col gap-1 md:grid-rows-2">
                         {/* Item */}
                         <label className="label">
-                          <span className="label-text font-bold">Item</span>
+                          <span className="label-text font-bold">{t('search.form.species.item')}</span>
                         </label>
                         <Select
                           itemClassName="w-5/6"
                           inputSize="sm"
-                          options={[{ value: '', label: 'Any' }].concat(
+                          options={[{ value: '', label: '' }].concat(
                             itemList.map(({ name }) => ({
                               value: name,
-                              label: name,
+                              label: t(getPokemonTranslationKey(name, 'items')),
                             }))
                           )}
                           onChange={({ value }) => {
@@ -164,34 +164,35 @@ const Search = () => {
                           }}
                           value={{
                             value: field.item ?? '',
-                            label: field.item ?? 'Any',
+                            label: field.item ? t(getPokemonTranslationKey(field.item, 'items')) : '',
                           }}
-                          defaultValue={{ value: '', label: 'Any' }}
+                          defaultValue={{ value: '', label: '' }}
                           iconGetter={(key: string) => <ItemIcon itemName={key} />}
                           ariaLabel={`Item Select ${index}`}
+                          placeholder={t('search.any')}
                         />
                         {/* Ability */}
                         <label className="label">
-                          <span className="label-text font-bold">Ability</span>
+                          <span className="label-text font-bold">{t('search.form.species.ability')}</span>
                         </label>
                         <select
-                          className="select select-bordered select-sm w-full"
+                          className="select-bordered select select-sm w-full"
                           value={field.ability}
                           onChange={(e) => update(index, { ...field, ability: e.target.value })}
                           role="listbox"
                           aria-label={`Ability Select ${index}`}
                         >
-                          <option value="">Any</option>
+                          <option value="">{t('search.any')}</option>
                           {Object.values(gen.species.get(field.species)?.abilities ?? {}).map((a) => (
                             <option key={a} value={a}>
-                              {a}
+                              {t(getPokemonTranslationKey(a, 'abilities'))}
                             </option>
                           ))}
                         </select>
                       </div>
                       {/* Moves */}
                       <label className="label">
-                        <span className="label-text font-bold">Moves</span>
+                        <span className="label-text font-bold">{t('search.form.species.moves')}</span>
                       </label>
                       <div className="grid grid-cols-2 gap-1">
                         {field.moves.map((move, i) => (
@@ -201,13 +202,12 @@ const Search = () => {
                             itemClassName="w-1/2"
                             iconGetter={(k) => <RoundTypeIcon typeName={gen.moves.get(k)?.type ?? '???'} />}
                             options={learnset.map(({ name }) => ({
-                              label: name,
                               value: name,
+                              label: t(getPokemonTranslationKey(name, 'moves')),
                             }))}
-                            placeholder={`Move ${i + 1}`}
                             value={{
                               value: move,
-                              label: move,
+                              label: t(getPokemonTranslationKey(move, 'moves')),
                             }}
                             defaultValue={{ value: '', label: '' }}
                             onChange={(e) => {
@@ -216,17 +216,18 @@ const Search = () => {
                               update(index, { ...field, moves: newMoves });
                             }}
                             ariaLabel={`Move ${i + 1} Select ${index}`}
+                            placeholder={`${t('search.form.species.moves')} ${i + 1}`}
                           />
                         ))}
                       </div>
                       {/* EV ranges */}
                       <label className="label">
-                        <span className="label-text font-bold">EVs (min to max)</span>
+                        <span className="label-text font-bold">{t('search.form.species.evRanges')}</span>
                       </label>
                       <div className="flex flex-wrap">
                         {stats.map((stat) => (
-                          <div key={stat} className="grid-cols-6 grid gap-1 w-1/2 p-1">
-                            <label className="uppercase">{stat}</label>
+                          <div key={stat} className="grid w-1/2 grid-cols-6 gap-1 p-1">
+                            <label>{t(`search.stats.${stat}`)}</label>
                             <input
                               type="number"
                               role="spinbutton"
@@ -235,7 +236,7 @@ const Search = () => {
                               min={0}
                               max={252}
                               placeholder="0"
-                              className="input input-bordered input-xs input-secondary col-span-2"
+                              className="input-bordered input-secondary input input-xs col-span-2"
                               {...register(`speciesCriterion.${index}.minEVs.${stat}` as `speciesCriterion.${number}.minEVs.hp`)}
                             />
                             <span className="text-center">~</span>
@@ -247,7 +248,7 @@ const Search = () => {
                               min={0}
                               max={252}
                               placeholder="252"
-                              className="input input-bordered input-xs input-primary col-span-2"
+                              className="input-bordered input-primary input input-xs col-span-2"
                               {...register(`speciesCriterion.${index}.maxEVs.${stat}` as `speciesCriterion.${number}.maxEVs.hp`)}
                             />
                           </div>
@@ -259,19 +260,19 @@ const Search = () => {
                 {fields.length < 6 && (
                   <button
                     type="button"
-                    className="btn btn-ghost text-2xl border-dashed border-2 border-base-300"
+                    className="btn-ghost btn border-2 border-dashed border-base-300 text-2xl"
                     onClick={() => append({ ...defaultPokemonCriteria })}
                   >
                     +
                   </button>
                 )}
               </div>
-              <p className="text-error text-sm">{errors.speciesCriterion?.root?.message}</p>
+              <p className="text-sm text-error">{errors.speciesCriterion?.root?.message}</p>
             </div>
             {/* Format */}
             <div className="form-control">
               <label className="label">
-                <span className="label-text after:text-error after:content-['_*']">{t('search:form.format.label')}</span>
+                <span className="label-text after:text-error after:content-['_*']">{t('search.form.format')}</span>
               </label>
               <FormatSelector
                 inputGroup={false}
@@ -283,12 +284,12 @@ const Search = () => {
             {/* Has Rental Code */}
             <div className="form-control">
               <label className="label cursor-pointer">
-                <span className="label-text after:text-error after:content-['_*']">{t('search:form.rental.label')}</span>
+                <span className="label-text after:text-error after:content-['_*']">{t('search.form.rental')}</span>
                 <input type="checkbox" className="checkbox" {...register('hasRentalCode')} />
               </label>
             </div>
             <div className="form-control mt-6">
-              <button className="btn-primary btn">{t('search:form.submit.button')}</button>
+              <button className="btn-primary btn">{t('search.form.submit.button')}</button>
             </div>
           </form>
         </div>
@@ -301,7 +302,7 @@ const Search = () => {
 export async function getStaticProps({ locale }: { locale: string }) {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ['common', 'search'])),
+      ...(await serverSideTranslations(locale, ['common', 'search', 'species', 'moves', 'abilities', 'items'])),
     },
   };
 }

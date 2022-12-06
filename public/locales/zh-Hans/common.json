@@ -1,37 +1,82 @@
 {
-  "home": "主页",
-  "about": "关于",
   "paste": "队伍",
-  "user_paste": "用户分享",
-  "vgc_paste": "VGC Paste",
-  "create_paste": "分享队伍",
-  "search_paste": "搜索队伍",
   "usage": "使用率",
-  "types": {
-    "type": "属性",
-    "bug": "虫",
-    "dark": "恶",
-    "dragon": "龙",
-    "electric": "电",
-    "fairy": "妖精",
-    "fighting": "格斗",
-    "fire": "火",
-    "flying": "飞行",
-    "ghost": "幽灵",
-    "grass": "草",
-    "ground": "地面",
-    "ice": "冰",
-    "normal": "一般",
-    "poison": "毒",
-    "psychic": "超能力",
-    "rock": "岩石",
-    "steel": "钢",
-    "water": "水"
+  "routes": {
+    "home": { 
+      "title": "主页",
+      "description": "主页"
+    },
+    "about": {
+      "title": "关于",
+      "description": "网站介绍和帮助文档"
+    },
+    "paste": {
+      "title": "Paste"
+    },
+    "public_pastes": {
+      "title": "用户分享",
+      "description": "用户分享的队伍"
+    },
+    "vgc_pastes": {
+      "title": "VGC Pastes",
+      "description": "VGC 队伍集合"
+    },
+    "create_paste": {
+      "title": "分享队伍",
+      "description": "公开或私密分享一个队伍"
+    },
+    "search_paste": {
+      "title": "搜索队伍",
+      "description": "搜索队伍"
+    },
+    "usage": {
+      "title": "使用率",
+      "description": "Pokémon Showdown! 使用率统计"
+    }
   },
-  "categories": {
-    "category": "类别",
-    "physical": "物理",
-    "special": "特殊",
-    "status": "状态"
-  }
+  "type": "属性",
+  "team": "队伍",
+  "title": "标题",
+  "description": "描述",
+  "author": "作者",
+  "createdAt": "创建于",
+  "notes": "备注",
+  "source": "来源",
+  "public": "公开",
+  "private": "私密",
+  "rentalCode": "租借队伍码",
+  "categories": "类别",
+  "stats": {
+    "hp": "HP",
+    "atk": "攻击",
+    "def": "防御",
+    "spa": "特攻",
+    "spd": "特防",
+    "spe": "速度"
+  },
+  "item": "道具",
+  "ability": "特性",
+  "nature": "性格",
+  "evs": "努力值",
+  "ivs": "个体值",
+  "move": "招式",
+  "level": "等级",
+  "shiny": "闪光",
+  "tera_type": "太晶属性",
+  "teammate": "队友",
+  "spread": "分配",
+  "format": "对战规则",
+  "pokemon": "宝可梦",
+  "detail": "详细",
+  "copiedToClipboard": "📋 已复制！",
+  "webApiNotSupported": "📋 浏览器不支持 Web Share API ，已将其复制到您的剪贴板",
+  "share": "分享",
+  "copy": "复制",
+  "openInRoom": "在房间中打开",
+  "insights": "分析",
+  "categoryTypes": "类型\\属性",
+  "typeCategoryMatrix": "属性\\类型表",
+  "defense": "防守",
+  "offense": "进攻",
+  "terastallized": "太晶化"
 }

@@ -16,10 +16,11 @@ import { Paste } from '@/utils/Prisma';
 
 const PasteAndFunctions = ({ team, paste }: { team: Pokemon[]; paste: NonNullable<Paste> }) => {
   const { locale, push } = useRouter();
+  const { t } = useTranslation(['common']);
 
   // handlers
   const handleCopy = () => {
-    navigator.clipboard.writeText(paste.paste).then(() => toast('📋 Copied!'));
+    navigator.clipboard.writeText(paste.paste).then(() => toast(t('common.copiedToClipboard')));
   };
 
   const handleShare = () => {
@@ -31,9 +32,7 @@ const PasteAndFunctions = ({ team, paste }: { team: Pokemon[]; paste: NonNullabl
         title: paste.title,
       });
     } catch (e) {
-      navigator.clipboard
-        .writeText(window.location.href)
-        .then(() => toast('📋 The link has been copied to your clipboard as your browser does not support Web Share API.'));
+      navigator.clipboard.writeText(window.location.href).then(() => toast(t('common.webApiNotSupported')));
     }
   };
 
@@ -59,28 +58,38 @@ const PasteAndFunctions = ({ team, paste }: { team: Pokemon[]; paste: NonNullabl
       {/* metadata */}
       <div className="prose ml-5 w-4/5 py-6">
         <h1>{paste.title}</h1>
-        <h3>Author: {paste.author}</h3>
+        <h3>
+          {t('common.author')}: {paste.author}
+        </h3>
         <ul>
-          <li>Format: {paste.format}</li>
           <li>
-            Created at:{' '}
+            {t('common.format')}: {paste.format}
+          </li>
+          <li>
+            {t('common.createdAt')}:{' '}
             {new Intl.DateTimeFormat(locale ?? 'en-US', {
               dateStyle: 'long',
             }).format(new Date(paste.createdAt))}
           </li>
-          <li className="break-all">Source: {paste.source || 'None'}</li>
-          <li>Rental Code: {paste.rentalCode || 'None'}</li>
+          <li className="break-all">
+            {t('common.source')}: {paste.source || '-'}
+          </li>
+          <li>
+            {t('common.rentalCode')}: {paste.rentalCode || '-'}
+          </li>
         </ul>
-        <p className="break-all">Notes: {paste.notes}</p>
+        <p className="break-all">
+          {t('common.notes')}: {paste.notes}
+        </p>
         <div className="flex justify-around">
           <button className="btn-primary btn-sm btn" type="button" onClick={handleCopy}>
-            Copy PokePaste
+            {t('common.copy')} PokePaste
           </button>
           <button className="btn-secondary btn-sm btn" type="button" onClick={handleShare}>
-            Share
+            {t('common.share')}
           </button>
           <button className="btn-accent btn-sm btn" type="button" onClick={handleOpenInRoom}>
-            Open in Room
+            {t('common.openInRoom')}
           </button>
         </div>
       </div>
@@ -89,19 +98,19 @@ const PasteAndFunctions = ({ team, paste }: { team: Pokemon[]; paste: NonNullabl
 };
 
 const TeamInsight = ({ team }: { team: Pokemon[] }) => {
-  const { t } = useTranslation('table');
+  const { t } = useTranslation(['common']);
   const { defenseMap, offenseMap, defenseTeraMap } = Pokemon.getTeamTypeChart(team);
   return (
     <div className="flex flex-col gap-2 overflow-x-auto p-2">
-      <h1 className="text-2xl font-bold">{t('insights')}</h1>
+      <h1 className="text-2xl font-bold">{t('common.insights')}</h1>
       {/* type category matrix */}
-      <h2 className="text-xl font-bold">{t('type_category_matrix')}</h2>
+      <h2 className="text-xl font-bold">{t('common.typeCategoryMatrix')}</h2>
       <TeamTypeCategoryMatrix teamMemberCategories={Pokemon.getTeamMemberCategories(team)} />
       {/* defense map */}
-      <h2 className="text-xl font-bold">{t('defense')}</h2>
+      <h2 className="text-xl font-bold">{t('common.defense')}</h2>
       <TeamTypeChart teamTypeChart={defenseMap} additionalTypeChart={defenseTeraMap} direction={'defense'} />
       {/* offense map */}
-      <h2 className="text-xl font-bold">{t('offense')}</h2>
+      <h2 className="text-xl font-bold">{t('common.offense')}</h2>
       <TeamTypeChart<TypeEffectiveness> teamTypeChart={offenseMap} direction={'offense'} />
     </div>
   );
@@ -111,7 +120,7 @@ const tabs = ['Team', 'Insights'] as const;
 type Tabs = typeof tabs[number];
 
 const PasteLayout = ({ id }: { id: string }) => {
-  const { t } = useTranslation('table');
+  const { t } = useTranslation(['common']);
   const [currentTab, setCurrentTab] = useState<Tabs>('Team');
   const { data: paste, error } = useSWRImmutable<Paste>(id, (i) => fetch(`/api/pastes/${i}`).then((res) => res.json()));
 

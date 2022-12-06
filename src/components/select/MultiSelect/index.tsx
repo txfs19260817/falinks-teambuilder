@@ -4,10 +4,8 @@ import { useMemo, useState } from 'react';
 import type { Option, SelectProps } from '@/utils/Types';
 
 export function MultiSelect({ options, onChange, iconGetter, placeholder = '...' }: SelectProps<Option[]>) {
-  const getFilteredOptions = (selectedOptions: Option[], inputValue: Option['value']) => {
-    const lowerCasedInputValue = inputValue.toLowerCase();
-
-    return options.filter((o) => !selectedOptions.includes(o) && o.value.toLowerCase().includes(lowerCasedInputValue));
+  const getFilteredOptions = (selectedOptions: Option[], inputValue: string) => {
+    return options.filter((o) => !selectedOptions.includes(o) && (o.value.toLowerCase().includes(inputValue.toLowerCase()) || o.label.includes(inputValue)));
   };
 
   const [inputValue, setInputValue] = useState<string>('');
@@ -119,7 +117,7 @@ export function MultiSelect({ options, onChange, iconGetter, placeholder = '...'
         {isOpen &&
           items.map((option, index) => (
             <li
-              className={`p-1 flex flex-col ${highlightedIndex === index ? 'bg-base-300' : ''} ${selectedItem === option ? 'font-bold' : ''}`}
+              className={`flex flex-col p-1 ${highlightedIndex === index ? 'bg-base-300' : ''} ${selectedItem === option ? 'font-bold' : ''}`}
               key={option.value}
               {...getItemProps({
                 item: option,

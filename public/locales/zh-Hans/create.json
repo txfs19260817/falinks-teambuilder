@@ -49,5 +49,6 @@
       "success": "创建成功！正在加载上传的内容...",
       "error": "创建失败"
     }
-  }
+  },
+  "invalidPokePaste": "无效的 PokePaste 链接"
 }

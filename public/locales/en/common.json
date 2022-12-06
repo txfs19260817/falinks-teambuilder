@@ -1,37 +1,78 @@
 {
-  "home": "Home",
-  "about": "About",
   "paste": "Paste",
-  "user_paste": "User Paste",
-  "vgc_paste": "VGC Paste",
-  "create_paste": "Create",
-  "search_paste": "Search",
   "usage": "Usage",
-  "types": {
-    "type": "Type",
-    "bug": "Bug",
-    "dark": "Dark",
-    "dragon": "Dragon",
-    "electric": "Electric",
-    "fairy": "Fairy",
-    "fighting": "Fighting",
-    "fire": "Fire",
-    "flying": "Flying",
-    "ghost": "Ghost",
-    "grass": "Grass",
-    "ground": "Ground",
-    "ice": "Ice",
-    "normal": "Normal",
-    "poison": "Poison",
-    "psychic": "Psychic",
-    "rock": "Rock",
-    "steel": "Steel",
-    "water": "Water"
+  "routes": {
+    "home": { 
+      "title": "Home",
+      "description": "Home page"
+    },
+    "about": {
+      "title": "About",
+      "description": "About and documentation"
+    },
+    "paste": {
+      "title": "Paste"
+    },
+    "public_pastes": {
+      "title": "User Shared",
+      "description": "User publicly shared PokePaste"
+    },
+    "vgc_pastes": {
+      "title": "VGC Pastes",
+      "description": "Curated PokePaste for Pokémon VGC"
+    },
+    "create_paste": {
+      "title": "Create",
+      "description": "Create a PokePaste public or private"
+    },
+    "search_paste": {
+      "title": "Search",
+      "description": "Search for a PokePaste"
+    },
+    "usage": {
+      "title": "Usage",
+      "description": "Pokémon Showdown! usage statistics"
+    }
   },
-  "categories": {
-    "category": "Category",
-    "physical": "Physical",
-    "special": "Special",
-    "status": "Status"
-  }
+  "type": "Type",
+  "team": "Team",
+  "title": "Title",
+  "description": "Description",
+  "author": "Author",
+  "createdAt": "Created At",
+  "notes": "Notes",
+  "source": "Source",
+  "public": "Public",
+  "private": "Private",
+  "rentalCode": "Rental Code",
+  "category": "Category",
+  "stats": {
+    "hp": "HP",
+    "atk": "Attack",
+    "def": "Defense",
+    "spa": "Sp. Atk",
+    "spd": "Sp. Def",
+    "spe": "Speed"
+  },
+  "item": "Item",
+  "ability": "Ability",
+  "nature": "Nature",
+  "evs": "EVs",
+  "ivs": "IVs",
+  "move": "Move",
+  "level": "Level",
+  "shiny": "Shiny",
+  "tera_type": "Tera Type",
+  "teammate": "Teammate",
+  "spread": "Spread",
+  "format": "Format",
+  "pokemon": "Pokémon",
+  "detail": "Detail",
+  "copiedToClipboard": "📋 Copied!",
+  "webApiNotSupported": "📋 The link has been copied to your clipboard as your browser does not support Web Share API.",
+  "share": "Share",
+  "copy": "Copy",
+  "openInRoom": "Open in Room",
+  "insights": "Insights",
+  "terastallized": "Terastallized"
 }

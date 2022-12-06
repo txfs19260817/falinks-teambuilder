@@ -1,16 +1,26 @@
+import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
+
 import DexSingleton from '@/models/DexSingleton';
 import { fractionToPercentage } from '@/utils/Helpers';
-import { wikiLink } from '@/utils/PokemonUtils';
+import { getPokemonTranslationKey, wikiLink } from '@/utils/PokemonUtils';
 import type { Usage } from '@/utils/Types';
 
 function UsageStats({ pokeUsage }: { pokeUsage: Usage }) {
+  const { locale } = useRouter();
+  const { t } = useTranslation(['common', 'usages', 'abilities']);
   const abilities = Object.entries(pokeUsage.Abilities).map(([ability, fraction]) => ({
     ability: DexSingleton.getGen().abilities.get(ability)!,
     fraction,
   }));
+  const lastMonthLiteral = new Intl.DateTimeFormat(locale, {
+    month: 'long',
+    year: 'numeric',
+  }).format(new Date(Date.now() - 30 * 24 * 60 * 60 * 1000));
+
   return (
     <div className="flex items-center justify-center">
-      <div className="stats stats-vertical shadow xl:stats-horizontal xl:grid-cols-4">
+      <div className="stats stats-vertical shadow xl:grid-cols-4 xl:stats-horizontal">
         {/* Rank */}
         <div className="stat">
           <div className="stat-figure block text-secondary xl:hidden">
@@ -18,7 +28,7 @@ function UsageStats({ pokeUsage }: { pokeUsage: Usage }) {
               <path strokeLinecap="round" strokeLinejoin="round" d="M5.25 8.25h15m-16.5 7.5h15m-1.8-13.5l-3.9 19.5m-2.1-19.5l-3.9 19.5" />
             </svg>
           </div>
-          <div className="stat-title">Rank</div>
+          <div className="stat-title">{t('usages.rank')}</div>
           <div className="stat-value"># {pokeUsage.rank + 1}</div>
         </div>
         {/* Usage percent */}
@@ -32,40 +42,29 @@ function UsageStats({ pokeUsage }: { pokeUsage: Usage }) {
               />
             </svg>
           </div>
-          <div className="stat-title">Usage</div>
-          <div className="stat-value">{fractionToPercentage(pokeUsage.usage)}</div>
-          <div className="stat-desc">last month</div>
+          <div className="stat-title">{t('common.usage')}</div>
+          <div className="stat-value text-2xl">{fractionToPercentage(pokeUsage.usage)}</div>
+          <div className="stat-desc">{lastMonthLiteral}</div>
         </div>
         {/* Abilities */}
         <div className="stat col-span-2 overflow-hidden">
-          <div className="stat-title">Abilities</div>
-          {abilities.at(0) && (
-            <div className="stat-value text-xl text-primary before:content-['#']">
-              <span>1. </span>
-              <a href={wikiLink(abilities.at(0)!.ability.name)} target="_blank" rel="noreferrer">
-                {abilities.at(0)!.ability.name}
+          <div className="stat-title">{t('common.ability')}</div>
+          {abilities.map(({ ability, fraction }, index) => (
+            <div
+              key={ability.id}
+              className={`
+              ${index === 0 ? 'stat-value' : 'stat-desc'} 
+              ${index === 0 ? 'text-lg' : 'text-sm'} 
+              ${index === 0 ? 'text-accent' : index === 1 ? 'text-secondary' : ''}
+              before:content-['#']`}
+            >
+              <span>{index + 1}. </span>
+              <a href={wikiLink(ability.name, locale)} target="_blank" rel="noreferrer">
+                {t(getPokemonTranslationKey(ability.name, 'abilities'))}
               </a>
-              <span> ({fractionToPercentage(abilities.at(0)!.fraction)})</span>
+              <span className="text-accent"> ({fractionToPercentage(fraction)})</span>
             </div>
-          )}
-          {abilities.at(1) && (
-            <div className="stat-desc text-secondary before:content-['#']">
-              <span>2. </span>
-              <a href={wikiLink(abilities.at(1)!.ability.name)} target="_blank" rel="noreferrer">
-                {abilities.at(1)!.ability.name}
-              </a>
-              <span> ({fractionToPercentage(abilities.at(1)!.fraction)})</span>
-            </div>
-          )}
-          {abilities.at(2) && (
-            <div className="stat-desc before:content-['#']">
-              <span>3. </span>
-              <a href={wikiLink(abilities.at(2)!.ability.name)} target="_blank" rel="noreferrer">
-                {abilities.at(2)!.ability.name}
-              </a>
-              <span> ({fractionToPercentage(abilities.at(2)!.fraction)})</span>
-            </div>
-          )}
+          ))}
         </div>
       </div>
     </div>

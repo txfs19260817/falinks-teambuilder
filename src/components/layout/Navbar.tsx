@@ -54,7 +54,10 @@ const RoutesList = ({ className }: { className: string }) => {
               {route.children.map((cr) => (
                 <li key={cr.id}>
                   <Link href={cr.path} target={cr.target} rel="noopener noreferrer" className="border-none" role="menuitem" aria-label={cr.id}>
-                    {t(cr.id, { defaultValue: cr.name })}
+                    {t(`routes.${cr.id}.title`, {
+                      defaultValue: cr.name,
+                      ns: 'common',
+                    })}
                   </Link>
                 </li>
               ))}
@@ -63,7 +66,10 @@ const RoutesList = ({ className }: { className: string }) => {
         ) : (
           <li key={route.id}>
             <Link href={route.path} target={route.target} rel="noopener noreferrer" className="border-none" role="menuitem" aria-label={route.id}>
-              {t(route.id, { defaultValue: route.name })}
+              {t(`routes.${route.id}.title`, {
+                defaultValue: route.name,
+                ns: 'common',
+              })}
             </Link>
           </li>
         )

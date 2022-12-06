@@ -63,7 +63,6 @@ const Meta = (props: IMetaProps) => {
         }}
         twitter={{
           handle: '@dora_865',
-          site: '@FalinksT',
           cardType: 'summary_large_image',
         }}
       />

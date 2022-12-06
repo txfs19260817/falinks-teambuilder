@@ -11,7 +11,7 @@ import { getPaste, listPastes } from '@/utils/Prisma';
 export default function Page({ fallback, id, title }: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
     <SWRConfig value={{ fallback }}>
-      <Main title={`Paste - ${title}`}>
+      <Main title={`Paste - ${title}`} description={`Paste - ${title}`}>
         <PasteLayout id={id} />
       </Main>
     </SWRConfig>
@@ -38,7 +38,7 @@ export const getStaticProps: GetStaticProps<{ id: string; title: string; fallbac
           fallback: {
             [id]: JSON.parse(JSON.stringify(data)),
           },
-          ...(await serverSideTranslations(locale ?? AppConfig.defaultLocale, ['common', 'create', 'table'])),
+          ...(await serverSideTranslations(locale ?? AppConfig.defaultLocale, ['common', 'moves', 'types', 'species'])),
         },
       }
     : {

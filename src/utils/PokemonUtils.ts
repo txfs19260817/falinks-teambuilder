@@ -380,16 +380,37 @@ export const postProcessUsage = async (format: string = AppConfig.defaultFormat)
         .map((u, i) => trimUsage(u, i));
 };
 
+const getWikiHost = (locale: string) => {
+  switch (locale.toLowerCase()) {
+    case 'de':
+      return 'https://www.pokewiki.de/';
+    case 'fr':
+      return 'https://www.pokepedia.fr/';
+    case 'es':
+      return 'https://www.wikidex.net/wiki/';
+    case 'ja':
+      return 'https://wiki.xn--rckteqa2e.com/wiki/';
+    case 'zh-hans':
+      return 'https://wiki.52poke.com/zh-hans/';
+    case 'zh-hant':
+      return 'https://wiki.52poke.com/zh-hant/';
+    default:
+      return 'https://bulbapedia.bulbagarden.net/wiki/';
+  }
+};
+
 /**
  * Generates a Wiki link for the given name of Pokémon, item, ability, move, or nature.
- * @param keyword
+ * @param keyword: The name of the Pokémon, item, ability, move, or nature.
+ * @param locale: The locale of the Wiki link. Defaults to `AppConfig.locale`.
  */
-export const wikiLink = (keyword: string) => {
+export const wikiLink = (keyword: string, locale?: string) => {
+  const host = getWikiHost(locale ?? AppConfig.defaultLocale);
   const lowerCaseKeyword = keyword.toLowerCase();
   if (hyphenNameToWikiName.has(lowerCaseKeyword)) {
-    return `https://bulbapedia.bulbagarden.net/wiki/${hyphenNameToWikiName.get(lowerCaseKeyword)}`;
+    return `${host}${hyphenNameToWikiName.get(lowerCaseKeyword)}`;
   }
-  return `https://bulbapedia.bulbagarden.net/wiki/${keyword
+  return `${host}${keyword
     .split(/[-:]/)
     .at(0)!
     .split(' ')
@@ -633,4 +654,43 @@ export const changeMoveType = (move: Move, abilityName: string | undefined, item
     }
   }
   return move;
+};
+
+export const getPokemonTranslationKey = (word: string, category: 'species' | 'moves' | 'abilities' | 'items' | 'natures' | 'types' | string): string => {
+  const gen = DexSingleton.getGen();
+  switch (category) {
+    case 'species': {
+      const dexNum = gen.species.get(word)?.num;
+      if (dexNum) return `species.${dexNum}`;
+      break;
+    }
+    case 'moves': {
+      const moveId = gen.moves.get(word)?.id;
+      if (moveId) return `moves.${moveId}`;
+      break;
+    }
+    case 'abilities': {
+      const abilityId = gen.abilities.get(word)?.id;
+      if (abilityId) return `abilities.${abilityId}`;
+      break;
+    }
+    case 'items': {
+      const itemId = gen.items.get(word)?.id;
+      if (itemId) return `items.${itemId}`;
+      break;
+    }
+    case 'natures': {
+      const natureId = gen.natures.get(word)?.id;
+      if (natureId) return `natures.${natureId}`;
+      break;
+    }
+    case 'types': {
+      const typeId = gen.types.get(word)?.id;
+      if (typeId) return `types.${typeId}`;
+      break;
+    }
+    default:
+      return word;
+  }
+  return word;
 };

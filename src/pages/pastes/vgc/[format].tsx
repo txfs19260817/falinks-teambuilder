@@ -1,6 +1,6 @@
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next';
 import { useRouter } from 'next/router';
-import { SSRConfig } from 'next-i18next';
+import { SSRConfig, useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import PastesTable from '@/components/pastes/PastesTable';
@@ -14,8 +14,9 @@ const vgcFormats = ['gen9vgc2023series1', 'gen8spikemuthcup', 'gen8battlestadium
 
 const VGCPastes = ({ format, pastes }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const router = useRouter();
+  const { t } = useTranslation(['common']);
   return (
-    <Main title="Pastes">
+    <Main title={t('common.routes.vgc_pastes.title')} description={t('common.routes.vgc_pastes.description')}>
       <FormatSelector
         formats={vgcFormats}
         defaultFormat={format}
@@ -36,7 +37,7 @@ export const getStaticProps: GetStaticProps<{ pastes: PastesList; format: string
     props: {
       pastes: JSON.parse(JSON.stringify(pastes)),
       format,
-      ...(await serverSideTranslations(locale ?? AppConfig.defaultLocale, ['common', 'create'])),
+      ...(await serverSideTranslations(locale ?? AppConfig.defaultLocale, ['common', 'species'])),
     },
     revalidate: 60 * 60, // 1 hour
   };

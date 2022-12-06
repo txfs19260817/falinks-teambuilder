@@ -9,7 +9,7 @@
     "package-lock.json": true
   },
   "editor.defaultFormatter": "dbaeumer.vscode-eslint",
-  "editor.formatOnSave": false,
+  "editor.formatOnSave": true,
   "editor.codeActionsOnSave": [
     "source.addMissingImports",
     "source.fixAll.eslint"
@@ -18,5 +18,11 @@
   "[json][jsonc]": {
     "editor.formatOnSave": true,
     "editor.defaultFormatter": "esbenp.prettier-vscode"
-  }
+  },
+  "i18n-ally.localesPaths": ["public/locales"],
+  "i18n-ally.namespace": true,
+  "i18n-ally.keystyle": "nested",
+  "files.autoSave": "onFocusChange",
+  "prettier.printWidth": 120,
+  "prettier.jsxSingleQuote": true
 }

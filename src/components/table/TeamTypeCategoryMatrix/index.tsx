@@ -13,7 +13,7 @@ export function TeamTypeCategoryMatrix({
     [key in MoveCategory]: Specie[];
   };
 }) {
-  const { t } = useTranslation('table');
+  const { t } = useTranslation(['common', 'types']);
 
   const types = typesWithEmoji.map((type) => type.value).filter((v) => v !== '???');
   // hide empty columns on mobile devices to avoid overflow/too compact
@@ -29,11 +29,11 @@ export function TeamTypeCategoryMatrix({
       <thead>
         <tr>
           <th>
-            <span className="hidden lg:table-cell">{t('category_types', { defaultValue: 'Category\\Types' })}</span>
+            <span className="hidden lg:table-cell">{t('common.categoryTypes', { defaultValue: 'Category\\Types' })}</span>
           </th>
           {types.map((type, i) => (
             <th key={type} className={`${hidableBitmap[i] ? 'hidden lg:table-cell' : ''}`}>
-              <RoundTypeIcon typeName={type} /> {t(`common:types.${type.toLowerCase()}`)}
+              <RoundTypeIcon typeName={type} /> {t(`types.${type.toLowerCase()}`, { defaultValue: '' })}
             </th>
           ))}
         </tr>

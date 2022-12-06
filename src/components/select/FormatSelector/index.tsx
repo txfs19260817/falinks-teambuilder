@@ -1,3 +1,4 @@
+import { useTranslation } from 'next-i18next';
 import { ChangeEvent } from 'react';
 
 import { AppConfig } from '@/utils/AppConfig';
@@ -13,10 +14,11 @@ export const FormatSelector = ({
   formats?: string[];
   inputGroup?: boolean;
 }) => {
+  const { t } = useTranslation(['common']);
   if (inputGroup) {
     return (
       <div className="input-group-xs input-group">
-        <span>Format</span>
+        <span>{t('common.format')}</span>
         <select
           className="select-bordered select select-sm w-48 overflow-ellipsis"
           defaultValue={defaultFormat}

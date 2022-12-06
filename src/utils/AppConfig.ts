@@ -30,7 +30,7 @@ const routes: Route[] = [
         target: '_self',
       },
       {
-        id: 'vgc_paste',
+        id: 'vgc_pastes',
         name: 'VGC Paste',
         path: '/pastes/vgc',
         target: '_self',

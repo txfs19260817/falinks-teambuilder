@@ -1,21 +1,30 @@
 {
   "title": "Search Paste",
+  "any": "Any",
   "form": {
-    "format": {
-      "label": "Format"
-    },
+    "format": "Format",
     "species": {
       "label": "Pokémon",
-      "error": "Please add at least one Pokémon to search for."
+      "error": "Please add at least one Pokémon to search for.",
+      "item": "Item",
+      "ability": "Ability",
+      "evRanges": "EVs (min to max)",
+      "moves": "Moves"
     },
-    "rental": {
-      "label": "Must Have Rental Code"
-    },
+    "rental": "Must Have Rental Code",
     "submit": {
       "button": "Submit",
       "loading": "Searching Pastes...",
       "success": "Done!",
       "error": "An error occurred when processing your request."
     }
+  },
+  "stats": {
+    "hp": "HP",
+    "atk": "Atk",
+    "def": "Def",
+    "spa": "SpA",
+    "spd": "SpD",
+    "spe": "Spe"
   }
 }

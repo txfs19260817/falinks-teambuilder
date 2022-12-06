@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { PokemonIcon } from '@/components/icons/PokemonIcon';
-import { WorkspaceProps } from '@/components/workspace';
+import type { WorkspaceProps } from '@/components/workspace';
 import { supportedProtocols } from '@/providers';
 import { Main } from '@/templates/Main';
 import { AppConfig } from '@/utils/AppConfig';
@@ -24,7 +24,7 @@ const RoomForm = () => {
   const { t } = useTranslation(['common', 'home']);
   const { register, handleSubmit, setValue } = useForm<RoomFormProps>({
     defaultValues: {
-      roomName: `room_name_${S4()}${S4()}`,
+      roomName: `newroom_${S4()}${S4()}`,
       protocolName: 'WebSocket',
     },
   });
@@ -53,7 +53,7 @@ const RoomForm = () => {
     >
       <div className="form-control">
         <label className="label" htmlFor={'userName'}>
-          <span className="label-text after:text-error after:content-['_*']">{t('home:form.author.label')}</span>
+          <span className="label-text after:text-error after:content-['_*']">{t('home.form.author.label')}</span>
         </label>
         <div className="flex">
           <input
@@ -61,14 +61,14 @@ const RoomForm = () => {
             role="textbox"
             aria-label="Author Name"
             type="text"
-            placeholder={t('home:form.author.placeholder')}
+            placeholder={t('home.form.author.placeholder')}
             required={true}
             maxLength={18}
             className="input-bordered input rounded-r-none text-base-content placeholder:text-base-content/50"
             {...register('userName', { required: true })}
           />
           <button
-            title={t('home:form.author.button_title')}
+            title={t('home.form.author.button_title')}
             className="btn rounded-l-none tracking-tighter"
             role="button"
             aria-label="Draw a name randomly"
@@ -77,14 +77,14 @@ const RoomForm = () => {
               setValue('userName', getRandomTrainerName());
             }}
           >
-            {t('home:form.author.button')}
+            {t('home.form.author.button')}
           </button>
         </div>
-        <p className="text-xs text-base-content/50">{t('home:form.author.description')}</p>
+        <p className="text-xs text-base-content/50">{t('home.form.author.description')}</p>
       </div>
       <div className="form-control">
         <label className="label" htmlFor={'pokePasteUrl'}>
-          <span className="label-text">{t('home:form.pokepaste.label')}</span>
+          <span className="label-text">{t('home.form.pokepaste.label')}</span>
         </label>
         <input
           id={'pokePasteUrl'}
@@ -96,28 +96,28 @@ const RoomForm = () => {
           className="input-bordered input text-base-content placeholder:text-base-content/50"
           {...register('pokePasteUrl')}
         />
-        <p className="text-xs text-base-content/50">{t('home:form.pokepaste.description')}</p>
+        <p className="text-xs text-base-content/50">{t('home.form.pokepaste.description')}</p>
       </div>
       <div className="form-control">
         <label className="label" htmlFor={'roomName'}>
-          <span className="label-text after:text-error after:content-['_*']">{t('home:form.room.label')}</span>
+          <span className="label-text after:text-error after:content-['_*']">{t('home.form.room.label')}</span>
         </label>
         <input
           id={'roomName'}
           type="text"
           role="textbox"
           aria-label="Room Name"
-          placeholder={t('home:form.room.placeholder')}
+          placeholder={t('home.form.room.placeholder')}
           required={true}
           maxLength={50}
           className="input-bordered input text-base-content placeholder:text-base-content/50"
           {...register('roomName', { required: true })}
         />
-        <p className="text-xs text-base-content/50">{t('home:form.room.description')}</p>
+        <p className="text-xs text-base-content/50">{t('home.form.room.description')}</p>
       </div>
       <div className="form-control">
         <label className="label" htmlFor={'Protocol'}>
-          <span className="label-text after:text-error after:content-['_*']">{t('home:form.protocol.label')}</span>
+          <span className="label-text after:text-error after:content-['_*']">{t('home.form.protocol.label')}</span>
         </label>
         <div id={'Protocol'} className="form-control flex-row-reverse justify-between">
           {supportedProtocols.map((protocol) => (
@@ -138,11 +138,11 @@ const RoomForm = () => {
             </div>
           ))}
         </div>
-        <p className="text-xs text-base-content/50">{t('home:form.protocol.description')}</p>
+        <p className="text-xs text-base-content/50">{t('home.form.protocol.description')}</p>
       </div>
       <div className="form-control mt-6">
         <button className="btn-primary btn" role={'button'} aria-label={'Create Room Submit Button'}>
-          {t('home:form.submit')}
+          {t('home.form.submit')}
         </button>
       </div>
     </form>
@@ -202,8 +202,8 @@ const RoomHistory = () => {
   };
 
   return roomHistory.length === 0 ? (
-    <div className="text-base-content text-center my-2 md:my-auto" role="alert" aria-label="No room history">
-      {t('home:history.empty', {
+    <div className="my-2 text-center text-base-content md:my-auto" role="alert" aria-label="No room history">
+      {t('home.history.empty', {
         defaultValue: 'No room visited, enjoy a cup of coffee ☕',
       })}
     </div>
@@ -214,12 +214,12 @@ const RoomHistory = () => {
           const key = Object.keys(v)[0]!;
           const room = v[key];
           return (
-            <div key={key} className="flex justify-center items-center gap-1">
+            <div key={key} className="flex items-center justify-center gap-1">
               {/* Room button */}
               <button
                 role="link"
                 aria-label={`Room ${key} link`}
-                className="btn no-animation normal-case text-xs flex-1"
+                className="no-animation btn flex-1 text-xs normal-case"
                 onClick={() => router.push(`/room/${key}`)}
               >
                 <div className="flex flex-col justify-between">
@@ -235,8 +235,8 @@ const RoomHistory = () => {
               <button
                 role="button"
                 aria-label={`Delete ${key} room`}
-                title={t('home:history.delete', { defaultValue: 'Delete' })}
-                className="btn btn-error flex-shrink-0 btn-sm"
+                title={t('home.history.delete', { defaultValue: 'Delete' })}
+                className="btn-error btn-sm btn flex-shrink-0"
                 onClick={() => {
                   handleDeleteRoom(key);
                 }}
@@ -252,11 +252,11 @@ const RoomHistory = () => {
         <button
           role="button"
           aria-label="Clear History"
-          title={t('home:history.clear', { defaultValue: 'Clear History' })}
-          className="btn btn-primary btn-sm"
+          title={t('home.history.clear', { defaultValue: 'Clear History' })}
+          className="btn-primary btn-sm btn"
           onClick={handleClearHistory}
         >
-          {t('home:history.clear', { defaultValue: 'Clear History' })}
+          {t('home.history.clear', { defaultValue: 'Clear History' })}
         </button>
       </div>
     </>
@@ -271,7 +271,7 @@ const Index = () => {
   const [tab, setTab] = useState<Tab>(tabs[0]);
 
   return (
-    <Main title={t('home')}>
+    <Main title={t('common.routes.home.title')} description={t('home.slogan')}>
       <div
         className="hero h-main"
         style={{
@@ -281,31 +281,31 @@ const Index = () => {
       >
         <div className="hero-overlay bg-opacity-75"></div>
         <div className="hero-content flex-col text-neutral-content lg:flex-row">
-          <div className="text-center lg:text-left min-w-fit">
+          <div className="min-w-fit text-center lg:text-left">
             <h1 aria-label="Applicaton Name" aria-level={1} className="text-4xl font-bold md:text-5xl">
               {AppConfig.title}
             </h1>
-            <p className="py-6">{t('home:slogan')}</p>
+            <p className="py-6">{t('home.slogan')}</p>
           </div>
 
           {/* Room Panel */}
           <div className="w-full max-w-md flex-shrink-0">
-            <div className="tabs">
+            <div className="tabs" role="tablist">
               {tabs.map((tabName) => (
                 <a
                   role="tab"
                   aria-label={`Tab ${tabName}`}
                   key={tabName}
                   onClick={() => setTab(tabName)}
-                  className={`tab tab-lg tab-lifted ${tab === tabName ? 'tab-active' : 'bg-base-100'} capitalize`}
+                  className={`tab tab-lifted tab-lg ${tab === tabName ? 'tab-active' : 'bg-base-100'} capitalize`}
                 >
-                  {t(`home:tabs.${tabName}`, {
+                  {t(`home.tabs.${tabName}`, {
                     defaultValue: tabName.toUpperCase(),
                   })}
                 </a>
               ))}
             </div>
-            <div className="card bg-base-100 shadow-2xl md:min-h-[588px] rounded-tl-none">{tab === 'new room' ? <RoomForm /> : <RoomHistory />}</div>
+            <div className="card rounded-tl-none bg-base-100 shadow-2xl md:min-h-[588px]">{tab === 'new room' ? <RoomForm /> : <RoomHistory />}</div>
           </div>
         </div>
       </div>

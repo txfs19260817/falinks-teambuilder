@@ -49,5 +49,6 @@
       "success": "Paste Created! Redirecting...",
       "error": "An error occurred when creating your paste"
     }
-  }
+  },
+  "invalidPokePaste": "Invalid PokePaste link"
 }

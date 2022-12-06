@@ -4,9 +4,9 @@ import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
 export function RoundTypeIcon({ typeName }: { typeName: string | TypeName }) {
-  const { t } = useTranslation('common');
+  const { t } = useTranslation('types');
   const { basePath } = useRouter();
-  const translatedTypeName = t(`common:types.${typeName.toLowerCase()}`, {
+  const translatedTypeName = t(`types.${typeName.toLowerCase()}`, {
     defaultValue: typeName,
   });
   return (

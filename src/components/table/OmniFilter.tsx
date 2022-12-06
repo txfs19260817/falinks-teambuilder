@@ -1,13 +1,15 @@
 import { Column, Table } from '@tanstack/react-table';
+import { useTranslation } from 'next-i18next';
 import React from 'react';
 
 import { PokemonIcon } from '@/components/icons/PokemonIcon';
 import { MultiSelect } from '@/components/select/MultiSelect';
 import { ValueWithEmojiSelector } from '@/components/select/ValueWithEmojiSelector';
 import { Pokemon } from '@/models/Pokemon';
-import { moveCategoriesWithEmoji, typesWithEmoji } from '@/utils/PokemonUtils';
+import { getPokemonTranslationKey, moveCategoriesWithEmoji, typesWithEmoji } from '@/utils/PokemonUtils';
 
 function OmniFilter({ column, instance }: { column: Column<any>; instance: Table<any> }) {
+  const { t } = useTranslation(['common', 'species']);
   if (!column.getCanFilter()) return null;
   const firstValue = instance.getPreFilteredRowModel().flatRows[0]?.getValue(column.id);
   const columnFilterValue = column.getFilterValue();
@@ -49,12 +51,15 @@ function OmniFilter({ column, instance }: { column: Column<any>; instance: Table
     // get all unique pokemon
     const options = Array.from(new Set(teams.flat().map((p: Pokemon) => p.species)))
       .sort((a, b) => a.localeCompare(b))
-      .map((e) => ({ value: e, label: e }));
+      .map((e) => ({
+        value: e,
+        label: t(getPokemonTranslationKey(e, 'species')),
+      }));
     // return a select component
     return (
       <MultiSelect
         options={options}
-        placeholder="Pokemon..."
+        placeholder={`${t('common.pokemon')} ...`}
         onChange={(e) => {
           column.setFilterValue(e.map((p) => p.value));
         }}
@@ -93,7 +98,7 @@ function OmniFilter({ column, instance }: { column: Column<any>; instance: Table
       type="search"
       value={(columnFilterValue ?? '') as string}
       onChange={(e) => column.setFilterValue(e.target.value)}
-      placeholder={`... (${column.getFacetedUniqueValues().size} rows)`}
+      placeholder={`... (#${column.getFacetedUniqueValues().size})`}
       className="input input-xs w-24 shadow md:w-32"
     />
   );

@@ -14,7 +14,12 @@ export const Select = ({
   inputSize = 'md',
   ariaLabel = 'Select',
 }: SelectProps<Option>) => {
-  const getOptionsFilter = (inputValue?: Option['value']) => (option: Option) => !inputValue || option.value.toLowerCase().includes(inputValue.toLowerCase());
+  // A filter predicate to filter the options based on the input value
+  // If the input value is empty, return all options; otherwise, find in option values first, then in option labels
+  const getOptionsFilter =
+    (input?: string) =>
+    ({ label, value: optVal }: Option) =>
+      !input || optVal.toLowerCase().includes(input.toLowerCase()) || label.includes(input);
   const inputId = useId();
   const [inputValue, setInputValue] = useState('');
   const [selectedItem, setSelectedItem] = useState<Option | null | undefined>(value);
@@ -68,11 +73,11 @@ export const Select = ({
           </button>
         </div>
       </div>
-      <ul {...getMenuProps()} className={`z-50 rounded-box absolute max-h-64 overflow-y-auto bg-base-100 shadow-md scrollbar-thin ${itemClassName}`}>
+      <ul {...getMenuProps()} className={`rounded-box absolute z-50 max-h-64 overflow-y-auto bg-base-100 shadow-md scrollbar-thin ${itemClassName}`}>
         {isOpen &&
           items.map((item, index) => (
             <li
-              className={`p-1 flex flex-col ${highlightedIndex === index ? 'bg-base-300' : ''} ${selectedItem === item ? 'font-bold' : ''}`}
+              className={`flex flex-col p-1 ${highlightedIndex === index ? 'bg-base-300' : ''} ${selectedItem === item ? 'font-bold' : ''}`}
               key={`${item.value}${index}`}
               {...getItemProps({ item, index })}
               aria-label={item.label}

@@ -2,7 +2,7 @@ import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next';
 import { useRouter } from 'next/router';
 import { SSRConfig, useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import { useId, useState } from 'react';
+import { useId, useMemo, useState } from 'react';
 
 import { ItemIcon } from '@/components/icons/ItemIcon';
 import { PokemonIcon } from '@/components/icons/PokemonIcon';
@@ -11,7 +11,7 @@ import { FormatSelector } from '@/components/select/FormatSelector';
 import BaseTable from '@/components/usages/BaseTable';
 import InfoCard from '@/components/usages/InfoCard';
 import { PokemonFilter } from '@/components/usages/PokemonFilter';
-import { PokemonList } from '@/components/usages/PokemonList';
+import { SpreadTable } from '@/components/usages/SpreadTable';
 import UsageStats from '@/components/usages/UsageStats';
 import DexSingleton from '@/models/DexSingleton';
 import { Main } from '@/templates/Main';
@@ -24,10 +24,12 @@ const UsagePage = ({ usages, format }: { usages: Usage[]; format: string }) => {
   const { push } = useRouter();
   const { t } = useTranslation(['common']);
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
-  const [pokemonNameFilter, setPokemonNameFilter] = useState<string>('');
+  const pokeUsage = useMemo<Usage | undefined>(() => {
+    return Array.isArray(usages) && usages.length > selectedIndex ? usages[selectedIndex] : undefined;
+  }, [selectedIndex, usages]);
 
   return (
-    <Main title={'Usages'}>
+    <Main title={t('common.usage')}>
       {/* Desktop: show drawer w/o Navbar; Mobile: show Navbar w/ a drawer button */}
       <div className="drawer-mobile drawer h-main">
         <input id={drawerID} type="checkbox" className="drawer-toggle" />
@@ -42,39 +44,42 @@ const UsagePage = ({ usages, format }: { usages: Usage[]; format: string }) => {
               </label>
             </div>
             <div className="mx-2 flex-1 px-2">
-              {t('common:usages')} - {format}
+              {t('common.usage')} - {format}
             </div>
           </nav>
           {/* Main Content */}
-          {Array.isArray(usages) && usages.length > selectedIndex && (
+          {pokeUsage && (
             <div className="grid gap-4 p-4 md:grid-cols-2">
               {/* Info Card */}
-              <InfoCard pokeUsage={usages.at(selectedIndex)!} />
+              <InfoCard speciesName={pokeUsage.name} />
               {/* Usage */}
-              <UsageStats pokeUsage={usages.at(selectedIndex)!} />
+              <UsageStats pokeUsage={pokeUsage} />
               {/* Items table */}
               <BaseTable
-                tableTitle="Items"
-                usages={usages.at(selectedIndex)!.Items as Record<string, number>}
+                tableTitle="item"
+                category="items"
+                usages={pokeUsage.Items as Record<string, number>}
                 nameGetter={(k) => DexSingleton.getGen().items.get(k)?.name ?? k}
                 iconGetter={(k) => <ItemIcon itemName={k} />}
               />
               {/* Moves table */}
               <BaseTable
-                tableTitle="Moves"
-                usages={usages.at(selectedIndex)!.Moves as Record<string, number>}
+                tableTitle="move"
+                category="moves"
+                usages={pokeUsage.Moves as Record<string, number>}
                 nameGetter={(k) => DexSingleton.getGen().moves.get(k)?.name ?? k}
                 iconGetter={(k) => <RoundTypeIcon typeName={DexSingleton.getGen().moves.get(k)?.type ?? '???'} />}
               />
               {/* Teammates table */}
               <BaseTable
-                tableTitle="Teammates"
-                usages={usages.at(selectedIndex)!.Teammates as Record<string, number>}
+                tableTitle="teammate"
+                category="species"
+                usages={pokeUsage.Teammates as Record<string, number>}
                 nameGetter={(k) => DexSingleton.getGen().species.get(k)?.name ?? k}
                 iconGetter={(k) => <PokemonIcon speciesId={k} />}
               />
               {/* Spreads table */}
-              <BaseTable tableTitle="Spreads" usages={usages.at(selectedIndex)!.Spreads as Record<string, number>} nameGetter={(k) => k} />
+              <SpreadTable usages={pokeUsage.Spreads as Record<string, number>} />
             </div>
           )}
         </div>
@@ -88,8 +93,7 @@ const UsagePage = ({ usages, format }: { usages: Usage[]; format: string }) => {
                 push(`/usages/${e.target.value}`);
               }}
             />
-            <PokemonFilter value={pokemonNameFilter} onChange={(e) => setPokemonNameFilter(e.target.value)} />
-            <PokemonList usages={usages} pokemonNameFilter={pokemonNameFilter} drawerID={drawerID} setSelectedIndex={setSelectedIndex} />
+            <PokemonFilter usages={usages} drawerID={drawerID} setSelectedIndex={setSelectedIndex} />
           </ul>
         </div>
       </div>
@@ -111,7 +115,7 @@ export const getStaticProps: GetStaticProps<{ usages: Usage[]; format: string } 
       // pick the top N entries
       usages: usages.slice(0, N),
       format,
-      ...(await serverSideTranslations(locale ?? AppConfig.defaultLocale, ['common'])),
+      ...(await serverSideTranslations(locale ?? AppConfig.defaultLocale, ['usages', 'common', 'items', 'moves', 'species', 'abilities', 'natures', 'types'])),
     },
     revalidate: 604800, // 1 week
   };

@@ -70,13 +70,14 @@ function typeToBgClass(type: string) {
 }
 
 function TableCell({ direction, id, bordered = false }: { direction: 'offense' | 'defense'; id: string; bordered?: boolean }) {
+  const { t } = useTranslation(['common', 'moves']);
   // defense
   if (direction === 'defense') {
     // add hexagon border for, e.g., tera-typed species
     return !bordered ? (
       <PokemonIcon speciesId={id} />
     ) : (
-      <div className="avatar" title="Terastallized">
+      <div className="avatar" title={t('common.terastallized')}>
         <div className="mask mask-hexagon bg-info">
           <PokemonIcon speciesId={id} />
         </div>
@@ -89,9 +90,9 @@ function TableCell({ direction, id, bordered = false }: { direction: 'offense' |
   if (!move) return null;
 
   return (
-    <span className={`m-1 badge badge-xs sm:badge-sm md:badge-md ${typeToBgClass(move.type)} text-base-100 w-24 md:w-32`}>
-      {typesWithEmoji.find((t) => t.value === move.type)?.emoji}
-      {move.name}
+    <span className={`badge badge-xs m-1 sm:badge-sm md:badge-md ${typeToBgClass(move.type)} w-24 text-base-100 md:w-32`}>
+      {typesWithEmoji.find((e) => e.value === move.type)?.emoji}
+      {t(`moves.${id}`)}
     </span>
   );
 }
@@ -105,17 +106,13 @@ export function TeamTypeChart<T extends ExtendedTypeEffectiveness | TypeEffectiv
   direction: T extends TypeEffectiveness ? 'offense' : 'defense';
   additionalTypeChart?: Type2EffectivenessMap<T>; // for defensive tera type chart
 }) {
-  const { t } = useTranslation(['common', 'table']);
+  const { t } = useTranslation(['common', 'types']);
   const multipliers = (direction === 'offense' ? Array.from([0, 0.5, 1, 2]) : Array.from([0, 0.25, 0.5, 1, 2, 4])) as Array<T>;
   return (
     <table className="table-compact table">
       <thead>
         <tr>
-          <th>
-            {t('common:types.type', {
-              defaultValue: 'Type',
-            })}
-          </th>
+          <th>{t('common.type', { defaultValue: 'Type' })}</th>
           {multipliers.map((multiplier) => (
             // hide the 1x multiplier for mobile
             <th key={multiplier} className={`${multiplier === 1 ? 'hidden md:table-cell' : ''}`}>
@@ -128,7 +125,7 @@ export function TeamTypeChart<T extends ExtendedTypeEffectiveness | TypeEffectiv
         {Array.from(teamTypeChart).map(([typeName, mul2Ids]) => (
           <tr key={typeName}>
             <td>
-              <RoundTypeIcon typeName={typeName} /> {t(`common:types.${typeName.toLowerCase()}`)}
+              <RoundTypeIcon typeName={typeName} /> {t(`types.${typeName.toLowerCase()}`)}
             </td>
             {multipliers.map((multiplier) => (
               <td

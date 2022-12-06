@@ -36,7 +36,6 @@ const Room = () => {
 
   // Set up the initial team if the pokepaste url is given and valid
   const [basePokePaste, setBasePokePaste] = useState<BasePokePaste | undefined>();
-
   useEffect(() => {
     if (packed) {
       setBasePokePaste(Pokemon.convertPackedTeamToTeam(packed));
@@ -77,7 +76,7 @@ const Room = () => {
 export async function getStaticProps({ locale }: { locale: string }) {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ['common', 'table'])),
+      ...(await serverSideTranslations(locale, ['common'])),
     },
   };
 }
