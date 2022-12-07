@@ -2,7 +2,7 @@
   "paste": "Paste",
   "usage": "Usage",
   "routes": {
-    "home": { 
+    "home": {
       "title": "Home",
       "description": "Home page"
     },
@@ -46,6 +46,7 @@
   "private": "Private",
   "rentalCode": "Rental Code",
   "category": "Category",
+  "categories": "Categories",
   "stats": {
     "hp": "HP",
     "atk": "Attack",
@@ -55,24 +56,34 @@
     "spe": "Speed"
   },
   "item": "Item",
+  "items": "Items",
   "ability": "Ability",
+  "abilities": "Abilities",
   "nature": "Nature",
+  "natures": "Natures",
   "evs": "EVs",
   "ivs": "IVs",
   "move": "Move",
+  "moves": "Moves",
   "level": "Level",
   "shiny": "Shiny",
   "tera_type": "Tera Type",
-  "teammate": "Teammate",
+  "teammates": "Teammates",
   "spread": "Spread",
+  "spreads": "Spreads",
   "format": "Format",
+  "formats": "Formats",
   "pokemon": "Pokémon",
-  "detail": "Detail",
+  "details": "Details",
   "copiedToClipboard": "📋 Copied!",
   "webApiNotSupported": "📋 The link has been copied to your clipboard as your browser does not support Web Share API.",
   "share": "Share",
   "copy": "Copy",
   "openInRoom": "Open in Room",
   "insights": "Insights",
-  "terastallized": "Terastallized"
+  "terastallized": "Terastallized",
+  "categoryTypes": "Category \\ Types",
+  "typeCategoryMatrix": "Types \\ Category",
+  "defense": "Defense coverage",
+  "offense": "Offense coverage"
 }

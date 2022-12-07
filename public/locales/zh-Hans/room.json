@@ -1,0 +1,37 @@
+{
+  "toolbox": {
+    "share-link-btn": {
+      "text": "分享",
+      "description": "分享该房间链接"
+    },
+    "undo-btn": {
+      "text": "撤销",
+      "description": "撤销上一步操作"
+    },
+    "redo-btn": {
+      "text": "恢复",
+      "description": "恢复上一步操作"
+    },
+    "load-in-showdown-btn": {
+      "text": "在Showdown中打开",
+      "description": "请安装用户脚本来启用该功能。见“关于”页面"
+    },
+    "history-modal": {
+      "text": "编辑历史",
+      "description": "查看所有编辑历史",
+      "clear": "清空历史"
+    },
+    "notes-modal": {
+      "text": "备注",
+      "description": "启用富文本协作编辑器来添加队伍备注"
+    },
+    "import-ps-modal": {
+      "text": "导入",
+      "description": "从 Showdown 文本或 PokePaste 链接导入队伍"
+    },
+    "post-pokepaste-modal": {
+      "text": "导出或发布",
+      "description": "导出或发布该队伍到 PokePaste 或本站"
+    }
+  }
+}

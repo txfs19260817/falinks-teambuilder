@@ -140,34 +140,3 @@ export const AppConfig = {
   dialogProps,
   routes,
 };
-
-export const roomTourSteps = [
-  {
-    selector: '[role="tablist"]',
-    content: 'Hi! Welcome to Falinks Teambuilder. If you start a new team from scratch, please try to click the "+" button to add a Pokémon.',
-  },
-  {
-    selector: `#${toolboxIDs.shareLink}`,
-    content: 'Sharing this room with friends allows you to collaborate on the same team at the same time.',
-  },
-  {
-    selector: `#${toolboxIDs.importModal}-btn`,
-    content: 'PokePaste and Showdown teams are both importable here.',
-  },
-  {
-    selector: `#${toolboxIDs.loadInShowdown}`,
-    content: 'Once you are done, you can load the team into Showdown, but it needs the helper userscript to work. See About page for more details.',
-  },
-  {
-    selector: `#${toolboxIDs.postModal}-btn`,
-    content: "If you'd like to share your team or save the progress, you may do so by exporting it to PokePaste or publishing it on our Pastes page.",
-  },
-  {
-    selector: `#${toolboxIDs.notesModal}-btn`,
-    content: 'Comparable to a scaled-down version of Google Docs, this is a collaborative note-taking tool. Using it, you may take notes on your team.',
-  },
-  {
-    selector: `#${toolboxIDs.historyModal}-btn`,
-    content: "If you want to look into your team's past, go here.",
-  },
-];

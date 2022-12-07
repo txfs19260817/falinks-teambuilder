@@ -10,7 +10,9 @@ test('should navigate to search page', async ({ page, baseURL }) => {
   await page.getByRole('listbox', { name: 'Pokemon Select 0' }).click();
   await page.getByRole('listbox', { name: 'Pokemon Select 0' }).press('Control+a');
   await page.getByRole('listbox', { name: 'Pokemon Select 0' }).fill('Volca');
-  await page.getByRole('option', { name: 'Volcarona' }).click();
+  await page.getByRole('listbox', { name: 'Pokemon Select 0' }).press('ArrowDown');
+  await page.getByRole('listbox', { name: 'Pokemon Select 0' }).press('Enter');
+
   // item
   await page.getByRole('listbox', { name: 'Item Select 0' }).click();
   await page.getByRole('listbox', { name: 'Item Select 0' }).press('Control+a');

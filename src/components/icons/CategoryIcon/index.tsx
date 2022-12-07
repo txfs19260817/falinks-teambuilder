@@ -4,10 +4,10 @@ import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
 export function CategoryIcon({ category }: { category: string | MoveCategory }) {
-  const { t } = useTranslation('common');
+  const { t } = useTranslation(['common', 'categories']);
   const { basePath } = useRouter();
 
-  const translatedCategory = t(`common:categories.${category.toLowerCase()}`, {
+  const translatedCategory = t(`categories.${category.toLowerCase()}`, {
     defaultValue: category,
   });
   return (

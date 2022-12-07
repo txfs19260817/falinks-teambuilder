@@ -1,4 +1,3 @@
-import { TourProvider } from '@reactour/tour';
 import { observeDeep, syncedStore } from '@syncedstore/core';
 import { useSyncedStore } from '@syncedstore/react';
 import { useEffect, useMemo, useState } from 'react';
@@ -18,7 +17,7 @@ import { Pokemon } from '@/models/Pokemon';
 import { StoreContextType, TeamState } from '@/models/TeamState';
 import { getProvidersByProtocolName, SupportedProtocolProvider } from '@/providers';
 import { BaseProvider, ClientInfo } from '@/providers/baseProviders';
-import { AppConfig, roomTourSteps } from '@/utils/AppConfig';
+import { AppConfig } from '@/utils/AppConfig';
 import { getRandomTrainerName } from '@/utils/PokemonUtils';
 import type { BasePokePaste } from '@/utils/Types';
 import { IndexedDBTeam } from '@/utils/Types';
@@ -167,37 +166,35 @@ function Workspace({ roomName, protocolName, basePokePaste }: WorkspaceProps) {
   }, [teamState, teamStore]);
 
   return (
-    <TourProvider steps={roomTourSteps}>
-      <StoreContextProvider
-        value={{
-          teamState: teamStateInstance,
-          tabIdx,
-          setTabIdx,
-          focusedFieldState,
-          focusedFieldDispatch,
-          globalFilter,
-          setGlobalFilter,
-        }}
-      >
-        {/* Toolbox menu bar */}
-        <Toolbox />
-        {/* Tab header */}
-        <TabsSwitcher>
-          <OverviewTabBtn />
-        </TabsSwitcher>
-        {/* Pokemon panel */}
-        {tabIdx < 0 || tabIdx >= teamState.team.length ? <Overview /> : <PokemonPanel />}
-        {/* Toolbox dialogs */}
-        {provider && (
-          <>
-            <ImportShowdownDialog />
-            <HistoryDialog />
-            <PostPokepasteDialog />
-            <NotesDialog store={teamStore} provider={provider} user={(provider.awareness.getLocalState() as ClientInfo).user} />
-          </>
-        )}
-      </StoreContextProvider>
-    </TourProvider>
+    <StoreContextProvider
+      value={{
+        teamState: teamStateInstance,
+        tabIdx,
+        setTabIdx,
+        focusedFieldState,
+        focusedFieldDispatch,
+        globalFilter,
+        setGlobalFilter,
+      }}
+    >
+      {/* Toolbox menu bar */}
+      <Toolbox />
+      {/* Tab header */}
+      <TabsSwitcher>
+        <OverviewTabBtn />
+      </TabsSwitcher>
+      {/* Pokemon panel */}
+      {tabIdx < 0 || tabIdx >= teamState.team.length ? <Overview /> : <PokemonPanel />}
+      {/* Toolbox dialogs */}
+      {provider && (
+        <>
+          <ImportShowdownDialog />
+          <HistoryDialog />
+          <PostPokepasteDialog />
+          <NotesDialog store={teamStore} provider={provider} user={(provider.awareness.getLocalState() as ClientInfo).user} />
+        </>
+      )}
+    </StoreContextProvider>
   );
 }
 

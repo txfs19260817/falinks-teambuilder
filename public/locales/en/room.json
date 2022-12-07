@@ -1,0 +1,37 @@
+{
+  "toolbox": {
+    "share-link-btn": {
+      "text": "Share",
+      "description": "Share the current room link"
+    },
+    "undo-btn": {
+      "text": "Undo",
+      "description": "Undo the last action"
+    },
+    "redo-btn": {
+      "text": "Redo",
+      "description": "Redo the last undone action"
+    },
+    "load-in-showdown-btn": {
+      "text": "Load in Showdown",
+      "description": "Please have the helper userscript installed to use this feature. See About page."
+    },
+    "history-modal": {
+      "text": "History",
+      "description": "Show the history of the current room",
+      "clear": "Clear"
+    },
+    "notes-modal": {
+      "text": "Notes",
+      "description": "Add notes to your team with a rich-text collaborative editor"
+    },
+    "import-ps-modal": {
+      "text": "Import",
+      "description": "Import a team from Showdown paste or PokePaste link"
+    },
+    "post-pokepaste-modal": {
+      "text": "Export or Post",
+      "description": "Post your team to PokePaste or this site"
+    }
+  }
+}

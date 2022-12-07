@@ -64,7 +64,7 @@ const PastesTable = ({ pastes }: { pastes: PastesList }) => {
       enableGlobalFilter: false,
     },
     {
-      header: t('common.detail', { count: 2 }),
+      header: t('common.details'),
       accessorKey: 'id',
       cell: ({ getValue }) => (
         <Link role="button" href={`/pastes/${getValue<string>()}`} className="btn-outline btn-ghost btn-xs btn" target="_blank">

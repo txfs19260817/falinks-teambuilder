@@ -21,8 +21,8 @@ export function SpreadTable({ usages }: SpreadTableProps) {
       <thead>
         <tr>
           <th className="w-1/12">#</th>
-          <th>{t('common.nature')}</th>
-          <th>{t('common.spread')}</th>
+          <th>{t('common.natures')}</th>
+          <th>{t('common.spreads')}</th>
           <th className="w-1/12">%</th>
         </tr>
       </thead>

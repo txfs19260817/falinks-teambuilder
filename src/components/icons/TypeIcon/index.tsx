@@ -4,8 +4,8 @@ import Image from 'next/legacy/image';
 import { useTranslation } from 'next-i18next';
 
 export function TypeIcon({ typeName }: { typeName: string | TypeName }) {
-  const { t } = useTranslation('common');
-  const translatedTypeName = t(`common:types.${typeName.toLowerCase()}`, {
+  const { t } = useTranslation(['common', 'types']);
+  const translatedTypeName = t(`types.${typeName.toLowerCase()}`, {
     defaultValue: typeName,
   });
   return (

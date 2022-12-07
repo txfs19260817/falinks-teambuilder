@@ -2,6 +2,7 @@
 import 'i18next';
 
 import abilities from 'public/locales/en/abilities.json';
+import categories from 'public/locales/en/categories.json';
 // import all namespaces (for the default language, only)
 import common from 'public/locales/en/common.json';
 import create from 'public/locales/en/create.json';
@@ -31,6 +32,7 @@ declare module 'i18next' {
       natures: typeof natures;
       species: typeof species;
       types: typeof types;
+      categories: typeof categories;
     };
     // other
     returnNull: false;

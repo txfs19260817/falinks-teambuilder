@@ -1,4 +1,3 @@
-import HelpTour from '@/components/workspace/Toolbox/HelpTour';
 import LoadInShowdown from '@/components/workspace/Toolbox/LoadInShowdown';
 import ShareLink from '@/components/workspace/Toolbox/ShareLink';
 import { RedoButton, UndoButton } from '@/components/workspace/Toolbox/UndoManager';
@@ -30,9 +29,6 @@ const Toolbox = () => {
               </label>
             </li>
           ))}
-          <li>
-            <HelpTour />
-          </li>
         </ul>
       </div>
     </div>

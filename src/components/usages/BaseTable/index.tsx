@@ -21,7 +21,7 @@ function BaseTable({ tableTitle, usages, nameGetter, iconGetter, category }: Bas
       <thead>
         <tr>
           <th className="w-1/12">#</th>
-          <th>{t(tableTitle, { count: 2, ns: 'common' })}</th>
+          <th>{t(tableTitle, { ns: 'common' })}</th>
           <th className="w-1/12">%</th>
         </tr>
       </thead>

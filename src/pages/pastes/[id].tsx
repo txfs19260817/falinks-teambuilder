@@ -38,7 +38,7 @@ export const getStaticProps: GetStaticProps<{ id: string; title: string; fallbac
           fallback: {
             [id]: JSON.parse(JSON.stringify(data)),
           },
-          ...(await serverSideTranslations(locale ?? AppConfig.defaultLocale, ['common', 'moves', 'types', 'species'])),
+          ...(await serverSideTranslations(locale ?? AppConfig.defaultLocale, ['common', 'moves', 'types', 'species', 'categories'])),
         },
       }
     : {

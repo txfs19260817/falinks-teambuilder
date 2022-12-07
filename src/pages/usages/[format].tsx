@@ -56,7 +56,7 @@ const UsagePage = ({ usages, format }: { usages: Usage[]; format: string }) => {
               <UsageStats pokeUsage={pokeUsage} />
               {/* Items table */}
               <BaseTable
-                tableTitle="item"
+                tableTitle="items"
                 category="items"
                 usages={pokeUsage.Items as Record<string, number>}
                 nameGetter={(k) => DexSingleton.getGen().items.get(k)?.name ?? k}
@@ -64,7 +64,7 @@ const UsagePage = ({ usages, format }: { usages: Usage[]; format: string }) => {
               />
               {/* Moves table */}
               <BaseTable
-                tableTitle="move"
+                tableTitle="moves"
                 category="moves"
                 usages={pokeUsage.Moves as Record<string, number>}
                 nameGetter={(k) => DexSingleton.getGen().moves.get(k)?.name ?? k}
@@ -72,7 +72,7 @@ const UsagePage = ({ usages, format }: { usages: Usage[]; format: string }) => {
               />
               {/* Teammates table */}
               <BaseTable
-                tableTitle="teammate"
+                tableTitle="teammates"
                 category="species"
                 usages={pokeUsage.Teammates as Record<string, number>}
                 nameGetter={(k) => DexSingleton.getGen().species.get(k)?.name ?? k}
