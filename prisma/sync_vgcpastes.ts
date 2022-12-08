@@ -41,6 +41,7 @@ async function extractFromGoogleSheet(format: keyof typeof format2gid): Promise<
   const data = await (await fetch(url)).arrayBuffer();
   const workbook = XLSX.read(data);
   const sheet = workbook.Sheets[workbook.SheetNames[0]];
+  console.log(`Read Sheet from ${url}`);
 
   // Get the rows
   const rows = XLSX.utils.sheet_to_json(sheet, { header: 1 }).slice(2);
@@ -64,7 +65,7 @@ async function extractFromGoogleSheet(format: keyof typeof format2gid): Promise<
       createdAt.setMilliseconds(obj['Team ID']);
       const rentalCode = obj['Rental Code\n(Click text for image)'].length === 6 ? obj['Rental Code\n(Click text for image)'] : null;
       const notes = `Exported by @VGCPastes${obj['Report / Video'] === '-' ? '' : `\n${obj['Report / Video']}`}`;
-      const source = obj['Link to Source'].startsWith('http') ? obj['Link to Source'] : null;
+      const source = (obj['Link to Source'] || '').startsWith('http') ? obj['Link to Source'] : null;
       const paste = await fetch(`${obj.Pokepaste}/json`)
         .then((res) => res.json())
         .then((json) => json.paste as string);
