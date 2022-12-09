@@ -19,7 +19,7 @@ function OmniFilter({ column, instance }: { column: Column<any>; instance: Table
       <ValueWithEmojiSelector
         options={typesWithEmoji}
         className="select-xs w-16 md:w-24"
-        emptyOption="(All)"
+        emptyOption="-"
         enableEmojis={false}
         onChange={(e) => {
           column.setFilterValue(e.target.value);
@@ -33,7 +33,7 @@ function OmniFilter({ column, instance }: { column: Column<any>; instance: Table
       <ValueWithEmojiSelector
         options={moveCategoriesWithEmoji}
         className="select-xs w-16 md:w-24"
-        emptyOption="(All)"
+        emptyOption="-"
         enableEmojis={false}
         onChange={(e) => {
           column.setFilterValue(e.target.value);

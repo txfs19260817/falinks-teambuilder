@@ -35,6 +35,7 @@
     }
   },
   "type": "Type",
+  "types": "Types",
   "team": "Team",
   "title": "Title",
   "description": "Description",
@@ -48,6 +49,9 @@
   "category": "Category",
   "categories": "Categories",
   "stats": {
+    "base": "Base",
+    "stat": "Stat",
+    "stats": "Stats",
     "hp": "HP",
     "atk": "Attack",
     "def": "Defense",
@@ -67,7 +71,9 @@
   "moves": "Moves",
   "level": "Level",
   "shiny": "Shiny",
-  "tera_type": "Tera Type",
+  "gender": "Gender",
+  "gigantamax": "Gigantamax",
+  "teraType": "Tera Type",
   "teammates": "Teammates",
   "spread": "Spread",
   "spreads": "Spreads",
@@ -75,6 +81,8 @@
   "formats": "Formats",
   "pokemon": "Pokémon",
   "details": "Details",
+  "suggestions": "Suggestions",
+  "suggestedEvs": "Suggested EVs Spreads",
   "copiedToClipboard": "📋 Copied!",
   "webApiNotSupported": "📋 The link has been copied to your clipboard as your browser does not support Web Share API.",
   "share": "Share",
@@ -85,5 +93,19 @@
   "categoryTypes": "Category \\ Types",
   "typeCategoryMatrix": "Types \\ Category",
   "defense": "Defense coverage",
-  "offense": "Offense coverage"
+  "offense": "Offense coverage",
+  "name": "Name",
+  "nickname": "Nickname",
+  "power": "Power",
+  "accuracy": "Accuracy",
+  "auto": "Auto",
+  "total": "Total",
+  "apply": "Apply",
+  "preset": {
+    "preset": "Preset",
+    "presets": "Presets",
+    "showPreset": "Show Preset",
+    "showTeam": "Show Team",
+    "notFound": "No Preset found, please try to change the format to check out more presets."
+  }
 }

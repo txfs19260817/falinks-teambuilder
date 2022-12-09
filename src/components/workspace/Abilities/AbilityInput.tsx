@@ -1,24 +1,34 @@
+import { useTranslation } from 'next-i18next';
 import { ChangeEvent, useContext, useEffect, useState } from 'react';
 
 import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
 import { compareFocusedFieldToIdx, FocusedFieldToIdx } from '@/components/workspace/FocusedField/consts';
+import { getPokemonTranslationKey } from '@/utils/PokemonUtils';
 
+// TODO:
+// - use handleCompsition to replace handleChange to avoid interruption of typing
+// - updatePokemonInTeam accepts the capitalized name. But we want i18n, so the value of input should be the translated name.
+//    - use the translated name to filter the table
+//    - use the capitalized name to update the pokemon in team
+// - add translation for the description of the ability
 function AbilityInput() {
-  const thisFocusedFieldState: FocusedFieldToIdx = { Ability: 0 };
+  const { t } = useTranslation(['common', 'abilities']);
   const { teamState, tabIdx, focusedFieldState, focusedFieldDispatch, setGlobalFilter } = useContext(StoreContext);
   const [ability, setAbility] = useState<string>('');
 
   // receive changes from other users
   useEffect(() => {
-    if (!teamState.getPokemonInTeam(tabIdx)) return;
-    setAbility(teamState.getPokemonInTeam(tabIdx)?.ability || '');
-  }, [teamState.getPokemonInTeam(tabIdx)?.ability]);
+    const pm = teamState.getPokemonInTeam(tabIdx);
+    if (!pm) return;
+    setAbility(t(getPokemonTranslationKey(pm?.ability || '', 'abilities')));
+  }, [teamState.getPokemonInTeam(tabIdx)?.ability, teamState.forceRerender.ability[tabIdx]]);
 
+  const thisFocusedFieldState: FocusedFieldToIdx = { Ability: 0 };
   // emit changes to other users
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const newAbility = e.target.value;
     setGlobalFilter(newAbility); // set search words to filter table
-    teamState.updatePokemonInTeam(tabIdx, 'ability', newAbility);
+    setAbility(newAbility); // set the value of input
   };
 
   const handleFocus = () => {
@@ -27,10 +37,10 @@ function AbilityInput() {
 
   return (
     <label className="input-group-xs input-group input-group-vertical md:input-group-md">
-      <span>Ability</span>
+      <span>{t('common.ability')}</span>
       <input
         type="search"
-        placeholder="Ability"
+        placeholder={t('common.ability')}
         className={`input-primary input input-sm md:input-md ${
           compareFocusedFieldToIdx(focusedFieldState, thisFocusedFieldState) ? 'outline outline-2 outline-offset-2 outline-primary' : ''
         }`}

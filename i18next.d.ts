@@ -6,6 +6,7 @@ import categories from 'public/locales/en/categories.json';
 // import all namespaces (for the default language, only)
 import common from 'public/locales/en/common.json';
 import create from 'public/locales/en/create.json';
+import formes from 'public/locales/en/formes.json';
 import home from 'public/locales/en/home.json';
 import items from 'public/locales/en/items.json';
 import moves from 'public/locales/en/moves.json';
@@ -33,6 +34,7 @@ declare module 'i18next' {
       species: typeof species;
       types: typeof types;
       categories: typeof categories;
+      formes: typeof formes;
     };
     // other
     returnNull: false;

@@ -436,13 +436,14 @@ export const getAbilitiesBySpecie = (speciesName?: string): Ability[] => {
 /**
  * Retrieves learnable moves for the given Pokémon.
  * @param speciesName
+ * @param isBaseSpecies
  */
-export const getMovesBySpecie = (speciesName?: string): Promise<Move[]> => {
+export const getMovesBySpecie = (speciesName?: string, isBaseSpecies: boolean = false): Promise<Move[]> => {
   const gen = DexSingleton.getGen();
   const species = gen.species.get(speciesName ?? '');
   // return all moves as the default behavior
   if (!species) {
-    return Promise.resolve(Array.from(gen.moves));
+    return Promise.resolve(isBaseSpecies ? [] : Array.from(gen.moves));
   }
 
   // read learnset by species
@@ -454,7 +455,7 @@ export const getMovesBySpecie = (speciesName?: string): Promise<Move[]> => {
     // if the species is a forme, add the base species' moves
     const baseSpecies = gen.species.get(speciesName || '')?.baseSpecies ?? '';
     if (baseSpecies !== speciesName && baseSpecies !== '') {
-      const baseSpeciesMoves = await getMovesBySpecie(baseSpecies);
+      const baseSpeciesMoves = await getMovesBySpecie(baseSpecies, true);
       res.push(...baseSpeciesMoves);
     }
 

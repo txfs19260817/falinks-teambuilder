@@ -3,6 +3,7 @@ import { DisplayUsageStatistics } from '@pkmn/smogon';
 import {
   ColumnDef,
   ColumnFiltersState,
+  FilterFnOption,
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
@@ -10,7 +11,8 @@ import {
   PaginationState,
   useReactTable,
 } from '@tanstack/react-table';
-import { useContext, useMemo, useState } from 'react';
+import { useTranslation } from 'next-i18next';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import useSWR from 'swr';
 
 import { ItemIcon } from '@/components/icons/ItemIcon';
@@ -42,6 +44,7 @@ const defaultPopularItems = [
 ];
 
 function ItemsTable() {
+  const { t } = useTranslation(['common', 'items']);
   const { teamState, tabIdx, focusedFieldState, focusedFieldDispatch, globalFilter, setGlobalFilter } = useContext(StoreContext);
 
   // fetch popular items by Pokémon
@@ -64,23 +67,29 @@ function ItemsTable() {
     return popularItem.flatMap((i) => gen.items.get(i) || []).concat(Array.from(gen.items).filter(({ name }) => !popularItem.includes(name)));
   }, [popularItemNames]);
 
+  // a filter that supports searching by translated name
+  const i18nFilterFn: FilterFnOption<Item> = (row, columnId, filterValue) =>
+    t(`items.${row.original.id}`).includes(filterValue) || row.getValue<string>(columnId).toLowerCase().includes(filterValue.toLowerCase());
+
   // table settings
   const columns = useMemo<ColumnDef<Item>[]>(
     () => [
       {
-        header: 'Name',
+        header: t('common.name'),
         accessorKey: 'name',
-        cell: ({ getValue }) => (
+        cell: ({ getValue, row }) => (
           <span>
             <ItemIcon itemName={getValue<string>()} />
-            {getValue<string>()}
+            <span>{t(row.original.id, { ns: 'items' })}</span>
           </span>
         ),
+        filterFn: i18nFilterFn,
+        sortingFn: (a, b) => t(a.original.id, { ns: 'items' }).localeCompare(t(b.original.id, { ns: 'items' })),
       },
       {
         id: 'description',
-        header: 'Description',
-        accessorFn: (row) => (row.shortDesc.length ? row.shortDesc : row.desc),
+        header: t('common.description'),
+        accessorFn: (row) => (row.shortDesc ? row.shortDesc : row.desc),
         enableColumnFilter: false,
         enableGlobalFilter: false,
         enableSorting: false,
@@ -110,11 +119,26 @@ function ItemsTable() {
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
+    globalFilterFn: i18nFilterFn,
   });
+
+  // a hook that if there is only one row after filtering,
+  // and its translated name is the same as the global filter, then select it
+  useEffect(() => {
+    const filteredRows = instance.getFilteredRowModel().rows;
+    if (filteredRows.length !== 1) return;
+    // filtered original data
+    const { id, name } = filteredRows[0]!.original;
+    const translatedName = t(id, { ns: 'items' });
+    if (translatedName !== globalFilter) return;
+    teamState.updatePokemonInTeam(tabIdx, 'item', name);
+  }, [globalFilter]);
 
   // handle table events
   const handleRowClick = (item?: Item) => {
     if (!item) return;
+    // Trigger the update of Input
+    teamState.triggerUpdate('item', tabIdx);
     teamState.updatePokemonInTeam(tabIdx, 'item', item.name);
     focusedFieldDispatch({ type: 'next', payload: focusedFieldState });
   };

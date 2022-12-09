@@ -33,6 +33,33 @@ class TeamState {
 
   private readonly teamUndoManager: UndoManager;
 
+  // A boolean map to force a rerender of the team tab.
+  public readonly forceRerender: {
+    species: [boolean, boolean, boolean, boolean, boolean, boolean];
+    item: [boolean, boolean, boolean, boolean, boolean, boolean];
+    ability: [boolean, boolean, boolean, boolean, boolean, boolean];
+    moves: [
+      [boolean, boolean, boolean, boolean],
+      [boolean, boolean, boolean, boolean],
+      [boolean, boolean, boolean, boolean],
+      [boolean, boolean, boolean, boolean],
+      [boolean, boolean, boolean, boolean],
+      [boolean, boolean, boolean, boolean]
+    ];
+  } = {
+    species: [false, false, false, false, false, false],
+    item: [false, false, false, false, false, false],
+    ability: [false, false, false, false, false, false],
+    moves: [
+      [false, false, false, false],
+      [false, false, false, false],
+      [false, false, false, false],
+      [false, false, false, false],
+      [false, false, false, false],
+      [false, false, false, false],
+    ],
+  };
+
   constructor(teamState: MappedTypeDescription<StoreContextType>, teamStore: MappedTypeDescription<StoreContextType>, username?: string) {
     this.teamState = teamState;
     this.teamStore = teamStore;
@@ -202,6 +229,21 @@ class TeamState {
     const isDelete = r != null && r.deletions.clients.size > 0;
     const isAdd = r != null && r.insertions.clients.size > 0;
     this.addHistory(`Redo ${isDelete && isAdd ? 'edit' : isDelete ? 'delete' : isAdd ? 'add' : ''}`);
+  }
+
+  /**
+   * Force a team update, which will trigger a re-render of the team tab.
+   * @param key The key of `Pokemon` to update.
+   * @param index The index of the `Pokemon` in the team.
+   * @param moveIndex The index of the move in the `Pokemon`'s move array.
+   */
+  public triggerUpdate(key: keyof typeof this.forceRerender, index: number, moveIndex: number = 0) {
+    if (index < 0 || index > 5) return;
+    if (key === 'moves' && moveIndex >= 0 && moveIndex <= 3) {
+      this.forceRerender[key][index]![moveIndex] = !this.forceRerender[key][index]![moveIndex];
+    } else {
+      this.forceRerender[key][index] = !this.forceRerender[key][index];
+    }
   }
 }
 

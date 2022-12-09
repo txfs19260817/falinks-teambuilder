@@ -3,6 +3,7 @@ import { StatsTable } from '@pkmn/types';
 import {
   ColumnDef,
   ColumnFiltersState,
+  FilterFnOption,
   getCoreRowModel,
   getExpandedRowModel,
   getFacetedMinMaxValues,
@@ -16,6 +17,7 @@ import {
   SortingState,
   useReactTable,
 } from '@tanstack/react-table';
+import { useTranslation } from 'next-i18next';
 import { useContext, useEffect, useMemo, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import useSWR from 'swr';
@@ -27,9 +29,11 @@ import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
 import { PresetsSubComponent } from '@/components/workspace/PokemonSpecies/PresetsSubComponent';
 import DexSingleton from '@/models/DexSingleton';
 import { Pokemon } from '@/models/Pokemon';
+import { getPokemonTranslationKey } from '@/utils/PokemonUtils';
 import { Usage } from '@/utils/Types';
 
 function SpeciesTable() {
+  const { t } = useTranslation(['common', 'species', 'formes', 'types', 'abilities']);
   const { teamState, tabIdx, focusedFieldState, focusedFieldDispatch, globalFilter, setGlobalFilter } = useContext(StoreContext);
 
   // table settings
@@ -40,6 +44,14 @@ function SpeciesTable() {
   if (error) {
     toast.error(error);
   }
+
+  const getTranslatedName = ({ num, forme }: Pick<Specie, 'num'> & Pick<Specie, 'forme'>) =>
+    `${t(num, { ns: 'species' })}${forme ? `-${t(forme, { ns: 'formes' })}` : ''}`;
+
+  // a filter that supports searching by translated name
+  const i18nFilterFn: FilterFnOption<Specie> = (row, columnId, filterValue) =>
+    getTranslatedName(row.original).includes(filterValue) || row.getValue<string>(columnId).toLowerCase().includes(filterValue.toLowerCase());
+
   const columns = useMemo<ColumnDef<Specie>[]>(() => {
     return [
       {
@@ -49,7 +61,7 @@ function SpeciesTable() {
           return row.getCanExpand() ? (
             <button
               type="button"
-              title="Show Presets"
+              title={t('common.preset.showPreset')}
               className="btn-ghost btn-xs btn cursor-pointer"
               onClick={(e) => {
                 e.stopPropagation();
@@ -70,21 +82,23 @@ function SpeciesTable() {
         enableFiltering: false,
       },
       {
-        header: 'Name',
+        header: t('common.pokemon'),
         accessorKey: 'name',
-        cell: ({ getValue }) => (
+        cell: ({ row }) => (
           <span>
-            <PokemonIcon speciesId={getValue<string>()} />
-            {getValue<string>()}
+            <PokemonIcon speciesId={row.original.id} />
+            {getTranslatedName(row.original)}
           </span>
         ),
+        filterFn: i18nFilterFn,
+        sortingFn: (a, b) => getTranslatedName(a.original).localeCompare(getTranslatedName(b.original)),
       },
       {
-        header: 'Types',
+        header: t('common.types'),
         accessorKey: 'types',
-        cell: (info) => (
+        cell: ({ getValue }) => (
           <span>
-            {info.getValue<string[]>().map((typeName) => (
+            {getValue<string[]>().map((typeName) => (
               <TypeIcon key={typeName} typeName={typeName} />
             ))}
           </span>
@@ -93,59 +107,64 @@ function SpeciesTable() {
         filterFn: 'arrIncludes',
       },
       {
-        header: 'Abilities',
+        header: t('common.abilities'),
         accessorKey: 'abilities',
-        cell: (info) => Object.values(info.getValue<object>()).join('/'),
+        cell: ({ getValue }) =>
+          Object.values(getValue<object>())
+            .map((s) => t(getPokemonTranslationKey(s, 'abilities')))
+            .join('/'),
         enableSorting: false,
         filterFn: (row, columnId, filterValue) => {
-          return Object.values(row.getValue<object>(columnId)).join(' ').toLowerCase().includes(filterValue.toLowerCase());
+          const abilities = Object.values(row.getValue<object>(columnId));
+          const translatedAbilities = abilities.map((s) => t(getPokemonTranslationKey(s, 'abilities')));
+          return translatedAbilities.some((s) => s.includes(filterValue)) || abilities.some((s) => s.toLowerCase().includes(filterValue.toLowerCase()));
         },
       },
       {
         id: 'hp',
-        header: 'HP',
+        header: t('common.stats.hp'),
         accessorFn: (row) => row.baseStats.hp,
         enableColumnFilter: false,
         enableGlobalFilter: false,
       },
       {
         id: 'atk',
-        header: 'ATK',
+        header: t('common.stats.atk'),
         accessorFn: (row) => row.baseStats.atk,
         enableColumnFilter: false,
         enableGlobalFilter: false,
       },
       {
         id: 'def',
-        header: 'DEF',
+        header: t('common.stats.def'),
         accessorFn: (row) => row.baseStats.def,
         enableColumnFilter: false,
         enableGlobalFilter: false,
       },
       {
         id: 'spa',
-        header: 'SPA',
+        header: t('common.stats.spa'),
         accessorFn: (row) => row.baseStats.spa,
         enableColumnFilter: false,
         enableGlobalFilter: false,
       },
       {
         id: 'spd',
-        header: 'SPD',
+        header: t('common.stats.spd'),
         accessorFn: (row) => row.baseStats.spd,
         enableColumnFilter: false,
         enableGlobalFilter: false,
       },
       {
         id: 'spe',
-        header: 'SPE',
+        header: t('common.stats.spe'),
         accessorFn: (row) => row.baseStats.spe,
         enableColumnFilter: false,
         enableGlobalFilter: false,
       },
       {
         id: 'total',
-        header: 'Total',
+        header: t('common.total'),
         accessorFn: (row) => row.baseStats,
         cell: (info) => {
           return Object.values<number>(info.getValue<StatsTable>()).reduce((acc, curr) => acc + curr, 0);
@@ -198,11 +217,26 @@ function SpeciesTable() {
     getPaginationRowModel: getPaginationRowModel(),
     getRowCanExpand: () => true,
     getExpandedRowModel: getExpandedRowModel(),
+    globalFilterFn: i18nFilterFn,
   });
+
+  // a hook that if there is only one row after filtering,
+  // and its translated name is the same as the global filter, then select it
+  useEffect(() => {
+    const filteredRows = instance.getFilteredRowModel().rows;
+    if (filteredRows.length !== 1) return;
+    // filtered original data
+    const { num, forme, name } = filteredRows[0]!.original;
+    const translatedName = getTranslatedName({ num, forme });
+    if (translatedName !== globalFilter) return;
+    teamState.updatePokemonInTeam(tabIdx, 'species', name);
+  }, [globalFilter]);
 
   // handle table events
   const handleRowClick = (specie?: Specie) => {
     if (!specie) return;
+    // Trigger the update of Input
+    teamState.triggerUpdate('species', tabIdx);
     teamState.splicePokemonTeam(tabIdx, 1, new Pokemon(specie.name, '', specie.requiredItem));
     focusedFieldDispatch({ type: 'next', payload: focusedFieldState });
   };

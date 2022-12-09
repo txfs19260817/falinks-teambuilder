@@ -1,8 +1,10 @@
+import { useTranslation } from 'next-i18next';
 import { ChangeEvent, useContext, useEffect, useState } from 'react';
 
 import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
 
 function NicknameInput() {
+  const { t } = useTranslation();
   const { teamState, tabIdx } = useContext(StoreContext);
 
   const [nickname, setNickname] = useState<string>('');
@@ -22,7 +24,16 @@ function NicknameInput() {
     teamState.updatePokemonInTeam(tabIdx, 'name', nickname);
   };
 
-  return <input type="text" placeholder="Nickname" className="input-bordered input input-xs" value={nickname} onChange={handleChange} onBlur={handleBlur} />;
+  return (
+    <input
+      type="text"
+      placeholder={t('common.nickname')}
+      className="input-bordered input input-xs"
+      value={nickname}
+      onChange={handleChange}
+      onBlur={handleBlur}
+    />
+  );
 }
 
 export default NicknameInput;

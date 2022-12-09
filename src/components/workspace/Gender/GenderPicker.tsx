@@ -1,9 +1,11 @@
+import { useTranslation } from 'next-i18next';
 import { ChangeEvent, Fragment, useContext, useEffect, useState } from 'react';
 
 import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
 import DexSingleton from '@/models/DexSingleton';
 
 function GenderPicker() {
+  const { t } = useTranslation();
   const { teamState, tabIdx } = useContext(StoreContext);
   // read specie's gender. If this is not undefined, it means this Pokémon only has one gender
   const possibleGender = DexSingleton.getGen().species.get(teamState.getPokemonInTeam(tabIdx)?.species ?? '')?.gender;
@@ -24,10 +26,10 @@ function GenderPicker() {
 
   return (
     <div className="flex space-x-0.5 text-sm lg:text-lg">
-      <label className="hidden md:block">Gender: </label>
+      <label className="hidden md:block">{t('common.gender')}: </label>
       {availableGenders.map((g) => (
         <Fragment key={g}>
-          <label>{g}</label>
+          <label>{g === 'N' ? '-' : g === 'F' ? '♀️' : '♂️'}</label>
           <input type="radio" value={g} checked={gender === g} className="radio radio-sm md:radio-md" onChange={handleChange} />
         </Fragment>
       ))}

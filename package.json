@@ -43,7 +43,7 @@
     "@prisma/client": "^4.7.1",
     "@syncedstore/core": "^0.4.2",
     "@syncedstore/react": "^0.4.2",
-    "@tanstack/react-table": "^8.5.30",
+    "@tanstack/react-table": "^8.7.0",
     "@tiptap/extension-collaboration": "^2.0.0-beta.205",
     "@tiptap/extension-collaboration-cursor": "^2.0.0-beta.205",
     "@tiptap/extension-placeholder": "^2.0.0-beta.205",

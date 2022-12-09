@@ -1,3 +1,4 @@
+import { useTranslation } from 'next-i18next';
 import { ChangeEvent } from 'react';
 
 import { ValueWithEmojiOption } from '@/utils/Types';
@@ -12,12 +13,13 @@ type ValueWithEmojiSelectorProps = {
 };
 
 export const ValueWithEmojiSelector = ({ options, bindValue, onChange, className, emptyOption, enableEmojis = true }: ValueWithEmojiSelectorProps) => {
+  const { t } = useTranslation(['common', 'types', 'categories']);
   return (
     <select className={`select ${className}`} value={bindValue} onChange={onChange}>
       {emptyOption && <option value="">{emptyOption}</option>}
       {options.map(({ value, emoji }, j) => (
         <option key={j} value={value}>
-          {enableEmojis && emoji} {value}
+          {enableEmojis && emoji} {t(value.toLowerCase(), { ns: ['types', 'categories'] })}
         </option>
       ))}
     </select>

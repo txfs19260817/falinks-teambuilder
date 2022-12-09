@@ -1,9 +1,11 @@
+import { useTranslation } from 'next-i18next';
 import { ChangeEvent, useContext, useEffect, useState } from 'react';
 
 import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
 import DexSingleton from '@/models/DexSingleton';
 
 function GMaxSwitch() {
+  const { t } = useTranslation(['common']);
   const { teamState, tabIdx } = useContext(StoreContext);
   const [checked, setChecked] = useState(false);
 
@@ -23,7 +25,7 @@ function GMaxSwitch() {
 
   return (
     <div className="md:text-md flex inline-flex space-x-0.5 text-xs">
-      <label>GMax</label>
+      <label>{t('common.gigantamax')}</label>
       <div className="whitespace-nowrap">
         <label className="swap swap-flip">
           <input type="checkbox" checked={checked} onChange={(e) => handleChange(e)} />
