@@ -179,7 +179,7 @@ class TeamState {
 
   addPokemonToTeam = (pokemon: Pokemon): number => {
     // update history
-    this.addHistory(`Added ${pokemon.species}`);
+    this.addHistory(`➕ ${pokemon.species}`);
     return this.teamState.team.push(pokemon);
   };
 
@@ -190,7 +190,7 @@ class TeamState {
       .join(', ');
     const newTeam = this.teamState.team.splice(start, deleteCount, ...items);
     // update history depending on whether we're replacing or deleting
-    this.addHistory(items.length === 0 ? `Deleted ${oldTeamNames}` : `Replaced ${oldTeamNames} with ${items.map((p) => p.species).join(', ')}`);
+    this.addHistory(items.length === 0 ? `🚮 ${oldTeamNames}` : `${oldTeamNames} ➡️${items.map((p) => p.species).join(', ')}`);
     return newTeam;
   };
 

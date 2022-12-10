@@ -109,5 +109,6 @@
     "notFound": "No Preset found, please try to change the format to check out more presets."
   },
   "update": "Update",
-  "delete": "Delete"
+  "delete": "Delete",
+  "overview": "Overview"
 }

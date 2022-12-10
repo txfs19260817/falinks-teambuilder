@@ -19,7 +19,8 @@
     "history-modal": {
       "text": "编辑历史",
       "description": "查看所有编辑历史",
-      "clear": "清空历史"
+      "clear": "清空历史",
+      "disableToast": "禁用提示"
     },
     "notes-modal": {
       "text": "备注",

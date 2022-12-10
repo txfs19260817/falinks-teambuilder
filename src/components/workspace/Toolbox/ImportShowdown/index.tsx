@@ -7,67 +7,72 @@ import { Pokemon } from '@/models/Pokemon';
 import { AppConfig } from '@/utils/AppConfig';
 import { isValidPokePasteURL } from '@/utils/PokemonUtils';
 
-const exampleText = `Dog (Zacian-Crowned) @ Rusted Sword  
-Ability: Intrepid Sword  
+const exampleText = `Dondozo (F) @ Leftovers  
+Ability: Oblivious  
 Level: 50  
+Tera Type: Dragon  
 EVs: 252 Atk / 4 SpD / 252 Spe  
 Jolly Nature  
-- Behemoth Blade  
-- Play Rough  
-- Sacred Sword  
+- Order Up  
+- Substitute  
+- Earthquake  
 - Protect  
 
-Groudon @ Assault Vest  
-Ability: Drought  
+Tatsugiri (F) @ Choice Scarf  
+Ability: Commander  
 Level: 50  
-EVs: 164 HP / 228 Atk / 4 Def / 100 SpD / 12 Spe  
-Adamant Nature  
-- Precipice Blades  
-- Fire Punch  
-- Stone Edge  
-- Heavy Slam  
-
-Incineroar @ Shuca Berry  
-Ability: Intimidate  
-Level: 50  
-EVs: 252 HP / 4 Atk / 84 Def / 156 SpD / 12 Spe  
-Careful Nature  
-- Fake Out  
-- Throat Chop  
-- Flare Blitz  
-- Parting Shot  
-
-Charizard-Gmax @ Life Orb  
-Ability: Solar Power  
-Level: 50  
-EVs: 252 SpA / 4 SpD / 252 Spe  
+Tera Type: Rock  
+EVs: 4 HP / 252 SpA / 252 Spe  
 Timid Nature  
 IVs: 0 Atk  
-- Blast Burn  
-- Heat Wave  
-- Hurricane  
-- Protect  
+- Muddy Water  
+- Dragon Pulse  
+- Icy Wind  
+- Helping Hand  
 
-Gastrodon @ Leftovers  
-Ability: Storm Drain  
+Arcanine (F) @ Wide Lens  
+Ability: Intimidate  
 Level: 50  
-EVs: 180 HP / 204 Def / 124 SpD  
-Bold Nature  
+EVs: 244 HP / 4 Def / 4 SpA / 4 SpD / 252 Spe  
+Timid Nature  
 IVs: 0 Atk  
-- Earth Power  
-- Ice Beam  
+- Heat Wave  
+- Will-O-Wisp  
+- Snarl  
 - Protect  
-- Yawn  
 
-Grimmsnarl (M) @ Light Clay  
-Ability: Prankster  
+Glimmora (M) @ Light Clay  
+Ability: Toxic Debris  
 Level: 50  
-EVs: 252 HP / 4 Atk / 116 Def / 124 SpD / 12 Spe  
-Impish Nature  
-- Spirit Break  
+EVs: 4 HP / 252 SpA / 252 Spe  
+Timid Nature  
+IVs: 0 Atk  
 - Light Screen  
+- Power Gem  
 - Reflect  
-- Scary Face  
+- Sludge Wave  
+
+Dragonite (M) @ Choice Band  
+Ability: Inner Focus  
+Level: 50  
+Tera Type: Normal  
+EVs: 244 HP / 252 Atk / 4 Def / 4 SpD / 4 Spe  
+Adamant Nature  
+- Extreme Speed  
+- Fire Punch  
+- Iron Head  
+- Aerial Ace  
+
+Tinkaton @ Metal Coat  
+Ability: Own Tempo  
+Level: 50  
+Tera Type: Steel  
+EVs: 4 HP / 252 Atk / 252 Spe  
+Adamant Nature  
+- Play Rough  
+- Fake Out  
+- Gigaton Hammer  
+- Protect   
 `;
 
 export function ImportShowdownDialog() {

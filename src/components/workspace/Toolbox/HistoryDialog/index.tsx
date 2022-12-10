@@ -9,12 +9,13 @@ export function HistoryDialog() {
   const { t } = useTranslation();
   const { teamState } = useContext(StoreContext);
   const [isOpen, setIsOpen] = useState(false);
+  const [disableToast, setDisableToast] = useState(false);
   const modalRef = useRef<HTMLLabelElement>(null);
 
   // add a listener to update team state when received a new state
   useEffect(() => {
     // disable the listener for mobile devices
-    if (window.innerWidth < 768) return;
+    if (window.innerWidth < 768 || disableToast) return;
     const lastHistory = teamState.history[teamState.history.length - 1];
     if (lastHistory) {
       toast(lastHistory, {
@@ -57,13 +58,14 @@ export function HistoryDialog() {
               ))}
             </ul>
           </div>
-          <div
-            className="modal-action"
-            onClick={() => {
-              teamState.clearHistory();
-            }}
-          >
-            <button className="btn-primary btn-sm btn">{t('room.toolbox.history-modal.clear')}</button>
+          <div className="modal-action">
+            <button className="btn-primary btn-sm btn" onClick={() => teamState.clearHistory()}>
+              {t('room.toolbox.history-modal.clear')}
+            </button>
+            <label className="label cursor-pointer">
+              <input type="checkbox" className="toggle-secondary toggle" checked={disableToast} onChange={(e) => setDisableToast(e.target.checked)} />
+              <span className="label-text">{t('room.toolbox.history-modal.disableToast')}</span>
+            </label>
           </div>
         </label>
       </label>

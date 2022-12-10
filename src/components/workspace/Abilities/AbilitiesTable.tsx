@@ -8,7 +8,7 @@ import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
 import { getAbilitiesBySpecie } from '@/utils/PokemonUtils';
 
 function AbilitiesTable() {
-  const { t } = useTranslation(['common', 'abilities']);
+  const { t } = useTranslation(['common', 'abilities', 'ability_descriptions']);
   const { teamState, tabIdx, focusedFieldState, focusedFieldDispatch, globalFilter, setGlobalFilter } = useContext(StoreContext);
 
   // table settings
@@ -33,6 +33,14 @@ function AbilitiesTable() {
       {
         header: t('common.description'),
         accessorKey: 'shortDesc',
+        cell: ({ row }) => (
+          <span>
+            {t(row.original.id, {
+              ns: 'ability_descriptions',
+              defaultValue: row.original.shortDesc,
+            })}
+          </span>
+        ),
         enableColumnFilter: false,
         enableGlobalFilter: false,
         enableSorting: false,

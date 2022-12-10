@@ -19,7 +19,8 @@
     "history-modal": {
       "text": "History",
       "description": "Show the history of the current room",
-      "clear": "Clear"
+      "clear": "Clear",
+      "disableToast": "Disable Alert"
     },
     "notes-modal": {
       "text": "Notes",

@@ -30,7 +30,7 @@ export function NotesDialog({ store, provider, user }: EditorProps) {
     extensions: [
       StarterKit,
       Placeholder.configure({
-        placeholder: 'Write something …',
+        placeholder: '……',
       }),
       Collaboration.configure({
         fragment: store.notes,
@@ -114,7 +114,7 @@ export function NotesDialog({ store, provider, user }: EditorProps) {
           <label htmlFor={AppConfig.toolboxIDs.notesModal} className="btn-sm btn-circle btn absolute right-2 top-2">
             ✕
           </label>
-          <h3 className="text-lg font-bold">Notes</h3>
+          <h3 className="text-lg font-bold">📝 Notes</h3>
           <EditorContent editor={editor} />
         </div>
       </div>

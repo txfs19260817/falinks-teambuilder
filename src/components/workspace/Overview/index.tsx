@@ -1,3 +1,4 @@
+import { useTranslation } from 'next-i18next';
 import { useContext, useMemo, useState } from 'react';
 
 import { TeamTypeCategoryMatrix } from '@/components/table/TeamTypeCategoryMatrix';
@@ -10,21 +11,23 @@ const tabs = ['Team', 'Types', 'Defense', 'Offense'] as const;
 type Tabs = typeof tabs[number];
 
 export function OverviewTabBtn() {
+  const { t } = useTranslation(['common']);
   const { tabIdx, setTabIdx } = useContext(StoreContext);
   return (
     <button
       role="tab"
-      aria-label="Overview"
-      className={`tab tab-lifted tab-md md:tab-lg ${tabIdx === -1 ? 'tab-active' : 'text-info-content bg-info'}`}
+      aria-label={t('overview')}
+      className={`tab tab-lifted tab-md md:tab-lg ${tabIdx === -1 ? 'tab-active' : 'bg-info text-info-content'}`}
       onClick={() => setTabIdx(-1)}
     >
-      Overview
+      {t('common.overview')}
     </button>
   );
 }
 
 function Overview() {
-  const [tab, setTab] = useState<Tabs>('Team');
+  const { t } = useTranslation(['common']);
+  const [currentTab, setCurrentTab] = useState<Tabs>('Team');
   const { teamState } = useContext(StoreContext);
   const teamCategories = useMemo(() => teamState.getTeamMemberCategories(), [teamState]);
   const { defenseMap, offenseMap, defenseTeraMap } = useMemo(() => teamState.getTeamTypeChart(), [teamState]);
@@ -33,17 +36,17 @@ function Overview() {
     <div className="mockup-window border bg-base-300">
       <TeamMetaSetters />
       <div className="tabs tabs-boxed">
-        {tabs.map((t) => (
-          <a role="tab" aria-label={t} key={t} className={`tab ${tab === t ? 'tab-active' : ''}`} onClick={() => setTab(t)}>
-            {t}
+        {tabs.map((tab) => (
+          <a role="tab" aria-label={tab} key={tab} className={`tab ${currentTab === tab ? 'tab-active' : ''}`} onClick={() => setCurrentTab(tab)}>
+            {t(tab.toLowerCase(), { ns: 'common' })}
           </a>
         ))}
       </div>
       <div className="flex flex-col">
-        {tab === 'Team' && <TeamMembersGallery />}
-        {tab === 'Types' && <TeamTypeCategoryMatrix teamMemberCategories={teamCategories} />}
-        {tab === 'Defense' && <TeamTypeChart teamTypeChart={defenseMap} additionalTypeChart={defenseTeraMap} direction={'defense'} />}
-        {tab === 'Offense' && <TeamTypeChart teamTypeChart={offenseMap} direction={'offense'} />}
+        {currentTab === 'Team' && <TeamMembersGallery />}
+        {currentTab === 'Types' && <TeamTypeCategoryMatrix teamMemberCategories={teamCategories} />}
+        {currentTab === 'Defense' && <TeamTypeChart teamTypeChart={defenseMap} additionalTypeChart={defenseTeraMap} direction={'defense'} />}
+        {currentTab === 'Offense' && <TeamTypeChart teamTypeChart={offenseMap} direction={'offense'} />}
       </div>
     </div>
   );

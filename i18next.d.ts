@@ -2,8 +2,8 @@
 import 'i18next';
 
 import abilities from 'public/locales/en/abilities.json';
+import ability_descriptions from 'public/locales/en/ability_descriptions.json';
 import categories from 'public/locales/en/categories.json';
-// import all namespaces (for the default language, only)
 import common from 'public/locales/en/common.json';
 import create from 'public/locales/en/create.json';
 import formes from 'public/locales/en/formes.json';
@@ -28,6 +28,7 @@ declare module 'i18next' {
       search: typeof search;
       // pokemon terms
       abilities: typeof abilities;
+      ability_descriptions: typeof ability_descriptions;
       items: typeof items;
       moves: typeof moves;
       natures: typeof natures;
