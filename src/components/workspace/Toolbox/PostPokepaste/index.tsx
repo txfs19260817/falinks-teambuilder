@@ -1,3 +1,4 @@
+import { useTranslation } from 'next-i18next';
 import { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
@@ -8,6 +9,7 @@ import { AppConfig } from '@/utils/AppConfig';
 import { Paste } from '@/utils/Prisma';
 
 export function PostPokepasteDialog() {
+  const { t } = useTranslation(['common', 'room', 'create']);
   const { teamState } = useContext(StoreContext);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const { register, setValue, getValues } = useForm<NonNullable<Paste>>({
@@ -40,9 +42,9 @@ export function PostPokepasteDialog() {
     });
     toast
       .promise(promise, {
-        loading: 'Creating Paste...',
-        success: 'Paste Created! Being show you in a new window...',
-        error: (e) => `Error when creating your paste: ${e}`,
+        loading: t('room.toolbox.post-pokepaste-modal.posting'),
+        success: t('room.toolbox.post-pokepaste-modal.posted'),
+        error: (e) => `${t('room.toolbox.post-pokepaste-modal.postError')}: ${e}`,
       })
       .then((r) => {
         if (r.url) {
@@ -55,10 +57,10 @@ export function PostPokepasteDialog() {
     navigator.clipboard
       .writeText(getValues().paste)
       .then(() => {
-        toast.success('📋 Copied!');
+        toast.success(t('common.copiedToClipboard'));
       })
       .catch((e) => {
-        toast.error(`Failed to copy: ${e.message}`);
+        toast.error(e.message);
       });
   };
 
@@ -79,47 +81,47 @@ export function PostPokepasteDialog() {
           </label>
           <div className="form-control">
             <label className="label">
-              <span className="label-text">Title</span>
+              <span className="label-text">{t('create.form.title.label')}</span>
             </label>
             <input className="input-bordered input" type="text" {...register('title')} />
           </div>
           <div className="form-control">
             <label className="label">
-              <span className="label-text">Author</span>
+              <span className="label-text">{t('create.form.author.label')}</span>
             </label>
             <input className="input-bordered input" type="text" {...register('author')} />
           </div>
           <div className="form-control">
             <label className="label">
-              <span className="label-text">Format</span>
+              <span className="label-text">{t('create.form.format.label')}</span>
             </label>
             <FormatSelector inputGroup={false} defaultFormat={teamState.format} handleChange={(e) => setValue('format', e.target.value)} />
           </div>
           <div className="form-control">
             <label className="label">
-              <span className="label-text">Notes</span>
+              <span className="label-text">{t('create.form.notes.label')}</span>
             </label>
             <textarea className="textarea-secondary textarea w-full" {...register('notes')} />
           </div>
           <div className="form-control">
             <label className="label">
-              <span className="label-text">Paste</span>
+              <span className="label-text">{t('create.form.paste.label')}</span>
             </label>
             <textarea className="textarea-secondary textarea w-full" rows={6} {...register('paste')} />
           </div>
           <div className="modal-action flex-col justify-center">
             <span className="hidden" aria-hidden={true} />
             <button type="submit" className="btn-primary btn-sm btn my-1">
-              To PokéPaste
+              {t('room.toolbox.post-pokepaste-modal.to')} PokéPaste
             </button>
             <button type="button" className="btn-secondary btn-sm btn my-1" onClick={() => handleSubmitToFalinks(false)}>
-              To Falinks (Private)
+              {t('room.toolbox.post-pokepaste-modal.to')} Falinks ({t('common.private')})
             </button>
             <button type="button" className="btn-secondary btn-sm btn my-1" onClick={() => handleSubmitToFalinks(true)}>
-              To Falinks (Public)
+              {t('room.toolbox.post-pokepaste-modal.to')} Falinks ({t('common.public')})
             </button>
             <button type="button" className="btn-accent btn-sm btn" onClick={copyHandler}>
-              Copy the paste to clipboard
+              {t('common.copy')}
             </button>
           </div>
         </form>

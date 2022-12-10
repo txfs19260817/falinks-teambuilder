@@ -27,11 +27,23 @@
     },
     "import-ps-modal": {
       "text": "导入",
-      "description": "从 Showdown 文本或 PokePaste 链接导入队伍"
+      "description": "从 Showdown 文本或 PokePaste 链接导入队伍",
+      "title": "请在这里粘贴你的 Showdown 队伍文本（或 PokePaste 链接）↓",
+      "single": "只替换当前的单只宝可梦",
+      "loadExample": "载入示例",
+      "import": "导入"
     },
     "post-pokepaste-modal": {
       "text": "导出或发布",
-      "description": "导出或发布该队伍到 PokePaste 或本站"
+      "description": "导出或发布该队伍到 PokePaste 或本站",
+      "posting": "创建分享链接中...",
+      "posted": "粘贴创建！\n在新窗口中向您展示...",
+      "postError": "创建粘贴时出错",
+      "to": "发布至"
     }
-  }
+  },
+  "invalidPaste": "无效的队伍文本",
+  "addFirstPm": "添加第一只宝可梦",
+  "invalidPasteFromPokePaste": "从 PokePaste 获取的团队粘贴无效",
+  "noPokemonInTeam": "队伍中没有宝可梦"
 }

@@ -62,9 +62,7 @@ export const PresetsSubComponent = (row: Row<Specie>) => {
             {data.map((p, i) => (
               <div key={i} className="card w-52 bg-base-100 shadow-xl lg:w-60 xl:w-80">
                 <div className="card-body p-1 lg:p-2">
-                  <h6 className="card-title overflow-hidden text-xs tracking-tight">
-                    From [{p.title}] by {p.author}
-                  </h6>
+                  <h6 className="card-title overflow-hidden text-xs tracking-tight">@ [{p.title}]</h6>
                   <pre className="h-40 whitespace-pre-wrap text-xs leading-tight tracking-tighter">{p.paste}</pre>
                   <div className="card-actions justify-end">
                     <Link href={`/pastes/${p.id}/`} className="btn-secondary btn-xs btn lg:btn-sm" target="_blank">

@@ -17,6 +17,7 @@ import {
   SortingState,
   useReactTable,
 } from '@tanstack/react-table';
+import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { useContext, useEffect, useMemo, useState } from 'react';
 import { toast } from 'react-hot-toast';
@@ -34,6 +35,7 @@ import { Usage } from '@/utils/Types';
 
 function SpeciesTable() {
   const { t } = useTranslation(['common', 'species', 'formes', 'types', 'abilities']);
+  const { locale } = useRouter();
   const { teamState, tabIdx, focusedFieldState, focusedFieldDispatch, globalFilter, setGlobalFilter } = useContext(StoreContext);
 
   // table settings
@@ -45,8 +47,8 @@ function SpeciesTable() {
     toast.error(error);
   }
 
-  const getTranslatedName = ({ num, forme }: Pick<Specie, 'num'> & Pick<Specie, 'forme'>) =>
-    `${t(num, { ns: 'species' })}${forme ? `-${t(forme, { ns: 'formes' })}` : ''}`;
+  const getTranslatedName = ({ num, forme, name }: Pick<Specie, 'num' | 'forme' | 'name'>): string =>
+    locale === 'en' ? name : `${t(num, { ns: 'species' })}${forme ? `-${t(forme, { ns: 'formes' })}` : ''}`;
 
   // a filter that supports searching by translated name
   const i18nFilterFn: FilterFnOption<Specie> = (row, columnId, filterValue) =>
@@ -227,7 +229,7 @@ function SpeciesTable() {
     if (filteredRows.length !== 1) return;
     // filtered original data
     const { num, forme, name } = filteredRows[0]!.original;
-    const translatedName = getTranslatedName({ num, forme });
+    const translatedName = getTranslatedName({ num, forme, name });
     if (translatedName !== globalFilter) return;
     teamState.updatePokemonInTeam(tabIdx, 'species', name);
   }, [globalFilter]);

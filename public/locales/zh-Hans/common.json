@@ -107,5 +107,7 @@
     "showPreset": "显示预设",
     "showTeam": "转到原队伍",
     "notFound": "未找到预设，请尝试切换至其它对战规则"
-  }
+  },
+  "update": "更新",
+  "delete": "删除"
 }

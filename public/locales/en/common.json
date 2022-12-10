@@ -107,5 +107,7 @@
     "showPreset": "Show Preset",
     "showTeam": "Show Team",
     "notFound": "No Preset found, please try to change the format to check out more presets."
-  }
+  },
+  "update": "Update",
+  "delete": "Delete"
 }

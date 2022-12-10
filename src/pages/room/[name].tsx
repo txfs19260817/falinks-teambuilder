@@ -78,7 +78,7 @@ const Room = () => {
 export async function getStaticProps({ locale }: { locale: string }) {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ['common', 'room', 'species', 'abilities', 'items', 'moves', 'natures', 'types', 'formes', 'categories'])),
+      ...(await serverSideTranslations(locale)),
     },
   };
 }

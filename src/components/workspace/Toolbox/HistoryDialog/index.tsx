@@ -1,3 +1,4 @@
+import { useTranslation } from 'next-i18next';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { toast } from 'react-hot-toast';
 
@@ -5,6 +6,7 @@ import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
 import { AppConfig } from '@/utils/AppConfig';
 
 export function HistoryDialog() {
+  const { t } = useTranslation();
   const { teamState } = useContext(StoreContext);
   const [isOpen, setIsOpen] = useState(false);
   const modalRef = useRef<HTMLLabelElement>(null);
@@ -46,7 +48,7 @@ export function HistoryDialog() {
             ✕
           </label>
           <div className="ml-2 mt-2" dir="ltr">
-            <h3 className="text-lg font-bold">Edit History</h3>
+            <h3 className="text-lg font-bold">{t('room.toolbox.history-modal.text')}</h3>
             <ul className="steps steps-vertical">
               {teamState.history.map((change, idx) => (
                 <li key={idx} className="step-primary step text-xs">
@@ -61,7 +63,7 @@ export function HistoryDialog() {
               teamState.clearHistory();
             }}
           >
-            <button className="btn-primary btn-sm btn">Clear</button>
+            <button className="btn-primary btn-sm btn">{t('room.toolbox.history-modal.clear')}</button>
           </div>
         </label>
       </label>

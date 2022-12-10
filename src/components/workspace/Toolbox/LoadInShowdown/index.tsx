@@ -1,9 +1,11 @@
+import { useTranslation } from 'next-i18next';
 import { useContext } from 'react';
 
 import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
 import { AppConfig } from '@/utils/AppConfig';
 
 function LoadInShowdown() {
+  const { t } = useTranslation(['room']);
   const { teamState } = useContext(StoreContext);
   const { format, title } = teamState;
 
@@ -20,11 +22,11 @@ function LoadInShowdown() {
     <button
       id={AppConfig.toolboxIDs.loadInShowdown}
       className="btn-ghost tooltip tooltip-right btn font-medium normal-case"
-      data-tip="Please have the helper userscript installed to use this feature. See About page."
+      data-tip={t('room.toolbox.load-in-showdown-btn.description')}
       onClick={handleClick}
     >
       <span>⚔️</span>
-      <span>Load in Showdown</span>
+      <span>{t('room.toolbox.load-in-showdown-btn.text')}</span>
     </button>
   );
 }

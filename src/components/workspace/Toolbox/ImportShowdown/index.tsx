@@ -1,3 +1,4 @@
+import { useTranslation } from 'next-i18next';
 import { useContext, useRef, useState } from 'react';
 import { toast } from 'react-hot-toast';
 
@@ -70,6 +71,7 @@ Impish Nature
 `;
 
 export function ImportShowdownDialog() {
+  const { t } = useTranslation();
   const { teamState, tabIdx } = useContext(StoreContext);
   const [single, setSingle] = useState(false);
 
@@ -97,25 +99,25 @@ export function ImportShowdownDialog() {
         .then((data) => {
           const newTeam = Pokemon.convertPasteToTeam(data.paste);
           if (!newTeam) {
-            toast.error('Invalid team paste fetched from PokePaste');
+            toast.error(t('room.invalidPasteFromPokePaste'));
             return;
           }
           teamState.splicePokemonTeam(0, teamState.teamLength, ...newTeam);
         })
         .catch((err) => {
-          toast.error(`Error fetching team from PokePaste: ${err}`);
+          toast.error(`${t('room.invalidPasteFromPokePaste')}: ${err}`);
         });
       return;
     }
     // check if it's a single set
     if (single) {
       if (teamState.teamLength === 0) {
-        toast.error('No Pokémon in team');
+        toast.error(t('room.noPokemonInTeam'));
         return;
       }
       const newMon = Pokemon.importSet(text);
       if (!newMon) {
-        toast.error('Invalid set paste');
+        toast.error(t('room.invalidPaste'));
         return;
       }
       teamState.splicePokemonTeam(tabIdx, 1, newMon);
@@ -123,7 +125,7 @@ export function ImportShowdownDialog() {
       // it's a team paste
       const newTeam = Pokemon.convertPasteToTeam(text);
       if (!newTeam) {
-        toast.error('Invalid team paste');
+        toast.error(t('room.invalidPaste'));
         return;
       }
       teamState.splicePokemonTeam(0, teamState.teamLength, ...newTeam);
@@ -137,20 +139,20 @@ export function ImportShowdownDialog() {
           <label htmlFor={AppConfig.toolboxIDs.importModal} className="btn-sm btn-circle btn absolute right-2 top-2">
             ✕
           </label>
-          <h3 className="font-bold md:text-lg">Please leave your Showdown paste (or PokePaste link) here ↓</h3>
+          <h3 className="font-bold md:text-lg">{t('room.toolbox.import-ps-modal.title')}</h3>
           <textarea className="textarea-secondary textarea w-full" rows={10} ref={importTextareaRef}></textarea>
           {tabIdx >= 0 && tabIdx < teamState.teamLength && (
             <label className="label cursor-pointer">
-              <span className="label-text">Only swap the current Pokémon set</span>
+              <span className="label-text">{t('room.toolbox.import-ps-modal.single')}</span>
               <input type="checkbox" className="checkbox" checked={single} onChange={singleSetHandler} />
             </label>
           )}
           <div className="modal-action">
             <button className="btn-secondary btn-sm btn" onClick={loadExampleHandler}>
-              Load Example
+              {t('room.toolbox.import-ps-modal.loadExample')}
             </button>
             <label htmlFor={AppConfig.toolboxIDs.importModal} className="btn-primary btn-sm btn" onClick={importHandler}>
-              Import
+              {t('room.toolbox.import-ps-modal.import')}
             </label>
           </div>
         </div>

@@ -27,11 +27,23 @@
     },
     "import-ps-modal": {
       "text": "Import",
-      "description": "Import a team from Showdown paste or PokePaste link"
+      "description": "Import a team from Showdown paste or PokePaste link",
+      "title": "Please leave your Showdown paste (or PokePaste link) here ↓",
+      "single": "Only replace the current Pokémon set",
+      "loadExample": "Load Example",
+      "import": "Import"
     },
     "post-pokepaste-modal": {
       "text": "Export or Post",
-      "description": "Post your team to PokePaste or this site"
+      "description": "Post your team to PokePaste or this site",
+      "posting": "Creating the Paste ...",
+      "posted": "Paste Created! Being show you in a new window...",
+      "postError": "Error when creating your paste",
+      "to": "To"
     }
-  }
+  },
+  "invalidPaste": "Invalid Paste",
+  "addFirstPm": "Add the first Pokémon",
+  "invalidPasteFromPokePaste": "Invalid team paste fetched from PokePaste",
+  "noPokemonInTeam": "No Pokémon in team"
 }

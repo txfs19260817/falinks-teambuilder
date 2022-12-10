@@ -77,7 +77,7 @@ export function NotesDialog({ store, provider, user }: EditorProps) {
                 })
                 .run()
             }
-            className={`btn btn-xs ${
+            className={`btn-xs btn ${
               editor.isActive('heading', {
                 level: lv,
               })
@@ -97,14 +97,14 @@ export function NotesDialog({ store, provider, user }: EditorProps) {
       </FloatingMenu>
 
       <BubbleMenu className="btn-group" editor={editor} tippyOptions={{ duration: 100 }}>
-        <button onClick={() => editor.chain().focus().toggleBold().run()} className={`btn btn-xs ${editor.isActive('bold') ? 'btn-active' : ''} font-bold`}>
-          Bold
+        <button onClick={() => editor.chain().focus().toggleBold().run()} className={`btn-xs btn ${editor.isActive('bold') ? 'btn-active' : ''} font-bold`}>
+          <span className="font-bold">B</span>
         </button>
-        <button onClick={() => editor.chain().focus().toggleItalic().run()} className={`btn btn-xs ${editor.isActive('italic') ? 'btn-active' : ''} italic`}>
-          Italic
+        <button onClick={() => editor.chain().focus().toggleItalic().run()} className={`btn-xs btn ${editor.isActive('italic') ? 'btn-active' : ''} italic`}>
+          <span className="italic">I</span>
         </button>
-        <button onClick={() => editor.chain().focus().toggleStrike().run()} className={`btn btn-xs ${editor.isActive('strike') ? 'btn-active' : ''}`}>
-          Strike
+        <button onClick={() => editor.chain().focus().toggleStrike().run()} className={`btn-xs btn ${editor.isActive('strike') ? 'btn-active' : ''}`}>
+          <span className="line-through">S</span>
         </button>
       </BubbleMenu>
 

@@ -1,13 +1,16 @@
-import React, { ReactNode, useContext, useEffect, useRef } from 'react';
+import { useTranslation } from 'next-i18next';
+import { ReactNode, useContext, useEffect, useRef } from 'react';
 import { toast } from 'react-hot-toast';
 
 import { PokemonIcon } from '@/components/icons/PokemonIcon';
 import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
 import { Pokemon } from '@/models/Pokemon';
 import { AppConfig } from '@/utils/AppConfig';
+import { getPokemonTranslationKey } from '@/utils/PokemonUtils';
 
 // TabMenu is a component for each tab to update or remove the Pokémon.
 function TabMenu({ idx }: { idx: number }) {
+  const { t } = useTranslation(['common', 'room', 'species']);
   const { teamState, setTabIdx, tabIdx } = useContext(StoreContext);
   const pasteTextareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -29,7 +32,7 @@ function TabMenu({ idx }: { idx: number }) {
     }
     const newMon = Pokemon.importSet(text);
     if (!newMon) {
-      toast.error('Invalid set paste');
+      toast.error(t('room.invalidPaste'));
       return;
     }
     teamState.splicePokemonTeam(index, 1, newMon);
@@ -46,27 +49,27 @@ function TabMenu({ idx }: { idx: number }) {
 
   return (
     <>
-      <label tabIndex={idx} className="badge-secondary badge indicator-item">
+      <label tabIndex={idx} className="indicator-item badge-secondary badge">
         ≡
       </label>
-      <div tabIndex={idx} className="card dropdown-content card-compact w-full bg-base-200 p-1 shadow md:w-96">
+      <div tabIndex={idx} className="dropdown-content card card-compact w-full bg-base-200 p-1 shadow md:w-96">
         <div className="card-body">
-          <h1 className="card-title">{pm.species}</h1>
-          <textarea ref={pasteTextareaRef} className="textarea" placeholder="Paste" rows={10}></textarea>
+          <h1 className="card-title">{t(getPokemonTranslationKey(pm.species, 'species'))}</h1>
+          <textarea ref={pasteTextareaRef} className="textarea" placeholder="..." rows={10}></textarea>
           <div className="card-actions">
             <button className="btn-primary btn-xs btn" onClick={() => updateTab(idx)}>
-              Update
+              {t('common.update')}
             </button>
             <button
               className="btn-accent btn-xs btn"
               onClick={() => {
-                navigator.clipboard.writeText(pasteTextareaRef.current?.value || '').then(() => toast('📋 Copied!'));
+                navigator.clipboard.writeText(pasteTextareaRef.current?.value || '').then(() => toast(t('common.copiedToClipboard')));
               }}
             >
-              Copy
+              {t('common.copy')}
             </button>
             <button className="btn-error btn-xs btn" onClick={() => removeTab(idx)}>
-              Delete
+              {t('common.delete')}
             </button>
           </div>
         </div>
@@ -76,6 +79,7 @@ function TabMenu({ idx }: { idx: number }) {
 }
 
 function TabsSwitcher({ children }: { children?: ReactNode }) {
+  const { t } = useTranslation(['common', 'room', 'species']);
   const { teamState, tabIdx, setTabIdx, focusedFieldDispatch } = useContext(StoreContext);
 
   const newTab = () => {
@@ -105,14 +109,14 @@ function TabsSwitcher({ children }: { children?: ReactNode }) {
           >
             <span className="text-sm">{i + 1}</span>
             <PokemonIcon speciesId={p.species} />
-            <span>{p.species}</span>
+            <span>{t(getPokemonTranslationKey(p.species, 'species'))}</span>
           </a>
         </div>
       ))}
       {/* Show Plus sign following all tabs until there are 6 Pokémon */}
       {teamState.teamLength < AppConfig.maxPokemonPerTeam && (
         // Show tooltip if no Pokémon in team
-        <div className={`tooltip-right tooltip-secondary ${teamState.teamLength === 0 ? 'tooltip tooltip-open' : ''}`} data-tip="Add the first Pokémon">
+        <div className={`tooltip-right tooltip-secondary ${teamState.teamLength === 0 ? 'tooltip-open tooltip' : ''}`} data-tip={t('room.addFirstPm')}>
           <button className="tab tab-lifted tab-active tab-md md:tab-lg" onClick={() => newTab()} role="tab" aria-label="Add new tab">
             +
           </button>

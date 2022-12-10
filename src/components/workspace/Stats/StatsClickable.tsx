@@ -57,7 +57,7 @@ function StatsClickable() {
       >
         {Object.entries(stats).map(([key, value]) => (
           <div role="progressbar" key={key} className="flex flex-wrap items-center justify-between px-1 md:py-1">
-            <label className="w-12 flex-none uppercase">{t(`common.stats.${key}`)}: </label>
+            <label className="w-16 flex-none text-sm uppercase">{t(`common.stats.${key}`)}: </label>
             <meter className="w-full flex-1" min={0} max={300} low={100} high={150} optimum={200} value={value} title={`${value}`} />
             <label className="w-12 flex-none">{value}</label>
           </div>
