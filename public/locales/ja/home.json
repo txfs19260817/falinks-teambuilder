@@ -1,10 +1,35 @@
 {
   "slogan": "チームワークで次の強いパーティをつくる",
   "form": {
-    "submit": "作成・参加"
+    "submit": "作成・参加",
+    "author": {
+      "button": "おまかせ",
+      "button_title": "ランダム作成者名",
+      "description": "登録は必要ありません。識別するために使用されます。",
+      "placeholder": "作成者名を入力してください",
+      "label": "作成者名"
+    },
+    "pokepaste": {
+      "description": "オプション。PokePaste リンクでチームをスタートさせる。",
+      "label": "PokéPaste リンク"
+    },
+    "protocol": {
+      "description": "通信プロトコル。 あるプロトコルが使用できない場合、他のプロトコルに切り替えてみてください。",
+      "label": "通信プロトコル"
+    },
+    "room": {
+      "description": "このルーム名を共有して、他のユーザーを招待できます。",
+      "label": "ルームネーム",
+      "placeholder": "ルームネームを入力してください"
+    }
   },
   "tabs": {
     "room history": "ルーム履歴",
     "new room": "ルームを作る"
+  },
+  "history": {
+    "clear": "履歴をクリア",
+    "delete": "消去",
+    "empty": "歴史はありません、コーヒーをお楽しみください☕️"
   }
 }

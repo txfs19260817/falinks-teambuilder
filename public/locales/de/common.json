@@ -40,46 +40,46 @@
   "pokemon": "Pokémon",
   "power": "Stärke",
   "preset": {
-    "preset": "Preset",
-    "presets": "Presets",
+    "preset": "Voreinstellung",
+    "presets": "Voreinstellungen",
     "showPreset": "Show Preset",
-    "showTeam": "Show Team",
-    "notFound": "No Preset found, please try to change the format to check out more presets."
+    "showTeam": "Zeigen Sie die Team",
+    "notFound": "Keine Voreinstellung gefunden, bitte versuchen Sie, das Format zu ändern, um weitere Voreinstellungen auszuprobieren."
   },
   "private": "Privatgelände",
   "public": "Öffentlichkeit",
   "rentalCode": "Mietcode",
   "routes": {
     "home": {
-      "title": "Home",
-      "description": "Home page"
+      "title": "Zuhause",
+      "description": "Startseite"
     },
     "about": {
-      "title": "About",
-      "description": "About and documentation"
+      "title": "Über",
+      "description": "Über und Dokumentation"
     },
     "paste": {
       "title": "Paste"
     },
     "public_pastes": {
-      "title": "User Shared",
-      "description": "User publicly shared PokePaste"
+      "title": "Benutzer freigegeben",
+      "description": "Öffentlich geteilte PokePaste der Benutzer"
     },
     "vgc_pastes": {
       "title": "VGC Pastes",
-      "description": "Curated PokePaste for Pokémon VGC"
+      "description": "Kuratierte PokePaste für Pokémon VGC"
     },
     "create_paste": {
-      "title": "Create",
-      "description": "Create a PokePaste public or private"
+      "title": "Schaffen",
+      "description": "Erstellen Sie öffentlich oder privat eine PokePaste"
     },
     "search_paste": {
       "title": "Search",
-      "description": "Search for a PokePaste"
+      "description": "Suchen Sie nach einer PokePaste"
     },
     "usage": {
-      "title": "Usage",
-      "description": "Pokémon Showdown! usage statistics"
+      "title": "Verwendungen",
+      "description": "Pokémon Showdown! Nutzungsstatistiken"
     }
   },
   "share": "Teilen",

@@ -43,7 +43,7 @@
     "preset": "Preset",
     "presets": "Presets",
     "showPreset": "Show Preset",
-    "showTeam": "Show Team",
+    "showTeam": "Show the team",
     "notFound": "No Preset found, please try to change the format to check out more presets."
   },
   "private": "Private",
@@ -63,7 +63,7 @@
     },
     "public_pastes": {
       "title": "User Shared",
-      "description": "User publicly shared PokePaste"
+      "description": "Users' publicly shared PokePaste"
     },
     "vgc_pastes": {
       "title": "VGC Pastes",
@@ -71,14 +71,14 @@
     },
     "create_paste": {
       "title": "Create",
-      "description": "Create a PokePaste public or private"
+      "description": "Create a PokePaste publicly or privately"
     },
     "search_paste": {
       "title": "Search",
       "description": "Search for a PokePaste"
     },
     "usage": {
-      "title": "Usage",
+      "title": "Usages",
       "description": "Pokémon Showdown! usage statistics"
     }
   },

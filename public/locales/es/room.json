@@ -1,7 +1,7 @@
 {
   "addFirstPm": "Añade el primer Pokémon",
   "emptySlotDesc": "solo un suplente.",
-  "invalidPaste": "Texto inválido",
+  "invalidPaste": "Paste inválido",
   "jumpToTab": "Saltar a la pestaña",
   "noPokemonInTeam": "Ningún Pokémon en el equipo",
   "toolbox": {
@@ -20,10 +20,12 @@
       "title": "Por favor, deja tu Showdown Paste (o enlace de PokePaste) aquí ↓"
     },
     "load-in-showdown-btn": {
-      "description": "Please have the helper userscript installed to use this feature. See About page."
+      "description": "Please have the helper userscript installed to use this feature. See About page.",
+      "text": "Abierto en Showdown"
     },
     "notes-modal": {
-      "description": "Agrega notas a tu equipo con un editor colaborativo"
+      "description": "Agrega notas a tu equipo con un editor colaborativo",
+      "text": "notas"
     },
     "post-pokepaste-modal": {
       "description": "Publica tu equipo en PokePaste o en este sitio",
@@ -44,5 +46,6 @@
       "description": "Deshacer",
       "text": "Deshacer"
     }
-  }
+  },
+  "invalidPasteFromPokePaste": "Pasta de equipo no válida obtenida de PokePaste"
 }

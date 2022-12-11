@@ -16,7 +16,7 @@ export function OverviewTabBtn() {
   return (
     <button
       role="tab"
-      aria-label={t('overview')}
+      aria-label={t('common.overview')}
       className={`tab tab-lifted tab-md md:tab-lg ${tabIdx === -1 ? 'tab-active' : 'bg-info text-info-content'}`}
       onClick={() => setTabIdx(-1)}
     >

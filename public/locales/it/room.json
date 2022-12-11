@@ -1,7 +1,7 @@
 {
   "addFirstPm": "Aggiungi il primo Pokémon",
   "emptySlotDesc": "solo un sostituto.",
-  "invalidPaste": "Testo non valido",
+  "invalidPaste": "Paste non valido",
   "jumpToTab": "Vai alla scheda",
   "noPokemonInTeam": "Nessun Pokémon in squadra",
   "toolbox": {
@@ -20,10 +20,12 @@
       "title": "Per favore lascia il tuo Showdown Paste (o link PokePaste) qui ↓"
     },
     "load-in-showdown-btn": {
-      "description": "Please have the helper userscript installed to use this feature. See About page."
+      "description": "Please have the helper userscript installed to use this feature. See About page.",
+      "text": "Aprire in Showdown"
     },
     "notes-modal": {
-      "description": "Aggiungi note al tuo team con un editor collaborativo"
+      "description": "Aggiungi note al tuo team con un editor collaborativo",
+      "text": "Appunti"
     },
     "post-pokepaste-modal": {
       "description": "Pubblica la tua squadra su PokePaste o su questo sito",
@@ -44,5 +46,6 @@
       "description": "Annullare",
       "text": "Annullare"
     }
-  }
+  },
+  "invalidPasteFromPokePaste": "Incolla di squadra non valida recuperata da PokePaste"
 }

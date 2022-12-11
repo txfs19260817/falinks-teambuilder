@@ -2,29 +2,16 @@
   "title": "Advanced Search",
   "any": "Any",
   "form": {
-    "format": "Format",
     "species": {
-      "label": "Pokémon",
       "error": "Please add at least one Pokémon to search for.",
-      "item": "Item",
-      "ability": "Ability",
-      "evRanges": "EVs (min to max)",
-      "moves": "Moves"
+      "evRanges": "EVs (min to max)"
     },
-    "rental": "Must Have Rental Code",
+    "rental": "Rental code required",
     "submit": {
       "button": "Submit",
       "loading": "Searching Pastes...",
       "success": "Done!",
       "error": "An error occurred when processing your request."
     }
-  },
-  "stats": {
-    "hp": "HP",
-    "atk": "Atk",
-    "def": "Def",
-    "spa": "SpA",
-    "spd": "SpD",
-    "spe": "Spe"
   }
 }

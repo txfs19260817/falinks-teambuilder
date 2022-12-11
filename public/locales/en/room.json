@@ -39,11 +39,10 @@
       "description": "Post your team to PokePaste or this site",
       "posting": "Creating ...",
       "posted": "Success! Redirecting...",
-      "postError": "Error when creating your Paste",
-      "to": "To"
+      "postError": "Error when creating your Paste"
     }
   },
-  "invalidPaste": "Invalid text",
+  "invalidPaste": "Invalid Paste",
   "addFirstPm": "Add the first Pokémon",
   "invalidPasteFromPokePaste": "Invalid team paste fetched from PokePaste",
   "noPokemonInTeam": "No Pokémon in team",

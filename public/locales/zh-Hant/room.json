@@ -2,7 +2,7 @@
   "addFirstPm": "添加第一個寶可夢",
   "emptySlotDesc": "只有一個替身玩偶",
   "invalidPaste": "無效的队伍文本",
-  "invalidPasteFromPokePaste": "从 PokePaste 获取的队伍无效",
+  "invalidPasteFromPokePaste": "從 PokePaste 獲取的隊伍無效",
   "jumpToTab": "跳轉到標籤",
   "noPokemonInTeam": "隊伍中沒有寶可夢",
   "toolbox": {
@@ -25,7 +25,8 @@
       "text": "在Showdown中打開"
     },
     "notes-modal": {
-      "description": "使用富文本協作編輯器向您的隊伍添加註釋"
+      "description": "使用富文本協作編輯器向您的隊伍添加註釋",
+      "text": "筆記"
     },
     "post-pokepaste-modal": {
       "description": "將您的隊伍發佈到 PokePaste 或本網站",

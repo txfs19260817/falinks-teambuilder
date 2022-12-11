@@ -20,10 +20,12 @@
       "title": "Showdown Paste (또는 PokePaste 링크)를 여기에 남겨주세요 ↓"
     },
     "load-in-showdown-btn": {
-      "description": "Please have the helper userscript installed to use this feature. See About page."
+      "description": "Please have the helper userscript installed to use this feature. See About page.",
+      "text": "Showdown! 에서 열기"
     },
     "notes-modal": {
-      "description": "협업 편집기로 팀에 메모 추가"
+      "description": "협업 편집기로 팀에 메모 추가",
+      "text": "메모"
     },
     "post-pokepaste-modal": {
       "description": "PokePaste 또는 이 사이트에 팀 게시",
@@ -44,5 +46,6 @@
       "description": "실행 취소",
       "text": "실행 취소"
     }
-  }
+  },
+  "invalidPasteFromPokePaste": "잘못된 PokePaste 링크"
 }

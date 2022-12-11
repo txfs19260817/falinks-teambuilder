@@ -1,10 +1,35 @@
 {
   "slogan": "Bauen Sie das nächste umfassende Pokémon-Team mit der Kraft der Zusammenarbeit auf",
   "form": {
-    "submit": "Erstellen / Beitreten"
+    "submit": "Erstellen / Beitreten",
+    "author": {
+      "button": "Wählen Sie einen Namen",
+      "button_title": "Ziehen Sie zufällig einen Autorennamen",
+      "description": "Keine Anmeldung erforderlich. Es wird verwendet, um Sie im Raum zu identifizieren.",
+      "placeholder": "Bitte geben Sie Ihren Namen ein",
+      "label": "Autorenname"
+    },
+    "pokepaste": {
+      "description": "Optional. Starten Sie Ihr Team mit einem PokéPaste-Link.",
+      "label": "PokéPaste-Link"
+    },
+    "protocol": {
+      "description": "Kommunikationsprotokoll. Bitte versuchen Sie es mit einem anderen, wenn einer nicht funktioniert.",
+      "label": "Kommunikationsprotokoll"
+    },
+    "room": {
+      "description": "Sie können diesen Raumnamen teilen, um andere einzuladen.",
+      "label": "Raumname",
+      "placeholder": "Bitte geben Sie einen Raumnamen ein"
+    }
   },
   "tabs": {
     "room history": "Raumgeschichte",
     "new room": "Neuer Raum"
+  },
+  "history": {
+    "clear": "Verlauf löschen",
+    "delete": "Löschen",
+    "empty": "Kein Zimmer besucht, genieße eine Tasse Kaffee ☕️"
   }
 }

@@ -5,6 +5,49 @@
     "author": {
       "label": "Auteur",
       "placeholder": "Entrez le nom de l'auteur"
+    },
+    "created at": {
+      "label": "Créé à"
+    },
+    "details": {
+      "label": "Détails"
+    },
+    "format": {
+      "label": "Format"
+    },
+    "notes": {
+      "label": "Remarques",
+      "placeholder": "Notes sur cette équipe"
+    },
+    "paste": {
+      "error": "Paste invalide",
+      "placeholder": "Showdown importable ou lien PokePaste"
+    },
+    "public": {
+      "private": "Privé",
+      "public": "Public",
+      "warning": "Veuillez enregistrer votre lien Coller si vous le rendez privé."
+    },
+    "rental": {
+      "label": "Code de location",
+      "description": "Le code de location de cette équipe, facultatif"
+    },
+    "source": {
+      "description": "Le lien source de cette équipe, facultatif",
+      "label": "Source"
+    },
+    "submit": {
+      "button": "Envoyer",
+      "loading": "Création de Paste en cours...",
+      "success": "Paste créé ! Redirection en cours...",
+      "error": "Une erreur s'est produite lors de la création de votre paste"
+    },
+    "team": {
+      "label": "Team"
+    },
+    "title": {
+      "label": "Titre",
+      "placeholder": "Donnez un nom à cette équipe"
     }
   }
 }

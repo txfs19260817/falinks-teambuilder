@@ -5,6 +5,49 @@
     "author": {
       "label": "作成者",
       "placeholder": "作成者名を入力"
+    },
+    "created at": {
+      "label": "作成日"
+    },
+    "details": {
+      "label": "内容"
+    },
+    "format": {
+      "label": "ルール"
+    },
+    "notes": {
+      "label": "ノート",
+      "placeholder": "このパーティに関するメモ"
+    },
+    "paste": {
+      "error": "無効なテキスト",
+      "placeholder": "Showdown パーティまたは PokePaste リンク"
+    },
+    "public": {
+      "private": "プライベート",
+      "public": "パブリック",
+      "warning": "非公開にする場合は、リンクを保存してください。"
+    },
+    "rental": {
+      "label": "レンタルチームID",
+      "description": "このチームのレンタルID、オプション"
+    },
+    "source": {
+      "description": "このパーティのソースリンク、オプション",
+      "label": "ソース"
+    },
+    "submit": {
+      "button": "作成",
+      "loading": "作成中...",
+      "error": "作成中にエラーが発生しました",
+      "success": "作成しました！リダイレクトしています..."
+    },
+    "team": {
+      "label": "パーティ"
+    },
+    "title": {
+      "label": "題名",
+      "placeholder": "このパーティに名前を付けてください"
     }
   }
 }

@@ -15,7 +15,7 @@
   "delete": "삭제",
   "description": "설명",
   "details": "세부",
-  "evs": "EVs",
+  "evs": "노력치",
   "format": "배틀 룰",
   "formats": "배틀 룰",
   "gender": "성별",
@@ -69,5 +69,43 @@
     "base": "베이스",
     "stat": "능력",
     "stats": "능력"
-  }
+  },
+  "preset": {
+    "notFound": "사전 설정을 찾을 수 없습니다. 더 많은 사전 설정을 확인하려면 형식을 변경해 보세요.",
+    "preset": "프리셋",
+    "presets": "프리셋",
+    "showPreset": "프리셋 표시",
+    "showTeam": "원래 팀 표시"
+  },
+  "routes": {
+    "about": {
+      "description": "정보 및 설명서",
+      "title": "소개"
+    },
+    "create_paste": {
+      "description": "공개 또는 비공개로 PokePaste 만들기",
+      "title": "만들다"
+    },
+    "home": {
+      "description": "홈페이지",
+      "title": "홈"
+    },
+    "public_pastes": {
+      "description": "사용자의 공개 공유 PokePaste",
+      "title": "공개적"
+    },
+    "search_paste": {
+      "description": "PokePaste 검색",
+      "title": "검색"
+    },
+    "usage": {
+      "description": "Pokémon Showdown! 사용 통계",
+      "title": "사용률"
+    },
+    "vgc_pastes": {
+      "description": "VGC를 위한 선별된 PokePaste"
+    }
+  },
+  "spread": "할당",
+  "spreads": "할당"
 }

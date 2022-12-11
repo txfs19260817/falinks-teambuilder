@@ -6,7 +6,7 @@
   },
   "form": {
     "author": {
-      "label": "作者",
+      "label": "作者名",
       "placeholder": "请输入作者名",
       "description": "无需注册，用于在房间内显示",
       "button": "抽选一个",
@@ -23,7 +23,7 @@
     },
     "protocol": {
       "label": "通信协议",
-      "description": "可用通信协议，如果一个协议不可用，你可以尝试切换到另一个"
+      "description": "通信协议，如果一个协议不可用，请尝试切换到另一个"
     },
     "submit": "创建 / 加入"
   },

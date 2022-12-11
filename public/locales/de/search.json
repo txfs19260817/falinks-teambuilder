@@ -1,4 +1,17 @@
 {
   "any": "Irgendein",
-  "title": "Erweiterte Suche"
+  "title": "Erweiterte Suche",
+  "form": {
+    "rental": "Mietcode erforderlich",
+    "species": {
+      "error": "Bitte füge mindestens ein Pokémon hinzu, nach dem gesucht werden soll.",
+      "evRanges": "EVs (min. bis max.)"
+    },
+    "submit": {
+      "button": "Absenden",
+      "loading": "Suche nach Paste...",
+      "success": "Erledigt!",
+      "error": "Bei der Verarbeitung Ihrer Anfrage ist ein Fehler aufgetreten."
+    }
+  }
 }

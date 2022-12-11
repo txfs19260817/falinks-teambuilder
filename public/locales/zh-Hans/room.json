@@ -39,8 +39,7 @@
       "description": "导出或发布该队伍到 PokePaste 或本站",
       "posting": "创建中...",
       "posted": "创建成功！在新窗口中向您展示...",
-      "postError": "创建时出错",
-      "to": "发布至"
+      "postError": "创建时出错"
     }
   },
   "invalidPaste": "无效的队伍文本",

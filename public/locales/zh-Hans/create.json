@@ -3,7 +3,7 @@
   "form": {
     "title": {
       "label": "标题",
-      "placeholder": "给队伍起个名字"
+      "placeholder": "给这个队起个名字"
     },
     "author": {
       "label": "作者",
@@ -11,7 +11,7 @@
     },
     "paste": {
       "label": "Paste",
-      "placeholder": "Showdown 格式队伍文本或者PokePaste链接",
+      "placeholder": "Showdown 格式队伍文本或 PokePaste 链接",
       "error": "无效的队伍文本"
     },
     "notes": {

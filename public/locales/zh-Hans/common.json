@@ -22,11 +22,11 @@
       "description": "VGC 队伍集合"
     },
     "create_paste": {
-      "title": "分享队伍",
+      "title": "创建队伍",
       "description": "公开或私密分享一个队伍"
     },
     "search_paste": {
-      "title": "搜索队伍",
+      "title": "搜索",
       "description": "搜索队伍"
     },
     "usage": {

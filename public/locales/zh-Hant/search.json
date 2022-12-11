@@ -1,4 +1,17 @@
 {
   "any": "任何",
-  "title": "高級搜索"
+  "title": "高級搜索",
+  "form": {
+    "rental": "必须有租借隊伍碼",
+    "species": {
+      "error": "請至少選擇一隻寶可夢",
+      "evRanges": "努力值（最小值到最大值）"
+    },
+    "submit": {
+      "button": "搜索",
+      "error": "搜索失敗",
+      "loading": "搜索中...",
+      "success": "搜索成功！"
+    }
+  }
 }

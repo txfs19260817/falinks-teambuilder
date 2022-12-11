@@ -5,6 +5,49 @@
     "author": {
       "label": "Autor",
       "placeholder": "Geben Sie den Namen des Autors ein"
+    },
+    "created at": {
+      "label": "Erstellt am"
+    },
+    "details": {
+      "label": "Einzelheiten"
+    },
+    "format": {
+      "label": "Format"
+    },
+    "notes": {
+      "label": "Anmerkungen",
+      "placeholder": "Anmerkungen zu diesem Team"
+    },
+    "paste": {
+      "error": "Ungültiger Paste",
+      "placeholder": "Showdown importierbar oder PokePaste-Link"
+    },
+    "public": {
+      "private": "Privat",
+      "public": "Öffentlich",
+      "warning": "Bitte speichern Sie Ihren Einfügelink, wenn Sie ihn privat machen."
+    },
+    "rental": {
+      "label": "Mietcode",
+      "description": "Der Mietcode dieses Teams, optional"
+    },
+    "source": {
+      "description": "Der Quelllink dieses Teams, optional",
+      "label": "Quelle"
+    },
+    "submit": {
+      "button": "Abschicken",
+      "loading": "Erstelle Paste...",
+      "success": "Paste erstellt! Weiterleitung...",
+      "error": "Beim Erstellen Ihres Pastes ist ein Fehler aufgetreten"
+    },
+    "team": {
+      "label": "Team"
+    },
+    "title": {
+      "label": "Titel",
+      "placeholder": "Geben Sie diesem Team einen Namen"
     }
   }
 }

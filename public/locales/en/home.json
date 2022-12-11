@@ -7,7 +7,7 @@
   "form": {
     "author": {
       "label": "Author Name",
-      "placeholder": "Enter your name",
+      "placeholder": "Please enter your name",
       "description": "No registration required. It will be used to identify you in the room.",
       "button": "Draw a name",
       "button_title": "Draw an author name randomly"
@@ -18,12 +18,12 @@
     },
     "room": {
       "label": "Room Name",
-      "placeholder": "Enter a room name",
+      "placeholder": "Please enter a room name",
       "description": "You can share this room name to invite others."
     },
     "protocol": {
-      "label": "Protocol",
-      "description": "Communication Protocol. Try another if one is not working."
+      "label": "Communication Protocol",
+      "description": "Communication Protocol. Please try another if one is not working."
     },
     "submit": "Create / Join"
   },

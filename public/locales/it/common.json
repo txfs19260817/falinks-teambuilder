@@ -69,5 +69,43 @@
     "base": "Base",
     "stat": "Stat",
     "stats": "Stats"
-  }
+  },
+  "preset": {
+    "notFound": "Nessun preset trovato, prova a cambiare il formato per controllare più preset.",
+    "preset": "Preimpostato",
+    "presets": "Preset",
+    "showPreset": "Mostra preimpostazione",
+    "showTeam": "Mostra la squadra"
+  },
+  "routes": {
+    "about": {
+      "description": "Informazioni e documentazione",
+      "title": "Circa"
+    },
+    "create_paste": {
+      "description": "Crea un PokePaste pubblicamente o privatamente",
+      "title": "Creare"
+    },
+    "home": {
+      "description": "Pagina iniziale",
+      "title": "Casa"
+    },
+    "public_pastes": {
+      "description": "PokePaste condiviso pubblicamente dagli utenti",
+      "title": "Utente condiviso"
+    },
+    "search_paste": {
+      "description": "Cerca un PokePaste",
+      "title": "Ricerca"
+    },
+    "usage": {
+      "description": "Pokémon Showdown! statistiche di utilizzo",
+      "title": "Usi"
+    },
+    "vgc_pastes": {
+      "description": "PokePaste curato per Pokémon VGC"
+    }
+  },
+  "spread": "Spread",
+  "spreads": "Spreads"
 }

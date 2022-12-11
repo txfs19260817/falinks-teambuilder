@@ -1,4 +1,17 @@
 {
   "any": "Qualunque",
-  "title": "Ricerca Avanzata"
+  "title": "Ricerca Avanzata",
+  "form": {
+    "rental": "Codice noleggio richiesto",
+    "species": {
+      "error": "Aggiungi almeno un Pokémon da cercare.",
+      "evRanges": "EVs (da min a max)"
+    },
+    "submit": {
+      "button": "Invia",
+      "loading": "Ricerca di paste...",
+      "success": "Fatto!",
+      "error": "Si è verificato un errore durante l'elaborazione della richiesta."
+    }
+  }
 }

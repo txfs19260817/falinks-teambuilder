@@ -20,17 +20,19 @@
       "title": "Showdown Paste（または PokePaste のリンク）をこちらに残してください↓"
     },
     "load-in-showdown-btn": {
-      "description": "Please have the helper userscript installed to use this feature. See About page."
+      "description": "Please have the helper userscript installed to use this feature. See About page.",
+      "text": "Showdown! で開く"
     },
     "notes-modal": {
-      "description": "共同編集エディターでチームにメモを追加"
+      "description": "共同編集エディターでチームにメモを追加",
+      "text": "ノート"
     },
     "post-pokepaste-modal": {
       "description": "パーティを PokePaste またはこのサイトに投稿する",
-      "postError": "ペースト作成時のエラー",
+      "postError": "作成中にエラーが発生しました",
       "posted": "作成しました！リダイレクトしています...",
       "posting": "作成中 ...",
-      "text": "輸出・公開"
+      "text": "作成・公開"
     },
     "redo-btn": {
       "description": "やり直し",
@@ -44,5 +46,6 @@
       "description": "元に戻す",
       "text": "戻す"
     }
-  }
+  },
+  "invalidPasteFromPokePaste": "無効な PokePaste リンク"
 }
