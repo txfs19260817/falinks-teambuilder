@@ -7,7 +7,7 @@ const nextI18nConfig = {
     defaultNS: 'common',
     nsSeparator: '.',
     localePath: path.resolve('./public/locales'),
-    localeDetection: false
+    localeDetection: true
   }
 };
 
