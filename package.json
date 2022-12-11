@@ -25,6 +25,7 @@
     "postinstall": "run-s db-generate",
     "prepare": "husky install",
     "start": "next start",
+    "start-ws": "npx y-websocket@1.4.5 --port 1234",
     "pretest": "npx playwright install --with-deps",
     "test": "run-s test:e2e",
     "test:e2e": "playwright test"

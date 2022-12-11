@@ -10,7 +10,7 @@ test('should navigate across formats among Usages pages', async ({ page, baseURL
   // The new URL should contain "/usages/gen8vgc2022"
   await expect(page).toHaveURL(/\/usages\/gen8vgc2022/);
   // The new page should contain a sprite img
-  await expect(page.getByRole('img', { name: 'sprite' })).toBeVisible();
+  await expect(page.getByRole('img', { name: 'Pokémon' })).toBeVisible();
   // The new page should contain a table cell with "Items"
   await expect(page.getByRole('cell', { name: 'Items' })).toBeVisible();
   // The new page should contain a table cell with "Moves"

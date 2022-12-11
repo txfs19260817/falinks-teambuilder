@@ -29,9 +29,9 @@ test('should navigate to a new room', async ({ page, baseURL, browser, browserNa
   await expect(page2).toHaveURL(page.url());
   // add a Pokémon on the first page
   await page.getByRole('tab', { name: 'Add new tab' }).click();
-  await page.getByLabel('Species').click();
-  await page.getByLabel('Species').press('Control+a');
-  await page.getByLabel('Species').fill('dond');
+  await page.getByLabel('Pokémon').click();
+  await page.getByLabel('Pokémon').press('Control+a');
+  await page.getByLabel('Pokémon').fill('dond');
   await page.getByRole('cell', { name: 'Dondozo' }).click();
   await page.getByLabel('Item').click();
   await page.getByLabel('Item').fill('clear');
@@ -100,7 +100,7 @@ test('should have room history', async ({ page, baseURL, browserName }) => {
   // Back to the index page
   await page.getByRole('link', { name: 'Falinks Teambuilder' }).click();
   // Wait for navigation
-  await page.waitForNavigation({ waitUntil: 'networkidle' });
+  await page.waitForNavigation();
 
   // Fill room form to create the second room
   await page.getByRole('tab', { name: 'Tab new room' }).click();
@@ -112,9 +112,9 @@ test('should have room history', async ({ page, baseURL, browserName }) => {
 
   // Add a Pikachu to the team
   await page.getByRole('tab', { name: 'Add new tab' }).click();
-  await page.getByPlaceholder('Species').click();
-  await page.getByPlaceholder('Species').press('Control+a');
-  await page.getByPlaceholder('Species').fill('pika');
+  await page.getByPlaceholder('Pokémon').click();
+  await page.getByPlaceholder('Pokémon').press('Control+a');
+  await page.getByPlaceholder('Pokémon').fill('pika');
   await page.getByRole('cell', { name: 'Pikachu' }).click();
 
   // Back to the index page
