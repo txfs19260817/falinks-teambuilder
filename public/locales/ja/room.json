@@ -1,0 +1,48 @@
+{
+  "addFirstPm": "1匹目のポケモンを追加",
+  "emptySlotDesc": "みがわり人形だけ。",
+  "invalidPaste": "無効なテキスト",
+  "jumpToTab": "タブへ移動",
+  "noPokemonInTeam": "ポケモンがない",
+  "toolbox": {
+    "history-modal": {
+      "clear": "クリア",
+      "description": "編集履歴を表示する",
+      "disableToast": "アラートを禁止",
+      "text": "編集履歴"
+    },
+    "import-ps-modal": {
+      "description": "Showdown Paste または PokePaste リンクからチームを導入する",
+      "import": "導入",
+      "loadExample": "サンプルをロードする",
+      "single": "現在のポケモンのみ上書き",
+      "text": "導入",
+      "title": "Showdown Paste（または PokePaste のリンク）をこちらに残してください↓"
+    },
+    "load-in-showdown-btn": {
+      "description": "Please have the helper userscript installed to use this feature. See About page."
+    },
+    "notes-modal": {
+      "description": "共同編集エディターでチームにメモを追加"
+    },
+    "post-pokepaste-modal": {
+      "description": "パーティを PokePaste またはこのサイトに投稿する",
+      "postError": "ペースト作成時のエラー",
+      "posted": "作成しました！リダイレクトしています...",
+      "posting": "作成中 ...",
+      "text": "輸出・公開"
+    },
+    "redo-btn": {
+      "description": "やり直し",
+      "text": "やり直し"
+    },
+    "share-link-btn": {
+      "description": "現在のルーム リンクを共有する",
+      "text": "共有"
+    },
+    "undo-btn": {
+      "description": "元に戻す",
+      "text": "戻す"
+    }
+  }
+}

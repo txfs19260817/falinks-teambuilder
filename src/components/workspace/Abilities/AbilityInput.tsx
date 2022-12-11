@@ -5,12 +5,6 @@ import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
 import { compareFocusedFieldToIdx, FocusedFieldToIdx } from '@/components/workspace/FocusedField/consts';
 import { getPokemonTranslationKey } from '@/utils/PokemonUtils';
 
-// TODO:
-// - use handleCompsition to replace handleChange to avoid interruption of typing
-// - updatePokemonInTeam accepts the capitalized name. But we want i18n, so the value of input should be the translated name.
-//    - use the translated name to filter the table
-//    - use the capitalized name to update the pokemon in team
-// - add translation for the description of the ability
 function AbilityInput() {
   const { t } = useTranslation(['common', 'abilities']);
   const { teamState, tabIdx, focusedFieldState, focusedFieldDispatch, setGlobalFilter } = useContext(StoreContext);

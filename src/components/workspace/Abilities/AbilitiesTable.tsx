@@ -33,11 +33,11 @@ function AbilitiesTable() {
       {
         header: t('common.description'),
         accessorKey: 'shortDesc',
-        cell: ({ row }) => (
+        cell: ({ row, getValue }) => (
           <span>
             {t(row.original.id, {
               ns: 'ability_descriptions',
-              defaultValue: row.original.shortDesc,
+              defaultValue: getValue<string>(),
             })}
           </span>
         ),

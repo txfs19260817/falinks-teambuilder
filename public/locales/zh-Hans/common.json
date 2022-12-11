@@ -1,5 +1,5 @@
 {
-  "paste": "队伍",
+  "paste": "Paste",
   "usage": "使用率",
   "routes": {
     "home": {
@@ -34,6 +34,7 @@
       "description": "Pokémon Showdown! 使用率统计"
     }
   },
+  "overview": "概览",
   "type": "属性",
   "types": "属性",
   "team": "队伍",
@@ -44,8 +45,8 @@
   "notes": "备注",
   "source": "来源",
   "public": "公开",
-  "private": "私密",
-  "rentalCode": "租借队伍码",
+  "private": "私有",
+  "rentalCode": "租用队伍码",
   "category": "类别",
   "categories": "类别",
   "stats": {
@@ -90,14 +91,14 @@
   "openInRoom": "在房间中打开",
   "insights": "分析",
   "terastallized": "太晶化",
-  "categoryTypes": "类型\\属性",
+  "categoryTypes": "类别\\属性",
   "typeCategoryMatrix": "属性\\类型表",
   "defense": "防守",
   "offense": "进攻",
   "name": "名称",
   "nickname": "昵称",
   "power": "威力",
-  "accuracy": "命中率",
+  "accuracy": "命中",
   "total": "总计",
   "auto": "自动",
   "apply": "应用",
@@ -109,5 +110,6 @@
     "notFound": "未找到预设，请尝试切换至其它对战规则"
   },
   "update": "更新",
-  "delete": "删除"
+  "delete": "删除",
+  "nothing": "空位以待"
 }

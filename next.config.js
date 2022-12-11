@@ -34,7 +34,7 @@ const nextConfig = {
       },
       {
         source: '/usages',
-        destination: '/usages/gen9battlestadiumdoubles' // Update the path when a new format is released
+        destination: '/usages/gen9vgc2023series1' // Update the path when a new format is released
       }
     ];
   },

@@ -1,0 +1,48 @@
+{
+  "addFirstPm": "첫 번째 포켓몬 추가",
+  "emptySlotDesc": "대타출동만.",
+  "invalidPaste": "잘못된 텍스트",
+  "jumpToTab": "탭으로 이동",
+  "noPokemonInTeam": "팀에 포켓몬 없음",
+  "toolbox": {
+    "history-modal": {
+      "clear": "분명한",
+      "description": "기록 표시",
+      "disableToast": "경고 비활성화",
+      "text": "역사"
+    },
+    "import-ps-modal": {
+      "description": "Showdown Paste 또는 PokePaste 링크에서 팀 가져오기",
+      "import": "가져오기",
+      "loadExample": "샘플 로드",
+      "single": "현재 포켓몬만 덮어쓰기",
+      "text": "가져오기",
+      "title": "Showdown Paste (또는 PokePaste 링크)를 여기에 남겨주세요 ↓"
+    },
+    "load-in-showdown-btn": {
+      "description": "Please have the helper userscript installed to use this feature. See About page."
+    },
+    "notes-modal": {
+      "description": "협업 편집기로 팀에 메모 추가"
+    },
+    "post-pokepaste-modal": {
+      "description": "PokePaste 또는 이 사이트에 팀 게시",
+      "postError": "Error",
+      "posted": "성공! 리디렉션 중...",
+      "posting": "만드는 중...",
+      "text": "내보내기 / 게시"
+    },
+    "redo-btn": {
+      "description": "다시 하다",
+      "text": "다시 하다"
+    },
+    "share-link-btn": {
+      "description": "현재 회의실 링크 공유",
+      "text": "공유"
+    },
+    "undo-btn": {
+      "description": "실행 취소",
+      "text": "실행 취소"
+    }
+  }
+}

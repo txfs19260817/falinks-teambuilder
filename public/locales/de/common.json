@@ -1,0 +1,115 @@
+{
+  "ability": "Fähigkeit",
+  "abilities": "Fähigkeiten",
+  "accuracy": "Genauigkeit",
+  "apply": "Anwenden",
+  "author": "Autor",
+  "auto": "Auto",
+  "category": "Kategorie",
+  "categories": "Kategorien",
+  "categoryTypes": "Kategorie \\ Typen",
+  "copiedToClipboard": "📋 Kopiert!",
+  "copy": "Kopieren",
+  "createdAt": "Created At",
+  "defense": "Verteidigung",
+  "delete": "Löschen",
+  "description": "Beschreibung",
+  "details": "Einzelheiten",
+  "evs": "EVs",
+  "format": "Format",
+  "formats": "Formate",
+  "gender": "Geschlecht",
+  "gigantamax": "Gigadynamax",
+  "insights": "Einblicke",
+  "item": "Item",
+  "items": "Items",
+  "ivs": "IVs",
+  "level": "Level",
+  "move": "Attacke",
+  "moves": "Attacken",
+  "name": "Name",
+  "nature": "Wesen",
+  "natures": "Wesens",
+  "nickname": "Spitzname",
+  "notes": "Anmerkungen",
+  "nothing": "Nichts",
+  "offense": "Delikt",
+  "openInRoom": "Im Zimmer öffnen",
+  "overview": "Überblick",
+  "paste": "Paste",
+  "pokemon": "Pokémon",
+  "power": "Stärke",
+  "preset": {
+    "preset": "Preset",
+    "presets": "Presets",
+    "showPreset": "Show Preset",
+    "showTeam": "Show Team",
+    "notFound": "No Preset found, please try to change the format to check out more presets."
+  },
+  "private": "Privatgelände",
+  "public": "Öffentlichkeit",
+  "rentalCode": "Mietcode",
+  "routes": {
+    "home": {
+      "title": "Home",
+      "description": "Home page"
+    },
+    "about": {
+      "title": "About",
+      "description": "About and documentation"
+    },
+    "paste": {
+      "title": "Paste"
+    },
+    "public_pastes": {
+      "title": "User Shared",
+      "description": "User publicly shared PokePaste"
+    },
+    "vgc_pastes": {
+      "title": "VGC Pastes",
+      "description": "Curated PokePaste for Pokémon VGC"
+    },
+    "create_paste": {
+      "title": "Create",
+      "description": "Create a PokePaste public or private"
+    },
+    "search_paste": {
+      "title": "Search",
+      "description": "Search for a PokePaste"
+    },
+    "usage": {
+      "title": "Usage",
+      "description": "Pokémon Showdown! usage statistics"
+    }
+  },
+  "share": "Teilen",
+  "shiny": "Schillernde",
+  "source": "Quelle",
+  "spread": "Spread",
+  "spreads": "Spreads",
+  "stats": {
+    "base": "Base",
+    "stat": "Statuswerte",
+    "stats": "Statuswerten",
+    "hp": "KP",
+    "atk": "Angriff",
+    "def": "Defense",
+    "spa": "Sp.-Ang",
+    "spd": "Sp.-Vert.",
+    "spe": "Speed"
+  },
+  "suggestedEvs": "Suggested EVs Spreads",
+  "suggestions": "Anregungen",
+  "team": "Team",
+  "teammates": "Teamkollegen",
+  "teraType": "Tera-Typ",
+  "terastallized": "Terakristallisierung",
+  "title": "Titel",
+  "total": "Gesamt",
+  "type": "Typ",
+  "typeCategoryMatrix": "Typen \\ Kategorie",
+  "types": "Typen",
+  "update": "Aktualisieren",
+  "usage": "Verwendungszweck",
+  "webApiNotSupported": "📋 Der Link wurde in Ihre Zwischenablage kopiert, da Ihr Browser die Web Share API nicht unterstützt."
+}

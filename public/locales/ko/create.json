@@ -1,0 +1,10 @@
+{
+  "invalidPokePaste": "잘못된 PokePaste 링크",
+  "title": "창조",
+  "form": {
+    "author": {
+      "label": "작가",
+      "placeholder": "작성자 이름 입력"
+    }
+  }
+}

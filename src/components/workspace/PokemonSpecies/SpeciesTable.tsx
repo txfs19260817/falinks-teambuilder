@@ -1,5 +1,5 @@
 import { Specie } from '@pkmn/data';
-import { StatsTable } from '@pkmn/types';
+import type { StatsTable } from '@pkmn/types';
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -31,7 +31,7 @@ import { PresetsSubComponent } from '@/components/workspace/PokemonSpecies/Prese
 import DexSingleton from '@/models/DexSingleton';
 import { Pokemon } from '@/models/Pokemon';
 import { getPokemonTranslationKey } from '@/utils/PokemonUtils';
-import { Usage } from '@/utils/Types';
+import type { Usage } from '@/utils/Types';
 
 function SpeciesTable() {
   const { t } = useTranslation(['common', 'species', 'formes', 'types', 'abilities']);

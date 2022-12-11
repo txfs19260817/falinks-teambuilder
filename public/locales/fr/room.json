@@ -1,0 +1,48 @@
+{
+  "addFirstPm": "Ajouter le premier Pokémon",
+  "emptySlotDesc": "seulement un substitut.",
+  "invalidPaste": "Texte invalide",
+  "jumpToTab": "Aller à l'onglet",
+  "noPokemonInTeam": "Aucun Pokémon dans l'équipe",
+  "toolbox": {
+    "history-modal": {
+      "clear": "Dégager",
+      "description": "Afficher l'historique de la pièce actuelle",
+      "disableToast": "Désactiver l'alerte",
+      "text": "Histoire"
+    },
+    "import-ps-modal": {
+      "description": "Importer une équipe à partir du lien Showdown Paste ou PokePaste",
+      "import": "Importer",
+      "loadExample": "Charger un échantillon",
+      "single": "Écraser uniquement le Pokémon actuel",
+      "text": "Importer",
+      "title": "Veuillez laisser votre Showdown Paste (ou votre lien PokePaste) ici ↓"
+    },
+    "load-in-showdown-btn": {
+      "description": "Please have the helper userscript installed to use this feature. See About page."
+    },
+    "notes-modal": {
+      "description": "Ajoutez des notes à votre équipe avec un éditeur collaboratif"
+    },
+    "post-pokepaste-modal": {
+      "description": "Publiez votre équipe sur PokePaste ou sur ce site",
+      "postError": "Erreur lors de la création de votre Paste",
+      "posted": "Succès! Redirection...",
+      "posting": "Créer...",
+      "text": "Exporter ou publier"
+    },
+    "redo-btn": {
+      "description": "Refaire",
+      "text": "Refaire"
+    },
+    "share-link-btn": {
+      "description": "Partager le lien de la salle actuelle",
+      "text": "Partager"
+    },
+    "undo-btn": {
+      "description": "annuler",
+      "text": "annuler"
+    }
+  }
+}

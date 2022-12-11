@@ -112,13 +112,13 @@ export function PostPokepasteDialog() {
           <div className="modal-action flex-col justify-center">
             <span className="hidden" aria-hidden={true} />
             <button type="submit" className="btn-primary btn-sm btn my-1">
-              {t('room.toolbox.post-pokepaste-modal.to')} PokéPaste
+              🚀 PokéPaste
             </button>
             <button type="button" className="btn-secondary btn-sm btn my-1" onClick={() => handleSubmitToFalinks(false)}>
-              {t('room.toolbox.post-pokepaste-modal.to')} Falinks ({t('common.private')})
+              🚀 Falinks ({t('common.private')})
             </button>
             <button type="button" className="btn-secondary btn-sm btn my-1" onClick={() => handleSubmitToFalinks(true)}>
-              {t('room.toolbox.post-pokepaste-modal.to')} Falinks ({t('common.public')})
+              🚀 Falinks ({t('common.public')})
             </button>
             <button type="button" className="btn-accent btn-sm btn" onClick={copyHandler}>
               {t('common.copy')}

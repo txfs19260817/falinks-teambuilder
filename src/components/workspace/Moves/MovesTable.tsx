@@ -13,7 +13,7 @@ import Loading from '@/templates/Loading';
 import { getMovesBySpecie } from '@/utils/PokemonUtils';
 
 function MovesTable({ moveIdx }: { moveIdx: number }) {
-  const { t } = useTranslation(['common', 'moves', 'categories']);
+  const { t } = useTranslation(['common', 'categories', 'moves', 'move_descriptions', 'types']);
   const { teamState, tabIdx, focusedFieldState, focusedFieldDispatch, globalFilter, setGlobalFilter } = useContext(StoreContext);
 
   // get all moves that learnable by the Pokémon
@@ -104,6 +104,14 @@ function MovesTable({ moveIdx }: { moveIdx: number }) {
         id: 'description',
         header: t('common.description'),
         accessorFn: (row) => (row.shortDesc.length ? row.shortDesc : row.desc),
+        cell: ({ row, getValue }) => (
+          <span>
+            {t(row.original.id, {
+              ns: 'move_descriptions',
+              defaultValue: getValue<string>(),
+            })}
+          </span>
+        ),
         enableColumnFilter: false,
         enableGlobalFilter: false,
         enableSorting: false,

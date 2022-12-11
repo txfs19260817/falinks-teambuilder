@@ -1,0 +1,10 @@
+{
+  "invalidPokePaste": "無効な PokePaste リンク",
+  "title": "パーティ作成",
+  "form": {
+    "author": {
+      "label": "作成者",
+      "placeholder": "作成者名を入力"
+    }
+  }
+}

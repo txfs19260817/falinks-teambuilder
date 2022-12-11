@@ -1,0 +1,10 @@
+{
+  "invalidPokePaste": "無效的 PokePaste 鏈接",
+  "title": "分享隊伍",
+  "form": {
+    "author": {
+      "label": "作者",
+      "placeholder": "请輸入作者姓名"
+    }
+  }
+}

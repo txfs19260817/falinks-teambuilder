@@ -1,0 +1,10 @@
+{
+  "invalidPokePaste": "Ungültiger PokePaste-Link",
+  "title": "Paste erstellen",
+  "form": {
+    "author": {
+      "label": "Autor",
+      "placeholder": "Geben Sie den Namen des Autors ein"
+    }
+  }
+}

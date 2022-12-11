@@ -44,7 +44,7 @@ const defaultPopularItems = [
 ];
 
 function ItemsTable() {
-  const { t } = useTranslation(['common', 'items']);
+  const { t } = useTranslation(['common', 'items', 'item_descriptions']);
   const { teamState, tabIdx, focusedFieldState, focusedFieldDispatch, globalFilter, setGlobalFilter } = useContext(StoreContext);
 
   // fetch popular items by Pokémon
@@ -90,6 +90,14 @@ function ItemsTable() {
         id: 'description',
         header: t('common.description'),
         accessorFn: (row) => (row.shortDesc ? row.shortDesc : row.desc),
+        cell: ({ row, getValue }) => (
+          <span>
+            {t(row.original.id, {
+              ns: 'item_descriptions',
+              defaultValue: getValue<string>(),
+            })}
+          </span>
+        ),
         enableColumnFilter: false,
         enableGlobalFilter: false,
         enableSorting: false,

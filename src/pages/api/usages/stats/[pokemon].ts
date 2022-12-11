@@ -8,7 +8,7 @@ import { ensureInteger } from '@/utils/Helpers';
 
 const gens = new Generations(Dex);
 const smogon = new Smogon(fetch);
-const fallbackFormat = 'gen8battlestadiumdoubles' as ID; // TODO: update it when comes to the first gen9 format
+const fallbackFormat = 'gen9battlestadiumdoubles' as ID; // TODO: update it when comes to the first gen9 format
 
 /**
  * @swagger

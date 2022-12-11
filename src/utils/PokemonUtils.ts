@@ -319,7 +319,7 @@ export const getLatestUsageByFormat: (format?: string) => Promise<UsageStatistic
   const latest = await latestDate(format, true);
   const year = new Date().getFullYear();
   const month = new Date().getMonth(); // 0-11
-  const date = latest?.date ?? (month === 0 ? `${year}-${`${month}`.padStart(2, '0')}` : `${year - 1}-12`);
+  const date = latest?.date ?? (month !== 0 ? `${year}-${`${month}`.padStart(2, '0')}` : `${year - 1}-12`);
   try {
     return process(await fetch(url(date, format)).then((r) => r.text()));
   } catch (e) {

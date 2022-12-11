@@ -107,7 +107,38 @@ function Page(data: InferGetStaticPropsType<typeof getStaticProps>) {
 
 export const getStaticProps: GetStaticProps<{ usages: Usage[]; format: string } & SSRConfig, { format: string }> = async ({ params, locale }) => {
   const format = params?.format ?? AppConfig.defaultFormat;
-  const usages = await postProcessUsage(format);
+  let usages = await postProcessUsage(format);
+  // TODO: a hotfix to remedy the lack of data for 'gen9vgc2023series1' format
+  if (!usages.length && format === 'gen9vgc2023series1') {
+    usages = await postProcessUsage('gen9battlestadiumdoubles');
+    const namesToDrop = new Set([
+      'Galarian Meowth',
+      'Wooper',
+      'Quagsire',
+      'Perrserker',
+      'Great Tusk',
+      'Brute Bonnet',
+      'Sandy Shocks',
+      'Scream Tail',
+      'Flutter Mane',
+      'Slither Wing',
+      'Roaring Moon',
+      'Iron Treads',
+      'Iron Moth',
+      'Iron Hands',
+      'Iron Jugulis',
+      'Iron Thorns',
+      'Iron Bundle',
+      'Iron Valiant',
+      'Ting-Lu',
+      'Chien-Pao',
+      'Wo-Chien',
+      'Chi-Yu',
+      'Koraidon',
+      'Miraidon',
+    ]);
+    usages = usages.filter((e) => !namesToDrop.has(e.name));
+  }
   const N = 100;
 
   return {
