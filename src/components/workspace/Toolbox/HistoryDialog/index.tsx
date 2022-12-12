@@ -63,7 +63,14 @@ export function HistoryDialog() {
               {t('room.toolbox.history-modal.clear')}
             </button>
             <label className="label cursor-pointer">
-              <input type="checkbox" className="toggle-secondary toggle" checked={disableToast} onChange={(e) => setDisableToast(e.target.checked)} />
+              <input
+                type="checkbox"
+                className="toggle-secondary toggle"
+                role="switch"
+                aria-label={t('room.toolbox.history-modal.clear')}
+                checked={disableToast}
+                onChange={(e) => setDisableToast(e.target.checked)}
+              />
               <span className="label-text">{t('room.toolbox.history-modal.disableToast')}</span>
             </label>
           </div>

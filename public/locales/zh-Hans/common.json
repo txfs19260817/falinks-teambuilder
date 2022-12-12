@@ -82,8 +82,6 @@
   "formats": "对战规则",
   "pokemon": "宝可梦",
   "details": "详细",
-  "suggestions": "建议",
-  "suggestedEvs": "建议的努力值分配",
   "copiedToClipboard": "📋 已复制！",
   "webApiNotSupported": "📋 浏览器不支持 Web Share API ，已将其复制到您的剪贴板",
   "share": "分享",

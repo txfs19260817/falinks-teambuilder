@@ -42,6 +42,16 @@
       "postError": "Error when creating your Paste"
     }
   },
+  "suggestion": {
+    "placeholder": "Suggested EVs Spreads",
+    "defaultOptions": {
+      "fps": "Fast Physical Sweeper: 4 HP / 252 Atk / 252 Spe / (+Spe, -SpA)",
+      "fss": "Fast Special Sweeper: 4 HP / 252 SpA / 252 Spe / (+Spe, -Atk)",
+      "bps": "Bulky Physical Sweeper: 252 HP / 252 Atk / 4 SpD (+Atk, -SpA)",
+      "bss": "Bulky Special Sweeper: 252 HP / 252 SpA / 4 SpD / (+SpA, -Atk)",
+      "sd": "Special Defensive: 252 HP / 4 Def / 252 SpD / (+SpD, -Atk)"
+    }
+  },
   "invalidPaste": "Invalid Paste",
   "addFirstPm": "Add the first Pokémon",
   "invalidPasteFromPokePaste": "Invalid team paste fetched from PokePaste",

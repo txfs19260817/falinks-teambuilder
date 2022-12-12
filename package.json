@@ -16,7 +16,9 @@
     "db-syncvgc": "ts-node -O {\\\"module\\\":\\\"commonjs\\\"} prisma/sync_vgcpastes.ts",
     "db-prisma-studio": "prisma studio",
     "db-pull": "prisma db pull",
-    "dev": "next dev",
+    "dev": "run-p dev:next dev:ws",
+    "dev:next": "next dev",
+    "dev:ws": "npx y-websocket@1.4.5 --port 1234",
     "env-pull": "vercel env pull",
     "env-pull-dev": "vercel env pull .env.development.local",
     "export": "next export",
@@ -25,7 +27,6 @@
     "postinstall": "run-s db-generate",
     "prepare": "husky install",
     "start": "next start",
-    "start-ws": "npx y-websocket@1.4.5 --port 1234",
     "pretest": "npx playwright install --with-deps",
     "test": "run-s test:e2e",
     "test:e2e": "playwright test"

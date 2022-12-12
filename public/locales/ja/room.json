@@ -47,5 +47,15 @@
       "text": "戻す"
     }
   },
-  "invalidPasteFromPokePaste": "無効な PokePaste リンク"
+  "invalidPasteFromPokePaste": "無効な PokePaste リンク",
+  "suggestion": {
+    "placeholder": "おすすめの努力値セット",
+    "defaultOptions": {
+      "bps": "耐久性物理アタッカー: 252 HP / 252 Atk / 4 SpD (+Atk, -SpA)",
+      "bss": "耐久性特殊アタッカー: 252 HP / 252 SpA / 4 SpD / (+SpA, -Atk)",
+      "fps": "高速物理スイーパー: 4 HP / 252 Atk / 252 Spe / (+Spe, -SpA)",
+      "fss": "高速特殊スイーパー: 4 HP / 252 SpA / 252 Spe / (+Spe, -Atk)",
+      "sd": "特殊耐久全振り: 252 HP / 4 Def / 252 SpD / (+SpD, -Atk)"
+    }
+  }
 }

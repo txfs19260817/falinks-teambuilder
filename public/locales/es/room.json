@@ -47,5 +47,15 @@
       "text": "Deshacer"
     }
   },
-  "invalidPasteFromPokePaste": "Pasta de equipo no válida obtenida de PokePaste"
+  "invalidPasteFromPokePaste": "Pasta de equipo no válida obtenida de PokePaste",
+  "suggestion": {
+    "placeholder": "Spreads EVs sugeridos",
+    "defaultOptions": {
+      "bps": "Bulky Physical Sweeper: 252 HP / 252 Atk / 4 SpD (+Atk, -SpA)",
+      "bss": "Bulky Special Sweeper: 252 HP / 252 SpA / 4 SpD / (+SpA, -Atk)",
+      "fps": "Fast Physical Sweeper: 4 HP / 252 Atk / 252 Spe / (+Spe, -SpA)",
+      "fss": "Fast Special Sweeper: 4 HP / 252 SpA / 252 Spe / (+Spe, -Atk)",
+      "sd": "Special Defensive: 252 HP / 4 Def / 252 SpD / (+SpD, -Atk)"
+    }
+  }
 }

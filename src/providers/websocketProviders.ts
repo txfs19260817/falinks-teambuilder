@@ -5,7 +5,7 @@ import { WebsocketProvider } from 'y-websocket';
 import { StoreContextType } from '@/models/TeamState';
 import { Providers } from '@/providers/baseProviders';
 
-const serverUrl = `wss://falinks-teambuilder.herokuapp.com/`;
+const serverUrl = process.env.YJS_WS_HOST || 'ws://localhost:1234';
 
 let instance: WebsocketProviders;
 

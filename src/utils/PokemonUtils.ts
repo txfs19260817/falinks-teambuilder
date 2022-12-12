@@ -117,7 +117,7 @@ const hyphenNameToWikiName = new Map<string, string>([
 
 export const defaultSuggestedSpreads: Spreads[] = [
   {
-    label: 'Fast Physical Sweeper: 4 HP / 252 Atk / 252 Spe / (+Spe, -SpA)',
+    label: 'fps',
     nature: 'Jolly',
     evs: {
       hp: 4,
@@ -129,6 +129,7 @@ export const defaultSuggestedSpreads: Spreads[] = [
     },
   },
   {
+    label: 'fss',
     nature: 'Timid',
     evs: {
       hp: 4,
@@ -138,9 +139,9 @@ export const defaultSuggestedSpreads: Spreads[] = [
       spd: 0,
       spe: 252,
     },
-    label: 'Fast Special Sweeper: 4 HP / 252 SpA / 252 Spe / (+SpA, -Atk)',
   },
   {
+    label: 'bps',
     nature: 'Adamant',
     evs: {
       hp: 252,
@@ -150,9 +151,9 @@ export const defaultSuggestedSpreads: Spreads[] = [
       spd: 4,
       spe: 0,
     },
-    label: 'Bulky Physical Sweeper: 252 HP / 252 Atk / 4 SpD / (+Atk, -SpA)',
   },
   {
+    label: 'bss',
     nature: 'Modest',
     evs: {
       hp: 252,
@@ -162,9 +163,9 @@ export const defaultSuggestedSpreads: Spreads[] = [
       spd: 4,
       spe: 0,
     },
-    label: 'Bulky Special Sweeper: 252 HP / 252 SpA / 4 SpD / (+SpA, -Atk)',
   },
   {
+    label: 'sd',
     nature: 'Calm',
     evs: {
       hp: 252,
@@ -174,7 +175,6 @@ export const defaultSuggestedSpreads: Spreads[] = [
       spd: 252,
       spe: 0,
     },
-    label: 'Specially Defensive: 252 HP / 4 Def / 252 SpD / (+SpD, -Atk)',
   },
 ];
 

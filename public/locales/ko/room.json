@@ -47,5 +47,15 @@
       "text": "실행 취소"
     }
   },
-  "invalidPasteFromPokePaste": "잘못된 PokePaste 링크"
+  "invalidPasteFromPokePaste": "잘못된 PokePaste 링크",
+  "suggestion": {
+    "placeholder": "제안된 노력치 할당",
+    "defaultOptions": {
+      "bps": "Bulky Physical Sweeper: 252 HP / 252 Atk / 4 SpD (+Atk, -SpA)",
+      "bss": "Bulky Special Sweeper: 252 HP / 252 SpA / 4 SpD / (+SpA, -Atk)",
+      "fps": "Fast Physical Sweeper: 4 HP / 252 Atk / 252 Spe / (+Spe, -SpA)",
+      "fss": "Fast Special Sweeper: 4 HP / 252 SpA / 252 Spe / (+Spe, -Atk)",
+      "sd": "Special Defensive: 252 HP / 4 Def / 252 SpD / (+SpD, -Atk)"
+    }
+  }
 }

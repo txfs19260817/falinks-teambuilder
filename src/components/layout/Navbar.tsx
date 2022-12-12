@@ -39,7 +39,13 @@ const LanguagePicker = () => {
     push(asPath, asPath, { locale: e.target.value });
   };
   return (
-    <select className="w-xs md:w-sm select-primary select select-xs bg-neutral capitalize md:select-sm" onChange={handleLanguageChange} defaultValue={locale}>
+    <select
+      role="listbox"
+      aria-label="Language Picker"
+      className="w-xs md:w-sm select-primary select select-xs bg-neutral capitalize md:select-sm"
+      onChange={handleLanguageChange}
+      defaultValue={locale}
+    >
       {locales?.map((l) => (
         <option key={l} value={l}>
           {localeMap.get(l)}

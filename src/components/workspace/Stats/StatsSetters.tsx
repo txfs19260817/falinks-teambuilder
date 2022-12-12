@@ -11,7 +11,7 @@ import { defaultIvs, defaultStats, defaultSuggestedSpreads, getSingleEvUpperLimi
 import type { Spreads } from '@/utils/Types';
 
 function StatsSetters() {
-  const { t } = useTranslation(['common', 'natures']);
+  const { t } = useTranslation(['common', 'natures', 'room']);
   const { teamState, tabIdx } = useContext(StoreContext);
 
   // fetch popular spreads by Pokémon
@@ -231,21 +231,23 @@ function StatsSetters() {
         </select>
         {/* Suggestion Selector */}
         <span className="col-span-2 text-center font-bold uppercase" role="columnheader">
-          {t('common.suggestions')}:
+          {' '}
         </span>
         <select
           className="select-bordered select select-xs col-span-6 md:select-sm"
           defaultValue=""
           onChange={handleSuggestionSelectChange}
           role="listbox"
-          aria-label={t('common.suggestedEvs')}
+          aria-label={t('room.suggestion.placeholder')}
         >
           <option value="" disabled>
-            {t('common.suggestedEvs')}
+            {t('room.suggestion.placeholder')}
           </option>
           {(suggestedSpreads || []).concat(defaultSuggestedSpreads).map(({ label }) => (
             <option key={label} value={label}>
-              {label}
+              {t(`room.suggestion.defaultOptions.${label}`, {
+                defaultValue: label,
+              })}
             </option>
           ))}
         </select>

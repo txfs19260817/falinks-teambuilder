@@ -7,7 +7,6 @@ const PORT = process.env.PORT || 3000;
 
 // Set webServer.url and use.baseURL with the location of the WebServer respecting the correct set port
 const baseURL = `http://localhost:${PORT}`;
-const wsURL = `http://localhost:1234`;
 
 // Reference: https://playwright.dev/docs/test-configuration
 const config: PlaywrightTestConfig = {
@@ -28,13 +27,6 @@ const config: PlaywrightTestConfig = {
       url: baseURL,
       // Timeout for waiting until the server is listening on the port in milliseconds
       timeout: 120 * 1000,
-      reuseExistingServer: !process.env.CI,
-    },
-    {
-      command: 'npm run start-ws',
-      url: wsURL,
-      // Timeout for waiting until the server is listening on the port in milliseconds
-      timeout: 30 * 1000,
       reuseExistingServer: !process.env.CI,
     },
   ],
