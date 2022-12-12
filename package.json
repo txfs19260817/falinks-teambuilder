@@ -7,7 +7,7 @@
     "build-prod-local": "run-s clean build start",
     "build-stats": "cross-env ANALYZE=true npm run build",
     "build-types": "tsc --noEmit --pretty --skipLibCheck",
-    "clean": "rimraf .next out coverage",
+    "clean": "rimraf .next out coverage test-results",
     "db-generate": "prisma generate",
     "db-migrate": "prisma migrate deploy",
     "db-migrate-dev": "prisma migrate dev",

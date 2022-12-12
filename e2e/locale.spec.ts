@@ -9,7 +9,7 @@ test('should navigate to the zh-Hans home page', async ({ page, baseURL }) => {
   // Expect to have h1 with the app name
   await expect(page.locator('h1')).toHaveText(AppConfig.title);
   // Expect its next sibling to be a <p> with the app slogan in Chinese
-  await expect(page.locator('h1 + p')).toHaveText('以群体智慧构建下一支强劲的队伍');
+  await expect(page.locator('h1 + p')).toHaveText('以集体智慧构建下一支强劲的队伍');
 });
 
 test('should do cross-language team building', async ({ page, baseURL, browser, browserName }) => {
