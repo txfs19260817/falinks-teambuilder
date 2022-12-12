@@ -1,6 +1,6 @@
 {
   "invalidPokePaste": "無効な PokePaste リンク",
-  "title": "パーティ作成",
+  "title": "チーム作成",
   "form": {
     "author": {
       "label": "作成者",
@@ -17,37 +17,37 @@
     },
     "notes": {
       "label": "ノート",
-      "placeholder": "このパーティに関するメモ"
+      "placeholder": "チームに関するメモ"
     },
     "paste": {
       "error": "無効なテキスト",
-      "placeholder": "Showdown パーティまたは PokePaste リンク"
+      "placeholder": "Showdown チームまたは PokePaste リンク"
     },
     "public": {
-      "private": "プライベート",
-      "public": "パブリック",
-      "warning": "非公開にする場合は、リンクを保存してください。"
+      "private": "非公開",
+      "public": "公開",
+      "warning": "非公開にする場合は、リンクをちゃんとメモしてお願いします。"
     },
     "rental": {
       "label": "レンタルチームID",
-      "description": "このチームのレンタルID、オプション"
+      "description": "ゲームでのレンタルチームID、オプション"
     },
     "source": {
-      "description": "このパーティのソースリンク、オプション",
-      "label": "ソース"
+      "description": "チームのレファレンス、オプション",
+      "label": "レファレンス"
     },
     "submit": {
       "button": "作成",
       "loading": "作成中...",
       "error": "作成中にエラーが発生しました",
-      "success": "作成しました！リダイレクトしています..."
+      "success": "作成しました！ローディング中..."
     },
     "team": {
-      "label": "パーティ"
+      "label": "チーム"
     },
     "title": {
       "label": "題名",
-      "placeholder": "このパーティに名前を付けてください"
+      "placeholder": "チームに名前を付けてください"
     }
   }
 }
