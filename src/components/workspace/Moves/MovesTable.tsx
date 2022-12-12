@@ -1,7 +1,8 @@
 import { Move } from '@pkmn/data';
 import { DisplayUsageStatistics } from '@pkmn/smogon';
-import { ColumnDef, ColumnFiltersState, getCoreRowModel, getFilteredRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table';
-import { useContext, useMemo, useState } from 'react';
+import { ColumnDef, ColumnFiltersState, FilterFnOption, getCoreRowModel, getFilteredRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table';
+import { useTranslation } from 'next-i18next';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import useSWR from 'swr';
 
 import { CategoryIcon } from '@/components/icons/CategoryIcon';
@@ -12,6 +13,7 @@ import Loading from '@/templates/Loading';
 import { getMovesBySpecie } from '@/utils/PokemonUtils';
 
 function MovesTable({ moveIdx }: { moveIdx: number }) {
+  const { t } = useTranslation(['common', 'categories', 'moves', 'move_descriptions', 'types']);
   const { teamState, tabIdx, focusedFieldState, focusedFieldDispatch, globalFilter, setGlobalFilter } = useContext(StoreContext);
 
   // get all moves that learnable by the Pokémon
@@ -45,25 +47,35 @@ function MovesTable({ moveIdx }: { moveIdx: number }) {
   // use a loading component as reading learnset is async
   const isLoading = !learnableMoves;
 
+  // a filter that supports searching by translated name
+  const i18nFilterFn: FilterFnOption<Move> = (row, columnId, filterValue) =>
+    t(row.original.id, { ns: 'moves' }).includes(filterValue) || row.getValue<string>(columnId).toLowerCase().includes(filterValue.toLowerCase());
+
   // table settings
   const columns = useMemo<ColumnDef<Move>[]>(
     () => [
-      { header: 'Name', accessorKey: 'name' },
       {
-        header: 'Type',
+        header: t('common.name'),
+        accessorKey: 'name',
+        cell: ({ row }) => <span>{t(row.original.id, { ns: 'moves' })}</span>,
+        filterFn: i18nFilterFn,
+        sortingFn: (a, b) => t(a.original.id, { ns: 'moves' }).localeCompare(t(b.original.id, { ns: 'moves' })),
+      },
+      {
+        header: t('common.type'),
         accessorKey: 'type',
         cell: (info) => <TypeIcon typeName={info.getValue<string>()} />,
       },
       {
-        header: 'Category',
+        header: t('common.category'),
         accessorKey: 'category',
-        cell: (info) => {
-          const category = info.getValue<string>();
+        cell: ({ getValue }) => {
+          const category = getValue<string>();
           return <CategoryIcon key={category} category={category} />;
         },
       },
       {
-        header: 'Power',
+        header: t('common.power'),
         accessorKey: 'basePower',
         cell: (info) => {
           const power = info.getValue<number>();
@@ -73,7 +85,7 @@ function MovesTable({ moveIdx }: { moveIdx: number }) {
         enableGlobalFilter: false,
       },
       {
-        header: 'Accuracy',
+        header: t('common.accuracy'),
         accessorKey: 'accuracy',
         cell: (info) => {
           const accuracy = info.getValue<number | true>();
@@ -90,8 +102,16 @@ function MovesTable({ moveIdx }: { moveIdx: number }) {
       },
       {
         id: 'description',
-        header: 'Description',
+        header: t('common.description'),
         accessorFn: (row) => (row.shortDesc.length ? row.shortDesc : row.desc),
+        cell: ({ row, getValue }) => (
+          <span>
+            {t(row.original.id, {
+              ns: 'move_descriptions',
+              defaultValue: getValue<string>(),
+            })}
+          </span>
+        ),
         enableColumnFilter: false,
         enableGlobalFilter: false,
         enableSorting: false,
@@ -114,11 +134,26 @@ function MovesTable({ moveIdx }: { moveIdx: number }) {
     getFilteredRowModel: getFilteredRowModel(),
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
+    globalFilterFn: i18nFilterFn,
   });
+
+  // a hook that if there is only one row after filtering,
+  // and its translated name is the same as the global filter, then select it
+  useEffect(() => {
+    const filteredRows = instance.getFilteredRowModel().rows;
+    if (filteredRows.length !== 1) return;
+    // filtered original data
+    const { id, name } = filteredRows[0]!.original;
+    const translatedName = t(id, { ns: 'moves' });
+    if (translatedName !== globalFilter) return;
+    teamState.updatePokemonOneMoveInTeam(tabIdx, moveIdx, name);
+  }, [globalFilter]);
 
   // handle table events
   const handleRowClick = (move?: Move) => {
     if (!move) return;
+    // Trigger the update of Input
+    teamState.triggerUpdate('moves', tabIdx);
     teamState.updatePokemonOneMoveInTeam(tabIdx, moveIdx, move.name);
     focusedFieldDispatch({ type: 'next', payload: focusedFieldState });
   };

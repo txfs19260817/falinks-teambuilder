@@ -1,0 +1,109 @@
+{
+  "ability": "Abilità",
+  "abilities": "Abilità",
+  "accuracy": "Precisione",
+  "category": "Categoria",
+  "apply": "Applicare",
+  "author": "Autore",
+  "auto": "Auto",
+  "categories": "Categorie",
+  "categoryTypes": "Categoria \\ Tipi",
+  "copiedToClipboard": "📋 Copiato!",
+  "copy": "copia",
+  "createdAt": "Creato a",
+  "defense": "Difesa",
+  "delete": "Elimina",
+  "description": "Descrizione",
+  "details": "Particolari",
+  "evs": "EVs",
+  "format": "Formato",
+  "formats": "Formati",
+  "gender": "Genere",
+  "gigantamax": "Gigamax",
+  "insights": "Approfondimenti",
+  "item": "Strumento",
+  "items": "Strumenti",
+  "ivs": "IVs",
+  "level": "Livello",
+  "move": "Mossa",
+  "moves": "Mosse",
+  "name": "Nome",
+  "nature": "Natura",
+  "natures": "Nature",
+  "nickname": "Soprannome",
+  "notes": "Appunti",
+  "nothing": "Niente",
+  "offense": "Offesa",
+  "openInRoom": "Apri in camera",
+  "overview": "Panoramica",
+  "paste": "Paste",
+  "pokemon": "Pokémon",
+  "power": "Potenza",
+  "private": "Privato",
+  "public": "Pubblico",
+  "rentalCode": "Codice noleggio",
+  "share": "Condividi",
+  "shiny": "Cromatico",
+  "source": "Fonte",
+  "team": "Team",
+  "teammates": "Compagne di squadra",
+  "teraType": "Teratipo",
+  "terastallized": "Teracristal",
+  "title": "Titolo",
+  "total": "Totale",
+  "type": "Tipo",
+  "typeCategoryMatrix": "Tipologie \\ Categoria",
+  "types": "Tipi",
+  "update": "Aggiornare",
+  "usage": "Utilizzo",
+  "webApiNotSupported": "📋 Il link è stato copiato negli appunti poiché il tuo browser non supporta l'API Web Share.",
+  "stats": {
+    "hp": "PS",
+    "atk": "Attacco",
+    "def": "Difesa",
+    "spa": "Att. Sp.",
+    "spd": "Dif. Sp.",
+    "spe": "Velocità",
+    "base": "Base",
+    "stat": "Stat",
+    "stats": "Stats"
+  },
+  "preset": {
+    "notFound": "Nessun preset trovato, prova a cambiare il formato per controllare più preset.",
+    "preset": "Preimpostato",
+    "presets": "Preset",
+    "showPreset": "Mostra preimpostazione",
+    "showTeam": "Mostra la squadra"
+  },
+  "routes": {
+    "about": {
+      "description": "Informazioni e documentazione",
+      "title": "Circa"
+    },
+    "create_paste": {
+      "description": "Crea un PokePaste pubblicamente o privatamente",
+      "title": "Creare"
+    },
+    "home": {
+      "description": "Pagina iniziale",
+      "title": "Casa"
+    },
+    "public_pastes": {
+      "description": "PokePaste condiviso pubblicamente dagli utenti",
+      "title": "Utente condiviso"
+    },
+    "search_paste": {
+      "description": "Cerca un PokePaste",
+      "title": "Ricerca"
+    },
+    "usage": {
+      "description": "Pokémon Showdown! statistiche di utilizzo",
+      "title": "Usi"
+    },
+    "vgc_pastes": {
+      "description": "PokePaste curato per Pokémon VGC"
+    }
+  },
+  "spread": "Spread",
+  "spreads": "Spreads"
+}

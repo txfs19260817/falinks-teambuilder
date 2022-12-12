@@ -1,5 +1,6 @@
 import type { Nature } from '@pkmn/dex-types';
 import type { StatsTable } from '@pkmn/types';
+import { useTranslation } from 'next-i18next';
 import type { ChangeEvent, FocusEvent, KeyboardEvent, MouseEvent, TouchEvent } from 'react';
 import { useContext, useEffect, useState } from 'react';
 import useSWR from 'swr';
@@ -10,6 +11,7 @@ import { defaultIvs, defaultStats, defaultSuggestedSpreads, getSingleEvUpperLimi
 import type { Spreads } from '@/utils/Types';
 
 function StatsSetters() {
+  const { t } = useTranslation(['common', 'natures', 'room']);
   const { teamState, tabIdx } = useContext(StoreContext);
 
   // fetch popular spreads by Pokémon
@@ -113,12 +115,12 @@ function StatsSetters() {
       {/* Header */}
       <div role="rowheader" className="grid grid-cols-12 px-4 text-xs font-bold overflow-x-hidden md:gap-x-4 md:text-sm">
         <span></span>
-        <span>Base</span>
-        <span className="invisible md:visible">Nature</span>
-        <span className="mx-2 md:mx-0">EVs</span>
+        <span>{t('common.stats.base')}</span>
+        <span className="invisible md:visible">{t('common.nature')}</span>
+        <span className="mx-2 md:mx-0">{t('common.evs')}</span>
         <span className="col-span-6"></span>
-        <span>IVs</span>
-        <span>Stats</span>
+        <span>{t('common.ivs')}</span>
+        <span>{t('common.stats.stats')}</span>
       </div>
       {/* Sliders */}
       {['hp', 'atk', 'def', 'spa', 'spd', 'spe'].map((stat: string) => {
@@ -130,7 +132,7 @@ function StatsSetters() {
           <div key={stat} className="grid-rows-7 grid grid-cols-12 items-center overflow-hidden px-4 text-xs md:gap-x-4 md:text-sm">
             {/* Column Header */}
             <span className="font-bold uppercase" role="columnheader">
-              {stat}
+              {t(`common.stats.${stat}`)}
             </span>
             {/* Base */}
             <span className="uppercase">{b}</span>
@@ -173,7 +175,7 @@ function StatsSetters() {
               value={ev}
               className={`input-bordered ${
                 nature.plus === stat ? 'input-primary' : nature.minus === stat ? 'input-secondary' : ''
-              } input input-xs col-span-2 mx-2 md:input-sm md:mx-0`}
+              } input input-xs col-span-2 mx-2 md:mx-0 md:input-sm`}
               onChange={(e) => handleEVInputChange(e, ev, stat)}
               onKeyUp={(e) => handleEVInputDone(e, stat)}
               onMouseUp={(e) => handleEVInputDone(e, stat)}
@@ -217,33 +219,35 @@ function StatsSetters() {
       {/* Nature */}
       <div className="grid grid-cols-12 items-center overflow-hidden px-4 py-1 text-xs md:text-sm">
         <span className="font-bold uppercase" role="columnheader">
-          Nature:
+          {t('common.nature')}:
         </span>
         <select id="nature" className="select-bordered select select-xs col-span-2 md:select-sm" value={nature.name} onChange={handleNatureSelectChange}>
-          {natures.map((n) => (
-            <option key={n.name} value={n.name}>
-              {n.name}
-              {n.plus && ` (+${n.plus} / -${n.minus})`}
+          {natures.map(({ id, minus, name, plus }) => (
+            <option key={name} value={name}>
+              {t(id, { ns: 'natures' })}
+              {plus && ` (+${t(`common.stats.${plus}`)} / -${t(`common.stats.${minus}`)})`}
             </option>
           ))}
         </select>
         {/* Suggestion Selector */}
         <span className="col-span-2 text-center font-bold uppercase" role="columnheader">
-          Suggestions:
+          {' '}
         </span>
         <select
           className="select-bordered select select-xs col-span-6 md:select-sm"
           defaultValue=""
           onChange={handleSuggestionSelectChange}
           role="listbox"
-          aria-label="Suggested EV spreads"
+          aria-label={t('room.suggestion.placeholder')}
         >
           <option value="" disabled>
-            Suggested EVs spreads
+            {t('room.suggestion.placeholder')}
           </option>
           {(suggestedSpreads || []).concat(defaultSuggestedSpreads).map(({ label }) => (
             <option key={label} value={label}>
-              {label}
+              {t(`room.suggestion.defaultOptions.${label}`, {
+                defaultValue: label,
+              })}
             </option>
           ))}
         </select>

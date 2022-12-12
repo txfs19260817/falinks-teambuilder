@@ -27,12 +27,25 @@ const LanguagePicker = () => {
   const localeMap: Map<string, string> = new Map([
     ['en', 'English'],
     ['zh-Hans', '简体中文'],
+    ['zh-Hant', '繁體中文'],
+    ['de', 'Deutsch'],
+    ['es', 'Español'],
+    ['fr', 'Français'],
+    ['it', 'Italiano'],
+    ['ja', '日本語'],
+    ['ko', '한국어'],
   ]);
   const handleLanguageChange: ChangeEventHandler<HTMLSelectElement> = (e) => {
     push(asPath, asPath, { locale: e.target.value });
   };
   return (
-    <select className="w-xs md:w-sm select-primary select select-xs bg-neutral capitalize md:select-sm" onChange={handleLanguageChange} defaultValue={locale}>
+    <select
+      role="listbox"
+      aria-label="Language Picker"
+      className="w-xs md:w-sm select-primary select select-xs bg-neutral capitalize md:select-sm"
+      onChange={handleLanguageChange}
+      defaultValue={locale}
+    >
       {locales?.map((l) => (
         <option key={l} value={l}>
           {localeMap.get(l)}

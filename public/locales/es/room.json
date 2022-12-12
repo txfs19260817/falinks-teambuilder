@@ -1,0 +1,61 @@
+{
+  "addFirstPm": "Añade el primer Pokémon",
+  "emptySlotDesc": "solo un suplente.",
+  "invalidPaste": "Paste inválido",
+  "jumpToTab": "Saltar a la pestaña",
+  "noPokemonInTeam": "Ningún Pokémon en el equipo",
+  "toolbox": {
+    "history-modal": {
+      "clear": "Claro",
+      "description": "Mostrar el historial de la sala actual",
+      "disableToast": "Deshabilitar Alerta",
+      "text": "Historia"
+    },
+    "import-ps-modal": {
+      "description": "Importar un equipo desde el enlace Showdown Paste o PokePaste",
+      "import": "Importar",
+      "loadExample": "Cargar una muestra",
+      "single": "Solo sobrescribe el Pokémon actual",
+      "text": "Importar",
+      "title": "Por favor, deja tu Showdown Paste (o enlace de PokePaste) aquí ↓"
+    },
+    "load-in-showdown-btn": {
+      "description": "Please have the helper userscript installed to use this feature. See About page.",
+      "text": "Abierto en Showdown"
+    },
+    "notes-modal": {
+      "description": "Agrega notas a tu equipo con un editor colaborativo",
+      "text": "notas"
+    },
+    "post-pokepaste-modal": {
+      "description": "Publica tu equipo en PokePaste o en este sitio",
+      "postError": "Error al crear tu Pegar",
+      "posted": "¡Éxito! Redireccionando...",
+      "posting": "Creando...",
+      "text": "Exportar o Publicar"
+    },
+    "redo-btn": {
+      "description": "Rehacer",
+      "text": "Rehacer"
+    },
+    "share-link-btn": {
+      "description": "Compartir el enlace de la sala actual",
+      "text": "Compartir"
+    },
+    "undo-btn": {
+      "description": "Deshacer",
+      "text": "Deshacer"
+    }
+  },
+  "invalidPasteFromPokePaste": "Pasta de equipo no válida obtenida de PokePaste",
+  "suggestion": {
+    "placeholder": "Spreads EVs sugeridos",
+    "defaultOptions": {
+      "bps": "Bulky Physical Sweeper: 252 HP / 252 Atk / 4 SpD (+Atk, -SpA)",
+      "bss": "Bulky Special Sweeper: 252 HP / 252 SpA / 4 SpD / (+SpA, -Atk)",
+      "fps": "Fast Physical Sweeper: 4 HP / 252 Atk / 252 Spe / (+Spe, -SpA)",
+      "fss": "Fast Special Sweeper: 4 HP / 252 SpA / 252 Spe / (+Spe, -Atk)",
+      "sd": "Special Defensive: 252 HP / 4 Def / 252 SpD / (+SpD, -Atk)"
+    }
+  }
+}

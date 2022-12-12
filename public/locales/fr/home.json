@@ -1,0 +1,35 @@
+{
+  "slogan": "Constituez la prochaine équipe de choc Pokémon grâce au pouvoir de la collaboration",
+  "form": {
+    "submit": "Créer / Rejoindre",
+    "author": {
+      "button": "Choisissez un nom",
+      "button_title": "Tirer au sort un nom d'auteur",
+      "description": "Aucune inscription requise. Il servira à vous identifier dans la salle.",
+      "placeholder": "S'il vous plaît entrez votre nom",
+      "label": "Nom de l'auteur"
+    },
+    "pokepaste": {
+      "description": "Optionnel. Commencez votre équipe avec un lien PokéPaste.",
+      "label": "Lien PokéPaste"
+    },
+    "protocol": {
+      "description": "Protocole de communication. Veuillez en essayer un autre si l'un ne fonctionne pas.",
+      "label": "Protocole de communication"
+    },
+    "room": {
+      "description": "Vous pouvez partager ce nom de salle pour inviter d'autres personnes.",
+      "label": "Nom de la salle",
+      "placeholder": "Veuillez entrer un nom de salle"
+    }
+  },
+  "tabs": {
+    "room history": "Historique de la pièce",
+    "new room": "Nouvelle pièce"
+  },
+  "history": {
+    "clear": "Histoire claire",
+    "delete": "Effacer",
+    "empty": "Aucune chambre visitée, profitez d'une tasse de café ☕️"
+  }
+}

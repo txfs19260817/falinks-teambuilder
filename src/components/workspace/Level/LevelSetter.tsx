@@ -1,8 +1,10 @@
+import { useTranslation } from 'next-i18next';
 import { ChangeEvent, useContext, useEffect, useState } from 'react';
 
 import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
 
 function LevelSetter() {
+  const { t } = useTranslation();
   const { teamState, tabIdx } = useContext(StoreContext);
   const [level, setLevel] = useState(50);
 
@@ -20,8 +22,8 @@ function LevelSetter() {
 
   return (
     <div className="flex space-x-0.5 text-sm lg:text-lg">
-      <span>Level: </span>
-      <input type="number" value={level} min={0} max={100} className="input input-bordered input-primary input-xs w-full md:input-sm" onChange={handleChange} />
+      <span className="flex-none">{t('common.level')}: </span>
+      <input type="number" value={level} min={0} max={100} className="input-bordered input-primary input input-xs w-full md:input-sm" onChange={handleChange} />
     </div>
   );
 }

@@ -1,0 +1,53 @@
+{
+  "invalidPokePaste": "Collegamento PokePaste non valido",
+  "title": "Creare Paste",
+  "form": {
+    "author": {
+      "label": "Autore",
+      "placeholder": "Inserisci il nome dell'autore"
+    },
+    "created at": {
+      "label": "Creato il"
+    },
+    "details": {
+      "label": "Particolari"
+    },
+    "format": {
+      "label": "Formato"
+    },
+    "notes": {
+      "label": "Appunti",
+      "placeholder": "Note su questa squadra"
+    },
+    "paste": {
+      "error": "Paste non valido",
+      "placeholder": "Showdown importabile o link PokePaste"
+    },
+    "public": {
+      "private": "Privato",
+      "public": "Pubblico",
+      "warning": "Si prega di salvare il collegamento Incolla se lo si rende privato."
+    },
+    "rental": {
+      "label": "Codice noleggio",
+      "description": "Il codice noleggio di questa squadra, facoltativo"
+    },
+    "source": {
+      "description": "Il link alla fonte di questo team, facoltativo",
+      "label": "Fonte"
+    },
+    "submit": {
+      "button": "Inviare",
+      "loading": "Creazione di Paste in corso...",
+      "success": "Paste creato! Redirezione in corso...",
+      "error": "Si è verificato un errore durante la creazione del tuo paste"
+    },
+    "team": {
+      "label": "Team"
+    },
+    "title": {
+      "label": "Titolo",
+      "placeholder": "Dai un nome a questa squadra"
+    }
+  }
+}

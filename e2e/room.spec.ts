@@ -29,14 +29,14 @@ test('should navigate to a new room', async ({ page, baseURL, browser, browserNa
   await expect(page2).toHaveURL(page.url());
   // add a Pokémon on the first page
   await page.getByRole('tab', { name: 'Add new tab' }).click();
-  await page.getByLabel('Species').click();
-  await page.getByLabel('Species').press('Control+a');
-  await page.getByLabel('Species').fill('dond');
+  await page.getByPlaceholder('Pokémon').click();
+  await page.getByPlaceholder('Pokémon').press('Control+a');
+  await page.getByPlaceholder('Pokémon').fill('dond');
   await page.getByRole('cell', { name: 'Dondozo' }).click();
-  await page.getByLabel('Item').click();
-  await page.getByLabel('Item').fill('clear');
+  await page.getByPlaceholder('Item').click();
+  await page.getByPlaceholder('Item').fill('clear');
   await page.getByRole('cell', { name: 'Clear Amulet' }).click();
-  await page.getByLabel('Ability').click();
+  await page.getByPlaceholder('Ability').click();
   await page.getByRole('cell', { name: 'Unaware' }).click();
   await page.getByRole('cell', { name: 'Earthquake' }).click();
   await page.getByRole('cell', { name: 'Protect' }).click();
@@ -46,11 +46,11 @@ test('should navigate to a new room', async ({ page, baseURL, browser, browserNa
   await page.getByLabel('Move 4').click();
   await page.getByLabel('Move 4').fill('li');
   await page.getByRole('cell', { name: 'Liquidation' }).click();
-  await page.getByRole('listbox', { name: 'Suggested EV spreads' }).selectOption('Bulky Physical Sweeper: 252 HP / 252 Atk / 4 SpD / (+Atk, -SpA)');
+  await page.getByRole('listbox', { name: 'Suggested EVs Spreads' }).selectOption('bps');
 
   // verify the outcome on the second page
   await page2.getByRole('tab', { name: 'Tab 1' }).click();
-  await page2.getByText('Status').click();
+  await page2.getByText('Stats').click();
   await expect(page2.getByRole('cell', { name: 'hp stat' })).toHaveText('257');
   await expect(page2.getByRole('cell', { name: 'atk stat' })).toHaveText('167');
   await expect(page2.getByRole('cell', { name: 'def stat' })).toHaveText('135');
@@ -100,7 +100,7 @@ test('should have room history', async ({ page, baseURL, browserName }) => {
   // Back to the index page
   await page.getByRole('link', { name: 'Falinks Teambuilder' }).click();
   // Wait for navigation
-  await page.waitForNavigation({ waitUntil: 'networkidle' });
+  await page.waitForNavigation();
 
   // Fill room form to create the second room
   await page.getByRole('tab', { name: 'Tab new room' }).click();
@@ -112,9 +112,9 @@ test('should have room history', async ({ page, baseURL, browserName }) => {
 
   // Add a Pikachu to the team
   await page.getByRole('tab', { name: 'Add new tab' }).click();
-  await page.getByPlaceholder('Species').click();
-  await page.getByPlaceholder('Species').press('Control+a');
-  await page.getByPlaceholder('Species').fill('pika');
+  await page.getByPlaceholder('Pokémon').click();
+  await page.getByPlaceholder('Pokémon').press('Control+a');
+  await page.getByPlaceholder('Pokémon').fill('pika');
   await page.getByRole('cell', { name: 'Pikachu' }).click();
 
   // Back to the index page

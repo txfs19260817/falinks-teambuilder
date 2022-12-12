@@ -1,3 +1,4 @@
+import { useTranslation } from 'next-i18next';
 import { useContext } from 'react';
 import { toast } from 'react-hot-toast';
 
@@ -6,6 +7,7 @@ import SpriteAvatar from '@/components/workspace/SpriteAvatar/SpriteAvatar';
 import { Pokemon } from '@/models/Pokemon';
 
 export function TeamMembersGallery() {
+  const { t } = useTranslation();
   const { teamState, setTabIdx } = useContext(StoreContext);
   return (
     <div className="grid gap-y-2 gap-x-2 bg-base-200 py-2 px-1 md:grid-cols-2 md:grid-rows-3 lg:grid-cols-3 lg:grid-rows-2">
@@ -18,8 +20,8 @@ export function TeamMembersGallery() {
             <SpriteAvatar idx={i} />
             {!pm ? (
               <div className="card-body">
-                <h2 className="card-title">Nothing</h2>
-                <p>but a substitute.</p>
+                <h2 className="card-title">{t('common.nothing')}</h2>
+                <p>{t('room.emptySlotDesc')}</p>
               </div>
             ) : (
               <div className="card-body py-1 px-4">
@@ -31,16 +33,16 @@ export function TeamMembersGallery() {
                       setTabIdx(i);
                     }}
                   >
-                    Jump to Tab
+                    {t('room.jumpToTab')}
                   </button>
                   <button
                     className="btn-secondary btn-sm btn"
                     onClick={() => {
-                      navigator.clipboard.writeText(pmPaste).then(() => toast('📋 Copied!'));
+                      navigator.clipboard.writeText(pmPaste).then(() => toast(t('common.copiedToClipboard')));
                     }}
                   >
                     <span>📋</span>
-                    <span>Copy</span>
+                    <span>{t('common.copy')}</span>
                   </button>
                 </div>
               </div>

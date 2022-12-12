@@ -1,8 +1,10 @@
+import { useTranslation } from 'next-i18next';
 import { ChangeEvent, useContext, useEffect, useState } from 'react';
 
 import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
 
 function ShinyToggle() {
+  const { t } = useTranslation();
   const { teamState, tabIdx } = useContext(StoreContext);
   const [checked, setChecked] = useState(false);
 
@@ -18,7 +20,7 @@ function ShinyToggle() {
 
   return (
     <div className="md:text-md flex inline-flex space-x-0.5 text-xs">
-      <label>Shiny</label>
+      <label>{t('common.shiny')}</label>
       <div className="whitespace-nowrap">
         <label className="swap swap-flip">
           <input type="checkbox" checked={checked} onChange={(e) => handleChange(e)} />

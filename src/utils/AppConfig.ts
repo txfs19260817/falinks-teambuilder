@@ -56,12 +56,6 @@ const routes: Route[] = [
     target: '_self',
   },
   {
-    id: 'gen9dex',
-    name: 'Gen 9 Dex',
-    path: '/gen9dex',
-    target: '_self',
-  },
-  {
     id: 'about',
     name: 'About',
     path: '/about',

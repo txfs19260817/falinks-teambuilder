@@ -37,6 +37,8 @@ const Room = () => {
   // Set up the initial team if the pokepaste url is given and valid
   const [basePokePaste, setBasePokePaste] = useState<BasePokePaste | undefined>();
   useEffect(() => {
+    // If a packed team string is given in the query params, use it;
+    // else if the PokePaste url is set and valid, fetch the team data
     if (packed) {
       setBasePokePaste(Pokemon.convertPackedTeamToTeam(packed));
     } else if (isValidPokePasteURL(pokePasteUrl)) {
@@ -45,7 +47,7 @@ const Room = () => {
       });
     }
 
-    // Remove PokePaste link from URL to allow for sharing
+    // Remove PokePaste link and the packed team from URL to allow for sharing
     const url = new URL(window.location.href);
     const params = new URLSearchParams(url.search);
     params.delete('pokepaste');
@@ -76,7 +78,7 @@ const Room = () => {
 export async function getStaticProps({ locale }: { locale: string }) {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ['common'])),
+      ...(await serverSideTranslations(locale)),
     },
   };
 }

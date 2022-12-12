@@ -6,7 +6,7 @@
       "placeholder": "Give this team a name"
     },
     "author": {
-      "label": "Author Name",
+      "label": "Author",
       "placeholder": "Enter author's name"
     },
     "paste": {
@@ -41,7 +41,7 @@
     "public": {
       "public": "Public",
       "private": "Private",
-      "warning": "Please save your paste link if you make it private."
+      "warning": "Please save your Paste link if you make it private."
     },
     "submit": {
       "button": "Submit",

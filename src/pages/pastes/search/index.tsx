@@ -96,7 +96,7 @@ const Search = () => {
             {/* Species */}
             <div className="form-control">
               <label className="label">
-                <span className="label-text after:text-error after:content-['_*']">{t('search.form.species.label')}</span>
+                <span className="label-text after:text-error after:content-['_*']">{t('common.pokemon')}</span>
               </label>
               {/* Species Criterion */}
               <div className="grid grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-3">
@@ -148,7 +148,7 @@ const Search = () => {
                       <div className="grid grid-flow-col gap-1 md:grid-rows-2">
                         {/* Item */}
                         <label className="label">
-                          <span className="label-text font-bold">{t('search.form.species.item')}</span>
+                          <span className="label-text font-bold">{t('common.item')}</span>
                         </label>
                         <Select
                           itemClassName="w-5/6"
@@ -173,7 +173,7 @@ const Search = () => {
                         />
                         {/* Ability */}
                         <label className="label">
-                          <span className="label-text font-bold">{t('search.form.species.ability')}</span>
+                          <span className="label-text font-bold">{t('common.ability')}</span>
                         </label>
                         <select
                           className="select-bordered select select-sm w-full"
@@ -192,7 +192,7 @@ const Search = () => {
                       </div>
                       {/* Moves */}
                       <label className="label">
-                        <span className="label-text font-bold">{t('search.form.species.moves')}</span>
+                        <span className="label-text font-bold">{t('common.moves')}</span>
                       </label>
                       <div className="grid grid-cols-2 gap-1">
                         {field.moves.map((move, i) => (
@@ -216,7 +216,7 @@ const Search = () => {
                               update(index, { ...field, moves: newMoves });
                             }}
                             ariaLabel={`Move ${i + 1} Select ${index}`}
-                            placeholder={`${t('search.form.species.moves')} ${i + 1}`}
+                            placeholder={`${t('common.move')} ${i + 1}`}
                           />
                         ))}
                       </div>
@@ -227,7 +227,7 @@ const Search = () => {
                       <div className="flex flex-wrap">
                         {stats.map((stat) => (
                           <div key={stat} className="grid w-1/2 grid-cols-6 gap-1 p-1">
-                            <label>{t(`search.stats.${stat}`)}</label>
+                            <label>{t(`common.stats.${stat}`)}</label>
                             <input
                               type="number"
                               role="spinbutton"
@@ -272,7 +272,7 @@ const Search = () => {
             {/* Format */}
             <div className="form-control">
               <label className="label">
-                <span className="label-text after:text-error after:content-['_*']">{t('search.form.format')}</span>
+                <span className="label-text after:text-error after:content-['_*']">{t('common.format')}</span>
               </label>
               <FormatSelector
                 inputGroup={false}

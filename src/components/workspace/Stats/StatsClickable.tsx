@@ -1,4 +1,5 @@
 import { StatID, StatsTable } from '@pkmn/types';
+import { useTranslation } from 'next-i18next';
 import { useContext, useEffect, useState } from 'react';
 
 import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
@@ -7,6 +8,7 @@ import DexSingleton from '@/models/DexSingleton';
 import { defaultStats, getStats } from '@/utils/PokemonUtils';
 
 function StatsClickable() {
+  const { t } = useTranslation(['common']);
   const thisFocusedFieldState: FocusedFieldToIdx = { Stats: 0 };
   const { teamState, tabIdx, focusedFieldState, focusedFieldDispatch } = useContext(StoreContext);
   const natures = Array.from(DexSingleton.getGen().natures);
@@ -46,7 +48,7 @@ function StatsClickable() {
         })
       }
     >
-      <span>Status</span>
+      <span>{t('common.stats.stats')}</span>
       <div
         role="rowgroup"
         className={`border border-primary bg-base-100 hover:bg-base-200 ${
@@ -55,9 +57,9 @@ function StatsClickable() {
       >
         {Object.entries(stats).map(([key, value]) => (
           <div role="progressbar" key={key} className="flex flex-wrap items-center justify-between px-1 md:py-1">
-            <label className="w-10 flex-none uppercase">{key}: </label>
-            <meter className="invisible w-full flex-1 sm:visible" min={0} max={300} low={100} high={150} optimum={200} value={value} title={`${value}`} />
-            <label className="text-xs md:w-10 md:text-lg">{value}</label>
+            <label className="w-16 flex-none text-sm uppercase">{t(`common.stats.${key}`)}: </label>
+            <meter className="w-full flex-1" min={0} max={300} low={100} high={150} optimum={200} value={value} title={`${value}`} />
+            <label className="w-12 flex-none">{value}</label>
           </div>
         ))}
       </div>

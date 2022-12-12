@@ -1,0 +1,17 @@
+{
+  "any": "N'importe quel",
+  "title": "Recherche Avancée",
+  "form": {
+    "rental": "Code de location requis",
+    "species": {
+      "error": "Veuillez ajouter au moins un Pokémon à rechercher.",
+      "evRanges": "EVs (min à max)"
+    },
+    "submit": {
+      "button": "Envoyer",
+      "loading": "Recherche de colles...",
+      "success": "Fait!",
+      "error": "Une erreur s'est produite lors du traitement de votre demande."
+    }
+  }
+}

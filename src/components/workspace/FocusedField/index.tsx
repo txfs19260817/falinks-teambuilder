@@ -16,6 +16,7 @@ export function useFieldAutoChange(initialState: FocusedFieldToIdx, setGlobalFil
     const { type, payload } = action;
     switch (type) {
       case 'set':
+        setGlobalFilter('');
         return payload;
       case 'next': {
         const [field, idx] = (Object.entries(curState)[0] ?? ['', 0]) as [FocusedField, number]; // idx is only used for switching between moves

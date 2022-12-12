@@ -1,0 +1,17 @@
+{
+  "any": "Ningún",
+  "title": "Búsqueda Avanzada",
+  "form": {
+    "rental": "Código de equipo requerido",
+    "species": {
+      "error": "Agrega al menos un Pokémon para buscar.",
+      "evRanges": "EVs (mín. a máx.)"
+    },
+    "submit": {
+      "button": "Enviar",
+      "loading": "Buscando pegatinas...",
+      "success": "¡Hecho!",
+      "error": "Se produjo un error al procesar su solicitud."
+    }
+  }
+}

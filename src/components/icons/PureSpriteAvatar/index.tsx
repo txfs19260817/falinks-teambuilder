@@ -23,7 +23,7 @@ export function PureSpriteAvatar({ species, shiny, gender, gen }: SpriteAvatarPr
   return (
     <div className="avatar flex items-center justify-center py-1">
       <figure className="h-32">
-        <Image src={url} alt="sprite" layout="fill" objectFit="contain" priority={true} />
+        <Image src={url} alt={species} title={species} layout="fill" objectFit="contain" priority={true} aria-label="Pokémon" />
       </figure>
     </div>
   );

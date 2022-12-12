@@ -21,13 +21,15 @@ const config: PlaywrightTestConfig = {
 
   // Run your local dev server before starting the tests:
   // https://playwright.dev/docs/test-advanced#launching-a-development-web-server-during-the-tests
-  webServer: {
-    command: 'npm run dev',
-    url: baseURL,
-    // Timeout for waiting until the server is listening on the port in milliseconds
-    timeout: 120 * 1000,
-    reuseExistingServer: !process.env.CI,
-  },
+  webServer: [
+    {
+      command: 'npm run dev',
+      url: baseURL,
+      // Timeout for waiting until the server is listening on the port in milliseconds
+      timeout: 120 * 1000,
+      reuseExistingServer: !process.env.CI,
+    },
+  ],
 
   use: {
     // Use baseURL so to make navigations relative.
@@ -38,10 +40,16 @@ const config: PlaywrightTestConfig = {
     // More information: https://playwright.dev/docs/trace-viewer
     trace: 'retry-with-trace',
 
+    // Use the en-US locale for all tests
+    locale: 'en-US',
+
     // All available context options: https://playwright.dev/docs/api/class-browser#browser-new-context
     // contextOptions: {
     //   ignoreHTTPSErrors: true,
     // },
+
+    // Record video only when retrying a test for the first time
+    video: 'on-first-retry',
   },
 
   projects: [
@@ -74,7 +82,7 @@ const config: PlaywrightTestConfig = {
     {
       name: 'Mobile Safari',
       use: devices['iPhone 12'],
-      timeout: 90 * 1000,
+      timeout: 80 * 1000,
     },
   ],
 };
