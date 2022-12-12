@@ -44,7 +44,7 @@
     "preset": "プリセット",
     "presets": "プリセット",
     "showPreset": "プリセットを表示",
-    "showTeam": "元のパーティを表示"
+    "showTeam": "元のチームを表示"
   },
   "private": "プライベート",
   "public": "パブリック",
@@ -67,7 +67,7 @@
       "title": "パブリック"
     },
     "search_paste": {
-      "description": "パーティーを検索",
+      "description": "チームーを検索",
       "title": "検索"
     },
     "usage": {
@@ -92,7 +92,7 @@
     "stat": "ステータス",
     "stats": "ステータス"
   },
-  "team": "パーティ",
+  "team": "チーム",
   "teammates": "チームメイト",
   "teraType": "テラスタイプ",
   "terastallized": "テラスタル",
