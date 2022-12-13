@@ -1,4 +1,4 @@
-import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next';
+import type { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next';
 import { useRouter } from 'next/router';
 import { SSRConfig, useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
@@ -23,10 +23,10 @@ const UsagePage = ({ usages, format }: { usages: Usage[]; format: string }) => {
   const drawerID = useId();
   const { push } = useRouter();
   const { t } = useTranslation(['common']);
-  const [selectedIndex, setSelectedIndex] = useState<number>(0);
+  const [selectedRank, setSelectedRank] = useState<number>(usages?.at(0)?.rank ?? 0);
   const pokeUsage = useMemo<Usage | undefined>(() => {
-    return Array.isArray(usages) && usages.length > selectedIndex ? usages[selectedIndex] : undefined;
-  }, [selectedIndex, usages]);
+    return (usages || []).find((u) => u.rank === selectedRank);
+  }, [selectedRank, usages]);
 
   return (
     <Main title={t('common.usage')}>
@@ -93,7 +93,7 @@ const UsagePage = ({ usages, format }: { usages: Usage[]; format: string }) => {
                 push(`/usages/${e.target.value}`);
               }}
             />
-            <PokemonFilter usages={usages} drawerID={drawerID} setSelectedIndex={setSelectedIndex} />
+            <PokemonFilter usages={usages} drawerID={drawerID} setSelectedRank={setSelectedRank} />
           </ul>
         </div>
       </div>

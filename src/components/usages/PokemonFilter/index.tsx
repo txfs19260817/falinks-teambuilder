@@ -7,11 +7,11 @@ import type { Usage } from '@/utils/Types';
 
 type PokemonFilterProps = {
   usages: Usage[];
-  setSelectedIndex: (i: number) => void;
+  setSelectedRank: (r: number) => void;
   drawerID: string;
 };
 
-export function PokemonFilter({ usages, drawerID, setSelectedIndex }: PokemonFilterProps) {
+export function PokemonFilter({ usages, drawerID, setSelectedRank }: PokemonFilterProps) {
   const { t } = useTranslation(['common', 'usages']);
   const [pokemonNameFilter, setPokemonNameFilter] = useState<string>('');
   return (
@@ -35,7 +35,7 @@ export function PokemonFilter({ usages, drawerID, setSelectedIndex }: PokemonFil
               htmlFor={drawerID}
               role="button"
               className="btn-ghost btn-block btn m-1 w-full bg-base-100 text-xs"
-              onClick={() => setSelectedIndex(rank)} // rank is 0-indexed and is equivalent to the origin index in the usages array
+              onClick={() => setSelectedRank(rank)} // rank is 0-indexed and is equivalent to the origin index in the usages array
             >
               <PokemonIcon speciesId={name} />
               <span>{t(getPokemonTranslationKey(name, 'species'))}</span>
