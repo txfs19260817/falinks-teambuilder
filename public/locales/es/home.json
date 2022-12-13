@@ -10,7 +10,7 @@
       "label": "Nombre del autor"
     },
     "pokepaste": {
-      "description": "Opcional. Comience su equipo con un enlace de PokéPaste.",
+      "description": "Opcional. Comience su trabajo en equipo con un enlace de PokéPaste.",
       "label": "Enlace PokéPaste"
     },
     "protocol": {
@@ -18,7 +18,7 @@
       "label": "Protocolo de comunicación"
     },
     "room": {
-      "description": "Puede compartir el nombre de esta sala para invitar a otros.",
+      "description": "Puedes compartir el nombre de esta sala con otras personas para invitarlas a formar un equipo juntas.",
       "label": "Nombre de la habitación",
       "placeholder": "Por favor, introduzca un nombre de habitación"
     }

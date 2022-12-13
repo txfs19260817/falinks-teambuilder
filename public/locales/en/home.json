@@ -14,12 +14,12 @@
     },
     "pokepaste": {
       "label": "PokéPaste Link",
-      "description": "Optional. Start your team with a PokéPaste link."
+      "description": "Optional. Start your team-building with a PokéPaste link."
     },
     "room": {
       "label": "Room Name",
       "placeholder": "Please enter a room name",
-      "description": "You can share this room name to invite others."
+      "description": "You can share this room name with other people to invite them to build a team together."
     },
     "protocol": {
       "label": "Communication Protocol",

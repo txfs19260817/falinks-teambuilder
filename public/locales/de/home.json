@@ -1,24 +1,24 @@
 {
-  "slogan": "Baue das nächste großartige Pokémon-Team mit der Kraft der Zusammenarbeit auf",
+  "slogan": "Baue das nächste großartige Pokémon-Team mit der Kraft der Zusammenarbeit",
   "form": {
     "submit": "Erstellen / Beitreten",
     "author": {
-      "button": "Wählen Sie einen Namen",
+      "button": "Verlosen Sie einen Namen",
       "button_title": "Ziehen Sie zufällig einen Autorennamen",
       "description": "Keine Anmeldung erforderlich. Es wird verwendet, um Sie im Raum zu identifizieren.",
       "placeholder": "Bitte geben Sie Ihren Namen ein",
       "label": "Autorenname"
     },
     "pokepaste": {
-      "description": "Optional. Starten Sie Ihr Team mit einem PokéPaste-Link.",
+      "description": "Optional. Starten Sie Ihren Teambau mit einem Poképaste-Team",
       "label": "PokéPaste-Link"
     },
     "protocol": {
-      "description": "Kommunikationsprotokoll. Bitte versuchen Sie es mit einem anderen, wenn einer nicht funktioniert.",
+      "description": "Kommunikationsprotokoll. Bitte versuchen Sie das andere, wenn eines nicht funktioniert.",
       "label": "Kommunikationsprotokoll"
     },
     "room": {
-      "description": "Sie können diesen Raumnamen teilen, um andere einzuladen.",
+      "description": "Sie können andere Leute an diesem Raumnamen teilhaben, um sie einzuladen, ein Team zusammen zu bauen.",
       "label": "Raumname",
       "placeholder": "Bitte geben Sie einen Raumnamen ein"
     }
@@ -30,6 +30,6 @@
   "history": {
     "clear": "Verlauf löschen",
     "delete": "Löschen",
-    "empty": "Kein Zimmer besucht, genieße eine Tasse Kaffee ☕️"
+    "empty": "Keinen Raum besucht, Bitte genießen Sie diese Tasse Kaffee ☕️"
   }
 }
