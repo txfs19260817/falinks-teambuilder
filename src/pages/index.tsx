@@ -52,12 +52,12 @@ const RoomForm = () => {
       })}
     >
       <div className="form-control">
-        <label className="label" htmlFor={'userName'}>
+        <label className="label" htmlFor="userName">
           <span className="label-text after:text-error after:content-['_*']">{t('home.form.author.label')}</span>
         </label>
         <div className="flex">
           <input
-            id={'userName'}
+            id="userName"
             role="textbox"
             aria-label="Author Name"
             type="text"
@@ -69,7 +69,7 @@ const RoomForm = () => {
           />
           <button
             title={t('home.form.author.button_title')}
-            className="btn rounded-l-none tracking-tighter"
+            className="btn w-44 flex-none rounded-l-none tracking-tighter"
             role="button"
             aria-label="Draw a name randomly"
             type="button"
