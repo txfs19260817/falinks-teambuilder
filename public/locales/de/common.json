@@ -11,10 +11,10 @@
   "copiedToClipboard": "📋 Kopiert!",
   "copy": "Kopieren",
   "createdAt": "Created At",
-  "defense": "Verteidigung",
+  "defense": "Verteidigen",
   "delete": "Löschen",
   "description": "Beschreibung",
-  "details": "Einzelheiten",
+  "details": "Details",
   "evs": "EVs",
   "format": "Format",
   "formats": "Formate",
@@ -31,9 +31,9 @@
   "nature": "Wesen",
   "natures": "Wesens",
   "nickname": "Spitzname",
-  "notes": "Anmerkungen",
+  "notes": "Bemerkungen",
   "nothing": "Nichts",
-  "offense": "Delikt",
+  "offense": "Angreifen",
   "openInRoom": "Im Raum öffnen",
   "overview": "Überblick",
   "paste": "Paste",
@@ -46,23 +46,23 @@
     "showTeam": "Zeigen Sie die Team",
     "notFound": "Keine Voreinstellung gefunden, bitte versuchen Sie, das Format zu ändern, um weitere Voreinstellungen auszuprobieren."
   },
-  "private": "Privatgelände",
-  "public": "Öffentlichkeit",
+  "private": "Privat",
+  "public": "Öffentlich",
   "rentalCode": "Mietcode",
   "routes": {
     "home": {
-      "title": "Zuhause",
+      "title": "Hauptseite",
       "description": "Startseite"
     },
     "about": {
-      "title": "Über",
+      "title": "About",
       "description": "Über und Dokumentation"
     },
     "paste": {
       "title": "Paste"
     },
     "public_pastes": {
-      "title": "Benutzer freigegeben",
+      "title": "Benutzerbeiträge",
       "description": "Öffentlich geteilte PokePaste der Benutzer"
     },
     "vgc_pastes": {
@@ -70,15 +70,15 @@
       "description": "Kuratierte PokePaste für Pokémon VGC"
     },
     "create_paste": {
-      "title": "Schaffen",
+      "title": "Erstellen",
       "description": "Erstellen Sie öffentlich oder privat eine PokePaste"
     },
     "search_paste": {
-      "title": "Search",
+      "title": "Durchsuchen",
       "description": "Suchen Sie nach einer PokePaste"
     },
     "usage": {
-      "title": "Verwendungen",
+      "title": "Nutzungsraten",
       "description": "Pokémon Showdown! Nutzungsstatistiken"
     }
   },

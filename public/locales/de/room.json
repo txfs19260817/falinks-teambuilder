@@ -1,20 +1,31 @@
 {
-  "addFirstPm": "Füge das erste Pokémon hinzu",
-  "emptySlotDesc": "nur ein Ersatz.",
+  "addFirstPm": "Fügen Sie das erste Pokémon hinzu",
+  "emptySlotDesc": "Es gibt nur eine Delegator-Puppe.",
   "invalidPaste": "Ungültiger Paste",
+  "invalidPasteFromPokePaste": "Ungültige Teampaste von PokePaste abgerufen",
   "jumpToTab": "Zur Registerkarte springen",
   "noPokemonInTeam": "Kein Pokémon im Team",
+  "suggestion": {
+    "placeholder": "Vorgeschlagene EVs Spreads",
+    "defaultOptions": {
+      "bps": "Bulky Physical Sweeper: 252 HP / 252 Atk / 4 SpD (+Atk, -SpA)",
+      "bss": "Bulky Special Sweeper: 252 HP / 252 SpA / 4 SpD / (+SpA, -Atk)",
+      "fps": "Fast Physical Sweeper: 4 HP / 252 Atk / 252 Spe / (+Spe, -SpA)",
+      "fss": "Fast Special Sweeper: 4 HP / 252 SpA / 252 Spe / (+Spe, -Atk)",
+      "sd": "Special Defensive: 252 HP / 4 Def / 252 SpD / (+SpD, -Atk)"
+    }
+  },
   "toolbox": {
     "history-modal": {
-      "clear": "Klar",
+      "clear": "Entleeren",
       "description": "Zeigt den Verlauf des aktuellen Raums an",
       "disableToast": "Warnung deaktivieren",
-      "text": "Geschichte"
+      "text": "Protokoll"
     },
     "import-ps-modal": {
-      "description": "Importieren Sie ein Team aus dem Showdown Paste- oder PokePaste-Link",
+      "description": "Bitte fügen Sie Ihre Showdown-Paste (oder Ihren PokePaste-Link) hier ein",
       "import": "Importieren",
-      "loadExample": "Laden Sie eine Probe",
+      "loadExample": "Eine Probe Laden",
       "single": "Überschreibe nur das aktuelle Pokémon",
       "text": "Importieren",
       "title": "Bitte hinterlassen Sie Ihre Showdown-Paste (oder Ihren PokePaste-Link) hier ↓"
@@ -44,18 +55,7 @@
     },
     "undo-btn": {
       "description": "Rückgängig machen",
-      "text": "Rückgängig machen"
-    }
-  },
-  "invalidPasteFromPokePaste": "Ungültige Teampaste von PokePaste abgerufen",
-  "suggestion": {
-    "placeholder": "Vorgeschlagene EVs Spreads",
-    "defaultOptions": {
-      "bps": "Bulky Physical Sweeper: 252 HP / 252 Atk / 4 SpD (+Atk, -SpA)",
-      "bss": "Bulky Special Sweeper: 252 HP / 252 SpA / 4 SpD / (+SpA, -Atk)",
-      "fps": "Fast Physical Sweeper: 4 HP / 252 Atk / 252 Spe / (+Spe, -SpA)",
-      "fss": "Fast Special Sweeper: 4 HP / 252 SpA / 252 Spe / (+Spe, -Atk)",
-      "sd": "Special Defensive: 252 HP / 4 Def / 252 SpD / (+SpD, -Atk)"
+      "text": "Rückgängig"
     }
   }
 }

@@ -7,7 +7,7 @@
       "placeholder": "Geben Sie den Namen des Autors ein"
     },
     "created at": {
-      "label": "Erstellt am"
+      "label": "Erstellen am"
     },
     "details": {
       "label": "Einzelheiten"
@@ -16,8 +16,8 @@
       "label": "Format"
     },
     "notes": {
-      "label": "Anmerkungen",
-      "placeholder": "Anmerkungen zu diesem Team"
+      "label": "Bemerkungen",
+      "placeholder": "Bemerkungen zu diesem Team"
     },
     "paste": {
       "error": "Ungültiger Paste",
