@@ -226,8 +226,8 @@ const Search = () => {
                       </label>
                       <div className="flex flex-wrap">
                         {stats.map((stat) => (
-                          <div key={stat} className="grid w-1/2 grid-cols-6 gap-1 p-1">
-                            <label>{t(`common.stats.${stat}`)}</label>
+                          <div key={stat} className="grid w-1/2 grid-cols-12 gap-1 p-1">
+                            <label className="col-span-3 text-sm">{t(`common.stats.${stat}`)}</label>
                             <input
                               type="number"
                               role="spinbutton"
@@ -236,7 +236,7 @@ const Search = () => {
                               min={0}
                               max={252}
                               placeholder="0"
-                              className="input-bordered input-secondary input input-xs col-span-2"
+                              className="input-bordered input-secondary input input-xs col-span-4"
                               {...register(`speciesCriterion.${index}.minEVs.${stat}` as `speciesCriterion.${number}.minEVs.hp`)}
                             />
                             <span className="text-center">~</span>
@@ -248,7 +248,7 @@ const Search = () => {
                               min={0}
                               max={252}
                               placeholder="252"
-                              className="input-bordered input-primary input input-xs col-span-2"
+                              className="input-bordered input-primary input input-xs col-span-4"
                               {...register(`speciesCriterion.${index}.maxEVs.${stat}` as `speciesCriterion.${number}.maxEVs.hp`)}
                             />
                           </div>

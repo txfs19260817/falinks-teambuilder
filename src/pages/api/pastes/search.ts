@@ -33,11 +33,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<PastesList>) =>
     })
     .then((pastes) =>
       // filter out pastes that don't match the criteria
-      pastes.filter(
-        ({ jsonPaste }) =>
-          // should have evs
-          (jsonPaste as unknown as PokemonSet[]).at(0)?.evs != null &&
-          // AND criteria
+      pastes
+        .filter(({ jsonPaste }) =>
+          // every one should have evs
+          (jsonPaste as unknown as PokemonSet[]).every((p) => p.evs != null)
+        )
+        .filter(({ jsonPaste }) =>
           speciesCriterion.every((s) =>
             // OR target
             (jsonPaste as unknown as PokemonSet[]).some(
@@ -47,7 +48,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<PastesList>) =>
                 Object.entries(t.evs).every(([k, v]) => +s.minEVs[k as StatID] <= v && v <= +s.maxEVs[k as StatID])
             )
           )
-      )
+        )
     );
 
   // return the results without the jsonPaste field
