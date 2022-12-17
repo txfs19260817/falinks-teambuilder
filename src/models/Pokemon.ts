@@ -260,6 +260,102 @@ export class Pokemon implements PokemonSet {
     return Sets.exportSet(p).replace(/\n$/, '');
   }
 
+  static exportSetToTranslatedPaste(s: Pokemon | PokemonSet, t: (key: string, options?: { ns: string; defaultValue: string }) => string): string {
+    const data = DexSingleton.getDex();
+    const statsList = ['hp', 'atk', 'def', 'spa', 'spd', 'spe'] as const;
+    let buf = '';
+
+    // Species
+    const { num, name } = data.species.get(s.species || s.name || '');
+    const species = t(`${num}`, {
+      ns: 'species',
+      defaultValue: name,
+    });
+    buf += `${species}`;
+
+    // Gender
+    if (s.gender === 'M') buf += ' (♂)';
+    if (s.gender === 'F') buf += ' (♀)';
+
+    // Item
+    if (s.item) {
+      const item = data?.items.get(s.item)?.id ?? s.item;
+      buf += ` @ ${t(item, { ns: 'items', defaultValue: s.item })}`;
+    }
+    buf += '  \n';
+    if (s.ability) {
+      const ability = data?.abilities.get(s.ability)?.id ?? s.ability;
+      buf += `${t('common.ability')}: ${t(ability, {
+        ns: 'abilities',
+        defaultValue: s.ability,
+      })}  \n`;
+    }
+    if (s.level && s.level !== 100) {
+      buf += `${t('common.level')}: ${s.level}  \n`;
+    }
+    if (s.gigantamax) {
+      buf += `${t('common.gigantamax')}: √  \n`;
+    }
+    if (s.teraType) {
+      buf += `${t('common.teraType')}: ${t(s.teraType.toLowerCase(), {
+        ns: 'types',
+        defaultValue: s.teraType,
+      })}  \n`;
+    }
+    let first = true;
+    if (s.evs) {
+      statsList.forEach((stat) => {
+        if (s.evs[stat]) {
+          if (first) {
+            buf += `${t('common.evs')}: `;
+            first = false;
+          } else {
+            buf += ' / ';
+          }
+          buf += `${s.evs[stat]} ${t(`common.stats.${stat}`)}`;
+        }
+      });
+    }
+    if (!first) {
+      buf += '  \n';
+    }
+    if (s.nature && (!data || data.gen >= 3)) {
+      buf += `${t(s.nature.toLowerCase(), {
+        ns: 'natures',
+        defaultValue: s.nature,
+      })} ${t('common.nature')} \n`;
+    }
+    first = true;
+    if (s.ivs) {
+      const notDefaultIVs = statsList.some((stat) => s.ivs[stat] !== 31 && s.ivs[stat] !== undefined);
+      if (notDefaultIVs) {
+        statsList.forEach((stat) => {
+          if (s.ivs[stat] !== 31) {
+            if (first) {
+              buf += `${t('common.ivs')}: `;
+              first = false;
+            } else {
+              buf += ' / ';
+            }
+            buf += `${s.ivs[stat]} ${t(`common.stats.${stat}`)}`;
+          }
+        });
+      }
+    }
+    if (!first) {
+      buf += '  \n';
+    }
+    s.moves.forEach((m) => {
+      buf += `- ${t(data?.moves.get(m)?.id, {
+        ns: 'moves',
+        defaultValue: m,
+      })}  \n`;
+    });
+    buf += '\n';
+
+    return buf;
+  }
+
   static importSet(s: string): Pokemon {
     const { species, name, item, ability, moves, nature, evs, gender, ivs, level, gigantamax, teraType, happiness, shiny } = Sets.importSet(s);
     return new Pokemon(species as string, name, item, ability, moves, nature, evs, gender, ivs, level, gigantamax, teraType, happiness, shiny);
@@ -278,6 +374,10 @@ export class Pokemon implements PokemonSet {
 
   static convertTeamToPaste(t: Pokemon[]): string {
     return new Team(t).export();
+  }
+
+  static convertTeamToTranslatedPaste(team: Pokemon[], t: (key: string, options?: { ns: string }) => string): string {
+    return team.map((p) => this.exportSetToTranslatedPaste(p, t)).join('');
   }
 
   static convertPasteToPackedTeam(s: string): string {

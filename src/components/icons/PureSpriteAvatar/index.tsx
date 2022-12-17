@@ -1,29 +1,32 @@
 import { Sprites } from '@pkmn/img';
-import { GenderName, GenerationNum } from '@pkmn/types';
+import type { GenderName, GenerationNum } from '@pkmn/types';
 import Image from 'next/legacy/image';
+import { useTranslation } from 'next-i18next';
 
+import DexSingleton from '@/models/DexSingleton';
 import { AppConfig } from '@/utils/AppConfig';
 
 type SpriteAvatarProps = {
-  species?: string;
+  speciesId?: string;
   shiny?: boolean;
   gender?: GenderName;
   gen?: GenerationNum;
 };
 
-export function PureSpriteAvatar({ species, shiny, gender, gen }: SpriteAvatarProps) {
-  const url = species
-    ? Sprites.getPokemon(species, {
-        gen: gen ?? (AppConfig.defaultGen as GenerationNum),
+export function PureSpriteAvatar({ speciesId, shiny, gender, gen = AppConfig.defaultGen as GenerationNum }: SpriteAvatarProps) {
+  const { t } = useTranslation();
+  const url = speciesId
+    ? Sprites.getPokemon(speciesId, {
+        gen,
         shiny,
         gender,
       }).url
     : 'https://play.pokemonshowdown.com/sprites/ani/substitute.gif';
-
+  const translatedName = speciesId ? t(DexSingleton.getGen().species.get(speciesId)?.num, { ns: 'species' }) || speciesId : t('substitute', { ns: 'common' });
   return (
     <div className="avatar flex items-center justify-center py-1">
       <figure className="h-32">
-        <Image src={url} alt={species} title={species} layout="fill" objectFit="contain" priority={true} aria-label="Pokémon" />
+        <Image src={url} alt={translatedName} title={translatedName} layout="fill" objectFit="contain" priority={true} aria-label="Pokémon" />
       </figure>
     </div>
   );

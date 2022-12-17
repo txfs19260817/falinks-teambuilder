@@ -109,5 +109,7 @@
   "types": "Typen",
   "update": "Aktualisieren",
   "usage": "Verwendungszweck",
-  "webApiNotSupported": "📋 Der Link wurde in Ihre Zwischenablage kopiert, da Ihr Browser die Web Share API nicht unterstützt."
+  "substitute": "Delegator",
+  "webApiNotSupported": "📋 Der Link wurde in Ihre Zwischenablage kopiert, da Ihr Browser die Web Share API nicht unterstützt.",
+  "translated": "Übersetzung anzeigen"
 }

@@ -105,5 +105,7 @@
   "usage": "しようりつ",
   "webApiNotSupported": "📋 お使いのブラウザーは Web Share API をサポートしていないため、リンクはクリップボードにコピーされました。",
   "spread": "分配",
-  "spreads": "分配"
+  "spreads": "分配",
+  "substitute": "みがわり",
+  "translated": "翻訳を表示"
 }

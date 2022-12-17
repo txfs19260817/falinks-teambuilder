@@ -14,7 +14,7 @@ function InfoCard({ speciesName }: { speciesName: string }) {
   return (
     <div className="card bg-base-100 shadow-xl">
       {/* Avatar */}
-      <PureSpriteAvatar species={speciesName} />
+      <PureSpriteAvatar speciesId={speciesName} />
       <div className="card-body">
         {/* Name */}
         <div className="card-title">

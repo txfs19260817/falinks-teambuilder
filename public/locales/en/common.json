@@ -109,5 +109,7 @@
   "types": "Types",
   "update": "Update",
   "usage": "Usage",
-  "webApiNotSupported": "📋 The link has been copied to your clipboard as your browser does not support Web Share API."
+  "substitute": "Substitute",
+  "webApiNotSupported": "📋 The link has been copied to your clipboard as your browser does not support Web Share API.",
+  "translated": "Show translation"
 }

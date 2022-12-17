@@ -105,5 +105,7 @@
   "usage": "使用率",
   "webApiNotSupported": "📋 該鏈接已復製到您的剪貼板，因為您的瀏覽器不支持 Web Share API。",
   "spread": "分配",
-  "spreads": "分配"
+  "spreads": "分配",
+  "substitute": "替身",
+  "translated": "顯示翻譯"
 }

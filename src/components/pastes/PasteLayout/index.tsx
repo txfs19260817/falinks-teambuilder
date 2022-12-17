@@ -1,7 +1,7 @@
 import type { TypeEffectiveness } from '@pkmn/data';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import useSWRImmutable from 'swr/immutable';
 
@@ -17,6 +17,10 @@ import { Paste } from '@/utils/Prisma';
 const PasteAndFunctions = ({ team, paste }: { team: Pokemon[]; paste: NonNullable<Paste> }) => {
   const { locale, push } = useRouter();
   const { t } = useTranslation(['common']);
+  const [showTranslated, setShowTranslated] = useState(false);
+  const translatedPaste = useMemo(() => {
+    return Pokemon.convertTeamToTranslatedPaste(Pokemon.convertPasteToTeam(paste.paste) || [], t);
+  }, []);
 
   // handlers
   const handleCopy = () => {
@@ -45,7 +49,7 @@ const PasteAndFunctions = ({ team, paste }: { team: Pokemon[]; paste: NonNullabl
       {/* avatars */}
       <div className="hidden grid-rows-6 md:grid">
         {team.map((p) => (
-          <PureSpriteAvatar key={p.species} species={p.species} shiny={p.shiny} />
+          <PureSpriteAvatar key={p.species} speciesId={p.species} shiny={p.shiny} />
         ))}
       </div>
       <div className="grid w-1/2 grid-cols-3 justify-items-center align-middle md:hidden">
@@ -54,9 +58,13 @@ const PasteAndFunctions = ({ team, paste }: { team: Pokemon[]; paste: NonNullabl
         ))}
       </div>
       {/* paste */}
-      <pre className="ml-5 w-4/5 whitespace-pre-wrap">{paste.paste}</pre>
+      {showTranslated && locale !== 'en' ? (
+        <pre className="ml-5 w-4/5 whitespace-pre-wrap">{translatedPaste}</pre>
+      ) : (
+        <pre className="ml-5 w-4/5 whitespace-pre-wrap">{paste.paste}</pre>
+      )}
       {/* metadata */}
-      <div className="prose ml-5 w-4/5 py-6">
+      <div className="prose row-start-1 ml-5 w-4/5 py-6">
         <h1>{paste.title}</h1>
         <h3>
           {t('common.author')}: {paste.author}
@@ -81,7 +89,12 @@ const PasteAndFunctions = ({ team, paste }: { team: Pokemon[]; paste: NonNullabl
         <p className="break-all">
           {t('common.notes')}: {paste.notes}
         </p>
-        <div className="flex justify-around">
+        <div className="form-control justify-around gap-1.5">
+          <label className="label cursor-pointer">
+            <span className="label-text">PokePaste</span>
+            <input type="checkbox" className="toggle-primary toggle" checked={showTranslated} onChange={() => setShowTranslated((s) => !s)} />
+            <span className="label-text">{t('common.translated')}</span>
+          </label>
           <button className="btn-primary btn-sm btn" type="button" onClick={handleCopy}>
             {t('common.copy')} PokePaste
           </button>

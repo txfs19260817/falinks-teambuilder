@@ -12,7 +12,7 @@ type SpriteAvatarProps = {
 function SpriteAvatar({ idx, pokemon }: SpriteAvatarProps) {
   const { teamState, tabIdx } = useContext(StoreContext);
   const { species, shiny } = pokemon ?? teamState.getPokemonInTeam(idx ?? tabIdx) ?? {};
-  return <PureSpriteAvatar species={species} shiny={shiny} />;
+  return <PureSpriteAvatar speciesId={species} shiny={shiny} />;
 }
 
 export default SpriteAvatar;

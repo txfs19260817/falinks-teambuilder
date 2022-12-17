@@ -109,5 +109,7 @@
   },
   "update": "更新",
   "delete": "删除",
-  "nothing": "空位以待"
+  "nothing": "空位以待",
+  "substitute": "替身",
+  "translated": "显示翻译"
 }

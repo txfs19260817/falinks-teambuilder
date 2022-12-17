@@ -13,6 +13,7 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { useContext, useState } from 'react';
 
@@ -23,6 +24,7 @@ import { Pokemon } from '@/models/Pokemon';
 import type { PastesList, PastesListItem } from '@/utils/Prisma';
 
 const PastesTable = ({ pastes }: { pastes: PastesList }) => {
+  const { locale } = useRouter();
   const { t } = useTranslation(['common']);
   const { globalFilter, setGlobalFilter } = useContext(StoreContext);
 
@@ -59,7 +61,13 @@ const PastesTable = ({ pastes }: { pastes: PastesList }) => {
     {
       header: t('common.createdAt'),
       accessorKey: 'createdAt',
-      cell: ({ getValue }) => <span>{new Date(getValue<string>()).toLocaleDateString()}</span>,
+      cell: ({ getValue }) => (
+        <span>
+          {new Intl.DateTimeFormat(locale ?? 'en-US', {
+            dateStyle: 'long',
+          }).format(new Date(getValue<string>()))}
+        </span>
+      ),
       enableColumnFilter: false,
       enableGlobalFilter: false,
     },
