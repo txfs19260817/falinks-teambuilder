@@ -1,7 +1,7 @@
 import type { TypeEffectiveness } from '@pkmn/data';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { toast } from 'react-hot-toast';
 import useSWRImmutable from 'swr/immutable';
 
@@ -18,9 +18,7 @@ const PasteAndFunctions = ({ team, paste }: { team: Pokemon[]; paste: NonNullabl
   const { locale, push } = useRouter();
   const { t } = useTranslation(['common']);
   const [showTranslated, setShowTranslated] = useState(false);
-  const translatedPaste = useMemo(() => {
-    return Pokemon.convertTeamToTranslatedPaste(Pokemon.convertPasteToTeam(paste.paste) || [], t);
-  }, []);
+  const translatedPaste = Pokemon.convertTeamToTranslatedPaste(Pokemon.convertPasteToTeam(paste.paste) || [], t);
 
   // handlers
   const handleCopy = () => {

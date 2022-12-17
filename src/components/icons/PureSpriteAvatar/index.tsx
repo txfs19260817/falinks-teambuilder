@@ -26,7 +26,7 @@ export function PureSpriteAvatar({ speciesId, shiny, gender, gen = AppConfig.def
   return (
     <div className="avatar flex items-center justify-center py-1">
       <figure className="h-32">
-        <Image src={url} alt={translatedName} title={translatedName} layout="fill" objectFit="contain" priority={true} aria-label="Pokémon" />
+        <Image src={url} alt={translatedName} title={translatedName} layout="fill" objectFit="contain" priority={true} aria-label={translatedName} />
       </figure>
     </div>
   );

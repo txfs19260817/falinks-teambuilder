@@ -1,17 +1,1 @@
-{
-  "title": "Advanced Search",
-  "any": "Any",
-  "form": {
-    "species": {
-      "error": "Please add at least one Pokémon to search for.",
-      "evRanges": "EVs (min to max)"
-    },
-    "rental": "Rental code required",
-    "submit": {
-      "button": "Submit",
-      "loading": "Searching Pastes...",
-      "success": "Done!",
-      "error": "An error occurred when processing your request."
-    }
-  }
-}
+{"title":"Advanced Search","any":"Any","form":{"species":{"error":"Please add at least one Pokémon to search for.","evRanges":"EVs (min to max)"},"rental":"Rental code required","submit":{"button":"Submit","loading":"Searching Pastes...","success":"Done!","error":"An error occurred when processing your request."}}}

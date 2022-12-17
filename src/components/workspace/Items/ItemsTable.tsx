@@ -80,7 +80,12 @@ function ItemsTable() {
         cell: ({ getValue, row }) => (
           <span>
             <ItemIcon itemName={getValue<string>()} />
-            <span>{t(row.original.id, { ns: 'items' })}</span>
+            <span>
+              {t(row.original.id, {
+                ns: 'items',
+                defaultValue: getValue<string>(),
+              })}
+            </span>
           </span>
         ),
         filterFn: i18nFilterFn,

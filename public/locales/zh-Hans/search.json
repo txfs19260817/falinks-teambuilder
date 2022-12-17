@@ -1,17 +1,1 @@
-{
-  "title": "高级搜索",
-  "any": "不限",
-  "form": {
-    "species": {
-      "error": "请至少选择一只宝可梦",
-      "evRanges": "努力值（最小值到最大值）"
-    },
-    "rental": "必须有租借队伍码",
-    "submit": {
-      "button": "搜索",
-      "loading": "搜索中...",
-      "success": "搜索成功！",
-      "error": "搜索失败"
-    }
-  }
-}
+{"title":"高级搜索","any":"不限","form":{"species":{"error":"请至少选择一只宝可梦","evRanges":"努力值（最小值到最大值）"},"rental":"必须有租借队伍码","submit":{"button":"搜索","loading":"搜索中...","success":"搜索成功！","error":"搜索失败"}}}
