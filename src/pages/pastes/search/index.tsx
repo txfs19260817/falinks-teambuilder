@@ -43,6 +43,7 @@ const Search = () => {
       speciesCriterion: [],
       format: AppConfig.defaultFormat,
       hasRentalCode: false,
+      officialOnly: true,
     },
   });
   const { fields, append, remove, update } = useFieldArray({
@@ -286,6 +287,13 @@ const Search = () => {
               <label className="label cursor-pointer">
                 <span className="label-text after:text-error after:content-['_*']">{t('search.form.rental')}</span>
                 <input type="checkbox" className="checkbox" {...register('hasRentalCode')} />
+              </label>
+            </div>
+            {/* Official pastes only */}
+            <div className="form-control">
+              <label className="label cursor-pointer">
+                <span className="label-text after:text-error after:content-['_*']">{t('search.form.official')}</span>
+                <input type="checkbox" className="checkbox" {...register('officialOnly')} />
               </label>
             </div>
             <div className="form-control mt-6">

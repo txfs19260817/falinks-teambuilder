@@ -12,7 +12,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<PastesList>) =>
   if (!req.body) {
     return res.status(400);
   }
-  const { format, hasRentalCode, speciesCriterion } = req.body as SearchPasteForm;
+  const { format, hasRentalCode, speciesCriterion, officialOnly } = req.body as SearchPasteForm;
 
   // search for pastes using jsonPaste JSONB field
   const results = await prisma.pokepaste
@@ -21,6 +21,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<PastesList>) =>
       where: {
         format: format.length > 0 ? format : undefined,
         rentalCode: hasRentalCode ? { not: null } : undefined,
+        isOfficial: officialOnly ? true : undefined,
         jsonPaste: {
           path: [],
           array_contains: speciesCriterion.map(({ species, ability, item }) => ({

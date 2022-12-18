@@ -1,1 +1,18 @@
-{"any":"어느","title":"고급 검색","form":{"rental":"대여 코드 필요","species":{"error":"검색할 포켓몬을 하나 이상 추가하세요.","evRanges":"노력치 (최소에서 최대)"},"submit":{"button":"제출","loading":"붙여넣기 검색 중...","success":"완료!","error":"요청을 처리하는 중 오류가 발생했습니다."}}}
+{
+  "any": "어느",
+  "title": "고급 검색",
+  "form": {
+    "rental": "대여 코드 필요",
+    "species": {
+      "error": "검색할 포켓몬을 하나 이상 추가하세요.",
+      "evRanges": "노력치 (최소에서 최대)"
+    },
+    "submit": {
+      "button": "제출",
+      "loading": "붙여넣기 검색 중...",
+      "success": "완료!",
+      "error": "요청을 처리하는 중 오류가 발생했습니다."
+    },
+    "official": "VGCPastes 전용"
+  }
+}

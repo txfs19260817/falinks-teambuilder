@@ -47,6 +47,7 @@ export type SearchPasteForm = {
   speciesCriterion: SearchPastePokemonCriteria[];
   format: string;
   hasRentalCode: boolean;
+  officialOnly: boolean;
 };
 
 export type Spreads = {
