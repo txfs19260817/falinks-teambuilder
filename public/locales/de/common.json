@@ -1,1 +1,115 @@
-{"ability":"Fähigkeit","abilities":"Fähigkeiten","accuracy":"Genauigkeit","apply":"Anwenden","author":"Autor","auto":"Auto","category":"Kategorie","categories":"Kategorien","categoryTypes":"Kategorie \\ Typen","copiedToClipboard":"📋 Kopiert!","copy":"Kopieren","createdAt":"Created At","defense":"Verteidigen","delete":"Löschen","description":"Beschreibung","details":"Details","evs":"EVs","format":"Format","formats":"Formate","gender":"Geschlecht","gigantamax":"Gigadynamax","insights":"Einblicke","item":"Item","items":"Items","ivs":"IVs","level":"Level","move":"Attacke","moves":"Attacken","name":"Name","nature":"Wesen","natures":"Wesens","nickname":"Spitzname","notes":"Bemerkungen","nothing":"Nichts","offense":"Angreifen","openInRoom":"Im Raum öffnen","overview":"Überblick","paste":"Paste","pokemon":"Pokémon","power":"Stärke","preset":{"preset":"Voreinstellung","presets":"Voreinstellungen","showPreset":"Show Preset","showTeam":"Zeigen Sie die Team","notFound":"Keine Voreinstellung gefunden, bitte versuchen Sie, das Format zu ändern, um weitere Voreinstellungen auszuprobieren."},"private":"Privat","public":"Öffentlich","rentalCode":"Mietcode","routes":{"home":{"title":"Hauptseite","description":"Startseite"},"about":{"title":"About","description":"Über und Dokumentation"},"paste":{"title":"Paste"},"public_pastes":{"title":"Benutzerbeiträge","description":"Öffentlich geteilte PokePaste der Benutzer"},"vgc_pastes":{"title":"VGC Pastes","description":"Kuratierte PokePaste für Pokémon VGC"},"create_paste":{"title":"Erstellen","description":"Erstellen Sie öffentlich oder privat eine PokePaste"},"search_paste":{"title":"Durchsuchen","description":"Suchen Sie nach einer PokePaste"},"usage":{"title":"Nutzungsraten","description":"Pokémon Showdown! Nutzungsstatistiken"}},"share":"Teilen","shiny":"Schillernde","source":"Quelle","spread":"Spread","spreads":"Spreads","stats":{"base":"Base","stat":"Statuswerte","stats":"Statuswerten","hp":"KP","atk":"Angriff","def":"Defense","spa":"Sp.-Ang","spd":"Sp.-Vert.","spe":"Speed"},"team":"Team","teammates":"Teamkollegen","teraType":"Tera-Typ","terastallized":"Terakristallisierung","title":"Titel","total":"Gesamt","type":"Typ","typeCategoryMatrix":"Typen \\ Kategorie","types":"Typen","update":"Aktualisieren","usage":"Verwendungszweck","substitute":"Delegator","webApiNotSupported":"📋 Der Link wurde in Ihre Zwischenablage kopiert, da Ihr Browser die Web Share API nicht unterstützt.","translated":"Übersetzung anzeigen"}
+{
+  "ability": "Fähigkeit",
+  "abilities": "Fähigkeiten",
+  "accuracy": "Genauigkeit",
+  "apply": "Anwenden",
+  "author": "Autor",
+  "auto": "Auto",
+  "category": "Kategorie",
+  "categories": "Kategorien",
+  "categoryTypes": "Kategorie \\ Typen",
+  "copiedToClipboard": "📋 Kopiert!",
+  "copy": "Kopieren",
+  "createdAt": "Created At",
+  "defense": "Verteidigen",
+  "delete": "Löschen",
+  "description": "Beschreibung",
+  "details": "Details",
+  "evs": "EVs",
+  "format": "Format",
+  "formats": "Formate",
+  "gender": "Geschlecht",
+  "gigantamax": "Gigadynamax",
+  "insights": "Einblicke",
+  "item": "Item",
+  "items": "Items",
+  "ivs": "IVs",
+  "level": "Level",
+  "move": "Attacke",
+  "moves": "Attacken",
+  "name": "Name",
+  "nature": "Wesen",
+  "natures": "Wesens",
+  "nickname": "Spitzname",
+  "notes": "Anmerkungen",
+  "nothing": "Nichts",
+  "offense": "Angreifen",
+  "openInRoom": "Im Raum öffnen",
+  "overview": "Überblick",
+  "paste": "Paste",
+  "pokemon": "Pokémon",
+  "power": "Stärke",
+  "preset": {
+    "preset": "Voreinstellung",
+    "presets": "Voreinstellungen",
+    "showPreset": "Show Preset",
+    "showTeam": "Zeigen Sie die Team",
+    "notFound": "Keine Voreinstellung gefunden, bitte versuchen Sie, das Format zu ändern, um weitere Voreinstellungen auszuprobieren."
+  },
+  "private": "Privat",
+  "public": "Öffentlich",
+  "rentalCode": "Mietcode",
+  "routes": {
+    "home": {
+      "title": "Hauptseite",
+      "description": "Startseite"
+    },
+    "about": {
+      "title": "About",
+      "description": "Über und Dokumentation"
+    },
+    "paste": {
+      "title": "Paste"
+    },
+    "public_pastes": {
+      "title": "Benutzerbeiträge",
+      "description": "Öffentlich geteilte PokePaste der Benutzer"
+    },
+    "vgc_pastes": {
+      "title": "VGC Pastes",
+      "description": "Kuratierte PokePaste für Pokémon VGC"
+    },
+    "create_paste": {
+      "title": "Erstellen",
+      "description": "Erstellen Sie öffentlich oder privat eine PokePaste"
+    },
+    "search_paste": {
+      "title": "Durchsuchen",
+      "description": "Suchen Sie nach einer PokePaste"
+    },
+    "usage": {
+      "title": "Nutzungsraten",
+      "description": "Pokémon Showdown! Nutzungsstatistiken"
+    }
+  },
+  "share": "Teilen",
+  "shiny": "Schillernde",
+  "source": "Quelle",
+  "spread": "Spread",
+  "spreads": "Spreads",
+  "stats": {
+    "base": "Base",
+    "stat": "Statuswerte",
+    "stats": "Statuswerten",
+    "hp": "KP",
+    "atk": "Angriff",
+    "def": "Defense",
+    "spa": "Sp.-Ang",
+    "spd": "Sp.-Vert.",
+    "spe": "Speed"
+  },
+  "team": "Team",
+  "teammates": "Teamkollegen",
+  "teraType": "Tera-Typ",
+  "terastallized": "Terakristallisierung",
+  "title": "Titel",
+  "total": "Gesamt",
+  "type": "Typ",
+  "typeCategoryMatrix": "Typen \\ Kategorie",
+  "types": "Typen",
+  "update": "Aktualisieren",
+  "usage": "Verwendungszweck",
+  "substitute": "Delegator",
+  "webApiNotSupported": "📋 Der Link wurde in Ihre Zwischenablage kopiert, da Ihr Browser die Web Share API nicht unterstützt.",
+  "translated": "Übersetzung anzeigen"
+}

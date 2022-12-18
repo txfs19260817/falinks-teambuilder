@@ -1,1 +1,61 @@
-{"addFirstPm":"Add the first Pokémon","emptySlotDesc":"Only a substitute.","invalidPaste":"Invalid Paste","invalidPasteFromPokePaste":"Invalid team paste fetched from PokePaste","jumpToTab":"Jump to Tab","noPokemonInTeam":"No Pokémon in team","suggestion":{"placeholder":"Suggested EVs Spreads","defaultOptions":{"fps":"Fast Physical Sweeper: 4 HP / 252 Atk / 252 Spe / (+Spe, -SpA)","fss":"Fast Special Sweeper: 4 HP / 252 SpA / 252 Spe / (+Spe, -Atk)","bps":"Bulky Physical Sweeper: 252 HP / 252 Atk / 4 SpD (+Atk, -SpA)","bss":"Bulky Special Sweeper: 252 HP / 252 SpA / 4 SpD / (+SpA, -Atk)","sd":"Special Defensive: 252 HP / 4 Def / 252 SpD / (+SpD, -Atk)"}},"toolbox":{"share-link-btn":{"text":"Share","description":"Share the current room link"},"undo-btn":{"text":"Undo","description":"Undo"},"redo-btn":{"text":"Redo","description":"Redo"},"load-in-showdown-btn":{"text":"Load in Showdown","description":"Please have the helper userscript installed to use this feature. See About page."},"history-modal":{"text":"History","description":"Show the history of the current room","clear":"Clear","disableToast":"Disable Alert"},"notes-modal":{"text":"Notes","description":"Add notes to your team with a collaborative editor"},"import-ps-modal":{"text":"Import","description":"Import a team from Showdown Paste or PokePaste link","title":"Please leave your Showdown Paste (or PokePaste link) here ↓","single":"Only overwrite the current Pokémon","loadExample":"Load a Sample","import":"Import"},"post-pokepaste-modal":{"text":"Export or Post","description":"Post your team to PokePaste or this site","posting":"Creating ...","posted":"Success! Redirecting...","postError":"Error when creating your Paste"}}}
+{
+  "addFirstPm": "Add the first Pokémon",
+  "emptySlotDesc": "Only a substitute.",
+  "invalidPaste": "Invalid Paste",
+  "invalidPasteFromPokePaste": "Invalid team paste fetched from PokePaste",
+  "jumpToTab": "Jump to Tab",
+  "noPokemonInTeam": "No Pokémon in team",
+  "suggestion": {
+    "placeholder": "Suggested EVs Spreads",
+    "defaultOptions": {
+      "fps": "Fast Physical Sweeper: 4 HP / 252 Atk / 252 Spe / (+Spe, -SpA)",
+      "fss": "Fast Special Sweeper: 4 HP / 252 SpA / 252 Spe / (+Spe, -Atk)",
+      "bps": "Bulky Physical Sweeper: 252 HP / 252 Atk / 4 SpD (+Atk, -SpA)",
+      "bss": "Bulky Special Sweeper: 252 HP / 252 SpA / 4 SpD / (+SpA, -Atk)",
+      "sd": "Special Defensive: 252 HP / 4 Def / 252 SpD / (+SpD, -Atk)"
+    }
+  },
+  "toolbox": {
+    "share-link-btn": {
+      "text": "Share",
+      "description": "Share the current room link"
+    },
+    "undo-btn": {
+      "text": "Undo",
+      "description": "Undo"
+    },
+    "redo-btn": {
+      "text": "Redo",
+      "description": "Redo"
+    },
+    "load-in-showdown-btn": {
+      "text": "Load in Showdown",
+      "description": "Please have the helper userscript installed to use this feature. See About page."
+    },
+    "history-modal": {
+      "text": "History",
+      "description": "Show the history of the current room",
+      "clear": "Clear",
+      "disableToast": "Disable pop-ups"
+    },
+    "notes-modal": {
+      "text": "Notes",
+      "description": "Add notes to your team with a collaborative editor"
+    },
+    "import-ps-modal": {
+      "text": "Import",
+      "description": "Import a team from Showdown Paste or PokePaste link",
+      "title": "Please leave your Showdown Paste (or PokePaste link) here ↓",
+      "single": "Only overwrite the current Pokémon",
+      "loadExample": "Load a Sample",
+      "import": "Import"
+    },
+    "post-pokepaste-modal": {
+      "text": "Export or Post",
+      "description": "Post your team to PokePaste or this site",
+      "posting": "Creating ...",
+      "posted": "Success! Redirecting...",
+      "postError": "Error when creating your Paste"
+    }
+  }
+}

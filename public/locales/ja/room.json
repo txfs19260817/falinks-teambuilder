@@ -1,1 +1,61 @@
-{"addFirstPm":"1匹目のポケモンを追加","emptySlotDesc":"みがわりだけ。","invalidPaste":"無効なテキスト","jumpToTab":"タブへ移動","noPokemonInTeam":"チームにポケモンがない","toolbox":{"history-modal":{"clear":"クリア","description":"編集履歴を表示する","disableToast":"アラートを禁止","text":"編集履歴"},"import-ps-modal":{"description":"Showdown Paste または PokePaste リンクからチームを導入する","import":"インポート","loadExample":"サンプルをインポートする","single":"現在のポケモンのみ上書き","text":"インポート","title":"Showdown Paste（または PokePaste のリンク）をこちらに残してください↓"},"load-in-showdown-btn":{"description":"この機能にはユーザースクリプトをインストールすることが必要です。ヘルプなどをご確認ください。","text":"Showdown! で開く"},"notes-modal":{"description":"共同編集エディターでチームにメモを追加","text":"ノート"},"post-pokepaste-modal":{"description":"チームを PokePaste または当サイトに投稿する","postError":"作成中にエラーが発生しました","posted":"作成しました！ローディング中...","posting":"作成中 ...","text":"作成・公開"},"redo-btn":{"description":"やり直し","text":"やり直し"},"share-link-btn":{"description":"ルームのシェアリンクを共有する","text":"共有"},"undo-btn":{"description":"元に戻す","text":"戻す"}},"invalidPasteFromPokePaste":"無効な PokePaste リンク","suggestion":{"placeholder":"おすすめの努力値セット","defaultOptions":{"bps":"耐久性物理アタッカー: 252 HP / 252 Atk / 4 SpD (+Atk, -SpA)","bss":"耐久性特殊アタッカー: 252 HP / 252 SpA / 4 SpD / (+SpA, -Atk)","fps":"高速物理スイーパー: 4 HP / 252 Atk / 252 Spe / (+Spe, -SpA)","fss":"高速特殊スイーパー: 4 HP / 252 SpA / 252 Spe / (+Spe, -Atk)","sd":"特殊耐久全振り: 252 HP / 4 Def / 252 SpD / (+SpD, -Atk)"}}}
+{
+  "addFirstPm": "1匹目のポケモンを追加",
+  "emptySlotDesc": "みがわりだけ。",
+  "invalidPaste": "無効なテキスト",
+  "jumpToTab": "タブへ移動",
+  "noPokemonInTeam": "チームにポケモンがない",
+  "toolbox": {
+    "history-modal": {
+      "clear": "クリア",
+      "description": "編集履歴を表示する",
+      "disableToast": "ポップアップを隠す",
+      "text": "編集履歴"
+    },
+    "import-ps-modal": {
+      "description": "Showdown Paste または PokePaste リンクからチームを導入する",
+      "import": "インポート",
+      "loadExample": "サンプルをインポートする",
+      "single": "現在のポケモンのみ上書き",
+      "text": "インポート",
+      "title": "Showdown Paste（または PokePaste のリンク）をこちらに残してください↓"
+    },
+    "load-in-showdown-btn": {
+      "description": "この機能にはユーザースクリプトをインストールすることが必要です。ヘルプなどをご確認ください。",
+      "text": "Showdown! で開く"
+    },
+    "notes-modal": {
+      "description": "共同編集エディターでチームにメモを追加",
+      "text": "ノート"
+    },
+    "post-pokepaste-modal": {
+      "description": "チームを PokePaste または当サイトに投稿する",
+      "postError": "作成中にエラーが発生しました",
+      "posted": "作成しました！ローディング中...",
+      "posting": "作成中 ...",
+      "text": "作成・公開"
+    },
+    "redo-btn": {
+      "description": "やり直し",
+      "text": "やり直し"
+    },
+    "share-link-btn": {
+      "description": "ルームのシェアリンクを共有する",
+      "text": "共有"
+    },
+    "undo-btn": {
+      "description": "元に戻す",
+      "text": "戻す"
+    }
+  },
+  "invalidPasteFromPokePaste": "無効な PokePaste リンク",
+  "suggestion": {
+    "placeholder": "おすすめの努力値セット",
+    "defaultOptions": {
+      "bps": "耐久性物理アタッカー: 252 HP / 252 Atk / 4 SpD (+Atk, -SpA)",
+      "bss": "耐久性特殊アタッカー: 252 HP / 252 SpA / 4 SpD / (+SpA, -Atk)",
+      "fps": "高速物理スイーパー: 4 HP / 252 Atk / 252 Spe / (+Spe, -SpA)",
+      "fss": "高速特殊スイーパー: 4 HP / 252 SpA / 252 Spe / (+Spe, -Atk)",
+      "sd": "特殊耐久全振り: 252 HP / 4 Def / 252 SpD / (+SpD, -Atk)"
+    }
+  }
+}

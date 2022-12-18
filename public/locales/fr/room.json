@@ -1,1 +1,61 @@
-{"addFirstPm":"Ajouter le premier Pokémon","emptySlotDesc":"seulement un substitut.","invalidPaste":"Paste invalide","jumpToTab":"Aller à l'onglet","noPokemonInTeam":"Aucun Pokémon dans l'équipe","toolbox":{"history-modal":{"clear":"Dégager","description":"Afficher l'historique de la pièce actuelle","disableToast":"Désactiver l'alerte","text":"Histoire"},"import-ps-modal":{"description":"Importer une équipe à partir du lien Showdown Paste ou PokePaste","import":"Importer","loadExample":"Charger un échantillon","single":"Écraser uniquement le Pokémon actuel","text":"Importer","title":"Veuillez laisser votre Showdown Paste (ou votre lien PokePaste) ici ↓"},"load-in-showdown-btn":{"description":"Please have the helper userscript installed to use this feature. See About page.","text":"Ouvert à l'épreuve de force"},"notes-modal":{"description":"Ajoutez des notes à votre équipe avec un éditeur collaboratif","text":"Remarques"},"post-pokepaste-modal":{"description":"Publiez votre équipe sur PokePaste ou sur ce site","postError":"Erreur lors de la création de votre Paste","posted":"Succès! Redirection...","posting":"Créer...","text":"Exporter ou publier"},"redo-btn":{"description":"Refaire","text":"Refaire"},"share-link-btn":{"description":"Partager le lien de la salle actuelle","text":"Partager"},"undo-btn":{"description":"annuler","text":"annuler"}},"invalidPasteFromPokePaste":"Pâte d'équipe non valide extraite de PokePaste","suggestion":{"placeholder":"Ecarts suggérés pour les EVs","defaultOptions":{"bps":"Bulky Physical Sweeper: 252 HP / 252 Atk / 4 SpD (+Atk, -SpA)","bss":"Bulky Special Sweeper: 252 HP / 252 SpA / 4 SpD / (+SpA, -Atk)","fps":"Fast Physical Sweeper: 4 HP / 252 Atk / 252 Spe / (+Spe, -SpA)","fss":"Fast Special Sweeper: 4 HP / 252 SpA / 252 Spe / (+Spe, -Atk)","sd":"Special Defensive: 252 HP / 4 Def / 252 SpD / (+SpD, -Atk)"}}}
+{
+  "addFirstPm": "Ajouter le premier Pokémon",
+  "emptySlotDesc": "seulement un substitut.",
+  "invalidPaste": "Paste invalide",
+  "jumpToTab": "Aller à l'onglet",
+  "noPokemonInTeam": "Aucun Pokémon dans l'équipe",
+  "toolbox": {
+    "history-modal": {
+      "clear": "Dégager",
+      "description": "Afficher l'historique de la pièce actuelle",
+      "disableToast": "Désactiver les pop-ups",
+      "text": "Histoire"
+    },
+    "import-ps-modal": {
+      "description": "Importer une équipe à partir du lien Showdown Paste ou PokePaste",
+      "import": "Importer",
+      "loadExample": "Charger un échantillon",
+      "single": "Écraser uniquement le Pokémon actuel",
+      "text": "Importer",
+      "title": "Veuillez laisser votre Showdown Paste (ou votre lien PokePaste) ici ↓"
+    },
+    "load-in-showdown-btn": {
+      "description": "Please have the helper userscript installed to use this feature. See About page.",
+      "text": "Ouvert à l'épreuve de force"
+    },
+    "notes-modal": {
+      "description": "Ajoutez des notes à votre équipe avec un éditeur collaboratif",
+      "text": "Remarques"
+    },
+    "post-pokepaste-modal": {
+      "description": "Publiez votre équipe sur PokePaste ou sur ce site",
+      "postError": "Erreur lors de la création de votre Paste",
+      "posted": "Succès! Redirection...",
+      "posting": "Créer...",
+      "text": "Exporter ou publier"
+    },
+    "redo-btn": {
+      "description": "Refaire",
+      "text": "Refaire"
+    },
+    "share-link-btn": {
+      "description": "Partager le lien de la salle actuelle",
+      "text": "Partager"
+    },
+    "undo-btn": {
+      "description": "annuler",
+      "text": "annuler"
+    }
+  },
+  "invalidPasteFromPokePaste": "Pâte d'équipe non valide extraite de PokePaste",
+  "suggestion": {
+    "placeholder": "Ecarts suggérés pour les EVs",
+    "defaultOptions": {
+      "bps": "Bulky Physical Sweeper: 252 HP / 252 Atk / 4 SpD (+Atk, -SpA)",
+      "bss": "Bulky Special Sweeper: 252 HP / 252 SpA / 4 SpD / (+SpA, -Atk)",
+      "fps": "Fast Physical Sweeper: 4 HP / 252 Atk / 252 Spe / (+Spe, -SpA)",
+      "fss": "Fast Special Sweeper: 4 HP / 252 SpA / 252 Spe / (+Spe, -Atk)",
+      "sd": "Special Defensive: 252 HP / 4 Def / 252 SpD / (+SpD, -Atk)"
+    }
+  }
+}

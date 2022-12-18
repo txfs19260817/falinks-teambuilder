@@ -1,1 +1,61 @@
-{"addFirstPm":"Fügen Sie das erste Pokémon hinzu","emptySlotDesc":"Es gibt nur eine Delegator-Puppe.","invalidPaste":"Ungültiger Paste","invalidPasteFromPokePaste":"Ungültige Teampaste von PokePaste abgerufen","jumpToTab":"Zur Registerkarte springen","noPokemonInTeam":"Kein Pokémon im Team","suggestion":{"placeholder":"Vorgeschlagene EVs Spreads","defaultOptions":{"bps":"Bulky Physical Sweeper: 252 HP / 252 Atk / 4 SpD (+Atk, -SpA)","bss":"Bulky Special Sweeper: 252 HP / 252 SpA / 4 SpD / (+SpA, -Atk)","fps":"Fast Physical Sweeper: 4 HP / 252 Atk / 252 Spe / (+Spe, -SpA)","fss":"Fast Special Sweeper: 4 HP / 252 SpA / 252 Spe / (+Spe, -Atk)","sd":"Special Defensive: 252 HP / 4 Def / 252 SpD / (+SpD, -Atk)"}},"toolbox":{"history-modal":{"clear":"Entleeren","description":"Zeigt den Verlauf des aktuellen Raums an","disableToast":"Warnung deaktivieren","text":"Protokoll"},"import-ps-modal":{"description":"Bitte fügen Sie Ihre Showdown-Paste (oder Ihren PokePaste-Link) hier ein","import":"Importieren","loadExample":"Eine Probe Laden","single":"Überschreibe nur das aktuelle Pokémon","text":"Importieren","title":"Bitte hinterlassen Sie Ihre Showdown-Paste (oder Ihren PokePaste-Link) hier ↓"},"load-in-showdown-btn":{"description":"Please have the helper userscript installed to use this feature. See About page.","text":"Im Showdown öffnen"},"notes-modal":{"description":"Fügen Sie Ihrem Team mit einem kollaborativen Editor Notizen hinzu","text":"Anmerkungen"},"post-pokepaste-modal":{"description":"Posten Sie Ihr Team auf PokePaste oder auf dieser Seite","postError":"Fehler beim Erstellen Ihrer Paste","posted":"Erfolg! Umleitung...","posting":"Erstellen ...","text":"Exportieren oder Posten"},"redo-btn":{"description":"Wiederholen","text":"Wiederholen"},"share-link-btn":{"description":"Teilen Sie den Link zum aktuellen Raum","text":"Teilen"},"undo-btn":{"description":"Rückgängig machen","text":"Rückgängig"}}}
+{
+  "addFirstPm": "Fügen Sie das erste Pokémon hinzu",
+  "emptySlotDesc": "Es gibt nur eine Delegator-Puppe.",
+  "invalidPaste": "Ungültiger Paste",
+  "invalidPasteFromPokePaste": "Ungültige Teampaste von PokePaste abgerufen",
+  "jumpToTab": "Zur Registerkarte springen",
+  "noPokemonInTeam": "Kein Pokémon im Team",
+  "suggestion": {
+    "placeholder": "Vorgeschlagene EVs Spreads",
+    "defaultOptions": {
+      "bps": "Bulky Physical Sweeper: 252 HP / 252 Atk / 4 SpD (+Atk, -SpA)",
+      "bss": "Bulky Special Sweeper: 252 HP / 252 SpA / 4 SpD / (+SpA, -Atk)",
+      "fps": "Fast Physical Sweeper: 4 HP / 252 Atk / 252 Spe / (+Spe, -SpA)",
+      "fss": "Fast Special Sweeper: 4 HP / 252 SpA / 252 Spe / (+Spe, -Atk)",
+      "sd": "Special Defensive: 252 HP / 4 Def / 252 SpD / (+SpD, -Atk)"
+    }
+  },
+  "toolbox": {
+    "history-modal": {
+      "clear": "Entleeren",
+      "description": "Zeigt den Verlauf des aktuellen Raums an",
+      "disableToast": "Pop-ups deaktiviere",
+      "text": "Protokoll"
+    },
+    "import-ps-modal": {
+      "description": "Bitte fügen Sie Ihre Showdown-Paste (oder Ihren PokePaste-Link) hier ein",
+      "import": "Importieren",
+      "loadExample": "Eine Probe Laden",
+      "single": "Nur das aktuelle Pokémon überschreiben",
+      "text": "Importieren",
+      "title": "Bitte hinterlassen Sie Ihre Showdown-Paste (oder Ihren PokePaste-Link) hier ↓"
+    },
+    "load-in-showdown-btn": {
+      "description": "Please have the helper userscript installed to use this feature. See About page.",
+      "text": "Im Showdown öffnen"
+    },
+    "notes-modal": {
+      "description": "Fügen Sie Ihrem Team mit einem kollaborativen Editor Notizen hinzu",
+      "text": "Anmerkungen"
+    },
+    "post-pokepaste-modal": {
+      "description": "Posten Sie Ihr Team auf PokePaste oder auf dieser Seite",
+      "postError": "Fehler beim Erstellen Ihrer Paste",
+      "posted": "Erfolg! Umleitung...",
+      "posting": "Erstellen ...",
+      "text": "Exportieren oder Posten"
+    },
+    "redo-btn": {
+      "description": "Wiederholen",
+      "text": "Wiederholen"
+    },
+    "share-link-btn": {
+      "description": "Teilen Sie den Link zum aktuellen Raum",
+      "text": "Teilen"
+    },
+    "undo-btn": {
+      "description": "Rückgängig machen",
+      "text": "Rückgängig"
+    }
+  }
+}
