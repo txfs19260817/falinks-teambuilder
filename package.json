@@ -35,6 +35,8 @@
     "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
   },
   "dependencies": {
+    "@nivo/bump": "^0.80.0",
+    "@nivo/core": "^0.80.0",
     "@pkmn/data": "^0.7.10",
     "@pkmn/dex": "^0.7.10",
     "@pkmn/dex-types": "^0.7.10",

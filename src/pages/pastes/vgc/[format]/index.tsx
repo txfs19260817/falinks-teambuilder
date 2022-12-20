@@ -20,13 +20,18 @@ const VGCPastes = ({ format, pastes }: InferGetStaticPropsType<typeof getStaticP
   const { t } = useTranslation(['common']);
   return (
     <Main title={t('common.routes.vgc_pastes.title')} description={t('common.routes.vgc_pastes.description')}>
-      <FormatSelector
-        formats={vgcFormats}
-        defaultFormat={format}
-        handleChange={(e) => {
-          router.push(`/pastes/vgc/${e.target.value}`);
-        }}
-      />
+      <div className="flex gap-4">
+        <FormatSelector
+          formats={vgcFormats}
+          defaultFormat={format}
+          handleChange={(e) => {
+            router.push(`/pastes/vgc/${e.target.value}`);
+          }}
+        />
+        <button className="btn-primary btn-sm btn" onClick={() => router.push(`/pastes/vgc/${format}/insights`)}>
+          {t('common.insights')} 📈
+        </button>
+      </div>
       <PastesTable pastes={pastes} />
     </Main>
   );

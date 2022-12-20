@@ -107,3 +107,7 @@ export const getISOWeekNumber = (
     week,
   };
 };
+
+export const convertYearWeekToNumber = ({ year, week }: { year: number; week: number }) => {
+  return year * 100 + week;
+};
