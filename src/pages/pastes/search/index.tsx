@@ -28,7 +28,7 @@ const defaultPokemonCriteria: SearchPastePokemonCriteria = {
 const Search = () => {
   const gen = DexSingleton.getGen();
   const { t } = useTranslation(['common', 'search', 'species', 'moves', 'abilities', 'items']);
-  const [searchResults, setSearchResults] = useState<PastesList | undefined>(undefined);
+  const [searchResults, setSearchResults] = useState<PastesList>([]);
   const pokemonList = useMemo<Specie[]>(() => Array.from(gen.species), [gen]);
   const itemList = useMemo<Item[]>(() => Array.from(gen.items), [gen]);
 
@@ -302,7 +302,7 @@ const Search = () => {
           </form>
         </div>
       </div>
-      {searchResults && <PastesTable pastes={searchResults} />}
+      <PastesTable pastes={searchResults} />
     </Main>
   );
 };

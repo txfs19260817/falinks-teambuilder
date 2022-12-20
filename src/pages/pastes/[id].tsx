@@ -8,7 +8,7 @@ import DexSingleton from '@/models/DexSingleton';
 import { Pokemon } from '@/models/Pokemon';
 import { Main } from '@/templates/Main';
 import { AppConfig } from '@/utils/AppConfig';
-import { getPaste, listPastes } from '@/utils/Prisma';
+import { getPaste, listPastesIDs } from '@/utils/Prisma';
 
 export default function Page({ fallback, id, title }: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
@@ -91,7 +91,8 @@ export const getStaticProps: GetStaticProps<{ id: string; title: string; fallbac
 };
 
 export const getStaticPaths: GetStaticPaths = async (context) => {
-  const ids = await listPastes(undefined, undefined, undefined, true).then((pastes) => (pastes as { id: string }[]).map(({ id }) => id));
+  // Only pre-render the official pastes
+  const ids = await listPastesIDs({ isPublic: true, isOfficial: true }).then((r) => r.map(({ id }) => id));
 
   const paths =
     context.locales?.flatMap((locale) =>

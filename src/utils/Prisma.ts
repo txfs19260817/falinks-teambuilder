@@ -1,4 +1,4 @@
-import { Prisma, PrismaClient } from '@prisma/client';
+import { Pokepaste, Prisma, PrismaClient } from '@prisma/client';
 
 import { ThenArg } from '@/utils/Types';
 
@@ -31,30 +31,49 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 // Queries
-// List all PokePastes
-export const listPastesSelect: Prisma.PokepasteSelect = {
-  id: true,
-  author: true,
-  title: true,
-  paste: true,
-  createdAt: true,
-};
-
-export const listPastes = async (format?: string, isOfficial?: boolean, isPublic?: boolean, idsOnly: boolean = false) =>
+// List all IDs of pastes
+export const listPastesIDs = async (options?: { isOfficial?: boolean; isPublic?: boolean }) =>
   prisma.pokepaste.findMany({
-    select: idsOnly ? { id: true } : listPastesSelect,
+    select: { id: true },
     where: {
-      format,
-      isPublic: isOfficial ? true : isPublic,
-      isOfficial,
-    },
-    orderBy: {
-      id: 'asc',
+      isOfficial: options?.isOfficial, // true, false, or all (undefined)
+      isPublic: options?.isOfficial ? true : options?.isPublic, // if official, must be public, otherwise true, false, or all (undefined)
     },
   });
 
-export type PastesList = ThenArg<ReturnType<typeof listPastes>>;
-export type PastesListItem = PastesList[0];
+// List all PokePastes
+export type PastesListItem = Pick<Pokepaste, 'id' | 'title' | 'author' | 'createdAt'> & { species: string[] };
+export type PastesList = PastesListItem[];
+export const listPastesSelect: Prisma.PokepasteSelect = {
+  id: true,
+  title: true,
+  author: true,
+  createdAt: true,
+  jsonPaste: true,
+};
+
+export const listPastes = async (options?: { format?: string; isOfficial?: boolean; isPublic?: boolean }): Promise<PastesList> =>
+  prisma.pokepaste
+    .findMany({
+      select: listPastesSelect,
+      where: {
+        format: options?.format, // any one of formats, or all (undefined)
+        isOfficial: options?.isOfficial, // true, false, or all (undefined)
+        isPublic: options?.isOfficial ? true : options?.isPublic, // if official, must be public, otherwise true, false, or all (undefined)
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+    })
+    .then((response) =>
+      response.map(({ id, title, author, createdAt, jsonPaste }) => ({
+        id: id!,
+        title: title!,
+        author: author!,
+        createdAt: createdAt!,
+        species: (jsonPaste as { species: string }[]).map((s) => s.species),
+      }))
+    );
 
 // Get a PokePaste by ID
 export const getPaste = async (id: string) =>

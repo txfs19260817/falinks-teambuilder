@@ -17,10 +17,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<PastesList>) =>
   // search for pastes using jsonPaste JSONB field
   const results = await prisma.pokepaste
     .findMany({
-      select: { ...listPastesSelect, jsonPaste: true },
+      select: listPastesSelect,
       where: {
         format: format.length > 0 ? format : undefined,
         rentalCode: hasRentalCode ? { not: null } : undefined,
+        isPublic: true,
         isOfficial: officialOnly ? true : undefined,
         jsonPaste: {
           path: [],
@@ -52,8 +53,16 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<PastesList>) =>
         )
     );
 
-  // return the results without the jsonPaste field
-  return res.status(200).json(results.map(({ jsonPaste: _, ...item }) => item));
+  // return the results, rewrite the jsonPaste field to be a list of species
+  return res.status(200).json(
+    results.map(({ id, title, author, createdAt, jsonPaste }) => ({
+      id: id!,
+      title: title!,
+      author: author!,
+      createdAt: createdAt!,
+      species: (jsonPaste as { species: string }[]).map((s) => s.species),
+    }))
+  );
 };
 
 export default handler;

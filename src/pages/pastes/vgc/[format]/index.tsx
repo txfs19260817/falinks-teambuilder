@@ -34,15 +34,7 @@ const VGCPastes = ({ format, pastes }: InferGetStaticPropsType<typeof getStaticP
 
 export const getStaticProps: GetStaticProps<{ pastes: PastesList; format: string } & SSRConfig, { format: string }> = async ({ params, locale }) => {
   const format = params?.format ?? AppConfig.defaultFormat;
-  const pastes = await listPastes(format, true);
-
-  // To reduce the amount of data that needs to be serialized, we can only keep species in the showdown pastes
-  pastes.forEach(({ paste }, i) => {
-    pastes[i]!.paste = (paste ?? '')
-      .split('\r\n\r\n')
-      .map((p) => p.split('\r\n').slice(0, 1).join('\r\n'))
-      .join('\r\n\r\n');
-  });
+  const pastes = await listPastes({ format, isOfficial: true });
 
   return {
     props: {

@@ -42,11 +42,11 @@ const PastesTable = ({ pastes }: { pastes: PastesList }) => {
     },
     {
       header: t('common.team'),
-      id: 'paste',
-      accessorKey: 'paste',
+      id: 'species',
+      accessorKey: 'species',
       cell: ({ getValue }) => (
         <span>
-          {(Pokemon.convertPasteToTeam(getValue<string>()) || []).map(({ species }) => (
+          {getValue<string[]>().map((species) => (
             <PokemonIcon key={species} speciesId={species} />
           ))}
         </span>

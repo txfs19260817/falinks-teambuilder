@@ -16,11 +16,11 @@ const PublicPastes = ({ pastes }: InferGetServerSidePropsType<typeof getServerSi
 };
 
 export const getServerSideProps: GetServerSideProps<{ pastes: PastesList }> = async (context) => {
-  const pastes = await listPastes(undefined, false, true, false);
+  const pastes = await listPastes({ isOfficial: false, isPublic: true });
   return {
     props: {
       pastes: JSON.parse(JSON.stringify(pastes)) as PastesList,
-      ...(await serverSideTranslations(context.locale ?? 'en', ["common", "species"]))
+      ...(await serverSideTranslations(context.locale ?? 'en', ['common', 'species']))
     }
   };
 };
