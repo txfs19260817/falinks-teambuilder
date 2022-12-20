@@ -13,6 +13,7 @@ import items from 'public/locales/en/items.json';
 import move_descriptions from 'public/locales/en/move_descriptions.json';
 import moves from 'public/locales/en/moves.json';
 import natures from 'public/locales/en/natures.json';
+import paste from 'public/locales/en/paste.json';
 import search from 'public/locales/en/search.json';
 import species from 'public/locales/en/species.json';
 import types from 'public/locales/en/types.json';
@@ -22,12 +23,14 @@ declare module 'i18next' {
   interface CustomTypeOptions {
     // custom namespace type, if you changed it
     defaultNS: 'common';
+    nsSeparator: '.';
     // custom resources type
     resources: {
       common: typeof common;
       home: typeof home;
       create: typeof create;
       search: typeof search;
+      paste: typeof paste;
       // pokemon terms
       abilities: typeof abilities;
       ability_descriptions: typeof ability_descriptions;

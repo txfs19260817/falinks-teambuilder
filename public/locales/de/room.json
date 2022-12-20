@@ -31,7 +31,7 @@
       "title": "Bitte hinterlassen Sie Ihre Showdown-Paste (oder Ihren PokePaste-Link) hier ↓"
     },
     "load-in-showdown-btn": {
-      "description": "Please have the helper userscript installed to use this feature. See About page.",
+      "description": "Bitte installieren Sie die Benutzerskripte, um diese Funktion zu nutzen. Siehe Seite Über.",
       "text": "Im Showdown öffnen"
     },
     "notes-modal": {

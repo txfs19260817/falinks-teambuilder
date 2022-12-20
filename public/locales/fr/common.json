@@ -1,1 +1,109 @@
-{"ability":"Talent","abilities":"Talents","accuracy":"Précision","category":"Catégorie","apply":"Appliquer","author":"Auteur","auto":"Auto","categories":"Catégories","categoryTypes":"Catégorie \\ Types","copiedToClipboard":"📋 Copié !","copy":"Copie","createdAt":"Créé à","defense":"La défense","delete":"Effacer","description":"La description","details":"Détails","evs":"EVs","format":"Format","formats":"Formats","gender":"Le genre","gigantamax":"Gigamax","insights":"Connaissances","item":"Objet","items":"Objets","ivs":"IVs","level":"Niveau","move":"Attaque","moves":"Attaques","name":"Nom","nature":"Nature","natures":"Natures","nickname":"Surnom","notes":"Remarques","nothing":"Rien","offense":"Attaque","openInRoom":"Ouvert en salle","overview":"Aperçu","paste":"Paste","pokemon":"Pokémon","power":"Puissance","private":"Privé","public":"Public","rentalCode":"Code de location","share":"Partager","shiny":"Chromatique","source":"Source","team":"Team","teammates":"Coéquipiers","teraType":"Type Téracristal","terastallized":"Téracristallisation","title":"Titre","total":"Total","type":"Type","typeCategoryMatrix":"Types \\ Catégorie","types":"Types","update":"Mise à jour","usage":"Usage","webApiNotSupported":"📋 Le lien a été copié dans votre presse-papier car votre navigateur ne prend pas en charge l'API Web Share.","stats":{"hp":"PV","atk":"Attaque","def":"Défense","spa":"Attaque Sp.","spd":"Défense Sp.","spe":"Vitesse","base":"Base","stat":"Stat","stats":"Stats"},"preset":{"notFound":"Aucun préréglage trouvé, veuillez essayer de changer le format pour découvrir plus de préréglages.","preset":"Préréglé","presets":"Préconfigurations","showPreset":"Afficher le préréglage","showTeam":"Voir le team"},"routes":{"about":{"description":"À propos et documentation","title":"À propos de"},"create_paste":{"description":"Créer un PokePaste publiquement ou en privé","title":"Créer"},"home":{"description":"Page d'accueil","title":"Accueil"},"public_pastes":{"description":"PokePaste partagé publiquement par les utilisateurs","title":"Partagé par l'utilisateur"},"search_paste":{"description":"Rechercher un PokePaste","title":"Chercher"},"usage":{"description":"Pokémon Showdown! Statistiques d'utilisation","title":"Usages"},"vgc_pastes":{"description":"PokePaste organisé pour Pokémon VGC"}},"spread":"Spread","spreads":"Spreads","substitute":"Clonage","translated":"Afficher la traduction"}
+{
+  "ability": "Talent",
+  "abilities": "Talents",
+  "accuracy": "Précision",
+  "category": "Catégorie",
+  "apply": "Appliquer",
+  "author": "Auteur",
+  "auto": "Auto",
+  "categories": "Catégories",
+  "categoryTypes": "Catégorie \\ Types",
+  "copiedToClipboard": "📋 Copié !",
+  "copy": "Copie",
+  "createdAt": "Créé à",
+  "defense": "La défense",
+  "delete": "Effacer",
+  "description": "La description",
+  "details": "Détails",
+  "evs": "EVs",
+  "format": "Format",
+  "formats": "Formats",
+  "gender": "Le genre",
+  "gigantamax": "Gigamax",
+  "insights": "Connaissances",
+  "item": "Objet",
+  "items": "Objets",
+  "ivs": "IVs",
+  "level": "Niveau",
+  "move": "Attaque",
+  "moves": "Attaques",
+  "name": "Nom",
+  "nature": "Nature",
+  "natures": "Natures",
+  "nickname": "Surnom",
+  "notes": "Remarques",
+  "nothing": "Rien",
+  "offense": "Attaque",
+  "overview": "Aperçu",
+  "paste": "Paste",
+  "pokemon": "Pokémon",
+  "power": "Puissance",
+  "private": "Privé",
+  "public": "Public",
+  "rentalCode": "Code de location",
+  "share": "Partager",
+  "shiny": "Chromatique",
+  "source": "Source",
+  "team": "Team",
+  "teammates": "Coéquipiers",
+  "teraType": "Type Téracristal",
+  "terastallized": "Téracristallisation",
+  "title": "Titre",
+  "total": "Total",
+  "type": "Type",
+  "typeCategoryMatrix": "Types \\ Catégorie",
+  "types": "Types",
+  "update": "Mise à jour",
+  "usage": "Usage",
+  "webApiNotSupported": "📋 Le lien a été copié dans votre presse-papier car votre navigateur ne prend pas en charge l'API Web Share.",
+  "stats": {
+    "hp": "PV",
+    "atk": "Attaque",
+    "def": "Défense",
+    "spa": "Attaque Sp.",
+    "spd": "Défense Sp.",
+    "spe": "Vitesse",
+    "base": "Base",
+    "stat": "Stat",
+    "stats": "Stats"
+  },
+  "preset": {
+    "notFound": "Aucun préréglage trouvé, veuillez essayer de changer le format pour découvrir plus de préréglages.",
+    "preset": "Préréglé",
+    "presets": "Préconfigurations",
+    "showPreset": "Afficher le préréglage",
+    "showTeam": "Voir le team"
+  },
+  "routes": {
+    "about": {
+      "description": "À propos et documentation",
+      "title": "À propos de"
+    },
+    "create_paste": {
+      "description": "Créer un PokePaste publiquement ou en privé",
+      "title": "Créer"
+    },
+    "home": {
+      "description": "Page d'accueil",
+      "title": "Accueil"
+    },
+    "public_pastes": {
+      "description": "PokePaste partagé publiquement par les utilisateurs",
+      "title": "Partagé par l'utilisateur"
+    },
+    "search_paste": {
+      "description": "Rechercher un PokePaste",
+      "title": "Chercher"
+    },
+    "usage": {
+      "description": "Pokémon Showdown! Statistiques d'utilisation",
+      "title": "Usages"
+    },
+    "vgc_pastes": {
+      "description": "PokePaste organisé pour Pokémon VGC"
+    }
+  },
+  "spread": "Spread",
+  "spreads": "Spreads",
+  "substitute": "Clonage"
+}

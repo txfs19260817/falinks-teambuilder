@@ -21,7 +21,7 @@ function ShareLink() {
             title: `[${AppConfig.title}] ${teamState.title}`,
           });
         } catch (e) {
-          navigator.clipboard.writeText(url).then(() => toast(t('common.copiedToClipboard')));
+          navigator.clipboard.writeText(url).then(() => toast(t('common.webApiNotSupported')));
         }
       }}
     >

@@ -20,7 +20,7 @@
       "title": "Showdown Paste (또는 PokePaste 링크)를 여기에 남겨주세요 ↓"
     },
     "load-in-showdown-btn": {
-      "description": "Please have the helper userscript installed to use this feature. See About page.",
+      "description": "이 기능을 사용하려면 사용자 스크립트를 설치하십시오. 정보 페이지를 참조하십시오.",
       "text": "Showdown! 에서 열기"
     },
     "notes-modal": {

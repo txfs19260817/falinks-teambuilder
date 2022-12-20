@@ -1,0 +1,8 @@
+{
+  "openInRoom": "방에서 열기",
+  "loadInShowdown": {
+    "title": "Showdown 열기",
+    "description": "이 기능을 사용하려면 사용자 스크립트를 설치하십시오. 정보 페이지를 참조하십시오."
+  },
+  "showTranslation": "번역 표시"
+}

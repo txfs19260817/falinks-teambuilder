@@ -20,7 +20,7 @@
       "title": "Per favore lascia il tuo Showdown Paste (o link PokePaste) qui ↓"
     },
     "load-in-showdown-btn": {
-      "description": "Please have the helper userscript installed to use this feature. See About page.",
+      "description": "Per utilizzare questa funzione, è necessario che sia installato user script. Vedere la pagina Informazioni.",
       "text": "Aprire in Showdown"
     },
     "notes-modal": {

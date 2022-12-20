@@ -1,1 +1,109 @@
-{"ability":"Habilidad","abilities":"Habilidads","accuracy":"Precisión","category":"Categoría","apply":"Aplicar","author":"Autor","auto":"Auto","categories":"Categorías","categoryTypes":"Categoría \\ Tipos","copiedToClipboard":"📋 ¡Copiado!","copy":"Copiar","createdAt":"Creado en","defense":"Defensa","delete":"Borrar","description":"Descripción","details":"Detalles","evs":"EVs","format":"Formato","formats":"Formatos","gender":"Género","gigantamax":"Gigamax","insights":"Perspectivas","item":"Objeto","items":"Objetos","ivs":"IVs","level":"Nivel","move":"Movimiento","moves":"Movimientos","name":"Nombre","nature":"Naturaleza","natures":"Naturalezas","nickname":"Apodo","notes":"notas","nothing":"Nada","offense":"Ataque","openInRoom":"Abrir en la habitación","overview":"Visión general","paste":"Paste","pokemon":"Pokémon","power":"Potencia","private":"Privado","public":"Público","rentalCode":"Código de equipo","share":"Compartir","shiny":"Variocolor","source":"Fuente","team":"Team","teammates":"compañeros de equipo","teraType":"Teratipo","terastallized":"Teracristalización","title":"Título","total":"Total","type":"Tipo","typeCategoryMatrix":"Tipos \\ Categoría","types":"Tipos","update":"Actualizar","usage":"Uso","webApiNotSupported":"📋 El enlace se ha copiado en su portapapeles ya que su navegador no es compatible con Web Share API.","stats":{"hp":"PS","atk":"Ataque","def":"Defensa","spa":"Ataque Especial","spd":"Defensa Especial","spe":"Velocidad","base":"Base","stat":"Característica","stats":"Características"},"preset":{"notFound":"No se encontró ningún valor predeterminado, intente cambiar el formato para ver más valores predeterminados.","preset":"Preestablecido","presets":"Preajustes","showPreset":"Mostrar preajuste","showTeam":"Mostrar el team"},"routes":{"about":{"description":"Acerca de y documentación","title":"Acerca de"},"create_paste":{"description":"Crea un PokePaste de forma pública o privada","title":"Crear"},"home":{"description":"página de inicio","title":"Inicio"},"public_pastes":{"description":"PokePaste compartido públicamente por los usuarios","title":"Usuario compartido"},"search_paste":{"description":"Buscar un PokePaste","title":"Búsqueda"},"usage":{"description":"Pokémon Showdown! estadísticas de uso","title":"Usos"},"vgc_pastes":{"description":"PokePaste seleccionado para Pokémon VGC"}},"spread":"Spread","spreads":"Spreads","substitute":"Sustituto","translated":"Mostrar traducción"}
+{
+  "ability": "Habilidad",
+  "abilities": "Habilidads",
+  "accuracy": "Precisión",
+  "category": "Categoría",
+  "apply": "Aplicar",
+  "author": "Autor",
+  "auto": "Auto",
+  "categories": "Categorías",
+  "categoryTypes": "Categoría \\ Tipos",
+  "copiedToClipboard": "📋 ¡Copiado!",
+  "copy": "Copiar",
+  "createdAt": "Creado en",
+  "defense": "Defensa",
+  "delete": "Borrar",
+  "description": "Descripción",
+  "details": "Detalles",
+  "evs": "EVs",
+  "format": "Formato",
+  "formats": "Formatos",
+  "gender": "Género",
+  "gigantamax": "Gigamax",
+  "insights": "Perspectivas",
+  "item": "Objeto",
+  "items": "Objetos",
+  "ivs": "IVs",
+  "level": "Nivel",
+  "move": "Movimiento",
+  "moves": "Movimientos",
+  "name": "Nombre",
+  "nature": "Naturaleza",
+  "natures": "Naturalezas",
+  "nickname": "Apodo",
+  "notes": "notas",
+  "nothing": "Nada",
+  "offense": "Ataque",
+  "overview": "Visión general",
+  "paste": "Paste",
+  "pokemon": "Pokémon",
+  "power": "Potencia",
+  "private": "Privado",
+  "public": "Público",
+  "rentalCode": "Código de equipo",
+  "share": "Compartir",
+  "shiny": "Variocolor",
+  "source": "Fuente",
+  "team": "Team",
+  "teammates": "compañeros de equipo",
+  "teraType": "Teratipo",
+  "terastallized": "Teracristalización",
+  "title": "Título",
+  "total": "Total",
+  "type": "Tipo",
+  "typeCategoryMatrix": "Tipos \\ Categoría",
+  "types": "Tipos",
+  "update": "Actualizar",
+  "usage": "Uso",
+  "webApiNotSupported": "📋 El enlace se ha copiado en su portapapeles ya que su navegador no es compatible con Web Share API.",
+  "stats": {
+    "hp": "PS",
+    "atk": "Ataque",
+    "def": "Defensa",
+    "spa": "Ataque Especial",
+    "spd": "Defensa Especial",
+    "spe": "Velocidad",
+    "base": "Base",
+    "stat": "Característica",
+    "stats": "Características"
+  },
+  "preset": {
+    "notFound": "No se encontró ningún valor predeterminado, intente cambiar el formato para ver más valores predeterminados.",
+    "preset": "Preestablecido",
+    "presets": "Preajustes",
+    "showPreset": "Mostrar preajuste",
+    "showTeam": "Mostrar el team"
+  },
+  "routes": {
+    "about": {
+      "description": "Acerca de y documentación",
+      "title": "Acerca de"
+    },
+    "create_paste": {
+      "description": "Crea un PokePaste de forma pública o privada",
+      "title": "Crear"
+    },
+    "home": {
+      "description": "página de inicio",
+      "title": "Inicio"
+    },
+    "public_pastes": {
+      "description": "PokePaste compartido públicamente por los usuarios",
+      "title": "Usuario compartido"
+    },
+    "search_paste": {
+      "description": "Buscar un PokePaste",
+      "title": "Búsqueda"
+    },
+    "usage": {
+      "description": "Pokémon Showdown! estadísticas de uso",
+      "title": "Usos"
+    },
+    "vgc_pastes": {
+      "description": "PokePaste seleccionado para Pokémon VGC"
+    }
+  },
+  "spread": "Spread",
+  "spreads": "Spreads",
+  "substitute": "Sustituto"
+}

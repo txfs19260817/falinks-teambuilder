@@ -1,0 +1,8 @@
+{
+  "openInRoom": "Abrir en la habitación",
+  "loadInShowdown": {
+    "title": "Cargar en Showdown",
+    "description": "Por favor, tenga instalado el scripts de usuario para utilizar esta función. Consulte la página Acerca de."
+  },
+  "showTranslation": "Mostrar traducción"
+}

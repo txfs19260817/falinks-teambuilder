@@ -1,0 +1,8 @@
+{
+  "openInRoom": "在房間裡打開",
+  "loadInShowdown": {
+    "title": "在 Showdown 中載入",
+    "description": "請安裝用戶腳本以使用此功能。參閱[關於]頁面。"
+  },
+  "showTranslation": "顯示翻譯"
+}

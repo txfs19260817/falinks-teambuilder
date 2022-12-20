@@ -380,9 +380,9 @@ export class Pokemon implements PokemonSet {
     return team.map((p) => this.exportSetToTranslatedPaste(p, t)).join('');
   }
 
-  static convertPasteToPackedTeam(s: string): string {
-    const team = this.convertPasteToTeam(s) || [];
-    return team.map((p) => Sets.packSet(p)).join(']');
+  static convertPasteToPackedTeam(s: string, option?: { format: string; name: string }): string {
+    const packed = (this.convertPasteToTeam(s) || []).map((p) => Sets.packSet(p)).join(']');
+    return option ? `${option.format}]${option.name}|${packed}` : packed;
   }
 
   static convertPackedTeamToTeam(packedTeam: string): BasePokePaste | undefined {

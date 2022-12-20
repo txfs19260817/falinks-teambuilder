@@ -1,0 +1,8 @@
+{
+  "openInRoom": "Apri in camera",
+  "loadInShowdown": {
+    "title": "Carico in Showdown",
+    "description": "Per utilizzare questa funzione, è necessario che sia installato user script. Vedere la pagina Informazioni."
+  },
+  "showTranslation": "Mostra traduzione"
+}

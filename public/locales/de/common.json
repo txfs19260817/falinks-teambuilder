@@ -34,7 +34,6 @@
   "notes": "Anmerkungen",
   "nothing": "Nichts",
   "offense": "Angreifen",
-  "openInRoom": "Im Raum öffnen",
   "overview": "Überblick",
   "paste": "Paste",
   "pokemon": "Pokémon",
@@ -110,6 +109,5 @@
   "update": "Aktualisieren",
   "usage": "Verwendungszweck",
   "substitute": "Delegator",
-  "webApiNotSupported": "📋 Der Link wurde in Ihre Zwischenablage kopiert, da Ihr Browser die Web Share API nicht unterstützt.",
-  "translated": "Übersetzung anzeigen"
+  "webApiNotSupported": "📋 Der Link wurde in Ihre Zwischenablage kopiert, da Ihr Browser die Web Share API nicht unterstützt."
 }

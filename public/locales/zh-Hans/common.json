@@ -86,7 +86,6 @@
   "webApiNotSupported": "📋 浏览器不支持 Web Share API ，已将其复制到您的剪贴板",
   "share": "分享",
   "copy": "复制",
-  "openInRoom": "在房间中打开",
   "insights": "分析",
   "terastallized": "太晶化",
   "categoryTypes": "类别\\属性",
@@ -110,6 +109,5 @@
   "update": "更新",
   "delete": "删除",
   "nothing": "空位以待",
-  "substitute": "替身",
-  "translated": "显示翻译"
+  "substitute": "替身"
 }

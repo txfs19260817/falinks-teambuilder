@@ -1,0 +1,8 @@
+{
+  "openInRoom": "ルームで開く",
+  "loadInShowdown": {
+    "title": "Showdown でロード",
+    "description": "この機能にはユーザースクリプトをインストールすることが必要です。ヘルプなどをご確認ください。"
+  },
+  "showTranslation": "翻訳を表示"
+}

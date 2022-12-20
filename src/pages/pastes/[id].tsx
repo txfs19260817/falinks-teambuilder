@@ -34,7 +34,7 @@ export const getStaticProps: GetStaticProps<{ id: string; title: string; fallbac
   if (team == null) return { notFound: true };
 
   const dex = DexSingleton.getGen();
-  const requiredNamespaces = ['common', 'moves', 'types', 'species', 'categories', 'items', 'abilities', 'natures'] as const;
+  const requiredNamespaces = ['common', 'paste', 'moves', 'types', 'species', 'categories', 'items', 'abilities', 'natures'] as const;
   const ssr = await serverSideTranslations(locale ?? AppConfig.defaultLocale, Array.from(requiredNamespaces));
 
   // Slim down the SSR translations to only the ones we need

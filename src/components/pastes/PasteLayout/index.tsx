@@ -42,6 +42,16 @@ const PasteAndFunctions = ({ team, paste }: { team: Pokemon[]; paste: NonNullabl
     push(`/room/room_${S4()}${S4()}/?protocol=WebSocket&packed=${Pokemon.convertPasteToPackedTeam(paste.paste)}`);
   };
 
+  const handleLoadInShowdown = () => {
+    window.open(
+      `https://play.pokemonshowdown.com/teambuilder#${Pokemon.convertPasteToPackedTeam(paste.paste, {
+        format: paste.format,
+        name: paste.title,
+      })}`,
+      '_blank'
+    );
+  };
+
   return (
     <div className="grid grid-flow-row md:grid-flow-col md:grid-cols-3">
       {/* avatars */}
@@ -91,7 +101,7 @@ const PasteAndFunctions = ({ team, paste }: { team: Pokemon[]; paste: NonNullabl
           <label className="label cursor-pointer">
             <span className="label-text">PokePaste</span>
             <input type="checkbox" className="toggle-primary toggle" checked={showTranslated} onChange={() => setShowTranslated((s) => !s)} />
-            <span className="label-text">{t('common.translated')}</span>
+            <span className="label-text">{t('paste.showTranslation')}</span>
           </label>
           <button className="btn-primary btn-sm btn" type="button" onClick={handleCopy}>
             {t('common.copy')} PokePaste
@@ -100,7 +110,10 @@ const PasteAndFunctions = ({ team, paste }: { team: Pokemon[]; paste: NonNullabl
             {t('common.share')}
           </button>
           <button className="btn-accent btn-sm btn" type="button" onClick={handleOpenInRoom}>
-            {t('common.openInRoom')}
+            {t('paste.openInRoom')}
+          </button>
+          <button className="btn-info tooltip tooltip-top btn-sm btn" data-tip={t('paste.loadInShowdown.description')} onClick={handleLoadInShowdown}>
+            {t('paste.loadInShowdown.title')}
           </button>
         </div>
       </div>

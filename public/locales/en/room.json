@@ -30,7 +30,7 @@
     },
     "load-in-showdown-btn": {
       "text": "Load in Showdown",
-      "description": "Please have the helper userscript installed to use this feature. See About page."
+      "description": "Please have the userscript installed to use this feature. See About page."
     },
     "history-modal": {
       "text": "History",

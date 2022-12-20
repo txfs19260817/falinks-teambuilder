@@ -1,0 +1,8 @@
+{
+  "openInRoom": "Open in Room",
+  "loadInShowdown": {
+    "title": "Load in Showdown",
+    "description": "Please have the userscript installed to use this feature. See About page."
+  },
+  "showTranslation": "Show Translation"
+}
