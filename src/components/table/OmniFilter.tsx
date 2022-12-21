@@ -5,7 +5,6 @@ import React from 'react';
 import { PokemonIcon } from '@/components/icons/PokemonIcon';
 import { MultiSelect } from '@/components/select/MultiSelect';
 import { ValueWithEmojiSelector } from '@/components/select/ValueWithEmojiSelector';
-import { Pokemon } from '@/models/Pokemon';
 import { getPokemonTranslationKey, moveCategoriesWithEmoji, typesWithEmoji } from '@/utils/PokemonUtils';
 
 function OmniFilter({ column, instance }: { column: Column<any>; instance: Table<any> }) {
@@ -42,14 +41,11 @@ function OmniFilter({ column, instance }: { column: Column<any>; instance: Table
     );
   }
 
-  if (column.id === 'paste') {
-    // all teams
-    const teams = instance
-      .getFilteredRowModel()
-      .flatRows.map((row) => row.getValue<string>(column.id))
-      .map((paste) => Pokemon.convertPasteToTeam(paste) || []);
+  if (column.id === 'species') {
+    // all species
+    const species = instance.getFilteredRowModel().flatRows.map(({ getValue }) => getValue<string>(column.id));
     // get all unique pokemon
-    const options = Array.from(new Set(teams.flat().map((p: Pokemon) => p.species)))
+    const options = Array.from(new Set(species.flat()))
       .sort((a, b) => a.localeCompare(b))
       .map((e) => ({
         value: e,

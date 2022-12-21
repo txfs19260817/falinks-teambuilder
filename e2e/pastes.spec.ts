@@ -38,3 +38,20 @@ test('should navigate to search page', async ({ page, baseURL }) => {
   await page.waitForTimeout(5 * 1000);
   await expect(page.getByText("MonoMalard's Kyurem-Black team")).toBeVisible();
 });
+
+test('should use multi-select to filter by pokemon', async ({ page, baseURL }) => {
+  // Start from the VGC Pastes page
+  await page.goto(baseURL ? `${baseURL}/pastes/vgc/gen9vgc2023series1` : 'http://localhost:3000/pastes/vgc/gen9vgc2023series1');
+  // Wait for navigation
+  await page.waitForNavigation();
+  // The new URL should contain "pastes/vgc"
+  await expect(page).toHaveURL(/pastes\/vgc/);
+  // Filter by pokemon
+  await page.getByPlaceholder('Pokémon ...').click();
+  await page.getByPlaceholder('Pokémon ...').fill('don');
+  await page.getByText('Dondozo').click();
+  await page.getByPlaceholder('Pokémon ...').fill('ty');
+  await page.getByText('Tyranitar').click();
+  // Verify that the results are filtered
+  await expect(page.getByText(`KURO's Dondozo Team`)).toBeVisible();
+});

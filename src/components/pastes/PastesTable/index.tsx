@@ -20,7 +20,6 @@ import { useContext, useState } from 'react';
 import { PokemonIcon } from '@/components/icons/PokemonIcon';
 import Table from '@/components/table';
 import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
-import { Pokemon } from '@/models/Pokemon';
 import type { PastesList, PastesListItem } from '@/utils/Prisma';
 
 const PastesTable = ({ pastes }: { pastes: PastesList }) => {
@@ -52,8 +51,8 @@ const PastesTable = ({ pastes }: { pastes: PastesList }) => {
         </span>
       ),
       filterFn: (row, columnId, filterValue) => {
-        const team = Pokemon.convertPasteToTeam(row.getValue<string>(columnId)) || [];
-        return !filterValue.some((val: string) => !team.map((p: Pokemon) => p.species).includes(val));
+        const species = row.getValue<string[]>(columnId);
+        return !filterValue.some((v: string) => !species.includes(v));
       },
       enableSorting: false,
       enableMultiSort: false,
