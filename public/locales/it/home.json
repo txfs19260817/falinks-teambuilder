@@ -1,1 +1,35 @@
-{"slogan":"Costruite la prossima squadra Pokémon con la forza della collaborazione","form":{"submit":"Crea / Partecipa","author":{"button":"Scegli un nome","button_title":"Disegna a caso il nome di un autore","description":"Nessuna registrazione richiesta. Verrà utilizzato per identificarti nella stanza.","placeholder":"per favore inserisci il tuo nome","label":"Nome dell'autore"},"pokepaste":{"description":"Opzionale. Inizia il tuo team building con un link PokéPaste.","label":"Collegamento PokéPaste"},"protocol":{"description":"Protocollo di comunicazione. Provane un altro se uno non funziona.","label":"Protocollo di comunicazione"},"room":{"description":"È possibile condividere il nome della stanza con altre persone per invitarle a creare una squadra insieme.","label":"Nome della stanza","placeholder":"Inserisci un nome per la stanza"}},"tabs":{"room history":"Storia della stanza","new room":"Camera Nuova"},"history":{"clear":"Cancellare la cronologia","delete":"Elimina","empty":"Nessuna stanza visitata, goditi una tazza di caffè ☕️"}}
+{
+  "slogan": "Costruite la prossima squadra Pokémon con la forza della collaborazione",
+  "form": {
+    "submit": "Crea / Partecipa",
+    "author": {
+      "button": "Scegli un nome",
+      "button_title": "Disegna a caso il nome di un autore",
+      "description": "Nessuna registrazione richiesta. Verrà utilizzato per identificarti nella stanza.",
+      "placeholder": "per favore inserisci il tuo nome",
+      "label": "Nome dell'autore"
+    },
+    "pokepaste": {
+      "description": "Opzionale. Inizia il tuo team building con un link PokéPaste.",
+      "label": "Collegamento PokéPaste"
+    },
+    "protocol": {
+      "description": "Provane un altro se uno non funziona.",
+      "label": "Protocollo di comunicazione"
+    },
+    "room": {
+      "description": "È possibile condividere il nome della stanza con altre persone per invitarle a creare una squadra insieme.",
+      "label": "Nome della stanza",
+      "placeholder": "Inserisci un nome per la stanza"
+    }
+  },
+  "tabs": {
+    "room history": "Storia della stanza",
+    "new room": "Camera Nuova"
+  },
+  "history": {
+    "clear": "Cancellare la cronologia",
+    "delete": "Elimina",
+    "empty": "Nessuna stanza visitata, goditi una tazza di caffè ☕️"
+  }
+}

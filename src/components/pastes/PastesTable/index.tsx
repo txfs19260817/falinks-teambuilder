@@ -22,7 +22,12 @@ import Table from '@/components/table';
 import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
 import type { PastesList, PastesListItem } from '@/utils/Prisma';
 
-const PastesTable = ({ pastes }: { pastes: PastesList }) => {
+type PastesTableProps = {
+  pastes: PastesList;
+  enableSharedAt?: boolean;
+};
+
+const PastesTable = ({ pastes, enableSharedAt = false }: PastesTableProps) => {
   const { locale } = useRouter();
   const { t } = useTranslation(['common']);
   const { globalFilter, setGlobalFilter } = useContext(StoreContext);
@@ -32,12 +37,12 @@ const PastesTable = ({ pastes }: { pastes: PastesList }) => {
     {
       header: t('common.title'),
       accessorKey: 'title',
-      cell: ({ getValue }) => <span title={getValue<string>()}>{`${getValue<string>().substring(0, 32)}`}</span>,
+      cell: ({ getValue }) => <span title={getValue<string>()}>{`${getValue<string>().substring(0, 60)}`}</span>,
     },
     {
       header: t('common.author'),
       accessorKey: 'author',
-      cell: ({ getValue }) => <span title={getValue<string>()}>{`${getValue<string>().substring(0, 16)}`}</span>,
+      cell: ({ getValue }) => <span title={getValue<string>()}>{`${getValue<string>().substring(0, 20)}`}</span>,
     },
     {
       header: t('common.team'),
@@ -58,12 +63,32 @@ const PastesTable = ({ pastes }: { pastes: PastesList }) => {
       enableMultiSort: false,
     },
     {
+      id: 'createdAt',
       header: t('common.createdAt'),
+      // Derive the true createdAt date from the CUID
+      accessorKey: 'id',
+      cell: ({ getValue }) => {
+        const d = new Date(parseInt(getValue<string>().slice(1, 9), 36));
+        return (
+          <span>
+            {new Intl.DateTimeFormat(locale ?? 'en-US', {
+              dateStyle: 'short',
+            }).format(d)}
+          </span>
+        );
+      },
+      enableColumnFilter: false,
+      enableGlobalFilter: false,
+    },
+    {
+      id: 'sharedAt',
+      header: t('common.sharedAt'),
+      // The original createdAt date is Date Shared in VGCPastes
       accessorKey: 'createdAt',
       cell: ({ getValue }) => (
         <span>
           {new Intl.DateTimeFormat(locale ?? 'en-US', {
-            dateStyle: 'long',
+            dateStyle: 'short',
           }).format(new Date(getValue<string>()))}
         </span>
       ),
@@ -100,6 +125,11 @@ const PastesTable = ({ pastes }: { pastes: PastesList }) => {
       globalFilter,
       sorting,
       pagination,
+    },
+    initialState: {
+      columnVisibility: {
+        sharedAt: enableSharedAt,
+      },
     },
     onColumnFiltersChange: setColumnFilters,
     onGlobalFilterChange: setGlobalFilter,

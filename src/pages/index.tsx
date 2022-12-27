@@ -46,7 +46,7 @@ const RoomForm = () => {
     <form
       role="form"
       aria-label="Create Room Form"
-      className="card-body"
+      className="card-body gap-0 pt-2 md:gap-0.5 md:pt-4"
       onSubmit={handleSubmit((data) => {
         gotoRoom(data);
       })}
@@ -64,12 +64,12 @@ const RoomForm = () => {
             placeholder={t('home.form.author.placeholder')}
             required={true}
             maxLength={18}
-            className="input-bordered input rounded-r-none text-base-content placeholder:text-base-content/50"
+            className="input-bordered input w-full rounded-r-none text-base-content placeholder:text-base-content/50"
             {...register('userName', { required: true })}
           />
           <button
             title={t('home.form.author.button_title')}
-            className="btn w-44 flex-none rounded-l-none tracking-tighter"
+            className="btn flex-none rounded-l-none tracking-tighter"
             role="button"
             aria-label="Draw a name randomly"
             type="button"
@@ -140,7 +140,7 @@ const RoomForm = () => {
         </div>
         <p className="text-xs text-base-content/50">{t('home.form.protocol.description')}</p>
       </div>
-      <div className="form-control mt-6">
+      <div className="form-control">
         <button className="btn-primary btn" role={'button'} aria-label={'Create Room Submit Button'}>
           {t('home.form.submit')}
         </button>
@@ -282,14 +282,14 @@ const Index = () => {
         <div className="hero-overlay bg-opacity-75"></div>
         <div className="hero-content flex-col text-neutral-content lg:flex-row">
           <div className="min-w-fit text-center lg:text-left">
-            <h1 aria-label="Applicaton Name" aria-level={1} className="text-4xl font-bold md:text-5xl">
+            <h1 aria-label="Applicaton Name" aria-level={1} className="text-3xl font-bold sm:text-4xl md:text-5xl">
               {AppConfig.title}
             </h1>
-            <p className="py-6">{t('home.slogan')}</p>
+            <p className="py-2 md:py-6">{t('home.slogan')}</p>
           </div>
 
           {/* Room Panel */}
-          <div className="w-full max-w-md flex-shrink-0">
+          <div className="w-full max-w-xs flex-shrink-0 sm:max-w-sm md:max-w-md">
             <div className="tabs" role="tablist">
               {tabs.map((tabName) => (
                 <a
@@ -305,7 +305,7 @@ const Index = () => {
                 </a>
               ))}
             </div>
-            <div className="card rounded-tl-none bg-base-100 shadow-2xl md:min-h-[588px]">{tab === 'new room' ? <RoomForm /> : <RoomHistory />}</div>
+            <div className="card rounded-tl-none bg-base-100 shadow-2xl md:min-h-[492px]">{tab === 'new room' ? <RoomForm /> : <RoomHistory />}</div>
           </div>
         </div>
       </div>

@@ -1,1 +1,35 @@
-{"slogan":"Build the next sweeping Pokémon team with the power of collaboration","tabs":{"new room":"New Room","room history":"Room History"},"form":{"author":{"label":"Author Name","placeholder":"Please enter your name","description":"No registration required. It will be used to identify you in the room.","button":"Draw a name","button_title":"Draw an author name randomly"},"pokepaste":{"label":"PokéPaste Link","description":"Optional. Start your team-building with a PokéPaste link."},"room":{"label":"Room Name","placeholder":"Please enter a room name","description":"You can share this room name with other people to invite them to build a team together."},"protocol":{"label":"Communication Protocol","description":"Communication Protocol. Please try another if one is not working."},"submit":"Create / Join"},"history":{"empty":"No room visited, enjoy a cup of coffee ☕️","delete":"Delete","clear":"Clear History"}}
+{
+  "slogan": "Build the next sweeping Pokémon team with the power of collaboration",
+  "tabs": {
+    "new room": "New Room",
+    "room history": "Room History"
+  },
+  "form": {
+    "author": {
+      "label": "Author Name",
+      "placeholder": "Please enter your name",
+      "description": "No registration required. It will be used to identify you in the room.",
+      "button": "Draw a name",
+      "button_title": "Draw an author name randomly"
+    },
+    "pokepaste": {
+      "label": "PokéPaste Link",
+      "description": "Optional. Start your team-building with a PokéPaste link."
+    },
+    "room": {
+      "label": "Room Name",
+      "placeholder": "Please enter a room name",
+      "description": "You can share this room name with other people to invite them to build a team together."
+    },
+    "protocol": {
+      "label": "Communication Protocol",
+      "description": "Please try another if one is not working."
+    },
+    "submit": "Create / Join"
+  },
+  "history": {
+    "empty": "No room visited, enjoy a cup of coffee ☕️",
+    "delete": "Delete",
+    "clear": "Clear History"
+  }
+}

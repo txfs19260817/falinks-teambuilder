@@ -1,1 +1,35 @@
-{"slogan":"以集体智慧构建下一支强劲的队伍","tabs":{"new room":"新房间","room history":"历史记录"},"form":{"author":{"label":"作者名","placeholder":"请输入作者名","description":"无需注册，用于在房间内显示","button":"抽选一个","button_title":"随机抽选一个作者名"},"pokepaste":{"label":"PokéPaste 链接","description":"可选，你可以从一个 PokePaste 队伍为基础开始"},"room":{"label":"房间名","placeholder":"请输入房间名","description":"你可以分享这个房间名，邀请他们加入你的房间一同构建队伍"},"protocol":{"label":"通信协议","description":"通信协议，如果一个协议不可用，请尝试切换到另一个"},"submit":"创建 / 加入"},"history":{"empty":"没有历史记录，请享受这杯咖啡 ☕️","delete":"删除","clear":"清空历史记录"}}
+{
+  "slogan": "以集体智慧构建下一支强劲的队伍",
+  "tabs": {
+    "new room": "新房间",
+    "room history": "历史记录"
+  },
+  "form": {
+    "author": {
+      "label": "作者名",
+      "placeholder": "请输入作者名",
+      "description": "无需注册，用于在房间内显示",
+      "button": "抽选一个",
+      "button_title": "随机抽选一个作者名"
+    },
+    "pokepaste": {
+      "label": "PokéPaste 链接",
+      "description": "可选，你可以从一个 PokePaste 队伍为基础开始"
+    },
+    "room": {
+      "label": "房间名",
+      "placeholder": "请输入房间名",
+      "description": "你可以分享这个房间名，邀请他们加入你的房间一同构建队伍"
+    },
+    "protocol": {
+      "label": "通信协议",
+      "description": "如果一个协议不可用，请尝试切换到另一个"
+    },
+    "submit": "创建 / 加入"
+  },
+  "history": {
+    "empty": "没有历史记录，请享受这杯咖啡 ☕️",
+    "delete": "删除",
+    "clear": "清空历史记录"
+  }
+}

@@ -1,1 +1,35 @@
-{"slogan":"以集體智慧構建下一支強勁的隊伍","form":{"submit":"創建 / 加入","author":{"button":"抽選一個","button_title":"隨機抽選一個作者名","description":"無需註冊，用於在房間內顯示","placeholder":"請輸入作者名","label":"作者名"},"pokepaste":{"description":"可選，你可以從一個 PokePaste 隊伍為基礎開始","label":"PokéPaste 鏈接"},"protocol":{"description":"通信協議，如果一個協議不可用，请嘗試切換到另一個","label":"通信協議"},"room":{"description":"你可以分享這個房間名，邀請他們加入你的房間一同構建隊伍","label":"房間名","placeholder":"請輸入房間名"}},"tabs":{"room history":"房間歷史","new room":"新房間"},"history":{"clear":"清空歷史記錄","delete":"刪除","empty":"沒有歷史記錄，請享受這杯咖啡☕️"}}
+{
+  "slogan": "以集體智慧構建下一支強勁的隊伍",
+  "form": {
+    "submit": "創建 / 加入",
+    "author": {
+      "button": "抽選一個",
+      "button_title": "隨機抽選一個作者名",
+      "description": "無需註冊，用於在房間內顯示",
+      "placeholder": "請輸入作者名",
+      "label": "作者名"
+    },
+    "pokepaste": {
+      "description": "可選，你可以從一個 PokePaste 隊伍為基礎開始",
+      "label": "PokéPaste 鏈接"
+    },
+    "protocol": {
+      "description": "如果一個協議不可用，请嘗試切換到另一個",
+      "label": "通信協議"
+    },
+    "room": {
+      "description": "你可以分享這個房間名，邀請他們加入你的房間一同構建隊伍",
+      "label": "房間名",
+      "placeholder": "請輸入房間名"
+    }
+  },
+  "tabs": {
+    "room history": "房間歷史",
+    "new room": "新房間"
+  },
+  "history": {
+    "clear": "清空歷史記錄",
+    "delete": "刪除",
+    "empty": "沒有歷史記錄，請享受這杯咖啡☕️"
+  }
+}

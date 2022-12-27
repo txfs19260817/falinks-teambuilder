@@ -1,1 +1,35 @@
-{"slogan":"Construye el próximo equipo Pokémon arrollador con el poder de la colaboración","form":{"submit":"Crear / Unirse","author":{"button":"Seleccionar un nombre","button_title":"Dibujar un nombre de autor al azar","description":"No es necesario registrarse. Se utilizará para identificarle en la habitación.","placeholder":"por favor, escriba su nombre","label":"Nombre del autor"},"pokepaste":{"description":"Opcional. Comience su trabajo en equipo con un enlace de PokéPaste.","label":"Enlace PokéPaste"},"protocol":{"description":"Protocolo de comunicación. Intente con otro si uno no funciona.","label":"Protocolo de comunicación"},"room":{"description":"Puedes compartir el nombre de esta sala con otras personas para invitarlas a formar un equipo juntas.","label":"Nombre de la habitación","placeholder":"Por favor, introduzca un nombre de habitación"}},"tabs":{"room history":"Historial de la habitación","new room":"Nuevo cuarto"},"history":{"clear":"Borrar historial","delete":"Borrar","empty":"No se visitó ninguna habitación, disfruta de una taza de café ☕️"}}
+{
+  "slogan": "Construye el próximo equipo Pokémon arrollador con el poder de la colaboración",
+  "form": {
+    "submit": "Crear / Unirse",
+    "author": {
+      "button": "Seleccionar un nombre",
+      "button_title": "Dibujar un nombre de autor al azar",
+      "description": "No es necesario registrarse. Se utilizará para identificarle en la habitación.",
+      "placeholder": "por favor, escriba su nombre",
+      "label": "Nombre del autor"
+    },
+    "pokepaste": {
+      "description": "Opcional. Comience su trabajo en equipo con un enlace de PokéPaste.",
+      "label": "Enlace PokéPaste"
+    },
+    "protocol": {
+      "description": "Intente con otro si uno no funciona.",
+      "label": "Protocolo de comunicación"
+    },
+    "room": {
+      "description": "Puedes compartir el nombre de esta sala con otras personas para invitarlas a formar un equipo juntas.",
+      "label": "Nombre de la habitación",
+      "placeholder": "Por favor, introduzca un nombre de habitación"
+    }
+  },
+  "tabs": {
+    "room history": "Historial de la habitación",
+    "new room": "Nuevo cuarto"
+  },
+  "history": {
+    "clear": "Borrar historial",
+    "delete": "Borrar",
+    "empty": "No se visitó ninguna habitación, disfruta de una taza de café ☕️"
+  }
+}

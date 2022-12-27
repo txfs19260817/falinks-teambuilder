@@ -32,7 +32,7 @@ const VGCPastes = ({ format, pastes }: InferGetStaticPropsType<typeof getStaticP
           {t('common.insights')} 📈
         </button>
       </div>
-      <PastesTable pastes={pastes} />
+      <PastesTable pastes={pastes} enableSharedAt={true} />
     </Main>
   );
 };

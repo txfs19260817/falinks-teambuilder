@@ -1,1 +1,35 @@
-{"slogan":"집단의 지혜로 다음 강력한 포켓몬 대오를 구축하다","form":{"submit":"생성/가입","author":{"button":"무작위 추첨","button_title":"저자 이름을 임의로 그리기","description":"등록이 필요하지 않습니다. 객실에서 귀하를 식별하는 데 사용됩니다.","placeholder":"당신의 이름을 입력하세요","label":"저자 이름"},"pokepaste":{"description":"선택 과목. PokéPaste 링크로 팀을 시작하십시오.","label":"PokéPaste 링크"},"protocol":{"description":"통신 프로토콜. 작동하지 않는 경우 다른 것을 시도하십시오.","label":"통신 프로토콜"},"room":{"description":"이 방 이름을 공유하여 다른 사람을 초대할 수 있습니다.","label":"방 이름","placeholder":"방 이름을 입력하세요"}},"tabs":{"room history":"객실 이력","new room":"새 방"},"history":{"clear":"기록 지우기","delete":"삭제","empty":"히스토리 없이 커피한잔하세요 ☕️"}}
+{
+  "slogan": "집단의 지혜로 다음 강력한 포켓몬 대오를 구축하다",
+  "form": {
+    "submit": "생성/가입",
+    "author": {
+      "button": "무작위 추첨",
+      "button_title": "저자 이름을 임의로 그리기",
+      "description": "등록이 필요하지 않습니다. 객실에서 귀하를 식별하는 데 사용됩니다.",
+      "placeholder": "당신의 이름을 입력하세요",
+      "label": "저자 이름"
+    },
+    "pokepaste": {
+      "description": "선택 과목. PokéPaste 링크로 팀을 시작하십시오.",
+      "label": "PokéPaste 링크"
+    },
+    "protocol": {
+      "description": "작동하지 않는 경우 다른 것을 시도하십시오.",
+      "label": "통신 프로토콜"
+    },
+    "room": {
+      "description": "이 방 이름을 공유하여 다른 사람을 초대할 수 있습니다.",
+      "label": "방 이름",
+      "placeholder": "방 이름을 입력하세요"
+    }
+  },
+  "tabs": {
+    "room history": "객실 이력",
+    "new room": "새 방"
+  },
+  "history": {
+    "clear": "기록 지우기",
+    "delete": "삭제",
+    "empty": "히스토리 없이 커피한잔하세요 ☕️"
+  }
+}
