@@ -28,7 +28,10 @@ function SpeciesInput() {
   };
 
   const handleFocus = () => {
-    focusedFieldDispatch({ type: 'set', payload: thisFocusedFieldState });
+    focusedFieldDispatch({
+      type: 'set',
+      payload: { ...thisFocusedFieldState, globalFilterKey: species },
+    });
   };
 
   return (

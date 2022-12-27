@@ -111,6 +111,10 @@ test('should navigate to the User Paste page', async ({ page, isMobile, baseURL 
   await page.waitForNavigation();
   // The new URL should contain "/pastes/public"
   await expect(page).toHaveURL(/\/pastes\/public/);
+  // Sort by createdAt ascendant
+  await page.getByText('Created At⇵').click();
+  // Expect the first paste to be the oldest
+  await page.getByText('Created At↑').isVisible();
   // The new page should contain a cell with "Go Team Rotom"
   await expect(page.getByRole('cell', { name: 'Go Team Rotom!' })).toBeVisible();
 });
