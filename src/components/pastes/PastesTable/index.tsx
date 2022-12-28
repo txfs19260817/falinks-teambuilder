@@ -77,6 +77,8 @@ const PastesTable = ({ pastes, enableSharedAt = false }: PastesTableProps) => {
           </span>
         );
       },
+      sortingFn: (a, b, columnId) =>
+        new Date(parseInt(a.getValue<string>(columnId).slice(1, 9), 36)).getTime() - new Date(parseInt(b.getValue<string>(columnId).slice(1, 9), 36)).getTime(),
       enableColumnFilter: false,
       enableGlobalFilter: false,
     },
