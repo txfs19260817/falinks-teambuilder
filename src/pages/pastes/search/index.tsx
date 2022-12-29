@@ -1,4 +1,4 @@
-import type { Item, Move, Specie } from '@pkmn/data';
+import type { Item, Move, Specie, TypeName } from '@pkmn/data';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useEffect, useMemo, useState } from 'react';
@@ -11,10 +11,11 @@ import { RoundTypeIcon } from '@/components/icons/RoundTypeIcon';
 import PastesTable from '@/components/pastes/PastesTable';
 import { FormatSelector } from '@/components/select/FormatSelector';
 import { Select } from '@/components/select/Select';
+import { ValueWithEmojiSelector } from '@/components/select/ValueWithEmojiSelector';
 import DexSingleton from '@/models/DexSingleton';
 import { Main } from '@/templates/Main';
 import { AppConfig } from '@/utils/AppConfig';
-import { defaultStats, getMovesBySpecie, getPokemonTranslationKey, maxEVStats, stats } from '@/utils/PokemonUtils';
+import { defaultStats, getMovesBySpecie, getPokemonTranslationKey, maxEVStats, stats, typesWithEmoji } from '@/utils/PokemonUtils';
 import type { PastesList } from '@/utils/Prisma';
 import type { SearchPasteForm, SearchPastePokemonCriteria } from '@/utils/Types';
 
@@ -146,9 +147,9 @@ const Search = () => {
                       </div>
                     </div>
                     <div className="collapse-content">
-                      <div className="grid grid-flow-col gap-1 md:grid-rows-2">
+                      <div className="grid grid-flow-row gap-1 sm:grid-flow-col">
                         {/* Item */}
-                        <label className="label">
+                        <label className="label whitespace-nowrap">
                           <span className="label-text font-bold">{t('common.item')}</span>
                         </label>
                         <Select
@@ -173,7 +174,7 @@ const Search = () => {
                           placeholder={t('search.any')}
                         />
                         {/* Ability */}
-                        <label className="label">
+                        <label className="label whitespace-nowrap">
                           <span className="label-text font-bold">{t('common.ability')}</span>
                         </label>
                         <select
@@ -190,6 +191,24 @@ const Search = () => {
                             </option>
                           ))}
                         </select>
+                        {/* Tera Type */}
+                        <label className="label whitespace-nowrap">
+                          <span className="label-text font-bold">{t('common.teraType')}</span>
+                        </label>
+                        <ValueWithEmojiSelector
+                          className="select-bordered select select-sm w-full"
+                          options={typesWithEmoji}
+                          emptyOption={t('search.any')}
+                          enableEmojis={true}
+                          bindValue={field.teraType}
+                          onChange={(e) => {
+                            update(index, {
+                              ...field,
+                              teraType: e.target.value as TypeName,
+                            });
+                          }}
+                          ariaLabel={`Tera Type Select ${index}`}
+                        />
                       </div>
                       {/* Moves */}
                       <label className="label">
@@ -310,7 +329,7 @@ const Search = () => {
 export async function getStaticProps({ locale }: { locale: string }) {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ['common', 'search', 'species', 'moves', 'abilities', 'items'])),
+      ...(await serverSideTranslations(locale, ['common', 'search', 'species', 'moves', 'abilities', 'items', 'types'])),
     },
   };
 }

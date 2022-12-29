@@ -41,8 +41,8 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Sync
-        run: npm run db-syncvgc
+      - name: Cronjob
+        run: npm run cronjob
         env:
           DATABASE_URL: ${{secrets.DATABASE_URL}}
           SHADOW_DATABASE_URL: ${{secrets.SHADOW_DATABASE_URL}}

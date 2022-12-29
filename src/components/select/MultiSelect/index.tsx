@@ -3,7 +3,7 @@ import { useMemo, useState } from 'react';
 
 import type { Option, SelectProps } from '@/utils/Types';
 
-export function MultiSelect({ options, onChange, iconGetter, placeholder = '...' }: SelectProps<Option[]>) {
+export function MultiSelect({ options, onChange, iconGetter, ariaLabel, placeholder = '...' }: SelectProps<Option[]>) {
   const getFilteredOptions = (selectedOptions: Option[], inputValue: string) => {
     return options.filter((o) => !selectedOptions.includes(o) && (o.value.toLowerCase().includes(inputValue.toLowerCase()) || o.label.includes(inputValue)));
   };
@@ -99,6 +99,8 @@ export function MultiSelect({ options, onChange, iconGetter, placeholder = '...'
               </span>
             ))}
             <input
+              role="listbox"
+              aria-label={ariaLabel}
               placeholder={placeholder}
               className="input-bordered input input-sm w-full border-none focus:outline-none"
               {...getInputProps(

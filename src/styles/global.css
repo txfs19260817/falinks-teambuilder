@@ -12,6 +12,18 @@ a:hover {
 
 @tailwind utilities;
 
+/* https://github.com/saadeghi/daisyui/issues/665 */
+.table th:first-child {
+    position: relative !important;
+}
+
+.table.sticky th:first-child {
+    position: sticky !important;
+    position: -webkit-sticky !important;
+    left: 0px;
+    z-index: 11;
+}
+
 .content p {
     @apply my-6;
 }

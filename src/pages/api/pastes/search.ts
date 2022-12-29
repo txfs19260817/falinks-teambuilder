@@ -25,10 +25,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<PastesList>) =>
         isOfficial: officialOnly ? true : undefined,
         jsonPaste: {
           path: [],
-          array_contains: speciesCriterion.map(({ species, ability, item }) => ({
+          array_contains: speciesCriterion.map(({ species, ability, item, teraType }) => ({
             species,
             ability: ability || undefined,
             item: item || undefined,
+            teraType: teraType || undefined,
           })),
         },
       },
