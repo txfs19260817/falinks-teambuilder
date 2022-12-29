@@ -49,11 +49,11 @@ test('should use multi-select to filter by pokemon', async ({ page, baseURL }) =
   // Filter by pokemon
   await page.getByRole('listbox', { name: 'species' }).click();
   await page.getByRole('listbox', { name: 'species' }).fill('don');
-  await page.getByText('Dondozo').click();
+  await page.getByRole('option', { name: 'Dondozo Dondozo' }).getByText('Dondozo').click();
   await page.getByRole('listbox', { name: 'species' }).fill('ty');
-  await page.getByText('Tyranitar').click();
+  await page.getByRole('option', { name: 'Tyranitar Tyranitar' }).getByText('Tyranitar').click();
   await page.getByRole('listbox', { name: 'species' }).fill('mau');
-  await page.getByText('Maushold').click();
+  await page.getByRole('option', { name: 'Maushold Maushold' }).getByText('Maushold').click();
   // Verify that the results are filtered
   await expect(page.getByText(`KURO's Dondozo Team`)).toBeVisible();
 });
