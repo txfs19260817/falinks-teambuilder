@@ -78,3 +78,19 @@ export type IndexedDBTeam = {
   species: string[];
   format: string;
 };
+
+export type ReplayResponse = {
+  id: string;
+  p1: string;
+  p2: string;
+  format: string;
+  log: string;
+  uploadtime: number;
+  views: number;
+  p1id: string;
+  p2id: string;
+  formatid: string;
+  rating: number;
+  private: 0 | 1;
+  password: string | null;
+};

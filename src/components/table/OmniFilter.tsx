@@ -23,6 +23,7 @@ function OmniFilter({ column, instance }: { column: Column<any>; instance: Table
         onChange={(e) => {
           column.setFilterValue(e.target.value);
         }}
+        ariaLabel={column.id}
       />
     );
   }
@@ -37,6 +38,7 @@ function OmniFilter({ column, instance }: { column: Column<any>; instance: Table
         onChange={(e) => {
           column.setFilterValue(e.target.value);
         }}
+        ariaLabel={column.id}
       />
     );
   }
@@ -60,6 +62,7 @@ function OmniFilter({ column, instance }: { column: Column<any>; instance: Table
           column.setFilterValue(e.map((p) => p.value));
         }}
         iconGetter={(key: string) => <PokemonIcon speciesId={key} />}
+        ariaLabel={column.id}
       />
     );
   }
@@ -96,6 +99,8 @@ function OmniFilter({ column, instance }: { column: Column<any>; instance: Table
       onChange={(e) => column.setFilterValue(e.target.value)}
       placeholder={`... (#${column.getFacetedUniqueValues().size})`}
       className="input input-xs w-24 shadow md:w-32"
+      role="searchbox"
+      aria-label={column.id}
     />
   );
 }

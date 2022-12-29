@@ -17,11 +17,27 @@ model Pokepaste {
   notes      String?
   source     String?
   format     String
-  isPublic   Boolean  @default(false)
   createdAt  DateTime @default(now())
   rentalCode String?
   isOfficial Boolean  @default(true)
+  isPublic   Boolean  @default(false)
   jsonPaste  Json?
 
   @@index([format, createdAt(sort: Desc)])
+}
+
+model replay {
+  id         String   @id(map: "id")
+  p1         String   @db.VarChar(45)
+  p2         String   @db.VarChar(45)
+  format     String   @db.VarChar(45)
+  uploadtime DateTime @unique(map: "uploadtime", sort: Desc) @db.Timestamp(6)
+  log        String
+  rating     Int      @default(1000) @db.SmallInt
+  p1team     String[]
+  p2team     String[]
+
+  @@unique([p1, uploadtime], map: "p1")
+  @@unique([p2, uploadtime], map: "p2")
+  @@index([format, uploadtime(sort: Desc)], map: "format")
 }
