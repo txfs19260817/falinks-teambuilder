@@ -38,6 +38,7 @@ export type SearchPastePokemonCriteria = {
   species: string;
   ability?: string;
   item?: string;
+  teraType?: TypeName;
   moves: string[];
   minEVs: StatsTable;
   maxEVs: StatsTable;
