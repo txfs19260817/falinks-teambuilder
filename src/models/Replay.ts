@@ -1,5 +1,5 @@
 /* eslint-disable no-restricted-syntax, no-await-in-loop */
-import type { Args, PokemonIdent } from '@pkmn/protocol';
+import type { Args, KWArgs, PokemonIdent } from '@pkmn/protocol';
 import { Protocol } from '@pkmn/protocol';
 
 import { urlPattern } from '@/utils/Helpers';
@@ -42,6 +42,10 @@ class Replay implements Protocol.Handler {
       ratingAfter: number;
       team: string[];
       switchIns: string[];
+      moves: {
+        name: string;
+        turn: number;
+      }[];
       terastallize: {
         species: string;
         type: string;
@@ -62,6 +66,7 @@ class Replay implements Protocol.Handler {
       ratingAfter: 0,
       team: [],
       switchIns: [],
+      moves: [],
       terastallize: {
         species: '',
         type: '',
@@ -84,11 +89,12 @@ class Replay implements Protocol.Handler {
         this.rating = rating;
         let currentTurn = 0;
         // @ts-ignore
-        for (const { args } of Protocol.parse(log)) {
+        for (const { args, kwArgs } of Protocol.parse(log)) {
           currentTurn = args[0] === 'turn' ? +args[1] : currentTurn;
           this['|player|'](args);
           this['|poke|'](args);
-          this['|switch|'](args);
+          this['|switch|'](args, kwArgs);
+          this['|move|'](args, kwArgs, currentTurn);
           this['|-terastallize|'](args, currentTurn);
           this['|win|'](args);
         }
@@ -114,12 +120,23 @@ class Replay implements Protocol.Handler {
     }
   }
 
-  '|switch|'(args: Args['|switch|'] | Args['|drag|'] | Args['|replace|']) {
+  '|switch|'(args: Args['|switch|'] | Args['|drag|'] | Args['|replace|'], _: KWArgs['|switch|']) {
     if (args[0] === 'switch' || args[0] === 'drag' || args[0] === 'replace') {
       const [, ident, details] = args;
       const { player } = Protocol.parsePokemonIdent(ident);
       const { speciesForme } = Protocol.parseDetails('', ident, details);
       this.players[player === 'p1' ? 'p1' : 'p2'].switchIns.push(speciesForme);
+    }
+  }
+
+  '|move|'(args: Args['|move|'], _: KWArgs['|move|'], turn = 0) {
+    if (args[0] === 'move') {
+      const [, ident, move] = args;
+      const { player } = Protocol.parsePokemonIdent(ident);
+      this.players[player === 'p1' ? 'p1' : 'p2'].moves.push({
+        name: move,
+        turn,
+      });
     }
   }
 
@@ -182,26 +199,18 @@ class Replay implements Protocol.Handler {
     return bringIns;
   }
 
-  static async getReplays(
-    format: string,
-    options?: {
-      timeRange?: [number, number];
-      minRating?: number;
-    }
-  ): Promise<Replay[]> {
-    const results = [];
-    const endpoint = `https://replay.pokemonshowdown.com/search.json?format=${format}&page=`;
-    // eslint-disable-next-line no-plusplus
-    for (let page = 1; ; page++) {
-      const json = (await fetch(`${endpoint}${page}`).then((r) => r.json())) as Awaited<Pick<ReplayResponse, 'id' | 'uploadtime' | 'format'>[]>;
-      const replays = json
-        .filter((r) => (options?.timeRange ? r.uploadtime >= options.timeRange[0] && r.uploadtime <= options.timeRange[1] : true))
-        .map(({ id }) => new Replay(id));
-      await Promise.all(replays.map((r) => r.populateReplay()));
-      results.push(...replays.filter((r) => (options?.minRating ? r.rating >= options.minRating : true)));
-      if (json.at(-1)!.uploadtime <= (options?.timeRange ? options.timeRange[0] : json.at(-1)!.uploadtime)) break;
-    }
-    return results;
+  get switchTimes(): Record<'p1' | 'p2', number> {
+    return {
+      p1: this.players.p1.switchIns.length,
+      p2: this.players.p2.switchIns.length,
+    };
+  }
+
+  get ProtectTimes(): Record<'p1' | 'p2', number> {
+    return {
+      p1: this.players.p1.moves.filter(({ name }) => name === 'Protect').length,
+      p2: this.players.p2.moves.filter(({ name }) => name === 'Protect').length,
+    };
   }
 }
 

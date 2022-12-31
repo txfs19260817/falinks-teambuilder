@@ -1,4 +1,6 @@
 import type { TypeEffectiveness } from '@pkmn/data';
+import { replay } from '@prisma/client';
+import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { useState } from 'react';
@@ -13,6 +15,8 @@ import { Pokemon } from '@/models/Pokemon';
 import Loading from '@/templates/Loading';
 import { S4 } from '@/utils/Helpers';
 import { Paste } from '@/utils/Prisma';
+
+const ReplaysTable = dynamic(() => import('@/components/replays/ReplaysTable'), { ssr: false });
 
 const PasteAndFunctions = ({ team, paste }: { team: Pokemon[]; paste: NonNullable<Paste> }) => {
   const { locale, push } = useRouter();
@@ -140,13 +144,16 @@ const TeamInsight = ({ team }: { team: Pokemon[] }) => {
   );
 };
 
-const tabs = ['Team', 'Insights'] as const;
+const tabs = ['Team', 'Insights', 'Replays'] as const;
 type Tabs = typeof tabs[number];
 
 const PasteLayout = ({ id }: { id: string }) => {
   const { t } = useTranslation(['common']);
   const [currentTab, setCurrentTab] = useState<Tabs>('Team');
   const { data: paste, error } = useSWRImmutable<Paste>(id, (i) => fetch(`/api/pastes/${i}`).then((res) => res.json()));
+  const { data: replays } = useSWRImmutable<replay[]>(paste?.format && paste?.paste ? Pokemon.extractSpeciesFromPaste(paste.paste).join(',') : null, (k) =>
+    fetch(`/api/replays/teams?format=${paste?.format}&species=${k}`).then((r) => r.json())
+  );
 
   if (error) {
     toast.error('An error occurred while fetching the paste.');
@@ -158,7 +165,7 @@ const PasteLayout = ({ id }: { id: string }) => {
   return (
     <>
       <div className="tabs tabs-boxed">
-        {['Team', 'Insights'].map((tab) => (
+        {tabs.map((tab) => (
           <a key={tab} className={`tab ${currentTab === tab ? 'tab-active' : ''}`} onClick={() => setCurrentTab(tab as Tabs)}>
             {t(tab.toLowerCase())}
           </a>
@@ -166,6 +173,7 @@ const PasteLayout = ({ id }: { id: string }) => {
       </div>
       {currentTab === 'Team' && <PasteAndFunctions team={team} paste={paste} />}
       {currentTab === 'Insights' && <TeamInsight team={team} />}
+      {currentTab === 'Replays' && <ReplaysTable replays={replays ?? []} />}
     </>
   );
 };

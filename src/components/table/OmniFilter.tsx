@@ -48,11 +48,11 @@ function OmniFilter({ column, instance }: { column: Column<any>; instance: Table
     const species = instance.getFilteredRowModel().flatRows.map(({ getValue }) => getValue<string>(column.id));
     // get all unique pokemon
     const options = Array.from(new Set(species.flat()))
-      .sort((a, b) => a.localeCompare(b))
       .map((e) => ({
         value: e,
         label: t(getPokemonTranslationKey(e, 'species')),
-      }));
+      }))
+      .sort((a, b) => a.label.localeCompare(b.label));
     // return a select component
     return (
       <MultiSelect

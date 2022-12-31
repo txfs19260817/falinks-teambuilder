@@ -90,3 +90,24 @@ export const createPaste = async (paste: Prisma.PokepasteCreateInput) =>
   prisma.pokepaste.create({
     data: paste,
   });
+
+export const listReplays = async (options: { format: string; pageSize?: number; page?: number }) =>
+  prisma.replay.findMany({
+    select: {
+      id: true,
+      uploadtime: true,
+      p1: true,
+      p2: true,
+      p1team: true,
+      p2team: true,
+      rating: true,
+    },
+    skip: options.page && options.pageSize ? options.pageSize * (options.page - 1) : undefined,
+    take: options.pageSize || undefined,
+    where: {
+      format: options.format,
+    },
+    orderBy: {
+      uploadtime: 'desc',
+    },
+  });

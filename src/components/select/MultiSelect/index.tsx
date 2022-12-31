@@ -10,7 +10,7 @@ export function MultiSelect({ options, onChange, iconGetter, ariaLabel, placehol
 
   const [inputValue, setInputValue] = useState<string>('');
   const [selectedOptions, setSelectedOptions] = useState<Option[]>([]);
-  const items = useMemo<Option[]>(() => getFilteredOptions(selectedOptions, inputValue), [selectedOptions, inputValue]);
+  const items = useMemo<Option[]>(() => getFilteredOptions(selectedOptions, inputValue), [options, selectedOptions, inputValue]);
   const { getSelectedItemProps, getDropdownProps, removeSelectedItem } = useMultipleSelection({
     selectedItems: selectedOptions,
     onStateChange({ selectedItems: newSelectedItems, type }) {
@@ -80,7 +80,7 @@ export function MultiSelect({ options, onChange, iconGetter, ariaLabel, placehol
           <div className="flex grow gap-0.5" {...getComboboxProps()}>
             {selectedOptions.map((option, index) => (
               <span
-                className="self-center"
+                className="flex flex-row self-center"
                 key={option.value}
                 {...getSelectedItemProps({
                   selectedItem: option,
