@@ -14,6 +14,8 @@ type PokemonFilterProps = {
 export function PokemonFilter({ usages, drawerID, setSelectedRank }: PokemonFilterProps) {
   const { t } = useTranslation(['common', 'usages']);
   const [pokemonNameFilter, setPokemonNameFilter] = useState<string>('');
+  const i18nPokemonNameFilter = ({ name }: Usage) =>
+    t(getPokemonTranslationKey(name, 'species')).includes(pokemonNameFilter) || name.toLowerCase().includes(pokemonNameFilter.toLowerCase());
   return (
     <>
       <label className="input-group-xs input-group">
@@ -27,7 +29,7 @@ export function PokemonFilter({ usages, drawerID, setSelectedRank }: PokemonFilt
         />
       </label>
       {(usages || [])
-        .filter((usage) => usage.name.toLowerCase().includes(pokemonNameFilter.toLowerCase())) // apply filter that user typed in
+        .filter(i18nPokemonNameFilter) // apply filter that user typed in
         .map(({ name, rank }) => (
           <li key={name}>
             {/* use label to close drawer on mobile view */}
