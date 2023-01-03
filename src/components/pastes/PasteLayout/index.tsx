@@ -1,4 +1,3 @@
-import type { TypeEffectiveness } from '@pkmn/data';
 import { replay } from '@prisma/client';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
@@ -9,14 +8,19 @@ import useSWRImmutable from 'swr/immutable';
 
 import { PokemonIcon } from '@/components/icons/PokemonIcon';
 import { PureSpriteAvatar } from '@/components/icons/PureSpriteAvatar';
-import { TeamTypeCategoryMatrix } from '@/components/table/TeamTypeCategoryMatrix';
-import { TeamTypeChart } from '@/components/table/TeamTypeChart';
 import { Pokemon } from '@/models/Pokemon';
 import Loading from '@/templates/Loading';
 import { S4 } from '@/utils/Helpers';
 import { Paste } from '@/utils/Prisma';
 
-const ReplaysTable = dynamic(() => import('@/components/replays/ReplaysTable'), { ssr: false });
+const TeamInsight = dynamic(() => import('@/components/pastes/TeamInsight'), {
+  ssr: false,
+  loading: () => <Loading />,
+});
+const ReplaysTable = dynamic(() => import('@/components/replays/ReplaysTable'), {
+  ssr: false,
+  loading: () => <Loading />,
+});
 
 const PasteAndFunctions = ({ team, paste }: { team: Pokemon[]; paste: NonNullable<Paste> }) => {
   const { locale, push } = useRouter();
@@ -121,25 +125,6 @@ const PasteAndFunctions = ({ team, paste }: { team: Pokemon[]; paste: NonNullabl
           </button>
         </div>
       </div>
-    </div>
-  );
-};
-
-const TeamInsight = ({ team }: { team: Pokemon[] }) => {
-  const { t } = useTranslation(['common']);
-  const { defenseMap, offenseMap, defenseTeraMap } = Pokemon.getTeamTypeChart(team);
-  return (
-    <div className="flex flex-col gap-2 overflow-x-auto p-2">
-      <h1 className="text-2xl font-bold">{t('common.insights')}</h1>
-      {/* type category matrix */}
-      <h2 className="text-xl font-bold">{t('common.typeCategoryMatrix')}</h2>
-      <TeamTypeCategoryMatrix teamMemberCategories={Pokemon.getTeamMemberCategories(team)} />
-      {/* defense map */}
-      <h2 className="text-xl font-bold">{t('common.defense')}</h2>
-      <TeamTypeChart teamTypeChart={defenseMap} additionalTypeChart={defenseTeraMap} direction={'defense'} />
-      {/* offense map */}
-      <h2 className="text-xl font-bold">{t('common.offense')}</h2>
-      <TeamTypeChart<TypeEffectiveness> teamTypeChart={offenseMap} direction={'offense'} />
     </div>
   );
 };
