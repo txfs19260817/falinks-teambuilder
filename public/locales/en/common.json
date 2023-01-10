@@ -37,6 +37,9 @@
   "offense": "Attack",
   "overview": "Overview",
   "paste": "Paste",
+  "player": "Player",
+  "players": "Players",
+  "playersTeam": "Player {{num}}'s Team",
   "pokemon": "Pokémon",
   "power": "Power",
   "preset": {
@@ -48,7 +51,10 @@
   },
   "private": "Private",
   "public": "Public",
+  "rating": "Rating",
   "rentalCode": "Rental Code",
+  "replay": "Replay",
+  "replays": "Replays",
   "routes": {
     "home": {
       "title": "Home",
@@ -80,8 +86,13 @@
     "usage": {
       "title": "Usages",
       "description": "Pokémon Showdown! usage statistics"
+    },
+    "replay": {
+      "title": "Replays",
+      "description": "Pokémon Showdown! High-rating replays"
     }
   },
+  "search": "Search",
   "share": "Share",
   "shiny": "Shiny",
   "source": "Source",

@@ -1,5 +1,5 @@
 /* eslint-disable no-restricted-syntax, no-await-in-loop */
-import type { Args, PokemonIdent } from '@pkmn/protocol';
+import type { Args, KWArgs, PokemonIdent } from '@pkmn/protocol';
 import { Protocol } from '@pkmn/protocol';
 
 import { urlPattern } from '@/utils/Helpers';
@@ -22,16 +22,16 @@ type ReplayResponse = {
 
 class Replay implements Protocol.Handler {
   // Pokémon Showdown replay JSON URL
-  url: string;
+  url: string = '';
 
   // Game rating
-  rating: number;
+  rating: number = 0;
 
   // Format
-  format: string;
+  format: string = '';
 
   // Upload time
-  timestamp: number;
+  timestamp: number = 0;
 
   // Parsed replay data
   players: Record<
@@ -42,6 +42,10 @@ class Replay implements Protocol.Handler {
       ratingAfter: number;
       team: string[];
       switchIns: string[];
+      moves: {
+        name: string;
+        turn: number;
+      }[];
       terastallize: {
         species: string;
         type: string;
@@ -51,17 +55,14 @@ class Replay implements Protocol.Handler {
     }
   >;
 
-  constructor(urlOrId: string) {
-    this.url = urlPattern.test(urlOrId) ? urlOrId : `https://replay.pokemonshowdown.com/${urlOrId}.json`;
-    this.format = '';
-    this.timestamp = 0;
-    this.rating = 0;
+  constructor() {
     const initialPlayer = {
       alt: '',
       ratingBefore: 0,
       ratingAfter: 0,
       team: [],
       switchIns: [],
+      moves: [],
       terastallize: {
         species: '',
         type: '',
@@ -75,24 +76,74 @@ class Replay implements Protocol.Handler {
     };
   }
 
-  public populateReplay(): Promise<void> {
-    return fetch(this.url)
+  public static async fromUrlOrId(urlOrId: string) {
+    // Save `url` to Replay instance; use `jsonUrl` for fetching
+    const url = urlPattern.test(urlOrId) ? urlOrId : `https://replay.pokemonshowdown.com/${urlOrId}`;
+    const jsonUrl = url.endsWith('.json') ? url : `${url}.json`;
+    const replay = new Replay();
+    replay.url = url.endsWith('.json') ? url.slice(0, -5) : url.endsWith('.log') ? url.slice(0, -4) : url;
+
+    // Fetch replay JSON and build Replay instance
+    await fetch(jsonUrl)
       .then((r) => r.json())
       .then(({ log, format, uploadtime, rating }: ReplayResponse) => {
-        this.format = format;
-        this.timestamp = uploadtime;
-        this.rating = rating;
+        replay.format = format;
+        replay.timestamp = uploadtime;
+        replay.rating = rating;
         let currentTurn = 0;
         // @ts-ignore
-        for (const { args } of Protocol.parse(log)) {
+        for (const { args, kwArgs } of Protocol.parse(log)) {
           currentTurn = args[0] === 'turn' ? +args[1] : currentTurn;
-          this['|player|'](args);
-          this['|poke|'](args);
-          this['|switch|'](args);
-          this['|-terastallize|'](args, currentTurn);
-          this['|win|'](args);
+          replay['|player|'](args);
+          replay['|poke|'](args);
+          replay['|switch|'](args, kwArgs);
+          replay['|move|'](args, kwArgs, currentTurn);
+          replay['|-terastallize|'](args, currentTurn);
+          replay['|win|'](args);
         }
       });
+    return replay;
+  }
+
+  public static fromLog(log: string, metadata?: { format?: string; url?: string }) {
+    const replay = new Replay();
+    let currentTurn = 0;
+    // @ts-ignore
+    for (const { args, kwArgs } of Protocol.parse(log)) {
+      currentTurn = args[0] === 'turn' ? +args[1] : currentTurn;
+      replay['|t:|'](args);
+      replay['|player|'](args);
+      replay['|poke|'](args);
+      replay['|switch|'](args, kwArgs);
+      replay['|move|'](args, kwArgs, currentTurn);
+      replay['|-terastallize|'](args, currentTurn);
+      replay['|win|'](args);
+    }
+    // We can't get the format from the log, so use the metadata if provided
+    replay.url = metadata?.url || '';
+    replay.format = metadata?.format || '';
+    replay.rating = Math.min(replay.players.p1.ratingAfter, replay.players.p2.ratingAfter);
+    return replay;
+  }
+
+  public static getLogUrl(urlOrId: string) {
+    if (!urlPattern.test(urlOrId)) {
+      return `https://replay.pokemonshowdown.com/${urlOrId}.log`;
+    }
+    if (urlOrId.endsWith('.json')) {
+      return `${urlOrId.slice(0, -5)}.log`;
+    }
+    if (urlOrId.endsWith('.log')) {
+      return urlOrId;
+    }
+    return `${urlOrId}.log`;
+  }
+
+  '|t:|'(args: Args['|t:|']) {
+    if (args[0] === 't:') {
+      const [, ts] = args;
+      this.timestamp = +ts;
+    }
   }
 
   '|player|'(args: Args['|player|']) {
@@ -114,12 +165,23 @@ class Replay implements Protocol.Handler {
     }
   }
 
-  '|switch|'(args: Args['|switch|'] | Args['|drag|'] | Args['|replace|']) {
+  '|switch|'(args: Args['|switch|'] | Args['|drag|'] | Args['|replace|'], _: KWArgs['|switch|']) {
     if (args[0] === 'switch' || args[0] === 'drag' || args[0] === 'replace') {
       const [, ident, details] = args;
       const { player } = Protocol.parsePokemonIdent(ident);
       const { speciesForme } = Protocol.parseDetails('', ident, details);
       this.players[player === 'p1' ? 'p1' : 'p2'].switchIns.push(speciesForme);
+    }
+  }
+
+  '|move|'(args: Args['|move|'], _: KWArgs['|move|'], turn = 0) {
+    if (args[0] === 'move') {
+      const [, ident, move] = args;
+      const { player } = Protocol.parsePokemonIdent(ident);
+      this.players[player === 'p1' ? 'p1' : 'p2'].moves.push({
+        name: move,
+        turn,
+      });
     }
   }
 
@@ -158,6 +220,10 @@ class Replay implements Protocol.Handler {
     }
   }
 
+  get winner() {
+    return this.players.p1.win ? this.players.p1 : this.players.p2;
+  }
+
   get leads(): Record<'p1' | 'p2', string[]> {
     const leads: Record<'p1' | 'p2', string[]> = {
       p1: [],
@@ -182,26 +248,25 @@ class Replay implements Protocol.Handler {
     return bringIns;
   }
 
-  static async getReplays(
-    format: string,
-    options?: {
-      timeRange?: [number, number];
-      minRating?: number;
-    }
-  ): Promise<Replay[]> {
-    const results = [];
-    const endpoint = `https://replay.pokemonshowdown.com/search.json?format=${format}&page=`;
-    // eslint-disable-next-line no-plusplus
-    for (let page = 1; ; page++) {
-      const json = (await fetch(`${endpoint}${page}`).then((r) => r.json())) as Awaited<Pick<ReplayResponse, 'id' | 'uploadtime' | 'format'>[]>;
-      const replays = json
-        .filter((r) => (options?.timeRange ? r.uploadtime >= options.timeRange[0] && r.uploadtime <= options.timeRange[1] : true))
-        .map(({ id }) => new Replay(id));
-      await Promise.all(replays.map((r) => r.populateReplay()));
-      results.push(...replays.filter((r) => (options?.minRating ? r.rating >= options.minRating : true)));
-      if (json.at(-1)!.uploadtime <= (options?.timeRange ? options.timeRange[0] : json.at(-1)!.uploadtime)) break;
-    }
-    return results;
+  get switchTimes(): Record<'p1' | 'p2', number> {
+    return {
+      p1: this.players.p1.switchIns.length,
+      p2: this.players.p2.switchIns.length,
+    };
+  }
+
+  get protectTimes(): Record<'p1' | 'p2', number> {
+    return {
+      p1: this.players.p1.moves.filter(({ name }) => name === 'Protect').length,
+      p2: this.players.p2.moves.filter(({ name }) => name === 'Protect').length,
+    };
+  }
+
+  get terastallize(): Record<'p1' | 'p2', { species: string; type: string; turn: number } | undefined> {
+    return {
+      p1: this.players.p1.terastallize,
+      p2: this.players.p2.terastallize,
+    };
   }
 }
 

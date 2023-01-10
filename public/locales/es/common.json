@@ -101,10 +101,25 @@
       "title": "Usos"
     },
     "vgc_pastes": {
-      "description": "PokePaste seleccionado para Pokémon VGC"
+      "description": "PokePaste seleccionado para Pokémon VGC",
+      "title": "VGC Pastes"
+    },
+    "replay": {
+      "description": "Pokémon Showdown! Repeticiones de puntuación alta",
+      "title": "repeticiones"
+    },
+    "paste": {
+      "title": "Paste"
     }
   },
   "spread": "Spread",
   "spreads": "Spreads",
-  "substitute": "Sustituto"
+  "substitute": "Sustituto",
+  "replay": "Repetición",
+  "replays": "repeticiones",
+  "rating": "Clasificación",
+  "search": "Buscar",
+  "player": "Jugador",
+  "players": "jugadores",
+  "playersTeam": "Equipo del jugador {{num}}"
 }

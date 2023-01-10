@@ -80,6 +80,10 @@
     "usage": {
       "title": "使用率",
       "description": "Pokémon Showdown! 使用率统计"
+    },
+    "replay": {
+      "description": "Pokémon Showdown! 高分回放",
+      "title": "回放"
     }
   },
   "share": "分享",
@@ -110,5 +114,12 @@
   "types": "属性",
   "update": "更新",
   "usage": "使用率",
-  "webApiNotSupported": "📋 浏览器不支持 Web Share API ，已将其复制到您的剪贴板"
+  "webApiNotSupported": "📋 浏览器不支持 Web Share API ，已将其复制到您的剪贴板",
+  "replay": "回放",
+  "replays": "回放",
+  "rating": "分数",
+  "search": "搜索",
+  "player": "玩家",
+  "players": "玩家",
+  "playersTeam": "玩家 {{num}} 的队伍"
 }

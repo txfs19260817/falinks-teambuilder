@@ -18,7 +18,7 @@ export const FormatSelector = ({
   if (inputGroup) {
     return (
       <div className="input-group-xs input-group">
-        <span>{t('common.format')}</span>
+        <span className="whitespace-nowrap">{t('common.format')}</span>
         <select
           className="select-bordered select select-sm w-48 overflow-ellipsis"
           defaultValue={defaultFormat}

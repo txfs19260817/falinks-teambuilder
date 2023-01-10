@@ -101,10 +101,25 @@
       "title": "Usages"
     },
     "vgc_pastes": {
-      "description": "PokePaste organisé pour Pokémon VGC"
+      "description": "PokePaste organisé pour Pokémon VGC",
+      "title": "VGC Pastes"
+    },
+    "replay": {
+      "description": "Pokémon Showdown! Rediffusions des meilleurs scores",
+      "title": "Rediffusions"
+    },
+    "paste": {
+      "title": "Paste"
     }
   },
   "spread": "Spread",
   "spreads": "Spreads",
-  "substitute": "Clonage"
+  "substitute": "Clonage",
+  "replay": "Rejouer",
+  "replays": "Rediffusions",
+  "rating": "Notation",
+  "search": "Rechercher",
+  "player": "Joueur",
+  "players": "Joueurs",
+  "playersTeam": "L'équipe du joueur {{num}}"
 }

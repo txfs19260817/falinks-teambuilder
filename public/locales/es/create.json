@@ -1,1 +1,54 @@
-{"invalidPokePaste":"Enlace de PokePaste no válido","title":"Crear Paste","form":{"author":{"label":"Autor","placeholder":"Ingrese el nombre del autor"},"created at":{"label":"Creado en"},"details":{"label":"Detalles"},"format":{"label":"Formato"},"notes":{"label":"notas","placeholder":"Notas sobre este equipo"},"paste":{"error":"Texto inválido","placeholder":"Showdown importable o enlace PokePaste"},"public":{"private":"Privado","public":"Público","warning":"Guarde su enlace Pegar si lo hace privado."},"rental":{"label":"Código de equipo","description":"El código de alquiler de este equipo, opcional"},"source":{"description":"El enlace fuente de este equipo, opcional","label":"Fuente"},"submit":{"button":"Enviar","loading":"Creando Paste...","success":"Paste creado! Redireccionando...","error":"Se produjo un error al crear tu paste"},"team":{"label":"Team"},"title":{"label":"Título","placeholder":"Dale un nombre a este equipo"}}}
+{
+  "invalidPokePaste": "Enlace de PokePaste no válido",
+  "title": "Crear Paste",
+  "form": {
+    "author": {
+      "label": "Autor",
+      "placeholder": "Ingrese el nombre del autor"
+    },
+    "created at": {
+      "label": "Creado en"
+    },
+    "details": {
+      "label": "Detalles"
+    },
+    "format": {
+      "label": "Formato"
+    },
+    "notes": {
+      "label": "notas",
+      "placeholder": "Notas sobre este equipo"
+    },
+    "paste": {
+      "error": "Texto inválido",
+      "placeholder": "Showdown importable o enlace PokePaste",
+      "label": "Paste"
+    },
+    "public": {
+      "private": "Privado",
+      "public": "Público",
+      "warning": "Guarde su enlace Pegar si lo hace privado."
+    },
+    "rental": {
+      "label": "Código de equipo",
+      "description": "El código de alquiler de este equipo, opcional"
+    },
+    "source": {
+      "description": "El enlace fuente de este equipo, opcional",
+      "label": "Fuente"
+    },
+    "submit": {
+      "button": "Enviar",
+      "loading": "Creando Paste...",
+      "success": "Paste creado! Redireccionando...",
+      "error": "Se produjo un error al crear tu paste"
+    },
+    "team": {
+      "label": "Team"
+    },
+    "title": {
+      "label": "Título",
+      "placeholder": "Dale un nombre a este equipo"
+    }
+  }
+}

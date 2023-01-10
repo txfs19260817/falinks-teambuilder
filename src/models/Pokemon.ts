@@ -401,4 +401,13 @@ export class Pokemon implements PokemonSet {
     // seems `Team.pack()` does not add format and team name to the packed team, we do it manually
     return format && name ? `${format}]${name}|${packed}` : packed;
   }
+
+  static extractSpeciesFromPaste(s: string): string[] {
+    const speciesData = DexSingleton.getDex().species;
+    return (
+      this.convertPasteToTeam(s)
+        ?.map((p) => speciesData.get(p.species)?.id ?? '')
+        .filter((id) => id.length) ?? []
+    );
+  }
 }

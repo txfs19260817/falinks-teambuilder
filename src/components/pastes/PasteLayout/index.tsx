@@ -1,4 +1,5 @@
-import type { TypeEffectiveness } from '@pkmn/data';
+import { replay } from '@prisma/client';
+import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { useState } from 'react';
@@ -7,12 +8,19 @@ import useSWRImmutable from 'swr/immutable';
 
 import { PokemonIcon } from '@/components/icons/PokemonIcon';
 import { PureSpriteAvatar } from '@/components/icons/PureSpriteAvatar';
-import { TeamTypeCategoryMatrix } from '@/components/table/TeamTypeCategoryMatrix';
-import { TeamTypeChart } from '@/components/table/TeamTypeChart';
 import { Pokemon } from '@/models/Pokemon';
 import Loading from '@/templates/Loading';
 import { S4 } from '@/utils/Helpers';
 import { Paste } from '@/utils/Prisma';
+
+const TeamInsight = dynamic(() => import('@/components/pastes/TeamInsight'), {
+  ssr: false,
+  loading: () => <Loading />,
+});
+const ReplaysTable = dynamic(() => import('@/components/replays/ReplaysTable'), {
+  ssr: false,
+  loading: () => <Loading />,
+});
 
 const PasteAndFunctions = ({ team, paste }: { team: Pokemon[]; paste: NonNullable<Paste> }) => {
   const { locale, push } = useRouter();
@@ -121,32 +129,16 @@ const PasteAndFunctions = ({ team, paste }: { team: Pokemon[]; paste: NonNullabl
   );
 };
 
-const TeamInsight = ({ team }: { team: Pokemon[] }) => {
-  const { t } = useTranslation(['common']);
-  const { defenseMap, offenseMap, defenseTeraMap } = Pokemon.getTeamTypeChart(team);
-  return (
-    <div className="flex flex-col gap-2 overflow-x-auto p-2">
-      <h1 className="text-2xl font-bold">{t('common.insights')}</h1>
-      {/* type category matrix */}
-      <h2 className="text-xl font-bold">{t('common.typeCategoryMatrix')}</h2>
-      <TeamTypeCategoryMatrix teamMemberCategories={Pokemon.getTeamMemberCategories(team)} />
-      {/* defense map */}
-      <h2 className="text-xl font-bold">{t('common.defense')}</h2>
-      <TeamTypeChart teamTypeChart={defenseMap} additionalTypeChart={defenseTeraMap} direction={'defense'} />
-      {/* offense map */}
-      <h2 className="text-xl font-bold">{t('common.offense')}</h2>
-      <TeamTypeChart<TypeEffectiveness> teamTypeChart={offenseMap} direction={'offense'} />
-    </div>
-  );
-};
-
-const tabs = ['Team', 'Insights'] as const;
+const tabs = ['Team', 'Insights', 'Replays'] as const;
 type Tabs = typeof tabs[number];
 
 const PasteLayout = ({ id }: { id: string }) => {
   const { t } = useTranslation(['common']);
   const [currentTab, setCurrentTab] = useState<Tabs>('Team');
   const { data: paste, error } = useSWRImmutable<Paste>(id, (i) => fetch(`/api/pastes/${i}`).then((res) => res.json()));
+  const { data: replays } = useSWRImmutable<replay[]>(paste?.format && paste?.paste ? Pokemon.extractSpeciesFromPaste(paste.paste).join(',') : null, (k) =>
+    fetch(`/api/replays/teams?format=${paste?.format}&species=${k}`).then((r) => r.json())
+  );
 
   if (error) {
     toast.error('An error occurred while fetching the paste.');
@@ -157,15 +149,23 @@ const PasteLayout = ({ id }: { id: string }) => {
 
   return (
     <>
-      <div className="tabs tabs-boxed">
-        {['Team', 'Insights'].map((tab) => (
-          <a key={tab} className={`tab ${currentTab === tab ? 'tab-active' : ''}`} onClick={() => setCurrentTab(tab as Tabs)}>
+      <div className="tabs tabs-boxed" role="tablist">
+        {tabs.map((tab) => (
+          <a
+            key={tab}
+            className={`tab ${currentTab === tab ? 'tab-active' : ''}`}
+            onClick={() => setCurrentTab(tab as Tabs)}
+            role="tab"
+            aria-selected={currentTab === tab}
+            aria-label={tab}
+          >
             {t(tab.toLowerCase())}
           </a>
         ))}
       </div>
       {currentTab === 'Team' && <PasteAndFunctions team={team} paste={paste} />}
       {currentTab === 'Insights' && <TeamInsight team={team} />}
+      {currentTab === 'Replays' && <ReplaysTable replays={replays ?? []} />}
     </>
   );
 };
