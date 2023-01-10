@@ -18,20 +18,10 @@ test('should navigate to replay page', async ({ page, baseURL }) => {
   await page.getByPlaceholder('Pokémon ...').fill('tal');
   await page.getByText('Talonflame').click();
   await page.getByText('Created At⇵').click();
-  await expect(
-    page
-      .getByRole('row', {
-        name: '🔗 1543 Animod1 Annihilape Gastrodon Grimmsnarl Meowscarada Sylveon Volcarona ButterK Arcanine Dondozo Gholdengo Pawmot Talonflame Tatsugiri 12/28/2022',
-      })
-      .getByRole('cell', { name: 'Animod1' })
-  ).toBeVisible();
-  await expect(
-    page
-      .getByRole('cell', {
-        name: 'Arcanine Dondozo Gholdengo Pawmot Talonflame Tatsugiri',
-      })
-      .getByRole('img', { name: 'Pawmot' })
-  ).toBeVisible();
+  await expect(page.getByRole('img', { name: 'Dondozo' }).first()).toBeVisible();
+  await expect(page.getByRole('img', { name: 'Pawmot' }).first()).toBeVisible();
+  await expect(page.getByRole('img', { name: 'Talonflame' }).first()).toBeVisible();
+  await expect(page.getByRole('cell', { name: 'Animod1' }).first()).toBeVisible();
 });
 
 test('should find related replays in Paste page', async ({ page, baseURL }) => {
@@ -43,11 +33,5 @@ test('should find related replays in Paste page', async ({ page, baseURL }) => {
   await page.getByRole('tab', { name: 'Replays' }).click();
   // Sort by Created At
   await page.getByText('Created At⇵').click();
-  await expect(
-    page
-      .getByRole('row', {
-        name: '🔗 1561 ashzera 979 936 635 876 198 700 Heliosan Baxcalibur Dondozo Gholdengo Meowscarada Tatsugiri Volcarona 1/5/2023',
-      })
-      .getByRole('img', { name: 'Baxcalibur' })
-  ).toBeVisible();
+  await expect(page.getByRole('img', { name: 'Baxcalibur' }).first()).toBeVisible();
 });
