@@ -149,9 +149,16 @@ const PasteLayout = ({ id }: { id: string }) => {
 
   return (
     <>
-      <div className="tabs tabs-boxed">
+      <div className="tabs tabs-boxed" role="tablist">
         {tabs.map((tab) => (
-          <a key={tab} className={`tab ${currentTab === tab ? 'tab-active' : ''}`} onClick={() => setCurrentTab(tab as Tabs)}>
+          <a
+            key={tab}
+            className={`tab ${currentTab === tab ? 'tab-active' : ''}`}
+            onClick={() => setCurrentTab(tab as Tabs)}
+            role="tab"
+            aria-selected={currentTab === tab}
+            aria-label={tab}
+          >
             {t(tab.toLowerCase())}
           </a>
         ))}

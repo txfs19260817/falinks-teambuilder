@@ -80,6 +80,10 @@
     "usage": {
       "title": "Nutzungsraten",
       "description": "Pokémon Showdown! Nutzungsstatistiken"
+    },
+    "replay": {
+      "description": "Pokémon Showdown! Highscore-Wiederholungen",
+      "title": "Wiederholungen"
     }
   },
   "share": "Teilen",
@@ -110,5 +114,12 @@
   "update": "Aktualisieren",
   "usage": "Verwendungszweck",
   "substitute": "Delegator",
-  "webApiNotSupported": "📋 Der Link wurde in Ihre Zwischenablage kopiert, da Ihr Browser die Web Share API nicht unterstützt."
+  "webApiNotSupported": "📋 Der Link wurde in Ihre Zwischenablage kopiert, da Ihr Browser die Web Share API nicht unterstützt.",
+  "replay": "Wiederholung",
+  "replays": "Wiederholungen",
+  "rating": "Bewertung",
+  "search": "Suche",
+  "player": "Spieler",
+  "players": "Spieler",
+  "playersTeam": "Das Team von Spieler {{num}}"
 }

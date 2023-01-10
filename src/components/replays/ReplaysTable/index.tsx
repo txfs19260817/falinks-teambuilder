@@ -47,7 +47,7 @@ const ReplaysTable = ({ replays }: { replays: replay[] }) => {
       accessorKey: 'p1',
     },
     {
-      header: `${t('common.player')}1's team`,
+      header: `${t('common.playersTeam', { num: '1' })}`,
       accessorKey: 'p1team',
       cell: ({ getValue }) => (
         <span>
@@ -65,7 +65,7 @@ const ReplaysTable = ({ replays }: { replays: replay[] }) => {
       accessorKey: 'p2',
     },
     {
-      header: `${t('common.player')}2's team`,
+      header: `${t('common.playersTeam', { num: '2' })}`,
       accessorKey: 'p2team',
       cell: ({ getValue }) => (
         <span>

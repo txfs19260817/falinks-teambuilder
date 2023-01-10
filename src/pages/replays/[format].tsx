@@ -13,8 +13,39 @@ import { listReplays } from '@/utils/Prisma';
 
 const replayFormats = ['gen9vgc2023series1'];
 
+const ReplaySearchCard = ({ format, speciesOptions }: { format: string; speciesOptions: string[] }) => {
+  const { push } = useRouter();
+  const { t } = useTranslation(['common', 'species']);
+
+  return (
+    <div className="dropdown">
+      <label tabIndex={0} className="btn-primary btn-sm btn m-1" role="button" aria-label="Search">
+        {t('common.search')} 🔍
+      </label>
+      <div tabIndex={0} className="card dropdown-content card-compact bg-base-100 p-2  shadow">
+        <div className="card-body">
+          <h3 className="card-title">{t('common.search')}</h3>
+          <FormatSelector
+            formats={replayFormats}
+            defaultFormat={format}
+            handleChange={(e) => {
+              push(`/replays/${e.target.value}`);
+            }}
+          />
+          <SpeciesMultiSelect
+            species={speciesOptions}
+            onChange={(options) => {
+              push(`/replays/${format}?species=${(options as { value: string }[]).map((e) => e.value).join(',')}`);
+            }}
+          />
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const Replays = ({ format, replays }: InferGetStaticPropsType<typeof getStaticProps>) => {
-  const { push, query } = useRouter();
+  const { query } = useRouter();
   const { t } = useTranslation(['common', 'species']);
   const speciesFilter = query.species && typeof query.species === 'string' ? query.species.split(',') : [];
   const filteredReplays =
@@ -27,30 +58,8 @@ const Replays = ({ format, replays }: InferGetStaticPropsType<typeof getStaticPr
   const uniqueSpecies = Array.from(new Set(filteredReplays.flatMap((e) => [...e.p1team, ...e.p2team])));
 
   return (
-    <Main title={t('common.routes.replays.title')} description={t('common.routes.replays.description')}>
-      <div className="dropdown">
-        <label tabIndex={0} className="btn-primary btn-sm btn m-1">
-          Search 🔍
-        </label>
-        <div tabIndex={0} className="card dropdown-content card-compact bg-base-100 p-2  shadow">
-          <div className="card-body">
-            <h3 className="card-title">Search</h3>
-            <FormatSelector
-              formats={replayFormats}
-              defaultFormat={format}
-              handleChange={(e) => {
-                push(`/replays/${e.target.value}`);
-              }}
-            />
-            <SpeciesMultiSelect
-              species={uniqueSpecies}
-              onChange={(options) => {
-                push(`/replays/${format}?species=${(options as { value: string }[]).map((e) => e.value).join(',')}`);
-              }}
-            />
-          </div>
-        </div>
-      </div>
+    <Main title={t('common.routes.replay.title')} description={t('common.routes.replay.description')}>
+      <ReplaySearchCard format={format} speciesOptions={uniqueSpecies} />
       <ReplaysTable replays={filteredReplays} />
     </Main>
   );

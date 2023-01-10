@@ -21,7 +21,8 @@
     },
     "paste": {
       "error": "Ungültiger Paste",
-      "placeholder": "Showdown importierbar oder PokePaste-Link"
+      "placeholder": "Showdown importierbar oder PokePaste-Link",
+      "label": "Paste"
     },
     "public": {
       "private": "Privat",

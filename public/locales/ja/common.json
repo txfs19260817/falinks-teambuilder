@@ -75,7 +75,15 @@
       "title": "ランキング"
     },
     "vgc_pastes": {
-      "description": "VGC 用 PokePaste セレクション"
+      "description": "VGC 用 PokePaste セレクション",
+      "title": "VGC Pastes"
+    },
+    "replay": {
+      "description": "Pokémon Showdown! ハイスコア リプレイ",
+      "title": "リプレイ"
+    },
+    "paste": {
+      "title": "Paste"
     }
   },
   "share": "共有",
@@ -106,5 +114,12 @@
   "webApiNotSupported": "📋 お使いのブラウザーは Web Share API をサポートしていないため、リンクはクリップボードにコピーされました。",
   "spread": "分配",
   "spreads": "分配",
-  "substitute": "みがわり"
+  "substitute": "みがわり",
+  "replay": "リプレイ",
+  "replays": "リプレイ",
+  "rating": "レーティング",
+  "search": "検索",
+  "player": "プレイヤー",
+  "players": "プレイヤー",
+  "playersTeam": "プレイヤー {{num}} のチーム"
 }

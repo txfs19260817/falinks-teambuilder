@@ -101,10 +101,25 @@
       "title": "사용률"
     },
     "vgc_pastes": {
-      "description": "VGC를 위한 선별된 PokePaste"
+      "description": "VGC를 위한 선별된 PokePaste",
+      "title": "VGC Pastes"
+    },
+    "replay": {
+      "description": "Pokémon Showdown! 고득점 리플레이",
+      "title": "리플레이"
+    },
+    "paste": {
+      "title": "Paste"
     }
   },
   "spread": "할당",
   "spreads": "할당",
-  "substitute": "대타출동"
+  "substitute": "대타출동",
+  "replay": "재방영하다",
+  "replays": "재방영하다",
+  "rating": "평가",
+  "search": "찾다",
+  "player": "플레이어",
+  "players": "플레이어",
+  "playersTeam": "플레이어 {{num}}의 팀"
 }

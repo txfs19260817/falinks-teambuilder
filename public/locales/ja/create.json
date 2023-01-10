@@ -1,1 +1,54 @@
-{"invalidPokePaste":"無効な PokePaste リンク","title":"チーム作成","form":{"author":{"label":"作成者","placeholder":"作成者名を入力"},"created at":{"label":"作成日"},"details":{"label":"内容"},"format":{"label":"ルール"},"notes":{"label":"ノート","placeholder":"チームに関するメモ"},"paste":{"error":"無効なテキスト","placeholder":"Showdown チームまたは PokePaste リンク"},"public":{"private":"非公開","public":"公開","warning":"非公開にする場合は、リンクをちゃんとメモしてお願いします。"},"rental":{"label":"レンタルチームID","description":"ゲームでのレンタルチームID、オプション"},"source":{"description":"チームのレファレンス、オプション","label":"レファレンス"},"submit":{"button":"作成","loading":"作成中...","error":"作成中にエラーが発生しました","success":"作成しました！ローディング中..."},"team":{"label":"チーム"},"title":{"label":"題名","placeholder":"チームに名前を付けてください"}}}
+{
+  "invalidPokePaste": "無効な PokePaste リンク",
+  "title": "チーム作成",
+  "form": {
+    "author": {
+      "label": "作成者",
+      "placeholder": "作成者名を入力"
+    },
+    "created at": {
+      "label": "作成日"
+    },
+    "details": {
+      "label": "内容"
+    },
+    "format": {
+      "label": "ルール"
+    },
+    "notes": {
+      "label": "ノート",
+      "placeholder": "チームに関するメモ"
+    },
+    "paste": {
+      "error": "無効なテキスト",
+      "placeholder": "Showdown チームまたは PokePaste リンク",
+      "label": "Paste"
+    },
+    "public": {
+      "private": "非公開",
+      "public": "公開",
+      "warning": "非公開にする場合は、リンクをちゃんとメモしてお願いします。"
+    },
+    "rental": {
+      "label": "レンタルチームID",
+      "description": "ゲームでのレンタルチームID、オプション"
+    },
+    "source": {
+      "description": "チームのレファレンス、オプション",
+      "label": "レファレンス"
+    },
+    "submit": {
+      "button": "作成",
+      "loading": "作成中...",
+      "error": "作成中にエラーが発生しました",
+      "success": "作成しました！ローディング中..."
+    },
+    "team": {
+      "label": "チーム"
+    },
+    "title": {
+      "label": "題名",
+      "placeholder": "チームに名前を付けてください"
+    }
+  }
+}
