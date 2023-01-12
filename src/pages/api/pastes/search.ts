@@ -56,10 +56,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<PastesList>) =>
 
   // return the results, rewrite the jsonPaste field to be a list of species
   return res.status(200).json(
-    results.map(({ id, title, author, createdAt, jsonPaste }) => ({
+    results.map(({ id, title, author, format: resFormat, createdAt, jsonPaste }) => ({
       id: id!,
       title: title!,
       author: author!,
+      format: resFormat!,
       createdAt: createdAt!,
       species: (jsonPaste as { species: string }[]).map((s) => s.species),
     }))

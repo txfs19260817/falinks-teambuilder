@@ -67,6 +67,30 @@ function OmniFilter({ column, instance }: { column: Column<any>; instance: Table
     );
   }
 
+  if (column.id === 'format') {
+    // all formats
+    const formats = instance.getPreFilteredRowModel().flatRows.map(({ getValue }) => getValue<string>(column.id));
+    // get all unique formats
+    const options = Array.from(new Set(formats));
+    // return a select component
+    return (
+      <select
+        className={`select select-xs w-16 md:w-24`}
+        onChange={(e) => {
+          column.setFilterValue(e.target.value);
+        }}
+        aria-label={column.id}
+      >
+        <option value="">-</option>
+        {options.map((format, i) => (
+          <option key={i} value={format}>
+            {format}
+          </option>
+        ))}
+      </select>
+    );
+  }
+
   if (typeof firstValue === 'number') {
     return (
       <div className="flex space-x-1">

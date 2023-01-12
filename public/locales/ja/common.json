@@ -11,7 +11,6 @@
   "copiedToClipboard": "📋コピーしました！",
   "copy": "コピー",
   "createdAt": "作成日",
-  "sharedAt": "共有日",
   "defense": "守備",
   "delete": "消去",
   "description": "説明",
@@ -68,7 +67,7 @@
     },
     "search_paste": {
       "description": "チームーを検索",
-      "title": "検索"
+      "title": "詳細検索"
     },
     "usage": {
       "description": "Pokémon Showdown! ランキング",
@@ -83,7 +82,7 @@
       "title": "リプレイ"
     },
     "paste": {
-      "title": "Paste"
+      "title": "チーム"
     }
   },
   "share": "共有",
@@ -121,5 +120,9 @@
   "search": "検索",
   "player": "プレイヤー",
   "players": "プレイヤー",
-  "playersTeam": "プレイヤー {{num}} のチーム"
+  "playersTeam": "プレイヤー {{num}} のチーム",
+  "pasteTableHeader": {
+    "dateShared": "共有日",
+    "title": "チームのタイトルと説明"
+  }
 }

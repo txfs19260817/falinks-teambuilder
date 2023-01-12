@@ -24,15 +24,15 @@ const routes: Route[] = [
     target: '',
     children: [
       {
-        id: 'public_pastes',
-        name: 'User Shared',
-        path: '/pastes/public',
-        target: '_self',
-      },
-      {
         id: 'vgc_pastes',
         name: 'VGC Paste',
         path: '/pastes/vgc',
+        target: '_self',
+      },
+      {
+        id: 'public_pastes',
+        name: 'User Shared',
+        path: '/pastes/public',
         target: '_self',
       },
       {

@@ -11,7 +11,6 @@
   "copiedToClipboard": "📋 已复制！",
   "copy": "复制",
   "createdAt": "创建于",
-  "sharedAt": "分享于",
   "defense": "防守",
   "delete": "删除",
   "description": "描述",
@@ -59,7 +58,7 @@
       "description": "网站介绍和帮助文档"
     },
     "paste": {
-      "title": "Paste"
+      "title": "队伍"
     },
     "public_pastes": {
       "title": "用户分享",
@@ -74,11 +73,11 @@
       "description": "公开或私密分享一个队伍"
     },
     "search_paste": {
-      "title": "搜索",
+      "title": "高级搜索",
       "description": "搜索队伍"
     },
     "usage": {
-      "title": "使用率",
+      "title": "统计",
       "description": "Pokémon Showdown! 使用率统计"
     },
     "replay": {
@@ -121,5 +120,9 @@
   "search": "搜索",
   "player": "玩家",
   "players": "玩家",
-  "playersTeam": "玩家 {{num}} 的队伍"
+  "playersTeam": "玩家 {{num}} 的队伍",
+  "pasteTableHeader": {
+    "dateShared": "共享日期",
+    "title": "团队名称和描述"
+  }
 }

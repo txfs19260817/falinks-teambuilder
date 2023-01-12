@@ -11,7 +11,6 @@
   "copiedToClipboard": "📋 已復制！",
   "copy": "拷貝",
   "createdAt": "創建於",
-  "sharedAt": "分享於",
   "defense": "防禦",
   "delete": "刪除",
   "description": "描述",
@@ -68,11 +67,11 @@
     },
     "search_paste": {
       "description": "搜索隊伍",
-      "title": "搜索"
+      "title": "高級搜索"
     },
     "usage": {
       "description": "Pokémon Showdown! 使用率統計",
-      "title": "使用率"
+      "title": "統計"
     },
     "vgc_pastes": {
       "description": "VGC 隊伍集合"
@@ -82,7 +81,7 @@
       "title": "回放"
     },
     "paste": {
-      "title": "Paste"
+      "title": "隊伍"
     }
   },
   "share": "分享",
@@ -120,5 +119,9 @@
   "search": "搜索",
   "player": "玩家",
   "players": "玩家",
-  "playersTeam": "玩家 {{num}} 的队伍"
+  "playersTeam": "玩家 {{num}} 的队伍",
+  "pasteTableHeader": {
+    "dateShared": "共享日期",
+    "title": "團隊名稱和描述"
+  }
 }

@@ -42,12 +42,13 @@ export const listPastesIDs = async (options?: { isOfficial?: boolean; isPublic?:
   });
 
 // List all PokePastes
-export type PastesListItem = Pick<Pokepaste, 'id' | 'title' | 'author' | 'createdAt'> & { species: string[] };
+export type PastesListItem = Pick<Pokepaste, 'id' | 'title' | 'author' | 'format' | 'createdAt'> & { species: string[] };
 export type PastesList = PastesListItem[];
 export const listPastesSelect: Prisma.PokepasteSelect = {
   id: true,
   title: true,
   author: true,
+  format: true,
   createdAt: true,
   jsonPaste: true,
 };
@@ -66,10 +67,11 @@ export const listPastes = async (options?: { format?: string; isOfficial?: boole
       },
     })
     .then((response) =>
-      response.map(({ id, title, author, createdAt, jsonPaste }) => ({
+      response.map(({ id, title, author, format, createdAt, jsonPaste }) => ({
         id: id!,
         title: title!,
         author: author!,
+        format: format!,
         createdAt: createdAt!,
         species: (jsonPaste as { species: string }[]).map((s) => s.species),
       }))

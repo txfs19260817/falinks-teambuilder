@@ -11,7 +11,6 @@
   "copiedToClipboard": "📋복사했습니다!",
   "copy": "복사",
   "createdAt": "만든 시간",
-  "sharedAt": "공유한 시간",
   "defense": "방어",
   "delete": "삭제",
   "description": "설명",
@@ -94,11 +93,11 @@
     },
     "search_paste": {
       "description": "PokePaste 검색",
-      "title": "검색"
+      "title": "고급 검색"
     },
     "usage": {
       "description": "Pokémon Showdown! 사용 통계",
-      "title": "사용률"
+      "title": "통계"
     },
     "vgc_pastes": {
       "description": "VGC를 위한 선별된 PokePaste",
@@ -109,7 +108,7 @@
       "title": "리플레이"
     },
     "paste": {
-      "title": "Paste"
+      "title": "팀"
     }
   },
   "spread": "할당",
@@ -121,5 +120,9 @@
   "search": "찾다",
   "player": "플레이어",
   "players": "플레이어",
-  "playersTeam": "플레이어 {{num}}의 팀"
+  "playersTeam": "플레이어 {{num}}의 팀",
+  "pasteTableHeader": {
+    "dateShared": "공유 날짜",
+    "title": "팀 제목 및 설명"
+  }
 }

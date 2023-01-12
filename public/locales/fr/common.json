@@ -11,7 +11,6 @@
   "copiedToClipboard": "📋 Copié !",
   "copy": "Copie",
   "createdAt": "Créé à",
-  "sharedAt": "Partagé à",
   "defense": "La défense",
   "delete": "Effacer",
   "description": "La description",
@@ -78,11 +77,11 @@
   "routes": {
     "about": {
       "description": "À propos et documentation",
-      "title": "À propos de"
+      "title": "À propos de nous"
     },
     "create_paste": {
       "description": "Créer un PokePaste publiquement ou en privé",
-      "title": "Créer"
+      "title": "Créer une Paste"
     },
     "home": {
       "description": "Page d'accueil",
@@ -94,11 +93,11 @@
     },
     "search_paste": {
       "description": "Rechercher un PokePaste",
-      "title": "Chercher"
+      "title": "Recherche Avancée"
     },
     "usage": {
       "description": "Pokémon Showdown! Statistiques d'utilisation",
-      "title": "Usages"
+      "title": "Statistiques"
     },
     "vgc_pastes": {
       "description": "PokePaste organisé pour Pokémon VGC",
@@ -109,7 +108,7 @@
       "title": "Rediffusions"
     },
     "paste": {
-      "title": "Paste"
+      "title": "Équipes"
     }
   },
   "spread": "Spread",
@@ -121,5 +120,9 @@
   "search": "Rechercher",
   "player": "Joueur",
   "players": "Joueurs",
-  "playersTeam": "L'équipe du joueur {{num}}"
+  "playersTeam": "L'équipe du joueur {{num}}",
+  "pasteTableHeader": {
+    "dateShared": "Date de partage",
+    "title": "Titre et description de l'équipe"
+  }
 }
