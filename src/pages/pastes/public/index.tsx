@@ -10,7 +10,7 @@ const PublicPastes = ({ pastes }: InferGetServerSidePropsType<typeof getServerSi
   const { t } = useTranslation(['common']);
   return (
     <Main title={t('common.routes.public_pastes.title')} description={t('common.routes.public_pastes.description')}>
-      <PastesTable pastes={pastes} />
+      <PastesTable pastes={pastes} enableFormat={true} />
     </Main>
   );
 };

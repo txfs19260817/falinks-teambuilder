@@ -62,7 +62,7 @@ const RoutesList = ({ className }: { className: string }) => {
       {AppConfig.routes.map((route) =>
         route.children ? (
           <li tabIndex={-1} key={route.id} className="dropdown-hover dropdown">
-            <a className="hover:border-none">{t(route.id, { defaultValue: route.name })}</a>
+            <a className="hover:border-none">{t(`routes.${route.id}.title`, { defaultValue: route.name })}</a>
             <ul tabIndex={-1} className="dropdown-content menu rounded-box bg-neutral p-2 shadow">
               {route.children.map((cr) => (
                 <li key={cr.id}>

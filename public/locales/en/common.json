@@ -11,7 +11,6 @@
   "copiedToClipboard": "📋 Copied!",
   "copy": "Copy",
   "createdAt": "Created At",
-  "sharedAt": "Shared At",
   "defense": "Defense",
   "delete": "Delete",
   "description": "Description",
@@ -37,6 +36,10 @@
   "offense": "Attack",
   "overview": "Overview",
   "paste": "Paste",
+  "pasteTableHeader": {
+    "title": "Team Title & Description",
+    "dateShared": "Date Shared"
+  },
   "player": "Player",
   "players": "Players",
   "playersTeam": "Player {{num}}'s Team",
@@ -61,14 +64,14 @@
       "description": "Home page"
     },
     "about": {
-      "title": "About",
+      "title": "About Us",
       "description": "About and documentation"
     },
     "paste": {
-      "title": "Paste"
+      "title": "Teams"
     },
     "public_pastes": {
-      "title": "User Shared",
+      "title": "Community",
       "description": "Users' publicly shared PokePaste"
     },
     "vgc_pastes": {
@@ -76,15 +79,15 @@
       "description": "Curated PokePaste for Pokémon VGC"
     },
     "create_paste": {
-      "title": "Create",
+      "title": "Create a Paste",
       "description": "Create a PokePaste publicly or privately"
     },
     "search_paste": {
-      "title": "Search",
+      "title": "Advanced Search",
       "description": "Search for a PokePaste"
     },
     "usage": {
-      "title": "Usages",
+      "title": "Statistics",
       "description": "Pokémon Showdown! usage statistics"
     },
     "replay": {

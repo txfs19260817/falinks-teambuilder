@@ -24,10 +24,11 @@ import type { PastesList, PastesListItem } from '@/utils/Prisma';
 
 type PastesTableProps = {
   pastes: PastesList;
-  enableSharedAt?: boolean;
+  enableDateShared?: boolean;
+  enableFormat?: boolean;
 };
 
-const PastesTable = ({ pastes, enableSharedAt = false }: PastesTableProps) => {
+const PastesTable = ({ pastes, enableDateShared = false, enableFormat = false }: PastesTableProps) => {
   const { locale } = useRouter();
   const { t } = useTranslation(['common']);
   const { globalFilter, setGlobalFilter } = useContext(StoreContext);
@@ -35,9 +36,9 @@ const PastesTable = ({ pastes, enableSharedAt = false }: PastesTableProps) => {
   // table settings
   const columns: ColumnDef<PastesListItem>[] = [
     {
-      header: t('common.title'),
+      header: t('common.pasteTableHeader.title'),
       accessorKey: 'title',
-      cell: ({ getValue }) => <span title={getValue<string>()}>{`${getValue<string>().substring(0, 60)}`}</span>,
+      cell: ({ getValue }) => <span title={getValue<string>()}>{`${getValue<string>()}`}</span>,
     },
     {
       header: t('common.author'),
@@ -45,14 +46,20 @@ const PastesTable = ({ pastes, enableSharedAt = false }: PastesTableProps) => {
       cell: ({ getValue }) => <span title={getValue<string>()}>{`${getValue<string>().substring(0, 20)}`}</span>,
     },
     {
+      header: t('common.format'),
+      accessorKey: 'format',
+    },
+    {
       header: t('common.team'),
       id: 'species',
       accessorKey: 'species',
       cell: ({ getValue }) => (
         <span>
-          {getValue<string[]>().map((species) => (
-            <PokemonIcon key={species} speciesId={species} />
-          ))}
+          {getValue<string[]>()
+            .sort()
+            .map((species) => (
+              <PokemonIcon key={species} speciesId={species} />
+            ))}
         </span>
       ),
       filterFn: (row, columnId, filterValue) => {
@@ -72,7 +79,9 @@ const PastesTable = ({ pastes, enableSharedAt = false }: PastesTableProps) => {
         return (
           <span>
             {new Intl.DateTimeFormat(locale ?? 'en-US', {
-              dateStyle: 'short',
+              year: 'numeric',
+              month: 'short',
+              day: 'numeric',
             }).format(d)}
           </span>
         );
@@ -83,14 +92,16 @@ const PastesTable = ({ pastes, enableSharedAt = false }: PastesTableProps) => {
       enableGlobalFilter: false,
     },
     {
-      id: 'sharedAt',
-      header: t('common.sharedAt'),
+      id: 'dateShared',
+      header: t('common.pasteTableHeader.dateShared'),
       // The original createdAt date is Date Shared in VGCPastes
       accessorKey: 'createdAt',
       cell: ({ getValue }) => (
         <span>
           {new Intl.DateTimeFormat(locale ?? 'en-US', {
-            dateStyle: 'short',
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
           }).format(new Date(getValue<string>()))}
         </span>
       ),
@@ -130,7 +141,8 @@ const PastesTable = ({ pastes, enableSharedAt = false }: PastesTableProps) => {
     },
     initialState: {
       columnVisibility: {
-        sharedAt: enableSharedAt,
+        dateShared: enableDateShared,
+        format: enableFormat,
       },
     },
     onColumnFiltersChange: setColumnFilters,

@@ -11,7 +11,7 @@ import { Main } from '@/templates/Main';
 import { AppConfig } from '@/utils/AppConfig';
 import { listReplays } from '@/utils/Prisma';
 
-const replayFormats = ['gen9vgc2023series1'];
+const replayFormats = ['gen9vgc2023series1', 'gen9vgc2023series2'];
 
 const ReplaySearchCard = ({ format, speciesOptions }: { format: string; speciesOptions: string[] }) => {
   const { push } = useRouter();

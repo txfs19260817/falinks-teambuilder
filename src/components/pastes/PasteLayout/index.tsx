@@ -10,7 +10,7 @@ import { PokemonIcon } from '@/components/icons/PokemonIcon';
 import { PureSpriteAvatar } from '@/components/icons/PureSpriteAvatar';
 import { Pokemon } from '@/models/Pokemon';
 import Loading from '@/templates/Loading';
-import { S4 } from '@/utils/Helpers';
+import { S4, urlPattern } from '@/utils/Helpers';
 import { Paste } from '@/utils/Prisma';
 
 const TeamInsight = dynamic(() => import('@/components/pastes/TeamInsight'), {
@@ -96,7 +96,14 @@ const PasteAndFunctions = ({ team, paste }: { team: Pokemon[]; paste: NonNullabl
             }).format(new Date(paste.createdAt))}
           </li>
           <li className="break-all">
-            {t('common.source')}: {paste.source || '-'}
+            {t('common.source')}:{' '}
+            {paste.source && urlPattern.test(paste.source) ? (
+              <a href={paste.source} target="_blank" rel="noreferrer">
+                {paste.source}
+              </a>
+            ) : (
+              '-'
+            )}
           </li>
           <li>
             {t('common.rentalCode')}: {paste.rentalCode || '-'}
