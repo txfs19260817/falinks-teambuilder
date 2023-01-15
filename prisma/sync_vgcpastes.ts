@@ -194,37 +194,41 @@ async function calcUsage(format: keyof typeof format2gid) {
     Object.keys(usage.Abilities).forEach((key) => {
       usage.Abilities[key]! /= abilityCount;
     });
-    usage.Abilities = Object.fromEntries(Object.entries(usage.Abilities).sort(([, a], [, b]) => (b ?? 0) - (a ?? 0)));
 
     const itemCount = Object.values(usage.Items).reduce((a, b) => (a ?? 0) + (b ?? 0), 0) ?? 1;
     Object.keys(usage.Items).forEach((key) => {
       usage.Items[key]! /= itemCount;
     });
-    usage.Items = Object.fromEntries(Object.entries(usage.Items).sort(([, a], [, b]) => (b ?? 0) - (a ?? 0)));
 
     const moveCount = Object.values(usage.Moves).reduce((a, b) => (a ?? 0) + (b ?? 0), 0) ?? 1;
     Object.keys(usage.Moves).forEach((key) => {
       usage.Moves[key]! /= moveCount;
     });
-    usage.Moves = Object.fromEntries(Object.entries(usage.Moves).sort(([, a], [, b]) => (b ?? 0) - (a ?? 0)));
 
     const spreadCount = Object.values(usage.Spreads).reduce((a, b) => (a ?? 0) + (b ?? 0), 0) ?? 1;
     Object.keys(usage.Spreads).forEach((key) => {
       usage.Spreads[key]! /= spreadCount;
     });
-    usage.Spreads = Object.fromEntries(Object.entries(usage.Spreads).sort(([, a], [, b]) => (b ?? 0) - (a ?? 0)));
 
     const teammateCount = Object.values(usage.Teammates).reduce((a, b) => (a ?? 0) + (b ?? 0), 0) ?? 1;
     Object.keys(usage.Teammates).forEach((key) => {
       usage.Teammates[key]! /= teammateCount;
     });
-    usage.Teammates = Object.fromEntries(Object.entries(usage.Teammates).sort(([, a], [, b]) => (b ?? 0) - (a ?? 0)));
 
     const teraTypeCount = Object.values(usage.TeraTypes!).reduce((a, b) => (a ?? 0) + (b ?? 0), 0) ?? 1;
     Object.keys(usage.TeraTypes!).forEach((key) => {
       usage.TeraTypes![key]! /= teraTypeCount;
     });
-    usage.TeraTypes = Object.fromEntries(Object.entries(usage.TeraTypes!).sort(([, a], [, b]) => b - a)) as Record<string, number>;
+  });
+
+  // Sort the attributes of each usage object
+  species2usage.forEach((usage) => {
+    usage.Abilities = Object.fromEntries(Object.entries(usage.Abilities).sort(([, a], [, b]) => (b ?? 0) - (a ?? 0)));
+    usage.Items = Object.fromEntries(Object.entries(usage.Items).sort(([, a], [, b]) => (b ?? 0) - (a ?? 0)));
+    usage.Moves = Object.fromEntries(Object.entries(usage.Moves).sort(([, a], [, b]) => (b ?? 0) - (a ?? 0)));
+    usage.Spreads = Object.fromEntries(Object.entries(usage.Spreads).sort(([, a], [, b]) => (b ?? 0) - (a ?? 0)));
+    usage.Teammates = Object.fromEntries(Object.entries(usage.Teammates).sort(([, a], [, b]) => (b ?? 0) - (a ?? 0)));
+    usage.TeraTypes = Object.fromEntries(Object.entries(usage.TeraTypes!).sort(([, a], [, b]) => b - a));
   });
 
   // Sort the usage map by the number of occurrences, then trim it
