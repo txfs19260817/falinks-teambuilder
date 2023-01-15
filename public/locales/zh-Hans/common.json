@@ -80,6 +80,14 @@
       "title": "统计",
       "description": "Pokémon Showdown! 使用率统计"
     },
+    "vgc_usage": {
+      "title": "VGCPastes",
+      "description": "VGCPastes 使用率统计"
+    },
+    "smogon_usage": {
+      "title": "Smogon",
+      "description": "Pokémon Showdown! 使用率统计"
+    },
     "replay": {
       "description": "Pokémon Showdown! 高分回放",
       "title": "回放"

@@ -330,13 +330,13 @@ export const getLatestUsageByFormat: (format?: string) => Promise<UsageStatistic
 /**
  * Filters, sorts, and limits the Abilities, Items, Spreads, Teammates and Moves of each Pokémon's usage statistics.
  * @param oldUsage - The usage statistics to filter, sort, and limit of each Pokémon.
- * @param rank - The rank of the Pokémon in the usage statistics.
+ * @param rank - The rank of the Pokémon in the usage statistics needs to be passed in.
  * @param threshold - The minimum usage percentage of Abilities, Items, Spreads, Teammates of the Pokémon to be included in the filtered usage statistics.
  * @param comparator - The comparator function to sort the filtered usage statistics.
  * @param limit - The maximum number of Abilities, Items, Spreads, Teammates of the Pokémon to be included in the filtered usage statistics.
  */
 export const trimUsage = (
-  oldUsage: MovesetStatistics & { name: string },
+  oldUsage: (MovesetStatistics & { name: string }) | Usage,
   rank: number,
   threshold: number = 0.01,
   comparator: (a: number, b: number) => number = (a, b) => b - a,
@@ -355,6 +355,9 @@ export const trimUsage = (
   );
   delete newItems.nothing;
   delete newMoves['']; // remove the empty move
+  // Drop all tera types that equal 0
+  const isUsage = (u: typeof oldUsage): u is Usage => 'TeraTypes' in u;
+  const newTeraTypes = isUsage(oldUsage) && oldUsage.TeraTypes ? Object.fromEntries(Object.entries(oldUsage.TeraTypes).filter(([, v]) => v > 0)) : undefined;
   return {
     ...oldUsage,
     rank,
@@ -363,6 +366,7 @@ export const trimUsage = (
     Moves: newMoves,
     Spreads: newSpreads,
     Teammates: newTeammates,
+    TeraTypes: newTeraTypes,
   };
 };
 
@@ -371,10 +375,10 @@ export const trimUsage = (
  * @param format - The format to get usage statistics for. Defaults to `AppConfig.defaultFormat`.
  */
 export const postProcessUsage = async (format: string = AppConfig.defaultFormat): Promise<Usage[]> => {
-  const usage = await getLatestUsageByFormat(format);
-  return !usage
+  const usageStats = await getLatestUsageByFormat(format);
+  return !usageStats
     ? []
-    : Object.entries(usage.data)
+    : Object.entries(usageStats.data)
         .map(([name, obj]) => ({ name, ...obj }))
         .sort((a, b) => b.usage - a.usage)
         .map((u, i) => trimUsage(u, i));

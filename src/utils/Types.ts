@@ -32,7 +32,11 @@ export type Usage = Modify<
     Spreads: Partial<MovesetStatistics['Spreads']>;
     Teammates: Partial<MovesetStatistics['Teammates']>;
   }
-> & { name: string; rank: number };
+> & { name: string; rank: number } & {
+  TeraTypes?: {
+    [type: string]: number;
+  };
+};
 
 export type SearchPastePokemonCriteria = {
   species: string;

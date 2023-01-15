@@ -80,9 +80,17 @@
       "title": "Statistiken",
       "description": "Pokémon Showdown! Nutzungsstatistiken"
     },
+    "smogon_usage": {
+      "title": "Smogon",
+      "description": "Pokémon Showdown! Nutzungsstatistiken"
+    },
     "replay": {
       "description": "Pokémon Showdown! Highscore-Wiederholungen",
       "title": "Wiederholungen"
+    },
+    "vgc_usage": {
+      "title": "VGCPastes",
+      "description": "VGCPastes Nutzungsstatistiken"
     }
   },
   "share": "Teilen",

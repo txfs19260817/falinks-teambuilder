@@ -90,6 +90,14 @@
       "title": "Statistics",
       "description": "Pokémon Showdown! usage statistics"
     },
+    "vgc_usage": {
+      "title": "VGCPastes",
+      "description": "VGCPastes usage statistics"
+    },
+    "smogon_usage": {
+      "title": "Smogon",
+      "description": "Pokémon Showdown! usage statistics"
+    },
     "replay": {
       "title": "Replays",
       "description": "Pokémon Showdown! High-rating replays"

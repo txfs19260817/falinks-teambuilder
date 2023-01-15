@@ -74,7 +74,8 @@
       "title": "統計"
     },
     "vgc_pastes": {
-      "description": "VGC 隊伍集合"
+      "description": "VGC 隊伍集合",
+      "title": "VGC Pastes"
     },
     "replay": {
       "description": "Pokémon Showdown! 高分回放",
@@ -82,6 +83,14 @@
     },
     "paste": {
       "title": "隊伍"
+    },
+    "smogon_usage": {
+      "description": "Pokémon Showdown! 使用率統計",
+      "title": "Smogon"
+    },
+    "vgc_usage": {
+      "title": "VGCPastes",
+      "description": "VGCPastes 使用率統計"
     }
   },
   "share": "分享",

@@ -99,6 +99,14 @@
       "description": "Pokémon Showdown! estadísticas de uso",
       "title": "Estadísticas"
     },
+    "smogon_usage": {
+      "title": "Smogon",
+      "description": "Pokémon Showdown! Estadísticas de uso"
+    },
+    "vgc_usage": {
+      "title": "VGCPastes",
+      "description": "VGCPastes Estadísticas de uso"
+    },
     "vgc_pastes": {
       "description": "PokePaste seleccionado para Pokémon VGC",
       "title": "VGC Pastes"

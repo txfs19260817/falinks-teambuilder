@@ -59,13 +59,13 @@ export const filterSortLimitObjectByValues = <T extends object>(
   return <Partial<T>>Object.fromEntries(limited);
 };
 
-export const convertObjectNumberValuesToFraction = <T extends Record<string, number>>(obj: T): Record<string, number> => {
+export const convertObjectNumberValuesToFraction = <T extends Partial<Record<string, number>>>(obj: T): Record<string, number> => {
   const entries = Object.entries(obj);
-  if (!entries.length) return obj;
-  const sum = Object.values(obj).reduce((a, b) => a + b, 0);
+  if (!entries.length) return {};
+  const sum = Object.values(obj).reduce((a, b) => (a ?? 0) + (b ?? 0), 0) ?? 1;
   const result: Record<string, number> = {};
   entries.forEach(([key, value]) => {
-    result[key] = value / sum;
+    result[key] = (value ?? 0) / sum;
   });
   return result;
 };

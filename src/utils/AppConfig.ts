@@ -52,8 +52,22 @@ const routes: Route[] = [
   {
     id: 'usage',
     name: 'Usage',
-    path: '/usages',
-    target: '_self',
+    path: '',
+    target: '',
+    children: [
+      {
+        id: 'vgc_usage',
+        name: 'VGCPastes Usage',
+        path: '/usages/vgc',
+        target: '_self',
+      },
+      {
+        id: 'smogon_usage',
+        name: 'Smogon Usage',
+        path: '/usages/smogon',
+        target: '_self',
+      },
+    ],
   },
   {
     id: 'replay',

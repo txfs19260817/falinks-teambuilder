@@ -33,8 +33,8 @@ const nextConfig = {
         destination: '/pastes/vgc/gen9vgc2023series1' // Update the path when a new VGC format is released
       },
       {
-        source: '/usages',
-        destination: '/usages/gen9vgc2023series1' // Update the path when a new format is released
+        source: '/usages/:path/',
+        destination: '/usages/:path/gen9vgc2023series1' // Update the path when a new VGC format is released
       },
       {
         source: '/replays',

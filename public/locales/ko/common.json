@@ -109,6 +109,14 @@
     },
     "paste": {
       "title": "팀"
+    },
+    "smogon_usage": {
+      "description": "Pokémon Showdown! 사용 통계",
+      "title": "Smogon"
+    },
+    "vgc_usage": {
+      "title": "VGCPastes",
+      "description": "VGCPastes 사용 통계"
     }
   },
   "spread": "할당",

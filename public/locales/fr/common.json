@@ -109,6 +109,14 @@
     },
     "paste": {
       "title": "Équipes"
+    },
+    "smogon_usage": {
+      "description": "Pokémon Showdown! Statistiques d'utilisation",
+      "title": "Smogon"
+    },
+    "vgc_usage": {
+      "title": "VGCPastes",
+      "description": "Pokémon Showdown! Statistiques d'utilisation"
     }
   },
   "spread": "Spread",
