@@ -206,6 +206,8 @@ async function calcUsage(format: keyof typeof format2gid) {
     Object.keys(usage.Moves).forEach((key) => {
       usage.Moves[key]! /= moveCount;
     });
+    usage.Moves = Object.fromEntries(Object.entries(usage.Moves).sort(([, a], [, b]) => (b ?? 0) - (a ?? 0)));
+
     const spreadCount = Object.values(usage.Spreads).reduce((a, b) => (a ?? 0) + (b ?? 0), 0) ?? 1;
     Object.keys(usage.Spreads).forEach((key) => {
       usage.Spreads[key]! /= spreadCount;
@@ -222,7 +224,6 @@ async function calcUsage(format: keyof typeof format2gid) {
     Object.keys(usage.TeraTypes!).forEach((key) => {
       usage.TeraTypes![key]! /= teraTypeCount;
     });
-    // Sort the teraTypes by usage
     usage.TeraTypes = Object.fromEntries(Object.entries(usage.TeraTypes!).sort(([, a], [, b]) => b - a)) as Record<string, number>;
   });
 
@@ -276,7 +277,7 @@ async function main() {
   }
 
   console.log('Done');
-  await prisma.$disconnect();
+  await prisma.$disconnect().then(() => console.log('Disconnected from database'));
 }
 
 (async () => {
