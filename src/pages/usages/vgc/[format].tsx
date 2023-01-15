@@ -26,7 +26,7 @@ function Page(data: InferGetStaticPropsType<typeof getStaticProps>) {
 }
 
 export const getStaticProps: GetStaticProps<{ usages: Usage[]; format: string } & SSRConfig, { format: string }> = async ({ params, locale }) => {
-  const format = params?.format ?? AppConfig.defaultFormat;
+  const format = params?.format ?? '';
   const gistUrl = format2gist[format];
   if (!gistUrl) {
     return { notFound: true };
@@ -41,6 +41,7 @@ export const getStaticProps: GetStaticProps<{ usages: Usage[]; format: string } 
       format,
       ...(await serverSideTranslations(locale ?? AppConfig.defaultLocale, ['usages', 'common', 'items', 'moves', 'species', 'abilities', 'natures', 'types'])),
     },
+    revalidate: 86400, // 1 day
   };
 };
 

@@ -80,16 +80,20 @@ test('should navigate to the usage page', async ({ page, isMobile, baseURL }) =>
   if (isMobile) {
     await page.getByRole('button', { name: 'Open Menu' }).click();
   }
-  // Create a locator for the "Usage" link
-  const link = page.getByRole('menuitem', { name: 'Usage' });
+  // Hover the "Paste" link
+  await page.getByRole('navigation', { name: 'usage' }).first().click();
+  // Expect the "VGCPastes" usage link to be visible
+  await expect(page.getByRole('menuitem', { name: 'vgc_usage' })).toHaveAttribute('href', '/usages/vgc/');
+  // Create a locator for the name="smogon_usage" link
+  const link = page.getByRole('menuitem', { name: 'smogon_usage' });
   // Expect an attribute "to be strictly equal" to the value.
-  await expect(link).toHaveAttribute('href', '/usages/');
+  await expect(link).toHaveAttribute('href', '/usages/smogon/');
   // Click the "Usage" link
   await link.click();
   // Wait for navigation
   await page.waitForNavigation();
   // The new URL should contain "/usages"
-  await expect(page).toHaveURL(/\/usages/);
+  await expect(page).toHaveURL(/\/usages\/smogon/);
 });
 
 test('should navigate to the User Paste page', async ({ page, isMobile, baseURL }) => {
@@ -100,7 +104,7 @@ test('should navigate to the User Paste page', async ({ page, isMobile, baseURL 
     await page.getByRole('button', { name: 'Open Menu' }).click();
   }
   // Hover the "Paste" link
-  await page.getByRole('listitem').filter({ hasText: 'Paste' }).locator('a').first().hover();
+  await page.getByRole('navigation', { name: 'paste' }).first().click();
   // Create a locator for the id="public_pastes" link
   const link = page.getByRole('menuitem', { name: 'public_pastes' });
   // Expect an attribute "to be strictly equal" to the value.
