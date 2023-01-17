@@ -44,5 +44,6 @@ jobs:
       - name: Cronjob
         run: npm run cronjob
         env:
+          GIST_TOKEN: ${{secrets.GIST_TOKEN}}
           DATABASE_URL: ${{secrets.DATABASE_URL}}
           SHADOW_DATABASE_URL: ${{secrets.SHADOW_DATABASE_URL}}
