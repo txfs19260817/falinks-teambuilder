@@ -371,6 +371,18 @@ export const trimUsage = (
 };
 
 /**
+ * 4x the move usage percentage
+ * @param usage - An usage object statistics to convert.
+ */
+export const movesUsage4x = (usage: Usage): Usage => {
+  const { Moves } = usage;
+  return {
+    ...usage,
+    Moves: Object.fromEntries(Object.entries(Moves).map(([k, v]) => [k, (v ?? 0) * 4])),
+  };
+};
+
+/**
  * Convert the raw usage statistics to a more usable format
  * @param format - The format to get usage statistics for. Defaults to `AppConfig.defaultFormat`.
  */
@@ -381,7 +393,8 @@ export const postProcessUsage = async (format: string = AppConfig.defaultFormat)
     : Object.entries(usageStats.data)
         .map(([name, obj]) => ({ name, ...obj }))
         .sort((a, b) => b.usage - a.usage)
-        .map((u, i) => trimUsage(u, i));
+        .map((u, i) => trimUsage(u, i))
+        .map(movesUsage4x);
 };
 
 const getWikiHost = (locale: string) => {

@@ -4,7 +4,7 @@ import { Pokepaste, Prisma, PrismaClient } from '@prisma/client';
 import cuid from 'cuid';
 import * as fs from 'fs';
 
-import { trimUsage } from '@/utils/PokemonUtils';
+import { movesUsage4x, trimUsage } from '@/utils/PokemonUtils';
 import { Usage } from '@/utils/Types';
 
 const XLSX = require('xlsx');
@@ -95,7 +95,13 @@ async function extractFromGoogleSheet(format: keyof typeof format2gid): Promise<
   );
 }
 
-async function updatePGDatabase(data: Pokepaste[], format: keyof typeof format2gid): Promise<void> {
+/**
+ * Update the database with the new pastes
+ * @param data - The new pastes to add
+ * @param format - The format of the pastes
+ * @returns boolean - Whether there were any new pastes added
+ */
+async function updatePGDatabase(data: Pokepaste[], format: keyof typeof format2gid): Promise<boolean> {
   // Select all the pastes from the database
   const oldData = await prisma.pokepaste.findMany({
     where: {
@@ -106,13 +112,14 @@ async function updatePGDatabase(data: Pokepaste[], format: keyof typeof format2g
   const newData = data.filter((d) => !oldData.some((o) => o.paste === d.paste && o.author === d.author));
   if (!newData.length) {
     console.log(`No new data for ${format}`);
-    return;
+    return false;
   }
   console.log(`Updating ${newData.length} pastes for ${format}. Titles: \n  ${newData.map((d) => d.title).join('\n  ')}`);
   const result = await prisma.pokepaste.createMany({
     data: newData as Prisma.PokepasteCreateManyInput[],
   });
   console.log(`Created ${result.count} pastes for ${format}`);
+  return true;
 }
 
 async function calcUsage(format: keyof typeof format2gid) {
@@ -234,7 +241,8 @@ async function calcUsage(format: keyof typeof format2gid) {
   // Sort the usage map by the number of occurrences, then trim it
   const trimmed = Array.from(species2usage.values())
     .sort((a, b) => b['Raw count'] - a['Raw count'])
-    .map((usage, rank) => trimUsage(usage, rank)); // rank is 0-indexed
+    .map((usage, rank) => trimUsage(usage, rank)) // rank is 0-indexed
+    .map(movesUsage4x); // 4x the percentage of each move usage
 
   // Delete unused properties
   trimmed.forEach((usage) => {
@@ -275,9 +283,11 @@ async function main() {
   for (const format of formats) {
     const data = await extractFromGoogleSheet(format);
     console.log(`Extracted ${data.length} pastes for ${format}, saving to database...`);
-    await updatePGDatabase(data, format);
-    console.log(`Calculating usage for ${format}...`);
-    await calcUsage(format);
+    const isChanged = await updatePGDatabase(data, format);
+    if (isChanged) {
+      console.log(`Calculating usage for ${format}...`);
+      await calcUsage(format);
+    }
   }
 
   console.log('Done');
