@@ -7,7 +7,15 @@ import useSWR from 'swr';
 
 import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
 import DexSingleton from '@/models/DexSingleton';
-import { defaultIvs, defaultStats, defaultSuggestedSpreads, getSingleEvUpperLimit, getStats, getSuggestedSpreadsBySpecie } from '@/utils/PokemonUtils';
+import {
+  defaultIvs,
+  defaultStats,
+  defaultSuggestedSpreads,
+  getLeftEVs,
+  getSingleEvUpperLimit,
+  getStats,
+  getSuggestedSpreadsBySpecie,
+} from '@/utils/PokemonUtils';
 import type { Spreads } from '@/utils/Types';
 
 function StatsSetters() {
@@ -216,8 +224,8 @@ function StatsSetters() {
           </div>
         );
       })}
-      {/* Nature */}
       <div className="grid grid-cols-12 items-center overflow-hidden px-4 py-1 text-xs md:text-sm">
+        {/* Nature */}
         <span className="font-bold uppercase" role="columnheader">
           {t('common.nature')}:
         </span>
@@ -229,10 +237,11 @@ function StatsSetters() {
             </option>
           ))}
         </select>
-        {/* Suggestion Selector */}
+        {/* Left */}
         <span className="col-span-2 text-center font-bold uppercase" role="columnheader">
-          {' '}
+          {getLeftEVs(evs)}
         </span>
+        {/* Suggestion Selector */}
         <select
           className="select-bordered select select-xs col-span-6 md:select-sm"
           defaultValue=""

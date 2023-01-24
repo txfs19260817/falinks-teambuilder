@@ -179,6 +179,15 @@ export const defaultSuggestedSpreads: Spreads[] = [
 ];
 
 /**
+ * Returns the remaining EVs that can be distributed to the given EVs.
+ * @param evs: The EVs of the Pokémon.
+ * @returns The remaining EV points.
+ */
+export const getLeftEVs = (evs: StatsTable): number => {
+  return maxTotalEvs - Object.values(evs).reduce((total, ev) => total + ev, 0);
+};
+
+/**
  * Returns the stats for the given base stats, evs, ivs, nature, and level.
  * @param stat - The stat to calculate. Must be one of 'hp', 'atk', 'def', 'spa', 'spd', or 'spe'.
  * @param base - The base stat of the Pokémon.
