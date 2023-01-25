@@ -91,8 +91,12 @@ export const getStaticProps: GetStaticProps<{ id: string; title: string; fallbac
 };
 
 export const getStaticPaths: GetStaticPaths = async (context) => {
-  // Only pre-render the official pastes
-  const ids = await listPastesIDs({ isPublic: true, isOfficial: true }).then((r) => r.map(({ id }) => id));
+  // Only pre-render the official & the latest format pastes to save available routes
+  const ids = await listPastesIDs({
+    isPublic: true,
+    isOfficial: true,
+    format: AppConfig.defaultFormat,
+  }).then((r) => r.map(({ id }) => id));
 
   const paths =
     context.locales?.flatMap((locale) =>

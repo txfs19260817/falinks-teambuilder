@@ -32,12 +32,13 @@ if (process.env.NODE_ENV !== 'production') {
 
 // Queries
 // List all IDs of pastes
-export const listPastesIDs = async (options?: { isOfficial?: boolean; isPublic?: boolean }) =>
+export const listPastesIDs = async (options?: { isOfficial?: boolean; isPublic?: boolean; format?: string }) =>
   prisma.pokepaste.findMany({
     select: { id: true },
     where: {
       isOfficial: options?.isOfficial, // true, false, or all (undefined)
       isPublic: options?.isOfficial ? true : options?.isPublic, // if official, must be public, otherwise true, false, or all (undefined)
+      format: options?.format, // any one of formats, or all (undefined)
     },
   });
 
