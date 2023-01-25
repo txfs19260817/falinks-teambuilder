@@ -12,11 +12,11 @@ test('should navigate to replay page', async ({ page, baseURL }) => {
   await page.getByRole('listbox', { name: 'Format Selector' }).selectOption('gen9vgc2023series1');
   await page.getByPlaceholder('Pokémon ...').click();
   await page.getByPlaceholder('Pokémon ...').fill('do');
-  await page.getByText('Dondozo').click();
+  await page.getByRole('option', { name: 'Dondozo Dondozo' }).getByText('Dondozo').click();
   await page.getByPlaceholder('Pokémon ...').fill('pa');
-  await page.getByText('Pawmot').click();
+  await page.getByRole('option', { name: 'Pawmot Pawmot' }).getByText('Pawmot').click();
   await page.getByPlaceholder('Pokémon ...').fill('tal');
-  await page.getByText('Talonflame').click();
+  await page.getByRole('option', { name: 'Talonflame Talonflame' }).getByText('Talonflame').click();
   await page.getByText('Created At⇵').click();
   await expect(page.getByRole('img', { name: 'Dondozo' }).first()).toBeVisible();
   await expect(page.getByRole('img', { name: 'Pawmot' }).first()).toBeVisible();
