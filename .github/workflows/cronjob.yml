@@ -9,7 +9,7 @@ on:
     - cron: '55 * * * *'
 jobs:
   build:
-    runs-on: ubuntu-22.04
+    runs-on: windows-latest
     steps:
       - uses: actions/checkout@v3
 
