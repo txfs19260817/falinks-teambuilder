@@ -11,6 +11,7 @@ import type { PastesList } from '@/utils/Prisma';
 import { listPastes } from '@/utils/Prisma';
 
 const vgcFormats = [
+  'gen9vgc2023series2',
   'gen9vgc2023series1',
   // 'gen8spikemuthcup', 'gen8battlestadiumdoublesseries13', 'gen8vgc2022'
 ];

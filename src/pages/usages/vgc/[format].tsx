@@ -9,6 +9,7 @@ import type { Usage } from '@/utils/Types';
 
 const format2gist: Record<string, string> = {
   gen9vgc2023series1: 'https://gist.githubusercontent.com/txfs19260817/9e3311a3253e0fb46fcc2459bab6c65d/raw/gen9vgc2023series1.json',
+  gen9vgc2023series2: 'https://gist.githubusercontent.com/txfs19260817/67ca12acee3728da83c8ce6419e2d1b2/raw/gen9vgc2023series2.json',
 };
 
 const UsagePage = ({ usages, format }: { usages: Usage[]; format: string }) => {

@@ -40,3 +40,9 @@ local
 /test-results/
 /playwright-report/
 /playwright/.cache/
+
+# service worker
+sw.js.map
+
+# credentials
+credentials.json

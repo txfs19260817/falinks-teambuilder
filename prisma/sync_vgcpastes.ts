@@ -2,40 +2,75 @@
 import { Team } from '@pkmn/sets';
 import { Pokepaste, Prisma, PrismaClient } from '@prisma/client';
 import cuid from 'cuid';
-import * as fs from 'fs';
+import fs from 'fs/promises';
+import path from 'path';
 
 import { movesUsage4x, trimUsage } from '@/utils/PokemonUtils';
-import { Usage } from '@/utils/Types';
-
-const XLSX = require('xlsx');
+import type { Usage } from '@/utils/Types';
 
 const prisma = new PrismaClient();
-const format2gid = {
-  gen9vgc2023series1: '1793433759',
+
+type Row = {
+  'Done By': string;
+  'Full Name': string;
+  'Team Title Presentable': string;
+  'Input Tweet': string;
+  'Secondary Link': string;
+  'Other Links': string;
+  'Team Title': string;
+  Pokepaste: string;
+  'EV? (For Bot)': string;
+  'O/R': string;
+  '(For Sheet)': string;
+  'Rental?': string;
+  'Rental Code (Manual Entry)': string;
+  'Image Link': string;
+  'Date Shared': string;
+  'Event or Source': string;
+  Position: string;
+  'Notes 1': string;
+  'Notes 2': string;
+  'Notes 3': string;
+  'Internal Team ID': string;
 };
+
+// Google Sheets stuff
+const { google } = require('googleapis');
+
+const CREDENTIALS_PATH = path.join(process.cwd(), 'credentials.json');
+
+const vgcpastesSpreadsheetId = '1r6kYCyhnWbBbLfJrYEwB23sPayo2p9lFKil_ZKHlrYA';
+
+const format2gid = {
+  gen9vgc2023series2: '1081470482',
+};
+
+// GitHub Gists that store the usage data
 const format2gistid = {
   gen9vgc2023series1: '9e3311a3253e0fb46fcc2459bab6c65d',
+  gen9vgc2023series2: '67ca12acee3728da83c8ce6419e2d1b2',
 };
 
-interface Row {
-  'Team ID': number;
-  'Team Description': string;
-  Pokepaste: string;
-  EVs: string;
-  'Extracted paste?': string;
-  'Rental Status': string;
-  'Rental Code\n(Click text for image)': string;
-  'Date Shared': number;
-  'Tournament / Event': string;
-  Rank: string;
-  'Link to Source': string;
-  'Report / Video': string;
-  'Other Links': string;
-  Owner: string;
-  'Pokemon Text for Copypasta': string;
-  'Twitter ID': number;
+/**
+ * Saves the credentials from the environment variables to a file if not already saved.
+ */
+async function saveCredentials(): Promise<void> {
+  // Load client secrets from an environment variable which is a JSON string
+  if (!process.env.GOOGLE_CREDENTIALS) {
+    throw new Error('Missing GOOGLE_CREDENTIALS environment variable');
+  }
+  // replace newlines with escaped newlines
+  const c = process.env.GOOGLE_CREDENTIALS.replace(/\n/g, '\\n');
+  // Save the credentials to a file if not already saved
+  await fs.access(CREDENTIALS_PATH).catch(async () => {
+    await fs.writeFile(CREDENTIALS_PATH, c);
+  });
 }
 
+/**
+ * Extracts the data from a Google Sheet using the Google Sheets API.
+ * @param format - The format name
+ */
 async function extractFromGoogleSheet(format: keyof typeof format2gid): Promise<Pokepaste[]> {
   // Get the Google Sheet `gid` by the format name
   const gid = format2gid[format];
@@ -43,46 +78,88 @@ async function extractFromGoogleSheet(format: keyof typeof format2gid): Promise<
     throw new Error(`Unknown format ${format}`);
   }
 
-  // Read sheet from VGCPastes repository
-  const url = `https://docs.google.com/spreadsheets/d/1axlwmzPA49rYkqXh7zHvAtSP-TKbM0ijGYBPRflLSWw/export?format=xlsx&gid=${gid}`;
-  const data = await (await fetch(url)).arrayBuffer();
-  const workbook = XLSX.read(data);
-  const sheet = workbook.Sheets[workbook.SheetNames[0]];
-  console.log(`Read Sheet from ${url}`);
+  // Create Google Sheets API client
+  await saveCredentials();
+  const auth = new google.auth.GoogleAuth({
+    keyFilename: CREDENTIALS_PATH,
+    scopes: 'https://www.googleapis.com/auth/spreadsheets',
+  });
+  const sheets = google.sheets({ version: 'v4', auth });
 
-  // Get the rows
-  const rows = XLSX.utils.sheet_to_json(sheet, { header: 1 }).slice(2);
-  const keys: string[] = rows.shift()!.map((v: any, i: number) => (typeof v === 'string' ? v : `Column ${i}`));
+  // Read the sheet from VGCPastes repository
+  const sheetData = await sheets.spreadsheets.values
+    .batchGetByDataFilter({
+      spreadsheetId: vgcpastesSpreadsheetId,
+      resource: {
+        dataFilters: [
+          {
+            gridRange: {
+              sheetId: gid,
+              startRowIndex: 1,
+              startColumnIndex: 0,
+              endColumnIndex: 22,
+            },
+          },
+        ],
+      },
+    })
+    .then((r: any) => r.data.valueRanges[0].valueRange.values);
 
-  // Create an object array with the first row as the key and the following rows as the value
-  const objs: Row[] = rows
-    .map((row: any[]) =>
-      row.reduce((obj, value, index) => {
-        obj[keys[index]!] = value;
-        return obj;
-      }, {} as Row)
-    )
-    .filter((obj: Row) => obj.EVs === 'Yes' && (obj.Pokepaste || '').startsWith('http'));
+  // Parse the sheet data into an array of objects
+  const keys: Array<keyof Row> = sheetData.shift();
+  if (!keys) {
+    throw new Error(`Empty sheet for ${format}`);
+  }
+  // filter out rows with missing data
+  const values = sheetData.filter(
+    (row: string[]) =>
+      row.length === keys.length && // all columns are present
+      !row.some((val) => val.startsWith('No Data')) && // no "No Data" values
+      row.at(keys.indexOf('Pokepaste'))?.startsWith('https://pokepast.es/') && // Pokepaste link is valid
+      Number.isInteger(+(row.at(keys.indexOf('Internal Team ID')) ?? Number.NaN)) // Internal Team ID is an integer
+  );
+  const objs = values.map((row: string[]) => row.reduce((acc, val, i) => ({ ...acc, [keys[i]!]: val }), {})) as Row[];
 
   // Create a data array
   return Promise.all(
     objs.map(async (obj) => {
+      // title and author
+      const title = obj['Team Title Presentable'];
+      const author = obj['Team Title Presentable'].split("'s ")[0] ?? obj['Full Name'];
       // add Date with an additional "Team ID" as milliseconds
-      const createdAt = new Date(Date.UTC(0, 0, obj['Date Shared'] - 1));
-      createdAt.setMilliseconds(obj['Team ID']);
-      const rentalCode = obj['Rental Code\n(Click text for image)'].length === 6 ? obj['Rental Code\n(Click text for image)'] : null;
-      const notes = `Exported by @VGCPastes${obj['Report / Video'] === '-' ? '' : `\n${obj['Report / Video']}`}`;
-      const source = (obj['Link to Source'] || '').startsWith('http') ? obj['Link to Source'] : null;
+      const parsedDate = Date.parse(obj['Date Shared']);
+      if (Number.isNaN(parsedDate)) {
+        throw new Error(`Invalid date ${obj['Date Shared']}`);
+      }
+      const createdAt = new Date(parsedDate);
+      createdAt.setMilliseconds(+obj['Internal Team ID']);
+      // add Rental Code
+      const rentalCode = obj['Rental Code (Manual Entry)'].length === 6 ? obj['Rental Code (Manual Entry)'] : null;
+      // build notes
+      const notes = `${[obj['Secondary Link'], obj['Notes 1'], obj['Notes 2'], obj['Notes 3']].filter((n) => n.length > 2).join(' ; ')} Exported by @${
+        obj['Done By'].length > 2 ? obj['Done By'] : 'VGCPastes'
+      }`.trim();
+      // find source
+      const source = (obj['Input Tweet'] || '').startsWith('http')
+        ? obj['Input Tweet']
+        : obj['Secondary Link'].startsWith('http')
+        ? obj['Secondary Link']
+        : obj['Other Links'].startsWith('http')
+        ? obj['Other Links']
+        : null;
+      // fetch the paste
       const paste = await fetch(`${obj.Pokepaste}/json`)
-        .then((res) => res.json())
-        .then((json) => json.paste as string);
+        .then((r) => r.json())
+        .then((j) => j.paste as string);
+      // parse the paste
       const jsonPaste = JSON.parse(Team.import(paste)?.toJSON() ?? '') as Prisma.JsonArray;
+
       return {
         id: cuid(),
-        title: obj['Team Description'],
-        author: obj.Owner,
-        notes,
+        author,
+        title,
         paste,
+        notes,
         source,
         format,
         isPublic: true,
@@ -102,18 +179,20 @@ async function extractFromGoogleSheet(format: keyof typeof format2gid): Promise<
  * @returns boolean - Whether there were any new pastes added
  */
 async function updatePGDatabase(data: Pokepaste[], format: keyof typeof format2gid): Promise<boolean> {
-  // Select all the pastes from the database
+  // Upsert by CreatedAt
   const oldData = await prisma.pokepaste.findMany({
     where: {
       format,
       isOfficial: true,
     },
   });
-  const newData = data.filter((d) => !oldData.some((o) => o.paste === d.paste && o.author === d.author));
+  // filter out old data from the new data by CreatedAt's milliseconds
+  const newData = data.filter((d) => !oldData.some((o) => o.createdAt.getMilliseconds() === d.createdAt.getMilliseconds()));
   if (!newData.length) {
     console.log(`No new data for ${format}`);
     return false;
   }
+
   console.log(`Updating ${newData.length} pastes for ${format}. Titles: \n  ${newData.map((d) => d.title).join('\n  ')}`);
   const result = await prisma.pokepaste.createMany({
     data: newData as Prisma.PokepasteCreateManyInput[],
@@ -254,14 +333,13 @@ async function calcUsage(format: keyof typeof format2gid) {
 
   // Save JSON
   const json = JSON.stringify(trimmed, null, 2);
-  fs.writeFileSync(`./src/posts/usages/vgc/${format}.json`, json);
+  await fs.writeFile(`./src/posts/usages/vgc/${format}.json`, json);
 
   // Update gist
-  const authorizationHeader = `Bearer ${process.env.GIST_TOKEN}`;
   await fetch(`https://api.github.com/gists/${format2gistid[format]}`, {
     method: 'PATCH',
     headers: {
-      Authorization: authorizationHeader,
+      Authorization: `Bearer ${process.env.GIST_TOKEN}`,
       Accept: 'application/vnd.github+json',
       'X-GitHub-Api-Version': '2022-11-28',
     },
