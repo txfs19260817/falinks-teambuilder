@@ -123,17 +123,22 @@ async function extractFromGoogleSheet(format: keyof typeof format2gid): Promise<
   // Create a data array
   return Promise.all(
     objs.map(async (obj) => {
+      // title and author
+      const title = obj['Team Title Presentable'];
+      const author = obj['Team Title Presentable'].split("'s ")[0] ?? obj['Full Name'];
       // add Date with an additional "Team ID" as milliseconds
       const parsedDate = Date.parse(obj['Date Shared']);
-      const now = new Date();
-      const createdAt = Number.isNaN(parsedDate) ? new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate())) : new Date(parsedDate);
+      if (Number.isNaN(parsedDate)) {
+        throw new Error(`Invalid date ${obj['Date Shared']}`);
+      }
+      const createdAt = new Date(parsedDate);
       createdAt.setMilliseconds(+obj['Internal Team ID']);
       // add Rental Code
       const rentalCode = obj['Rental Code (Manual Entry)'].length === 6 ? obj['Rental Code (Manual Entry)'] : null;
       // build notes
       const notes = `${[obj['Secondary Link'], obj['Notes 1'], obj['Notes 2'], obj['Notes 3']].filter((n) => n.length > 2).join(' ; ')} Exported by @${
-        obj['Done By']
-      }`;
+        obj['Done By'].length > 2 ? obj['Done By'] : 'VGCPastes'
+      }`.trim();
       // find source
       const source = (obj['Input Tweet'] || '').startsWith('http')
         ? obj['Input Tweet']
@@ -142,14 +147,17 @@ async function extractFromGoogleSheet(format: keyof typeof format2gid): Promise<
         : obj['Other Links'].startsWith('http')
         ? obj['Other Links']
         : null;
+      // fetch the paste
       const paste = await fetch(`${obj.Pokepaste}/json`)
         .then((r) => r.json())
         .then((j) => j.paste as string);
+      // parse the paste
       const jsonPaste = JSON.parse(Team.import(paste)?.toJSON() ?? '') as Prisma.JsonArray;
+
       return {
         id: cuid(),
-        author: obj['Full Name'],
-        title: obj['Team Title Presentable'],
+        author,
+        title,
         paste,
         notes,
         source,
@@ -178,11 +186,13 @@ async function updatePGDatabase(data: Pokepaste[], format: keyof typeof format2g
       isOfficial: true,
     },
   });
-  const newData = data.filter((d) => !oldData.some((o) => o.createdAt.getTime() === d.createdAt.getTime()));
+  // filter out old data from the new data by CreatedAt's milliseconds
+  const newData = data.filter((d) => !oldData.some((o) => o.createdAt.getMilliseconds() === d.createdAt.getMilliseconds()));
   if (!newData.length) {
     console.log(`No new data for ${format}`);
     return false;
   }
+
   console.log(`Updating ${newData.length} pastes for ${format}. Titles: \n  ${newData.map((d) => d.title).join('\n  ')}`);
   const result = await prisma.pokepaste.createMany({
     data: newData as Prisma.PokepasteCreateManyInput[],

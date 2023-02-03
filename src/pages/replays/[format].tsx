@@ -20,7 +20,7 @@ const ReplaySearchCard = ({ format, speciesOptions }: { format: string; speciesO
   return (
     <div className="dropdown">
       <label tabIndex={0} className="btn-primary btn-sm btn m-1" role="button" aria-label="Search">
-        {t('common.search')} 🔍
+        🔍{t('common.search')}({format})
       </label>
       <div tabIndex={0} className="card dropdown-content card-compact bg-base-100 p-2  shadow">
         <div className="card-body">

@@ -102,7 +102,7 @@ const UsageLayout = ({ usages, format, formatOptions = AppConfig.formats }: Usag
             formats={formatOptions}
             defaultFormat={format}
             handleChange={(e) => {
-              push({ pathname, query: { format: e.target.value } });
+              push({ pathname, query: { format: e.target.value } }).then(() => setSelectedRank(0));
             }}
           />
           <PokemonFilter usages={usages} drawerID={drawerID} setSelectedRank={setSelectedRank} />
