@@ -124,8 +124,8 @@ async function extractFromGoogleSheet(format: keyof typeof format2gid): Promise<
   return Promise.all(
     objs.map(async (obj) => {
       // title and author
-      const title = obj['Team Title Presentable'];
-      const author = obj['Team Title Presentable'].split("'s ")[0] ?? obj['Full Name'];
+      const title = obj['Team Title Presentable'].trim();
+      const author = (obj['Full Name'].length > 2 ? obj['Full Name'] : obj['Team Title Presentable'].split("'s ")[0] ?? 'Unknown').trim();
       // add Date with an additional "Team ID" as milliseconds
       const parsedDate = Date.parse(obj['Date Shared']);
       if (Number.isNaN(parsedDate)) {
