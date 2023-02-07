@@ -11,6 +11,7 @@
   "copiedToClipboard": "📋 ¡Copiado!",
   "copy": "Copiar",
   "createdAt": "Creado en",
+  "date": "Fecha",
   "defense": "Defensa",
   "delete": "Borrar",
   "description": "Descripción",
@@ -117,6 +118,10 @@
     },
     "paste": {
       "title": "Equipos"
+    },
+    "tournament": {
+      "description": "Resultados y Estadísticas de los Torneos Pokémon",
+      "title": "Torneos"
     }
   },
   "spread": "Spread",

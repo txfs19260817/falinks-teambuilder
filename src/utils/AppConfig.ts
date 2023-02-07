@@ -50,6 +50,12 @@ const routes: Route[] = [
     ],
   },
   {
+    id: 'tournament',
+    name: 'Tournaments',
+    path: '/tournaments',
+    target: '_self',
+  },
+  {
     id: 'usage',
     name: 'Usage',
     path: '',

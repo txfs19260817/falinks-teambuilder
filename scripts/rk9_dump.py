@@ -4,6 +4,7 @@ from dataclasses import dataclass, field
 import json
 import re
 from pathlib import Path
+from typing import Any
 from pyppeteer import launch
 from bs4 import BeautifulSoup
 from tqdm import tqdm
@@ -11,7 +12,6 @@ from tqdm import tqdm
 
 def name_to_filename(name: str) -> Path:
     return Path(f'{name}_team_list.json')
-
 
 async def getTeamListURLs(page, roster_url: str) -> list[dict]:
     # Go to the roster page
@@ -115,7 +115,7 @@ async def scrape(rk9_roster_pages: dict[str, str], overwrite: bool = False):
     await browser.close()
 
 
-def replace_name_with_showdown_compatible(filename: str):
+def replace_name_with_showdown_compatible(team_list: list[dict[str, Any]]) -> list[dict[str, Any]]:
     name_dict = {
         "Tatsugiri [Curly Form]": "Tatsugiri",
         "Tatsugiri [Droopy Form]": "Tatsugiri-Droopy",
@@ -140,15 +140,30 @@ def replace_name_with_showdown_compatible(filename: str):
         "Oricorio [Pom-Pom Style]": "Oricorio-Pom-Pom",
         "Oricorio [Pa'u Style]": "Oricorio-Pa'u",
     }
-    with open(filename, 'r', encoding='utf-8') as f:
-        team_list = json.load(f)
     for team in team_list:
         for p in team['Team']:
             p['name'] = name_dict.get(p['name'], p['name'])
-    with open(filename, 'w', encoding='utf-8') as f:
-        json.dump(team_list, f)
-    print(f"Done replacing forme names in {filename}")
+    return team_list
 
+def add_pokepaste(team_list: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    for team in team_list:
+        team['PokePaste'] = team_to_pokepaste(team['Team'])
+    return team_list
+
+def team_to_pokepaste(team: list[dict]) -> str:
+    # Get the Pokemon's name, Tera Type, Ability, Held Item, and moves
+    pokepaste = []
+    for p in team:
+        pokepaste.append(f"{p['name']} " + f"@ {p['item']}" if p['item'] else "")
+        if p['ability']:
+            pokepaste.append(f"Ability: {p['ability']}")
+        pokepaste.append("Level: 50")
+        if p['teraType']:
+            pokepaste.append(f"Tera Type: {p['teraType']}")
+        for move in p['moves']:
+            pokepaste.append(f"- {move}")
+        pokepaste.append("")
+    return " \r\n".join(pokepaste)
 
 @dataclass(order=True, frozen=False)
 class Usage:
@@ -264,18 +279,12 @@ async def main():
     await scrape(rk9_roster_pages)
     for name in rk9_roster_pages.keys():
         filename = name_to_filename(name)
-        replace_name_with_showdown_compatible(filename)
-        # stats
-        stat = Statistic(filename)
-        print(f"Top 10 TeraType Usage in {name}:")
-        for k, count in stat.count('teraType').most_common(10):
-            print(f"{k}: {count}")
-        print(f"Top Pokemon Usage in {name}:")
-        for i, (k, v) in enumerate(stat.getUsage(None).items()):
-            print(f"{i + 1}. {k}: {v}")
-            if i == 9:
-                break
-
+        with open(filename, 'r', encoding='utf-8') as f:
+            team_list = json.load(f)
+        replace_name_with_showdown_compatible(team_list)
+        team_list = add_pokepaste(team_list)
+        with open(filename, 'w', encoding='utf-8') as f:
+            json.dump(team_list, f, indent=2)
 
 if __name__ == '__main__':
     asyncio.get_event_loop().run_until_complete(main())

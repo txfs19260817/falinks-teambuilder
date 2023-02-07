@@ -15,6 +15,7 @@
   "delete": "删除",
   "description": "描述",
   "details": "详细",
+  "date": "日期",
   "evs": "努力值",
   "format": "对战规则",
   "formats": "对战规则",
@@ -91,6 +92,10 @@
     "replay": {
       "description": "Pokémon Showdown! 高分回放",
       "title": "回放"
+    },
+    "tournament": {
+      "description": "宝可梦锦标赛结果和统计数据",
+      "title": "比赛"
     }
   },
   "share": "分享",

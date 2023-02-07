@@ -11,6 +11,7 @@
   "copiedToClipboard": "📋 Copié !",
   "copy": "Copie",
   "createdAt": "Créé à",
+  "date": "Date",
   "defense": "La défense",
   "delete": "Effacer",
   "description": "La description",
@@ -117,6 +118,10 @@
     "vgc_usage": {
       "title": "VGCPastes",
       "description": "Pokémon Showdown! Statistiques d'utilisation"
+    },
+    "tournament": {
+      "description": "Résultats et statistiques des tournois Pokémon",
+      "title": "Tournois"
     }
   },
   "spread": "Spread",

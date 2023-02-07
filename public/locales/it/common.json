@@ -11,6 +11,7 @@
   "copiedToClipboard": "📋 Copiato!",
   "copy": "copia",
   "createdAt": "Creato a",
+  "date": "Data",
   "defense": "Difesa",
   "delete": "Elimina",
   "description": "Descrizione",
@@ -117,6 +118,10 @@
     "vgc_usage": {
       "title": "VGCPastes",
       "description": "VGCPastes Statistiche di utilizzo"
+    },
+    "tournament": {
+      "description": "Risultati e statistiche dei tornei Pokémon",
+      "title": "Tornei"
     }
   },
   "spread": "Spread",
