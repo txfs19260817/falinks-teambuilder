@@ -2,7 +2,7 @@ import type { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'ne
 import { SSRConfig, useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
-import { UsageLayout } from '@/components/usages/UsageLayout';
+import UsageLayout from '@/components/usages/UsageLayout';
 import { Main } from '@/templates/Main';
 import { AppConfig } from '@/utils/AppConfig';
 import { postProcessUsage } from '@/utils/PokemonUtils';

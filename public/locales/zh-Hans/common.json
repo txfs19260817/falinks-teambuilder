@@ -116,11 +116,13 @@
   },
   "substitute": "替身",
   "team": "队伍",
+  "teams": "队伍",
   "teammates": "队友",
   "teraType": "太晶属性",
   "terastallized": "太晶化",
   "title": "标题",
   "total": "总计",
+  "tournament": "比赛",
   "type": "属性",
   "typeCategoryMatrix": "属性\\类型表",
   "types": "属性",
@@ -137,5 +139,7 @@
   "pasteTableHeader": {
     "dateShared": "共享日期",
     "title": "队伍名称和描述"
-  }
+  },
+  "full": "全部",
+  "topcut": "晋级"
 }

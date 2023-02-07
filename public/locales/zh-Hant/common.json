@@ -137,5 +137,9 @@
   "pasteTableHeader": {
     "dateShared": "共享日期",
     "title": "隊伍名稱和描述"
-  }
+  },
+  "tournament": "比賽",
+  "teams": "隊伍",
+  "full": "全部",
+  "topcut": "晋级"
 }

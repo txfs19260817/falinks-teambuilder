@@ -2,7 +2,7 @@ import { expect, test } from '@playwright/test';
 
 test('should navigate to replay page', async ({ page, baseURL }) => {
   // Start from the home page
-  await page.goto(baseURL ? `${baseURL}/replays/` : 'http://localhost:3000/replays/');
+  await page.goto(baseURL ? `${baseURL}/replays/gen9vgc2023series1/` : 'http://localhost:3000/replays/gen9vgc2023series1/');
   // Wait for navigation
   await page.waitForNavigation();
   // The new URL should contain "replays"

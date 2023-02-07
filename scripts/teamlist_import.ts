@@ -29,6 +29,7 @@ async function insertTeamlistFromJSON(teamlists: Teamlist[], tournamentId: numbe
     author: `${teamlist['First name']} ${teamlist['Last name']}`,
     standing: teamlist.Standing,
     paste: teamlist.PokePaste,
+    country: teamlist.Country,
     tournamentId,
   }));
   const result = await prisma.tournamentTeam.createMany({

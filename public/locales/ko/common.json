@@ -137,5 +137,9 @@
   "pasteTableHeader": {
     "dateShared": "공유 날짜",
     "title": "팀 제목 및 설명"
-  }
+  },
+  "tournament": "토너먼트",
+  "teams": "팀",
+  "full": "모두",
+  "topcut": "Top Cut"
 }

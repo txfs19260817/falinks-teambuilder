@@ -5,8 +5,7 @@ import cuid from 'cuid';
 import fs from 'fs/promises';
 import path from 'path';
 
-import { movesUsage4x, trimUsage } from '@/utils/PokemonUtils';
-import type { Usage } from '@/utils/Types';
+import { calcUsageFromPastes } from '@/utils/PokemonUtils';
 
 const prisma = new PrismaClient();
 
@@ -214,125 +213,10 @@ async function calcUsage(format: keyof typeof format2gid) {
       },
     })
     .then((d) => d.map(({ paste }) => paste));
-  // Build the usage map, counting the occurrences of each Pokémon and their attributes
-  const species2usage = new Map<string, Usage>();
-  let totalCount = 0;
-  pastes.forEach((paste) => {
-    Team.import(paste)?.team.forEach((set, _, team) => {
-      totalCount++;
-      const { species, ability, item, moves, nature, evs, teraType } = set;
-      if (species && ability && item && moves) {
-        const usage: Usage = species2usage.get(species) ?? {
-          Abilities: {},
-          Items: {},
-          Moves: {},
-          Spreads: {},
-          Teammates: {},
-          TeraTypes: {},
-          name: species,
-          rank: 0,
-          'Raw count': 0,
-          'Viability Ceiling': [0, 0, 0, 0], // not used
-          'Checks and Counters': {}, // not used
-          usage: 0,
-        };
 
-        // Count
-        usage['Raw count']++;
-        // Abilities
-        usage.Abilities[ability] = (usage.Abilities[ability] ?? 0) + 1;
-        // Items
-        usage.Items[item] = (usage.Items[item] ?? 0) + 1;
-        // Moves
-        if (moves[0]) usage.Moves[moves[0]] = (usage.Moves[moves[0]] ?? 0) + 1;
-        if (moves[1]) usage.Moves[moves[1]] = (usage.Moves[moves[1]] ?? 0) + 1;
-        if (moves[2]) usage.Moves[moves[2]] = (usage.Moves[moves[2]] ?? 0) + 1;
-        if (moves[3]) usage.Moves[moves[3]] = (usage.Moves[moves[3]] ?? 0) + 1;
-        // Spreads
-        if (nature && evs) {
-          const spread = `${nature}:${evs.hp}/${evs.atk}/${evs.def}/${evs.spa}/${evs.spd}/${evs.spe}`;
-          usage.Spreads[spread] = (usage.Spreads[spread] ?? 0) + 1;
-        }
-        // Teammates
-        team.forEach((s) => {
-          if (s.species && s.species !== species) {
-            usage.Teammates[s.species] = (usage.Teammates[s.species] ?? 0) + 1;
-          }
-        });
-        // Tera Types
-        if (!usage.TeraTypes) {
-          usage.TeraTypes = {};
-        }
-        if (teraType) {
-          usage.TeraTypes[teraType] = (usage.TeraTypes[teraType] ?? 0) + 1;
-        }
-
-        // Save back to the map
-        species2usage.set(species, usage);
-      }
-    });
-  });
-
-  // Convert all the counts to percentages
-  species2usage.forEach((usage) => {
-    usage.usage = usage['Raw count'] / totalCount;
-    const abilityCount = Object.values(usage.Abilities).reduce((a, b) => (a ?? 0) + (b ?? 0), 0) ?? 1;
-    Object.keys(usage.Abilities).forEach((key) => {
-      usage.Abilities[key]! /= abilityCount;
-    });
-
-    const itemCount = Object.values(usage.Items).reduce((a, b) => (a ?? 0) + (b ?? 0), 0) ?? 1;
-    Object.keys(usage.Items).forEach((key) => {
-      usage.Items[key]! /= itemCount;
-    });
-
-    const moveCount = Object.values(usage.Moves).reduce((a, b) => (a ?? 0) + (b ?? 0), 0) ?? 1;
-    Object.keys(usage.Moves).forEach((key) => {
-      usage.Moves[key]! /= moveCount;
-    });
-
-    const spreadCount = Object.values(usage.Spreads).reduce((a, b) => (a ?? 0) + (b ?? 0), 0) ?? 1;
-    Object.keys(usage.Spreads).forEach((key) => {
-      usage.Spreads[key]! /= spreadCount;
-    });
-
-    const teammateCount = Object.values(usage.Teammates).reduce((a, b) => (a ?? 0) + (b ?? 0), 0) ?? 1;
-    Object.keys(usage.Teammates).forEach((key) => {
-      usage.Teammates[key]! /= teammateCount;
-    });
-
-    const teraTypeCount = Object.values(usage.TeraTypes!).reduce((a, b) => (a ?? 0) + (b ?? 0), 0) ?? 1;
-    Object.keys(usage.TeraTypes!).forEach((key) => {
-      usage.TeraTypes![key]! /= teraTypeCount;
-    });
-  });
-
-  // Sort the attributes of each usage object
-  species2usage.forEach((usage) => {
-    usage.Abilities = Object.fromEntries(Object.entries(usage.Abilities).sort(([, a], [, b]) => (b ?? 0) - (a ?? 0)));
-    usage.Items = Object.fromEntries(Object.entries(usage.Items).sort(([, a], [, b]) => (b ?? 0) - (a ?? 0)));
-    usage.Moves = Object.fromEntries(Object.entries(usage.Moves).sort(([, a], [, b]) => (b ?? 0) - (a ?? 0)));
-    usage.Spreads = Object.fromEntries(Object.entries(usage.Spreads).sort(([, a], [, b]) => (b ?? 0) - (a ?? 0)));
-    usage.Teammates = Object.fromEntries(Object.entries(usage.Teammates).sort(([, a], [, b]) => (b ?? 0) - (a ?? 0)));
-    usage.TeraTypes = Object.fromEntries(Object.entries(usage.TeraTypes!).sort(([, a], [, b]) => b - a));
-  });
-
-  // Sort the usage map by the number of occurrences, then trim it
-  const trimmed = Array.from(species2usage.values())
-    .sort((a, b) => b['Raw count'] - a['Raw count'])
-    .map((usage, rank) => trimUsage(usage, rank)) // rank is 0-indexed
-    .map(movesUsage4x); // 4x the percentage of each move usage
-
-  // Delete unused properties
-  trimmed.forEach((usage) => {
-    // @ts-ignore
-    delete usage['Viability Ceiling'];
-    // @ts-ignore
-    delete usage['Checks and Counters'];
-  });
-
+  const usages = calcUsageFromPastes(pastes);
   // Save JSON
-  const json = JSON.stringify(trimmed, null, 2);
+  const json = JSON.stringify(usages, null, 2);
   await fs.writeFile(`./src/posts/usages/vgc/${format}.json`, json);
 
   // Update gist

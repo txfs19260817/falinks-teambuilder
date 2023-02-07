@@ -113,4 +113,4 @@ const UsageLayout = ({ usages, title, format, formatOptions = AppConfig.formats 
   );
 };
 
-export { UsageLayout };
+export default UsageLayout;

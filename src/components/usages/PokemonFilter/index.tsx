@@ -32,7 +32,7 @@ export function PokemonFilter({ usages, drawerID, setSelectedRank }: PokemonFilt
         .filter(i18nPokemonNameFilter) // apply filter that user typed in
         .map(({ name, rank }) => (
           <li key={name}>
-            {/* use label to close drawer on mobile view */}
+            {/* use label to close drawer on mobile view after clicking the button */}
             <label
               htmlFor={drawerID}
               role="button"

@@ -19,6 +19,7 @@
   "evs": "EVs",
   "format": "Format",
   "formats": "Formats",
+  "full": "Full",
   "gender": "Gender",
   "gigantamax": "Gigantamax",
   "insights": "Insights",
@@ -137,5 +138,8 @@
   "update": "Update",
   "usage": "Usage",
   "substitute": "Substitute",
-  "webApiNotSupported": "📋 The link has been copied to your clipboard as your browser does not support Web Share API."
+  "webApiNotSupported": "📋 The link has been copied to your clipboard as your browser does not support Web Share API.",
+  "tournament": "Tournament",
+  "teams": "Teams",
+  "topcut": "Top Cut"
 }

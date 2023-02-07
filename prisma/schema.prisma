@@ -47,9 +47,10 @@ model Tournament {
   name       String   @db.VarChar(128)
   format     String   @db.VarChar(45)
   date       DateTime @db.Timestamp(6)
+  country    String? @db.VarChar(2) // ISO 3166-1 alpha-2
   source     String
   players    Int     @default(0)
-  usages     String  @default("[]") // JSON array like type Usage[]
+  topcut     Int     @default(0) @db.SmallInt // topcut size
   teams      TournamentTeam[]
 
   @@index([format, date(sort: Desc)])
@@ -58,6 +59,7 @@ model Tournament {
 model TournamentTeam {
   id         Int    @id @default(autoincrement())
   author     String
+  country    String? @db.VarChar(2) // ISO 3166-1 alpha-2
   standing   Int
   paste      String
   tournament Tournament @relation(fields: [tournamentId], references: [id])

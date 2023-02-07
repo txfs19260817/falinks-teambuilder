@@ -137,5 +137,9 @@
   "pasteTableHeader": {
     "dateShared": "共有日",
     "title": "チームのタイトルと説明"
-  }
+  },
+  "tournament": "トーナメント",
+  "teams": "チーム",
+  "full": "すべて",
+  "topcut": "トップカット"
 }

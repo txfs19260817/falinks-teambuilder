@@ -137,5 +137,9 @@
   "pasteTableHeader": {
     "dateShared": "Datum geteilt",
     "title": "Titel und Beschreibung des Teams"
-  }
+  },
+  "tournament": "Turnier",
+  "teams": "Teams",
+  "full": "Alle",
+  "topcut": "Top Cut"
 }

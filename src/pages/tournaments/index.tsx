@@ -11,7 +11,7 @@ import { listTournaments } from '@/utils/Prisma';
 const Tournaments = ({ tournaments }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const { t } = useTranslation(['common']);
   return (
-    <Main title={t('common.routes.tournaments.title')} description={t('common.routes.tournaments.description')}>
+    <Main title={t('common.routes.tournament.title')} description={t('common.routes.tournament.description')}>
       <TournamentsTable tournaments={tournaments} />
     </Main>
   );
