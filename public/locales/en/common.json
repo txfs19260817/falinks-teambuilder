@@ -11,6 +11,7 @@
   "copiedToClipboard": "📋 Copied!",
   "copy": "Copy",
   "createdAt": "Created At",
+  "date": "Date",
   "defense": "Defense",
   "delete": "Delete",
   "description": "Description",
@@ -101,6 +102,10 @@
     "replay": {
       "title": "Replays",
       "description": "Pokémon Showdown! High-rating replays"
+    },
+    "tournament": {
+      "title": "Tournaments",
+      "description": "Pokémon Tournaments Results and Statistics"
     }
   },
   "search": "Search",

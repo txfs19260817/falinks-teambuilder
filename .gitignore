@@ -46,3 +46,6 @@ sw.js.map
 
 # credentials
 credentials.json
+
+# script output
+*_team_list.json

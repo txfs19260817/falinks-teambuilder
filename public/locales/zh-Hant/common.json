@@ -11,6 +11,7 @@
   "copiedToClipboard": "📋 已復制！",
   "copy": "拷貝",
   "createdAt": "創建於",
+  "date": "日期",
   "defense": "防禦",
   "delete": "刪除",
   "description": "描述",
@@ -91,6 +92,10 @@
     "vgc_usage": {
       "title": "VGCPastes",
       "description": "VGCPastes 使用率統計"
+    },
+    "tournament": {
+      "description": "宝可梦錦標賽結果和統計數據",
+      "title": "比賽"
     }
   },
   "share": "分享",

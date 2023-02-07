@@ -30,7 +30,7 @@ if (process.env.NODE_ENV !== 'production') {
   prismaGlobal.prisma = prisma;
 }
 
-// Queries
+/* Queries */
 // List all IDs of pastes
 export const listPastesIDs = async (options?: { isOfficial?: boolean; isPublic?: boolean; format?: string }) =>
   prisma.pokepaste.findMany({
@@ -112,5 +112,53 @@ export const listReplays = async (options: { format: string; pageSize?: number; 
     },
     orderBy: {
       uploadtime: 'desc',
+    },
+  });
+
+// Tournaments
+export const listTournaments = async (options?: { format?: string; pageSize?: number; page?: number }) =>
+  prisma.tournament.findMany({
+    select: {
+      id: true,
+      name: true,
+      format: true,
+      date: true,
+      source: true,
+      players: true,
+      usages: false,
+    },
+    skip: options && options.page && options.pageSize ? options.pageSize * (options.page - 1) : undefined,
+    take: options?.pageSize,
+    where: {
+      format: options?.format,
+    },
+    orderBy: {
+      date: 'desc',
+    },
+  });
+
+export const getTournament = async (id: number, option?: { usages: boolean }) =>
+  prisma.tournament.findUnique({
+    select: {
+      id: true,
+      name: true,
+      format: true,
+      date: true,
+      source: true,
+      players: true,
+      usages: !!option?.usages,
+    },
+    where: {
+      id,
+    },
+  });
+
+export const getTournamentTeams = async (tournamentId?: number) =>
+  prisma.tournamentTeam.findMany({
+    where: {
+      tournamentId,
+    },
+    orderBy: {
+      standing: 'asc',
     },
   });

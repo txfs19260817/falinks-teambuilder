@@ -41,3 +41,27 @@ model replay {
   @@unique([p2, uploadtime], map: "p2")
   @@index([format, uploadtime(sort: Desc)], map: "format")
 }
+
+model Tournament {
+  id         Int    @id @default(autoincrement())
+  name       String   @db.VarChar(128)
+  format     String   @db.VarChar(45)
+  date       DateTime @db.Timestamp(6)
+  source     String
+  players    Int     @default(0)
+  usages     String  @default("[]") // JSON array like type Usage[]
+  teams      TournamentTeam[]
+
+  @@index([format, date(sort: Desc)])
+}
+
+model TournamentTeam {
+  id         Int    @id @default(autoincrement())
+  author     String
+  standing   Int
+  paste      String
+  tournament Tournament @relation(fields: [tournamentId], references: [id])
+  tournamentId Int
+
+  @@index([tournamentId, standing(sort: Asc)])
+}

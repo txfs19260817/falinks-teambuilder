@@ -11,6 +11,7 @@
   "copiedToClipboard": "📋コピーしました！",
   "copy": "コピー",
   "createdAt": "作成日",
+  "date": "日付",
   "defense": "守備",
   "delete": "消去",
   "description": "説明",
@@ -91,6 +92,10 @@
     "vgc_usage": {
       "title": "VGCPastes",
       "description": "VGCPastes 使用統計"
+    },
+    "tournament": {
+      "description": "ポケモントーナメントの結果と統計",
+      "title": "トーナメント"
     }
   },
   "share": "共有",

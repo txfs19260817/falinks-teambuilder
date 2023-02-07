@@ -19,9 +19,10 @@ type UsagePageProps = {
   usages: Usage[];
   format: string;
   formatOptions?: string[];
+  title?: string;
 };
 
-const UsageLayout = ({ usages, format, formatOptions = AppConfig.formats }: UsagePageProps) => {
+const UsageLayout = ({ usages, title, format, formatOptions = AppConfig.formats }: UsagePageProps) => {
   const drawerID = useId();
   const { push, pathname } = useRouter();
   const { t } = useTranslation(['common']);
@@ -44,9 +45,7 @@ const UsageLayout = ({ usages, format, formatOptions = AppConfig.formats }: Usag
               </svg>
             </label>
           </div>
-          <div className="mx-2 flex-1 px-2">
-            {t('common.usage')} - {format}
-          </div>
+          <div className="mx-2 flex-1 px-2">{title || `${t('common.usage')} - ${format}`}</div>
         </nav>
         {/* Main Content */}
         {pokeUsage && (
@@ -80,7 +79,7 @@ const UsageLayout = ({ usages, format, formatOptions = AppConfig.formats }: Usag
               iconGetter={(k) => <PokemonIcon speciesId={k} />}
             />
             {/* Spreads table */}
-            <SpreadTable usages={pokeUsage.Spreads as Record<string, number>} />
+            {Object.keys(pokeUsage.Spreads).length > 0 && <SpreadTable usages={pokeUsage.Spreads as Record<string, number>} />}
             {/* Tera types table (if available) */}
             {pokeUsage.TeraTypes && (
               <BaseTable
@@ -98,13 +97,15 @@ const UsageLayout = ({ usages, format, formatOptions = AppConfig.formats }: Usag
       <div className="drawer-side">
         <label htmlFor={drawerID} className="drawer-overlay"></label>
         <ul className="menu rounded-r-box w-80 border border-base-content/30 bg-base-200 p-4">
-          <FormatSelector
-            formats={formatOptions}
-            defaultFormat={format}
-            handleChange={(e) => {
-              push({ pathname, query: { format: e.target.value } }).then(() => setSelectedRank(0));
-            }}
-          />
+          {(formatOptions?.length ?? 0) > 0 && (
+            <FormatSelector
+              formats={formatOptions}
+              defaultFormat={format}
+              handleChange={(e) => {
+                push({ pathname, query: { format: e.target.value } }).then(() => setSelectedRank(0));
+              }}
+            />
+          )}
           <PokemonFilter usages={usages} drawerID={drawerID} setSelectedRank={setSelectedRank} />
         </ul>
       </div>
