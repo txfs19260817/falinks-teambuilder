@@ -141,5 +141,7 @@
   "tournament": "トーナメント",
   "teams": "チーム",
   "full": "すべて",
-  "topcut": "トップカット"
+  "topcut": "トップカット",
+  "tournamentAuthor": "RK9Labsに表示されるプレイヤー名",
+  "copyOTS": "チームをクリップボードにコピーする"
 }

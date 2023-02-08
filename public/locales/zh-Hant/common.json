@@ -141,5 +141,7 @@
   "tournament": "比賽",
   "teams": "隊伍",
   "full": "全部",
-  "topcut": "晋级"
+  "topcut": "晋级",
+  "tournamentAuthor": "RK9Labs 中顯示的玩家名",
+  "copyOTS": "復製隊伍到剪貼板"
 }

@@ -27,13 +27,13 @@ const TournamentTeamsTable = ({ tournamentTeams }: { tournamentTeams: Tournament
     {
       header: '#',
       accessorKey: 'standing',
-      cell: ({ getValue }) => (getValue<number>() <= 128 ? getValue<number>() : '🏆'),
+      cell: ({ getValue }) => (getValue<number>() <= 128 ? getValue<number>() : '>128'),
       enableSorting: false,
       enableColumnFilter: false,
       enableGlobalFilter: false,
     },
     {
-      header: t('common.author'),
+      header: t('common.tournamentAuthor'),
       accessorKey: 'author',
     },
     {
@@ -56,7 +56,7 @@ const TournamentTeamsTable = ({ tournamentTeams }: { tournamentTeams: Tournament
     },
     {
       id: 'copy',
-      header: t('common.copy'),
+      header: t('common.copyOTS'),
       accessorKey: 'paste',
       cell: ({ getValue }) => (
         <button className={'btn-primary btn-xs btn'} onClick={() => navigator.clipboard.writeText(getValue<string>())}>

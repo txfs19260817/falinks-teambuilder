@@ -141,5 +141,7 @@
     "title": "队伍名称和描述"
   },
   "full": "全部",
-  "topcut": "晋级"
+  "topcut": "晋级",
+  "tournamentAuthor": "RK9Labs 中显示的玩家名",
+  "copyOTS": "复制队伍到剪贴板"
 }

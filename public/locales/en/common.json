@@ -10,6 +10,7 @@
   "categoryTypes": "Category \\ Types",
   "copiedToClipboard": "📋 Copied!",
   "copy": "Copy",
+  "copyOTS": "Copy Open Team Sheet to Clipboard",
   "createdAt": "Created At",
   "date": "Date",
   "defense": "Defense",
@@ -140,6 +141,7 @@
   "substitute": "Substitute",
   "webApiNotSupported": "📋 The link has been copied to your clipboard as your browser does not support Web Share API.",
   "tournament": "Tournament",
+  "tournamentAuthor": "Player Name As Shown In RK9Labs",
   "teams": "Teams",
   "topcut": "Top Cut"
 }

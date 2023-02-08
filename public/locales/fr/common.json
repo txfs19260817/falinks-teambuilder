@@ -141,5 +141,7 @@
   "tournament": "Tournoi",
   "teams": "Équipes",
   "full": "Tous",
-  "topcut": "Top Cut"
+  "topcut": "Top Cut",
+  "tournamentAuthor": "Nom du joueur tel qu'indiqué dans RK9Labs",
+  "copyOTS": "Copier l'équipe dans le presse-papiers"
 }
