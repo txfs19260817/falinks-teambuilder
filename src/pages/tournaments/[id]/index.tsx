@@ -27,7 +27,7 @@ export default function TournamentDetailPage({ tournament, tournamentTeams }: In
       <TournamentOverviewCard tournament={tournament} />
       <div className="tabs">
         {TournamentTabs.map((tTab) => (
-          <a key={tTab} className={`tab tab-lifted tab-lg${tTab === tab ? ' tab-active' : ''}`} onClick={() => setTab(tTab)}>
+          <a key={tTab} className={`tab tab-lifted tab-lg font-bold${tTab === tab ? ' tab-active' : ''}`} onClick={() => setTab(tTab)}>
             {t(`common.${tTab}`)}
           </a>
         ))}

@@ -5,9 +5,12 @@ import { useMemo, useState } from 'react';
 import UsageLayout from '@/components/usages/UsageLayout';
 import { calcUsageFromPastes } from '@/utils/PokemonUtils';
 
+const TournamentUsageTabs = ['full', 'topcut'] as const;
+type TournamentUsageTab = typeof TournamentUsageTabs[number];
+
 const TournamentUsageWrapper = ({ tournament, tournamentTeams }: { tournament: Tournament; tournamentTeams: TournamentTeam[] }) => {
   const { t } = useTranslation(['common']);
-  const [showTopCut, setShowTopCut] = useState(false);
+  const [tournamentUsageTab, setTournamentUsageTab] = useState<TournamentUsageTab>(TournamentUsageTabs[0]);
   const usages = useMemo(() => {
     const pastes = tournamentTeams.map((tournamentTeam) => tournamentTeam.paste);
     return calcUsageFromPastes(pastes);
@@ -20,14 +23,14 @@ const TournamentUsageWrapper = ({ tournament, tournamentTeams }: { tournament: T
     <>
       {/* Filters */}
       <div className="tabs">
-        <a className={`tab tab-bordered${showTopCut ? ' ' : ' tab-active'}`} onClick={() => setShowTopCut(false)}>
-          {t('common.full')}
-        </a>
-        <a className={`tab tab-bordered${showTopCut ? ' tab-active' : ''}`} onClick={() => setShowTopCut(true)}>
-          {t('common.topcut')}
-        </a>
+        {TournamentUsageTabs.map((tTab) => (
+          <a key={tTab} className={`tab tab-bordered font-bold${tTab === tournamentUsageTab ? ' tab-active' : ''}`} onClick={() => setTournamentUsageTab(tTab)}>
+            {t(`common.${tTab}`)}
+          </a>
+        ))}
       </div>
-      <UsageLayout usages={showTopCut ? topCutUsages : usages} title={tournament.name} format={tournament.format} formatOptions={[]} />
+      {/* Panel */}
+      <UsageLayout usages={tournamentUsageTab === 'topcut' ? topCutUsages : usages} title={tournament.name} format={tournament.format} formatOptions={[]} />
     </>
   );
 };
