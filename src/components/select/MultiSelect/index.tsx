@@ -132,7 +132,7 @@ export function MultiSelect({ options, onChange, iconGetter, ariaLabel, placehol
             >
               <span>
                 {iconGetter && iconGetter(option.value)}
-                <span>{option.label}</span>
+                <span className="capitalize">{option.label}</span>
               </span>
             </li>
           ))}

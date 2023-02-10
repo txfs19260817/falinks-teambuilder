@@ -5,6 +5,7 @@ import {
   convertObjectNumberValuesToFraction,
   ensureInteger,
   filterSortLimitObjectByValues,
+  findIntersections,
   fractionToPercentage,
   getISOWeekNumber,
   getRandomColor,
@@ -83,4 +84,14 @@ test('getISOWeekNumber', () => {
   const { year, week } = getISOWeekNumber(date);
   expect(year).toBe(2020);
   expect(week).toBe(53);
+});
+
+test('findIntersections', () => {
+  const teamArrs = [
+    ['Amoonguss', 'Arcanine', 'Flutter Mane', 'Gothitelle', 'Palafin', 'Scream Tail'],
+    ['Amoonguss', 'Arcanine', 'Espathra', 'Flutter Mane', 'Iron Hands', 'Sandy Shocks'],
+    ['Amoonguss', 'Arcanine', 'Ditto', 'Indeedee-F', 'Iron Hands', 'Torkoal'],
+  ];
+  const intersections = findIntersections(teamArrs);
+  expect(intersections).toEqual(['Amoonguss', 'Arcanine']);
 });

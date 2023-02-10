@@ -1,14 +1,17 @@
 import { Column, Table } from '@tanstack/react-table';
+import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import React from 'react';
 
 import { PokemonIcon } from '@/components/icons/PokemonIcon';
 import { MultiSelect } from '@/components/select/MultiSelect';
 import { ValueWithEmojiSelector } from '@/components/select/ValueWithEmojiSelector';
-import { getPokemonTranslationKey, moveCategoriesWithEmoji, typesWithEmoji } from '@/utils/PokemonUtils';
+import { findIntersections } from '@/utils/Helpers';
+import { getAllFormesForSameFuncSpecies, getPokemonTranslationKey, moveCategoriesWithEmoji, typesWithEmoji } from '@/utils/PokemonUtils';
 
 function OmniFilter({ column, instance }: { column: Column<any>; instance: Table<any> }) {
   const { t } = useTranslation(['common', 'species']);
+  const { locale } = useRouter();
   if (!column.getCanFilter()) return null;
   const firstValue = instance.getPreFilteredRowModel().flatRows[0]?.getValue(column.id);
   const columnFilterValue = column.getFilterValue();
@@ -44,13 +47,26 @@ function OmniFilter({ column, instance }: { column: Column<any>; instance: Table
   }
 
   if (column.id === 'species') {
-    // all species
-    const species = instance.getFilteredRowModel().flatRows.map(({ getValue }) => getValue<string>(column.id));
+    // all species from rows
+    const species: string[][] = instance.getFilteredRowModel().flatRows.map(({ getValue }) => getValue<string[]>(column.id));
     // get all unique pokemon
-    const options = Array.from(new Set(species.flat()))
+    const speciesSet = new Set(species.flat());
+    // remove intersections
+    (findIntersections(species) ?? []).forEach((s) => speciesSet.delete(s));
+    // append all formes
+    speciesSet.forEach((s) => {
+      const formes = getAllFormesForSameFuncSpecies(s);
+      // replace species with its base forme if it has one
+      if (formes.length > 0 && formes[0] !== s) {
+        speciesSet.delete(s);
+        speciesSet.add(formes[0]!);
+      }
+    });
+    // create options, then sort them in the current locale
+    const options = Array.from(speciesSet)
       .map((e) => ({
         value: e,
-        label: t(getPokemonTranslationKey(e, 'species')),
+        label: locale === 'en' ? e : t(getPokemonTranslationKey(e, 'species')),
       }))
       .sort((a, b) => a.label.localeCompare(b.label));
     // return a select component

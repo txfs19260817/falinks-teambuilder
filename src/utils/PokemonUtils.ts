@@ -843,3 +843,19 @@ export const calcUsageFromPastes = (pastes: string[]): Usage[] => {
 
   return trimmedUsages;
 };
+
+/**
+ * Return the all species names of the given Pokemon who has other formes but shares the same functionality.
+ * e.g., Gastrodon-East -> Gastrodon
+ *
+ * @param {string} speciesName: The species name (not ID) of the Pokemon
+ * @returns {string[]} The species names of the Pokemon who has other formes but shares the same functionality. Empty array if the Pokemon has no other formes.
+ */
+export const getAllFormesForSameFuncSpecies = (speciesName: string): string[] => {
+  const otherFormesPrefixes = ['Gastrodon', 'Toxtricity', 'Palafin', 'Dudunsparce', 'Squawkabilly', 'Gourgeist', 'Pumpkaboo'];
+  if (otherFormesPrefixes.some((prefix) => speciesName.startsWith(prefix))) {
+    const baseSpeciesName = speciesName.split('-')[0] ?? '';
+    return DexSingleton.getGen().species.get(baseSpeciesName)?.formes ?? [];
+  }
+  return [];
+};

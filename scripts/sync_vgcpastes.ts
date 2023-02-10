@@ -128,7 +128,7 @@ async function extractFromGoogleSheet(format: keyof typeof format2gid): Promise<
       // add Date with an additional "Team ID" as milliseconds
       const parsedDate = Date.parse(obj['Date Shared']);
       if (Number.isNaN(parsedDate)) {
-        throw new Error(`Invalid date ${obj['Date Shared']}`);
+        throw new Error(`Invalid date ${obj['Date Shared']}, obj: ${JSON.stringify(obj)}`);
       }
       const createdAt = new Date(parsedDate);
       createdAt.setMilliseconds(+obj['Internal Team ID']);

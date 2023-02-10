@@ -20,6 +20,8 @@ import { useContext, useState } from 'react';
 import { PokemonIcon } from '@/components/icons/PokemonIcon';
 import Table from '@/components/table';
 import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
+import { duplicateArrayWith2DArray } from '@/utils/Helpers';
+import { getAllFormesForSameFuncSpecies } from '@/utils/PokemonUtils';
 import type { PastesList, PastesListItem } from '@/utils/Prisma';
 
 type PastesTableProps = {
@@ -63,8 +65,10 @@ const PastesTable = ({ pastes, enableDateShared = false, enableFormat = false }:
         </span>
       ),
       filterFn: (row, columnId, filterValue) => {
-        const species = row.getValue<string[]>(columnId);
-        return !filterValue.some((v: string) => !species.includes(v));
+        const species = row.getValue<string[]>(columnId); // Get all species in the row
+        const bases = filterValue.map(getAllFormesForSameFuncSpecies) as string[][]; // Get all formes (who have unchanged func) for each species if it has any
+        const filterValueArrays: string[][] = duplicateArrayWith2DArray(filterValue, bases) as string[][]; // Cartesian product of filterValue and bases
+        return filterValueArrays.some((fs) => fs.every((v) => species.includes(v)));
       },
       enableSorting: false,
       enableMultiSort: false,

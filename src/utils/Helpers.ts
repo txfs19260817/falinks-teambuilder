@@ -111,3 +111,59 @@ export const getISOWeekNumber = (
 export const convertYearWeekToNumber = ({ year, week }: { year: number; week: number }) => {
   return year * 100 + week;
 };
+
+/**
+ * Calculates "Cartesian Product" sets.
+ * @example
+ *   cartesianProduct([[1,2], [4,8], [16,32]])
+ *   Returns:
+ *   [
+ *     [1, 4, 16],
+ *     [1, 4, 32],
+ *     [1, 8, 16],
+ *     [1, 8, 32],
+ *     [2, 4, 16],
+ *     [2, 4, 32],
+ *     [2, 8, 16],
+ *     [2, 8, 32]
+ *   ]
+ * @see https://stackoverflow.com/a/36234242/1955709
+ * @see https://en.wikipedia.org/wiki/Cartesian_product
+ * @param arr {T[][]}
+ * @returns {T[][]}
+ */
+function cartesianProduct<T>(arr: T[][]): T[][] {
+  return arr.reduce(
+    (a, b) => {
+      return a
+        .map((x) => {
+          return b.map((y) => {
+            return x.concat(y);
+          });
+        })
+        .reduce((c, d) => c.concat(d), []);
+    },
+    [[]] as T[][]
+  );
+}
+
+/**
+ * Permute to get all possible substitutions for each element in another 2D candidate array
+ * e.g., duplicateArrayWith2DArray([1, 2, 3], [[1, 10], [], [3, 30]]) => [[1, 2, 3], [10, 2, 3], [1, 2, 30], [10, 2, 30]]
+ * @param arr
+ * @param candidates
+ * @returns {unknown[][]}
+ */
+export const duplicateArrayWith2DArray = (arr: unknown[], candidates: unknown[][]): unknown[][] => {
+  // first to replace empty candicates with corresponding element in arr
+  const candidatesWithDefault = candidates.map((c, i) => (c.length === 0 ? [arr[i]] : c));
+  // then to get all possible permutations
+  return cartesianProduct(candidatesWithDefault);
+};
+
+export const findIntersections = <T>(arrs = [] as T[][]) => {
+  if (arrs.length === 0) return [];
+  if (arrs.length === 1) return arrs[0];
+  const [first, ...rest] = arrs;
+  return first!.filter((value) => rest.every((arr) => arr.includes(value)));
+};
