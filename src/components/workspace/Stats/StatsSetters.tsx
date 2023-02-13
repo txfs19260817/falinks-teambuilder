@@ -45,7 +45,7 @@ function StatsSetters() {
 
   useEffect(() => {
     const pName = teamState.getPokemonInTeam(tabIdx)?.species ?? '';
-    setBase((old) => DexSingleton.getGen().species.get(pName)?.baseStats ?? old);
+    setBase((old) => DexSingleton.getGenByFormat(teamState.format).species.get(pName)?.baseStats ?? old);
   }, [teamState.getPokemonInTeam(tabIdx)?.species]);
 
   useEffect(() => {
@@ -183,7 +183,7 @@ function StatsSetters() {
               value={ev}
               className={`input-bordered ${
                 nature.plus === stat ? 'input-primary' : nature.minus === stat ? 'input-secondary' : ''
-              } input input-xs col-span-2 mx-2 md:mx-0 md:input-sm`}
+              } input input-xs col-span-2 mx-2 md:input-sm md:mx-0`}
               onChange={(e) => handleEVInputChange(e, ev, stat)}
               onKeyUp={(e) => handleEVInputDone(e, stat)}
               onMouseUp={(e) => handleEVInputDone(e, stat)}

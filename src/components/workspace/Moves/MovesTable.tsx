@@ -18,7 +18,7 @@ function MovesTable({ moveIdx }: { moveIdx: number }) {
 
   // get all moves that learnable by the Pokémon
   const { species } = teamState.getPokemonInTeam(tabIdx) ?? {};
-  const { data: learnableMoves } = useSWR<Move[]>(species, (k) => getMovesBySpecie(k));
+  const { data: learnableMoves } = useSWR<Move[]>(species, (k) => getMovesBySpecie(k, false, teamState.format));
   // fetch popular moves by this Pokémon
   const { data: popularMoveNames } = useSWR<string[]>( // move names
     species ? `/api/usages/stats/${species}?format=${teamState.format}&moves=true` : null, // ?moves=true doesn't work in the API, only used as a cache buster for SWR.

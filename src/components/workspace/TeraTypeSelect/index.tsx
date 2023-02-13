@@ -8,7 +8,7 @@ import { typesWithEmoji } from '@/utils/PokemonUtils';
 function TeraTypeSelect() {
   const { t } = useTranslation(['common', 'types']);
   const { teamState, tabIdx } = useContext(StoreContext);
-  const defaultTeraTypeValue = DexSingleton.getGen().species.get(teamState.getPokemonInTeam(tabIdx)?.species ?? '')?.types[0] ?? 'Normal';
+  const defaultTeraTypeValue = DexSingleton.getGen(9).species.get(teamState.getPokemonInTeam(tabIdx)?.species ?? '')?.types[0] ?? 'Normal';
   const [teraType, setTeraType] = useState<string>(defaultTeraTypeValue);
 
   const teraTypeOptions = [

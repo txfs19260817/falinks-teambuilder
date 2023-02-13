@@ -62,7 +62,7 @@ function ItemsTable() {
 
   // move popular items to the top
   const data = useMemo<Item[]>(() => {
-    const gen = DexSingleton.getGen();
+    const gen = DexSingleton.getGenByFormat(teamState.format);
     const popularItem = popularItemNames ?? defaultPopularItems;
     return popularItem.flatMap((i) => gen.items.get(i) || []).concat(Array.from(gen.items).filter(({ name }) => !popularItem.includes(name)));
   }, [popularItemNames]);

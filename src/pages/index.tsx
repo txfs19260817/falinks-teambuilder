@@ -158,7 +158,7 @@ const RoomHistory = () => {
   useEffect(() => {
     const roomDbNamesValue = localStorage.getItem('roomNames');
     if (!roomDbNamesValue) return;
-    const roomDbNames = roomDbNamesValue.split(',');
+    const roomDbNames = roomDbNamesValue.split(',').sort((a, b) => b.localeCompare(a));
     // list indexedDB
     Promise.all<Record<string, IndexedDBTeam> | undefined>(
       roomDbNames.map((name) =>

@@ -39,10 +39,19 @@ function SpeciesTable() {
   const { teamState, tabIdx, focusedFieldState, focusedFieldDispatch, globalFilter, setGlobalFilter } = useContext(StoreContext);
 
   // table settings
-  const [data, setData] = useState<Specie[]>(() => [...Array.from(DexSingleton.getGen().species)]);
   const { data: usages, error } = useSWR<Usage[]>(`/api/usages/format/${teamState.format}`, (u) => fetch(u).then((r) => r.json()), {
     fallbackData: [],
   });
+  const speciesList = useMemo<Specie[]>(() => {
+    const speciesDex = DexSingleton.getGenByFormat(teamState.format).species;
+    if (!usages) {
+      return [...Array.from(speciesDex)];
+    }
+    // sort by usage
+    const dataSorted = usages.flatMap((u) => speciesDex.get(u.name) || []);
+    dataSorted.push(...Array.from(speciesDex).filter((s) => !dataSorted.includes(s)));
+    return dataSorted;
+  }, [usages, teamState.format]);
   if (error) {
     toast.error(error);
   }
@@ -186,19 +195,9 @@ function SpeciesTable() {
     pageSize: 10,
   });
 
-  // sorting by usages
-  useEffect(() => {
-    if (!usages || usages.length <= 0) {
-      return;
-    }
-    const dataSorted = usages.flatMap((u) => DexSingleton.getGen().species.get(u.name) || []);
-    dataSorted.push(...Array.from(DexSingleton.getGen().species).filter((s) => !dataSorted.includes(s)));
-    setData(dataSorted);
-  }, [usages]);
-
   // table instance
   const instance = useReactTable<Specie>({
-    data,
+    data: speciesList,
     columns,
     state: {
       columnFilters,

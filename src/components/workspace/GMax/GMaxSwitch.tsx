@@ -20,7 +20,7 @@ function GMaxSwitch() {
     teamState.updatePokemonInTeam(tabIdx, 'gigantamax', e.target.checked);
   };
 
-  const { canGigantamax } = DexSingleton.getGen().species.get(teamState.getPokemonInTeam(tabIdx)?.species ?? '') ?? {};
+  const { canGigantamax } = DexSingleton.getGen(8).species.get(teamState.getPokemonInTeam(tabIdx)?.species ?? '') ?? {};
   if (!canGigantamax) return null;
 
   return (

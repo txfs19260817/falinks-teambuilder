@@ -8,7 +8,7 @@ function GenderPicker() {
   const { t } = useTranslation();
   const { teamState, tabIdx } = useContext(StoreContext);
   // read specie's gender. If this is not undefined, it means this Pokémon only has one gender
-  const possibleGender = DexSingleton.getGen().species.get(teamState.getPokemonInTeam(tabIdx)?.species ?? '')?.gender;
+  const possibleGender = DexSingleton.getGenByFormat(teamState.format).species.get(teamState.getPokemonInTeam(tabIdx)?.species ?? '')?.gender;
   // otherwise, its gender could be either M or F
   const availableGenders: string[] = possibleGender ? [possibleGender as string] : ['M', 'F'];
   const [gender, setGender] = useState(availableGenders[0]);

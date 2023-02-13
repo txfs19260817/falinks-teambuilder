@@ -1,4 +1,4 @@
-import type { Ability, Move, MoveCategory, Nature, Specie, TypeEffectiveness, TypeName } from '@pkmn/data';
+import type { Move, MoveCategory, Nature, Specie, TypeEffectiveness, TypeName } from '@pkmn/data';
 import { Team } from '@pkmn/sets';
 import { DisplayUsageStatistics, LegacyDisplayUsageStatistics } from '@pkmn/smogon';
 import type { StatID, StatsTable, StatusName } from '@pkmn/types';
@@ -446,27 +446,13 @@ export const wikiLink = (keyword: string, locale?: string) => {
 };
 
 /**
- * Retrieves ability for the given Pokémon.
- * @param speciesName
- */
-export const getAbilitiesBySpecie = (speciesName?: string): Ability[] => {
-  const gen = DexSingleton.getGen();
-  const abilitiesMap = gen.species.get(speciesName ?? '')?.abilities;
-  // return all abilities as the default behavior
-  return abilitiesMap
-    ? (Object.values(abilitiesMap)
-        .map((a: string) => gen.abilities.get(a))
-        .filter((a) => a != null) as Ability[])
-    : Array.from(gen.abilities);
-};
-
-/**
  * Retrieves learnable moves for the given Pokémon.
  * @param speciesName
  * @param isBaseSpecies
+ * @param format
  */
-export const getMovesBySpecie = (speciesName?: string, isBaseSpecies: boolean = false): Promise<Move[]> => {
-  const gen = DexSingleton.getGen();
+export const getMovesBySpecie = (speciesName?: string, isBaseSpecies: boolean = false, format: string = AppConfig.defaultFormat): Promise<Move[]> => {
+  const gen = DexSingleton.getGenByFormat(format);
   const species = gen.species.get(speciesName ?? '');
   // return all moves as the default behavior
   if (!species) {
@@ -476,13 +462,13 @@ export const getMovesBySpecie = (speciesName?: string, isBaseSpecies: boolean = 
   // read learnset by species
   return gen.learnsets.get(speciesName || '').then(async (l) => {
     const res = Object.entries(l?.learnset ?? [])
-      .filter((e) => e[1].some((s) => s.startsWith(`${AppConfig.defaultGen}`)))
+      .filter((e) => e[1].some((s) => s.startsWith(`${gen.num}`)))
       .flatMap((e) => gen.moves.get(e[0]) ?? []);
 
     // if the species is a forme, add the base species' moves
     const baseSpecies = gen.species.get(speciesName || '')?.baseSpecies ?? '';
     if (baseSpecies !== speciesName && baseSpecies !== '') {
-      const baseSpeciesMoves = await getMovesBySpecie(baseSpecies, true);
+      const baseSpeciesMoves = await getMovesBySpecie(baseSpecies, true, format);
       res.push(...baseSpeciesMoves);
     }
 
@@ -496,7 +482,7 @@ export const getMovesBySpecie = (speciesName?: string, isBaseSpecies: boolean = 
         basicSpecies != null
           ? await gen.learnsets.get(basicSpecies.name).then((le) =>
               Object.entries(le?.learnset ?? [])
-                .filter((e) => e[1].some((s) => s.startsWith(`${AppConfig.defaultGen}E`)))
+                .filter((e) => e[1].some((s) => s.startsWith(`${gen.num}E`)))
                 .flatMap((e) => gen.moves.get(e[0]) ?? [])
             )
           : [];

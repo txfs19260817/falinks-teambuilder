@@ -19,7 +19,7 @@ function StatsClickable() {
     const pm = teamState.getPokemonInTeam(tabIdx);
     if (!pm) return;
     const { species: pName, ivs, evs, nature: natureName, level } = pm;
-    const bases = DexSingleton.getGen().species.get(pName ?? '')?.baseStats ?? defaultStats;
+    const bases = DexSingleton.getGenByFormat(teamState.format).species.get(pName ?? '')?.baseStats ?? defaultStats;
     const nature = natures.find((n) => n.name === natureName) ?? natures[0]!;
     // compute new stats
     const newStats: StatsTable = { ...defaultStats };
@@ -38,7 +38,7 @@ function StatsClickable() {
 
   return (
     <label
-      className={`input-group-md input-group input-group-vertical rounded-lg border border-base-300 transition-all hover:opacity-80 hover:shadow-xl md:input-group-lg `}
+      className={`input-group-md input-group input-group-vertical rounded-lg border border-base-300 transition-all md:input-group-lg hover:opacity-80 hover:shadow-xl `}
       onClick={() =>
         focusedFieldDispatch({
           type: 'set',

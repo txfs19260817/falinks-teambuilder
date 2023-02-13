@@ -5,7 +5,7 @@ import { useContext, useEffect, useMemo, useState } from 'react';
 
 import Table from '@/components/table';
 import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
-import { getAbilitiesBySpecie } from '@/utils/PokemonUtils';
+import DexSingleton from '@/models/DexSingleton';
 
 function AbilitiesTable() {
   const { t } = useTranslation(['common', 'abilities', 'ability_descriptions']);
@@ -14,7 +14,16 @@ function AbilitiesTable() {
   // table settings
   const [data, setData] = useState<Ability[]>([]);
   useEffect(() => {
-    setData(() => [...getAbilitiesBySpecie(teamState.getPokemonInTeam(tabIdx)?.species)]);
+    // get abilities data
+    const gen = DexSingleton.getGenByFormat(teamState.format);
+    const abilitiesMap = gen.species.get(teamState.getPokemonInTeam(tabIdx)?.species ?? '')?.abilities;
+    // if not found, return all abilities
+    const abilitiesData = abilitiesMap
+      ? (Object.values(abilitiesMap)
+          .map((a: string) => gen.abilities.get(a))
+          .filter((a) => a != null) as Ability[])
+      : Array.from(gen.abilities);
+    setData(() => [...abilitiesData]);
   }, [teamState.getPokemonInTeam(tabIdx)?.species]);
 
   // a filter that supports searching by translated name

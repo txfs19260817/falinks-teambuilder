@@ -8,6 +8,7 @@ import useSWR from 'swr';
 import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
 import { Pokemon } from '@/models/Pokemon';
 import Loading from '@/templates/Loading';
+import { AppConfig } from '@/utils/AppConfig';
 
 type Data = {
   id: string;
@@ -41,10 +42,13 @@ export const PresetsSubComponent = (row: Row<Specie>) => {
   const { t } = useTranslation(['common', 'species']);
   const { tabIdx, teamState } = useContext(StoreContext);
   const [pageIndex, setPageIndex] = useState(1);
-  const { data, error } = useSWR<Data[]>(`/api/usages/presets/${row.original.name}?page=${pageIndex}&format=${teamState.format}`, (u) =>
-    fetch(u).then((r) => r.json())
+  const { data, error } = useSWR<Data[]>(
+    // only fetch presets when the format is in the current generation
+    teamState.format.includes(`gen${AppConfig.defaultGen}`) ? `/api/usages/presets/${row.original.name}?page=${pageIndex}&format=${teamState.format}` : null,
+    (u) => fetch(u).then((r) => r.json()),
+    { fallbackData: [] }
   );
-  if (!data) {
+  if (data == null) {
     return <Loading />;
   }
   const handlePresetClick = (preset: string) => {
