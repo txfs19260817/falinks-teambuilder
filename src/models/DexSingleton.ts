@@ -38,11 +38,6 @@ class DexSingleton {
     return DexSingleton.instance.gen;
   }
 
-  /**
-   * Get the generation from a format string. If the format string does not contain a generation, the default generation is returned.
-   * Example: gen8ou -> 8, gen5doublesou -> 5
-   * @param format
-   */
   public static getGenByFormat(format: string): Generation {
     if (format === 'vgc2014' || format === 'vgc2015') return DexSingleton.getGen(6);
     const genNum = parseInt(format.replace(/gen(\d+).*/, '$1'), 10);

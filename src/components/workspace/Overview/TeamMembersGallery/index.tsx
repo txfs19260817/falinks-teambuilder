@@ -9,6 +9,7 @@ import { Pokemon } from '@/models/Pokemon';
 export function TeamMembersGallery() {
   const { t } = useTranslation();
   const { teamState, setTabIdx } = useContext(StoreContext);
+  const removeTab = (index: number) => teamState.splicePokemonTeam(index, 1);
   return (
     <div className="grid gap-y-2 gap-x-2 bg-base-200 py-2 px-1 md:grid-cols-2 md:grid-rows-3 lg:grid-cols-3 lg:grid-rows-2">
       {[0, 1, 2, 3, 4, 5].map((i) => {
@@ -33,7 +34,17 @@ export function TeamMembersGallery() {
                       setTabIdx(i);
                     }}
                   >
-                    {t('room.jumpToTab')}
+                    <span>➡️</span>
+                    <span>{t('room.jumpToTab')}</span>
+                  </button>
+                  <button
+                    className="btn-error btn-sm btn"
+                    onClick={() => {
+                      removeTab(i);
+                    }}
+                  >
+                    <span>🗑️</span>
+                    <span>{t('common.delete')}</span>
                   </button>
                   <button
                     className="btn-secondary btn-sm btn"

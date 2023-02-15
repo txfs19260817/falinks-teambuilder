@@ -845,3 +845,15 @@ export const getAllFormesForSameFuncSpecies = (speciesName: string): string[] =>
   }
   return [];
 };
+
+/**
+ * Get the generation from a format string. If the format string does not contain a generation, undefined is returned.
+ * Example: gen8ou -> 8, gen5doublesou -> 5
+ * @param format
+ * @returns The generation number or undefined if the format string does not contain a generation
+ */
+export const getGenNumberFromFormat = (format: string): number | undefined => {
+  if (format === 'vgc2014' || format === 'vgc2015') return 6;
+  const genNum = parseInt(format.replace(/gen(\d+).*/, '$1'), 10);
+  return Number.isInteger(genNum) ? genNum : undefined;
+};

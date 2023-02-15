@@ -135,7 +135,16 @@ const dialogProps = [
 
 // the first element serves as the default format
 // NOTE: change the rewrite rule in `next.config.js` if the default format is changed
-const formats = ['gen9vgc2023series2', 'gen9vgc2023series1', 'gen9battlestadiumsinglesseries1', 'gen9doublesou', 'gen9ou', 'gen8spikemuthcup', 'gen8vgc2022'];
+const formats = [
+  'gen9vgc2023series2',
+  'gen9vgc2023series1',
+  'gen9battlestadiumsinglesseries1',
+  'gen9battlestadiumsinglesseries2',
+  'gen9doublesou',
+  'gen9ou',
+  'gen8spikemuthcup',
+  'gen8vgc2022',
+];
 
 export const AppConfig = {
   site_name: 'Falinks Teambuilder',
@@ -143,18 +152,11 @@ export const AppConfig = {
   description: 'Falinks Teambuilder is a collaborative Pokémon team building application.',
   canonical: 'https://www.falinks-teambuilder.com',
   defaultLocale: 'en',
-  locales: ['en', 'zh-Hans'],
   themeColor: '#f9da55',
   maxPokemonPerTeam: 6,
   defaultGen: 9,
   defaultFormat: formats[0]!,
   themes: tailwindConfig.daisyui.themes as string[],
-  dbName: 'falinks',
-  collectionName: {
-    vgcPastes: 'vgc_pastes',
-    publicPastes: 'public_pastes',
-    privatePastes: 'private_pastes',
-  },
   toolboxIDs,
   formats,
   dialogProps,
