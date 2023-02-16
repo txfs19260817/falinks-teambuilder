@@ -20,7 +20,7 @@ import { useState } from 'react';
 import Table from '@/components/table';
 
 const TournamentsTable = ({ tournaments }: { tournaments: Tournament[] }) => {
-  const { locale } = useRouter();
+  const { locale, push } = useRouter();
   const { t } = useTranslation(['common']);
   // table settings
   const columns: ColumnDef<Tournament>[] = [
@@ -57,9 +57,9 @@ const TournamentsTable = ({ tournaments }: { tournaments: Tournament[] }) => {
       header: t('common.details'),
       accessorKey: 'id',
       cell: ({ getValue }) => (
-        <a href={`/tournaments/${getValue<string>()}`} className="btn-primary btn-xs btn">
+        <button type="button" className="btn-primary btn-xs btn" onClick={() => push(`/tournaments/${getValue<string>()}`)}>
           📊 {t('common.details')}
-        </a>
+        </button>
       ),
       enableSorting: false,
       enableColumnFilter: false,
