@@ -96,6 +96,10 @@
     "tournament": {
       "description": "ポケモントーナメントの結果と統計",
       "title": "トーナメント"
+    },
+    "vgc_usage_pair": {
+      "description": "VGCPastes ペアの使用統計",
+      "title": "VGCPastes ペア"
     }
   },
   "share": "共有",
@@ -143,5 +147,6 @@
   "full": "すべて",
   "topcut": "トップカット",
   "tournamentAuthor": "RK9Labsに表示されるプレイヤー名",
-  "copyOTS": "チームをクリップボードにコピーする"
+  "copyOTS": "チームをクリップボードにコピーする",
+  "count": "カウント"
 }

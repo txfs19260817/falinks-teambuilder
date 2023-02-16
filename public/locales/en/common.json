@@ -11,6 +11,7 @@
   "copiedToClipboard": "📋 Copied!",
   "copy": "Copy",
   "copyOTS": "Copy Open Team Sheet to Clipboard",
+  "count": "Count",
   "createdAt": "Created At",
   "date": "Date",
   "defense": "Defense",
@@ -96,6 +97,10 @@
     "vgc_usage": {
       "title": "VGCPastes",
       "description": "VGCPastes usage statistics"
+    },
+    "vgc_usage_pair": {
+      "title": "VGCPastes Pair",
+      "description": "VGCPastes pair usage statistics"
     },
     "smogon_usage": {
       "title": "Smogon",

@@ -99,3 +99,8 @@ export type ReplayResponse = {
   private: 0 | 1;
   password: string | null;
 };
+
+export type PairUsage = {
+  pair: string;
+  count: number;
+};

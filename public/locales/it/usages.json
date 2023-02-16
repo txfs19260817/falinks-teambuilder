@@ -1,1 +1,9 @@
-{"openInWiki":"Apri nel wiki","rank":"Rango","filter":{"placeholder":"Filtra per nome"}}
+{
+  "openInWiki": "Apri nel wiki",
+  "rank": "Rango",
+  "filter": {
+    "placeholder": "Filtra per nome"
+  },
+  "pair": "Paio",
+  "pairUsage": "Le coppie di Pokémon più popolari"
+}

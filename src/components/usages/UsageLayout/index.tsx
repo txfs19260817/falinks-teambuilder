@@ -22,6 +22,53 @@ type UsagePageProps = {
   title?: string;
 };
 
+const UsagePanels = ({ pokeUsage }: { pokeUsage: Usage }) => {
+  return (
+    <div className="grid gap-4 p-4 md:grid-cols-2">
+      {/* Info Card */}
+      <InfoCard speciesName={pokeUsage.name} />
+      {/* Usage */}
+      <UsageStats pokeUsage={pokeUsage} />
+      {/* Items table */}
+      <BaseTable
+        tableTitle="items"
+        category="items"
+        usages={pokeUsage.Items as Record<string, number>}
+        nameGetter={(k) => DexSingleton.getGen().items.get(k)?.name ?? k}
+        iconGetter={(k) => <ItemIcon itemName={k} />}
+      />
+      {/* Moves table */}
+      <BaseTable
+        tableTitle="moves"
+        category="moves"
+        usages={pokeUsage.Moves as Record<string, number>}
+        nameGetter={(k) => DexSingleton.getGen().moves.get(k)?.name ?? k}
+        iconGetter={(k) => <RoundTypeIcon typeName={DexSingleton.getGen().moves.get(k)?.type ?? '???'} />}
+      />
+      {/* Teammates table */}
+      <BaseTable
+        tableTitle="teammates"
+        category="species"
+        usages={pokeUsage.Teammates as Record<string, number>}
+        nameGetter={(k) => DexSingleton.getGen().species.get(k)?.name ?? k}
+        iconGetter={(k) => <PokemonIcon speciesId={k} />}
+      />
+      {/* Spreads table */}
+      {Object.keys(pokeUsage.Spreads).length > 0 && <SpreadTable usages={pokeUsage.Spreads as Record<string, number>} />}
+      {/* Tera types table (if available) */}
+      {pokeUsage.TeraTypes && (
+        <BaseTable
+          tableTitle="teraType"
+          category="types"
+          usages={pokeUsage.TeraTypes}
+          nameGetter={(k) => DexSingleton.getGen().types.get(k)?.name ?? k}
+          iconGetter={(k) => <RoundTypeIcon typeName={DexSingleton.getGen().types.get(k)?.name ?? '???'} />}
+        />
+      )}
+    </div>
+  );
+};
+
 const UsageLayout = ({ usages, title, format, formatOptions = AppConfig.formats }: UsagePageProps) => {
   const drawerID = useId();
   const { push, pathname } = useRouter();
@@ -48,50 +95,7 @@ const UsageLayout = ({ usages, title, format, formatOptions = AppConfig.formats 
           <div className="mx-2 flex-1 px-2">{title || `${t('common.usage')} - ${format}`}</div>
         </nav>
         {/* Main Content */}
-        {pokeUsage && (
-          <div className="grid gap-4 p-4 md:grid-cols-2">
-            {/* Info Card */}
-            <InfoCard speciesName={pokeUsage.name} />
-            {/* Usage */}
-            <UsageStats pokeUsage={pokeUsage} />
-            {/* Items table */}
-            <BaseTable
-              tableTitle="items"
-              category="items"
-              usages={pokeUsage.Items as Record<string, number>}
-              nameGetter={(k) => DexSingleton.getGen().items.get(k)?.name ?? k}
-              iconGetter={(k) => <ItemIcon itemName={k} />}
-            />
-            {/* Moves table */}
-            <BaseTable
-              tableTitle="moves"
-              category="moves"
-              usages={pokeUsage.Moves as Record<string, number>}
-              nameGetter={(k) => DexSingleton.getGen().moves.get(k)?.name ?? k}
-              iconGetter={(k) => <RoundTypeIcon typeName={DexSingleton.getGen().moves.get(k)?.type ?? '???'} />}
-            />
-            {/* Teammates table */}
-            <BaseTable
-              tableTitle="teammates"
-              category="species"
-              usages={pokeUsage.Teammates as Record<string, number>}
-              nameGetter={(k) => DexSingleton.getGen().species.get(k)?.name ?? k}
-              iconGetter={(k) => <PokemonIcon speciesId={k} />}
-            />
-            {/* Spreads table */}
-            {Object.keys(pokeUsage.Spreads).length > 0 && <SpreadTable usages={pokeUsage.Spreads as Record<string, number>} />}
-            {/* Tera types table (if available) */}
-            {pokeUsage.TeraTypes && (
-              <BaseTable
-                tableTitle="teraType"
-                category="types"
-                usages={pokeUsage.TeraTypes}
-                nameGetter={(k) => DexSingleton.getGen().types.get(k)?.name ?? k}
-                iconGetter={(k) => <RoundTypeIcon typeName={DexSingleton.getGen().types.get(k)?.name ?? '???'} />}
-              />
-            )}
-          </div>
-        )}
+        {pokeUsage && <UsagePanels pokeUsage={pokeUsage} />}
       </div>
       {/* Drawer side */}
       <div className="drawer-side">

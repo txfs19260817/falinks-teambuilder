@@ -7,7 +7,7 @@ import { MovesetStatistics, Statistics, UsageStatistics } from 'smogon';
 import DexSingleton from '@/models/DexSingleton';
 import { AppConfig } from '@/utils/AppConfig';
 import { convertObjectNumberValuesToFraction, filterSortLimitObjectByValues, getRandomElement, urlPattern } from '@/utils/Helpers';
-import type { Spreads, Usage, ValueWithEmojiOption } from '@/utils/Types';
+import type { PairUsage, Spreads, Usage, ValueWithEmojiOption } from '@/utils/Types';
 
 export const stats: StatID[] = ['hp', 'atk', 'def', 'spa', 'spd', 'spe'];
 
@@ -828,6 +828,33 @@ export const calcUsageFromPastes = (pastes: string[]): Usage[] => {
   });
 
   return trimmedUsages;
+};
+
+export const pastesToSpeciesArrays = (pastes: string[]) => pastes.map((p) => Team.import(p)?.team ?? []).map((team) => team.map((p) => p.species) as string[]);
+
+/**
+ * For each team (unique species string array), calculate the usage of each pair of Pokémon.
+ * @param {string[][]} speciesArrays: The array of unique species string arrays
+ * @returns An array of pair usages. The `pair` of species names separated by a comma.
+ */
+export const calcPairUsage: (speciesArrays: string[][]) => PairUsage[] = (speciesArrays: string[][]) => {
+  const pair2usage = new Map<string, number>();
+  const splitter = ',';
+  speciesArrays.forEach((speciesArray) => {
+    speciesArray.forEach((species, index) => {
+      speciesArray.slice(index + 1).forEach((otherSpecies) => {
+        const pair = species < otherSpecies ? `${species}${splitter}${otherSpecies}` : `${otherSpecies}${splitter}${species}`;
+        pair2usage.set(pair, (pair2usage.get(pair) ?? 0) + 1);
+      });
+    });
+  });
+  // convert map to json
+  return Array.from(pair2usage.entries())
+    .map(([pair, count]) => ({
+      pair,
+      count,
+    }))
+    .sort((a, b) => b.count - a.count);
 };
 
 /**

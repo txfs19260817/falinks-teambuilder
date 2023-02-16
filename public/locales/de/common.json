@@ -96,6 +96,10 @@
     "tournament": {
       "description": "Ergebnisse und Statistiken von Pokémon-Turnieren",
       "title": "Turniere"
+    },
+    "vgc_usage_pair": {
+      "description": "Nutzungsstatistiken für VGCPaste-Paare",
+      "title": "VGCPastes Paar"
     }
   },
   "share": "Teilen",
@@ -143,5 +147,6 @@
   "full": "Alle",
   "topcut": "Top Cut",
   "tournamentAuthor": "Spielername wie in RK9Labs angezeigt",
-  "copyOTS": "Kopieren Sie das Team in die Zwischenablage"
+  "copyOTS": "Kopieren Sie das Team in die Zwischenablage",
+  "count": "Zählen"
 }

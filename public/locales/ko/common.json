@@ -122,6 +122,10 @@
     "tournament": {
       "description": "포켓몬 토너먼트 결과 및 통계",
       "title": "토너먼트"
+    },
+    "vgc_usage_pair": {
+      "description": "VGCPastes 쌍 사용 통계",
+      "title": "VGCPastes 쌍"
     }
   },
   "spread": "할당",
@@ -143,5 +147,6 @@
   "full": "모두",
   "topcut": "Top Cut",
   "tournamentAuthor": "RK9Labs에 표시되는 플레이어 이름",
-  "copyOTS": "팀을 클립보드에 복사"
+  "copyOTS": "팀을 클립보드에 복사",
+  "count": "세다"
 }

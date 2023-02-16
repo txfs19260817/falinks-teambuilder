@@ -1,1 +1,9 @@
-{"openInWiki":"在百科中查看","rank":"排名","filter":{"placeholder":"输入名字过滤"}}
+{
+  "openInWiki": "在百科中查看",
+  "rank": "排名",
+  "filter": {
+    "placeholder": "输入名字过滤"
+  },
+  "pair": "组合",
+  "pairUsage": "使用率最高的宝可梦组合"
+}

@@ -1,1 +1,9 @@
-{"openInWiki":"ウィキで開く","rank":"ランク","filter":{"placeholder":"名前でフィルタ"}}
+{
+  "openInWiki": "ウィキで開く",
+  "rank": "ランク",
+  "filter": {
+    "placeholder": "名前でフィルタ"
+  },
+  "pair": "ペア",
+  "pairUsage": "上位のポケモンのペア"
+}

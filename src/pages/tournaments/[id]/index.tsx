@@ -16,24 +16,31 @@ const TournamentUsageWrapper = dynamic(() => import('@/components/tournaments/To
   loading: () => <Loading />,
 });
 
-const TournamentTabs = ['teams', 'usage'] as const;
+const TournamentPairUsageWrapper = dynamic(() => import('@/components/tournaments/TournamentPairUsageWrapper'), {
+  ssr: true,
+  loading: () => <Loading />,
+});
+
+const TournamentTabs = ['teams', 'usage', 'pair'] as const;
 type TournamentTab = typeof TournamentTabs[number];
 
 export default function TournamentDetailPage({ tournament, tournamentTeams }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  const { t } = useTranslation(['common']);
+  const { t } = useTranslation(['common', 'usages']);
   const [tab, setTab] = useState<TournamentTab>(TournamentTabs[0]);
+
   return (
     <Main title={tournament.name + t('common.details')} description={tournament.name + t('common.details')}>
       <TournamentOverviewCard tournament={tournament} />
       <div className="tabs">
         {TournamentTabs.map((tTab) => (
           <a key={tTab} className={`tab tab-lifted tab-lg font-bold${tTab === tab ? ' tab-active' : ''}`} onClick={() => setTab(tTab)}>
-            {t(`common.${tTab}`)}
+            {t(tTab, { ns: ['common', 'usages'] })}
           </a>
         ))}
       </div>
       {tab === 'teams' && <TournamentTeamsTable tournamentTeams={tournamentTeams} />}
       {tab === 'usage' && <TournamentUsageWrapper tournament={tournament} tournamentTeams={tournamentTeams} />}
+      {tab === 'pair' && <TournamentPairUsageWrapper tournament={tournament} tournamentTeams={tournamentTeams} />}
     </Main>
   );
 }

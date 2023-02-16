@@ -68,6 +68,12 @@ const routes: Route[] = [
         target: '_self',
       },
       {
+        id: 'vgc_usage_pair',
+        name: 'VGCPastes Pair',
+        path: '/usages/vgc/pair',
+        target: '_self',
+      },
+      {
         id: 'smogon_usage',
         name: 'Smogon Usage',
         path: '/usages/smogon',

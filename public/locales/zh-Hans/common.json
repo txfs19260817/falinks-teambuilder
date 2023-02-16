@@ -96,6 +96,10 @@
     "tournament": {
       "description": "宝可梦锦标赛结果和统计数据",
       "title": "比赛"
+    },
+    "vgc_usage_pair": {
+      "description": "VGCPastes 组合使用统计",
+      "title": "VGCPastes 组合"
     }
   },
   "share": "分享",
@@ -143,5 +147,6 @@
   "full": "全部",
   "topcut": "晋级",
   "tournamentAuthor": "RK9Labs 中显示的玩家名",
-  "copyOTS": "复制队伍到剪贴板"
+  "copyOTS": "复制队伍到剪贴板",
+  "count": "总计"
 }

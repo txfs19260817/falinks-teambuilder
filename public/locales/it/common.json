@@ -122,6 +122,10 @@
     "tournament": {
       "description": "Risultati e statistiche dei tornei Pokémon",
       "title": "Tornei"
+    },
+    "vgc_usage_pair": {
+      "description": "Statistiche sull'utilizzo delle coppie VGCPastes",
+      "title": "Coppia VGCPastes"
     }
   },
   "spread": "Spread",
@@ -143,5 +147,6 @@
   "full": "Tutti",
   "topcut": "Top Cut",
   "tournamentAuthor": "Nome del giocatore come mostrato in RK9Labs",
-  "copyOTS": "Copia Open Team Sheet negli Appunti"
+  "copyOTS": "Copia Open Team Sheet negli Appunti",
+  "count": "Contare"
 }

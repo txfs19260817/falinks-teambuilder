@@ -1,1 +1,9 @@
-{"openInWiki":"在百科中打開","rank":"排名","filter":{"placeholder":"输入名稱過濾"}}
+{
+  "openInWiki": "在百科中打開",
+  "rank": "排名",
+  "filter": {
+    "placeholder": "输入名稱過濾"
+  },
+  "pair": "組合",
+  "pairUsage": "使用率最高的宝可梦組合"
+}

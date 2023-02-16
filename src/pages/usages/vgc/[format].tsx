@@ -12,18 +12,14 @@ const format2gist: Record<string, string> = {
   gen9vgc2023series2: 'https://gist.githubusercontent.com/txfs19260817/67ca12acee3728da83c8ce6419e2d1b2/raw/gen9vgc2023series2.json',
 };
 
-const UsagePage = ({ usages, format }: { usages: Usage[]; format: string }) => {
+function Page({ usages, format }: InferGetStaticPropsType<typeof getStaticProps>) {
   const { t } = useTranslation(['common']);
 
   return (
-    <Main title={t('common.routes.vgc_usage.title')} description={t('common.routes.vgc_usage.description')}>
+    <Main title={`${t('common.routes.vgc_usage.title')}-${format}`} description={t('common.routes.vgc_usage.description')}>
       <UsageLayout usages={usages} format={format} formatOptions={Object.keys(format2gist)} />
     </Main>
   );
-};
-
-function Page(data: InferGetStaticPropsType<typeof getStaticProps>) {
-  return <UsagePage {...data} />;
 }
 
 export const getStaticProps: GetStaticProps<{ usages: Usage[]; format: string } & SSRConfig, { format: string }> = async ({ params, locale }) => {
