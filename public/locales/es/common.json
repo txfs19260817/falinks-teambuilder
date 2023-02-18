@@ -126,6 +126,10 @@
     "vgc_usage_pair": {
       "description": "Estadísticas de uso de pares de VGCPastes",
       "title": "Par de VGCPastes"
+    },
+    "matchup": {
+      "description": "Abrir visor de emparejamiento de Hojas de equipo",
+      "title": "Visor de coincidencias OTS"
     }
   },
   "spread": "Spread",

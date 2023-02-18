@@ -16,6 +16,7 @@ import natures from 'public/locales/en/natures.json';
 import paste from 'public/locales/en/paste.json';
 import search from 'public/locales/en/search.json';
 import species from 'public/locales/en/species.json';
+import tools from 'public/locales/en/tools.json';
 import types from 'public/locales/en/types.json';
 
 declare module 'i18next' {
@@ -31,6 +32,7 @@ declare module 'i18next' {
       create: typeof create;
       search: typeof search;
       paste: typeof paste;
+      tools: typeof tools;
       // pokemon terms
       abilities: typeof abilities;
       ability_descriptions: typeof ability_descriptions;

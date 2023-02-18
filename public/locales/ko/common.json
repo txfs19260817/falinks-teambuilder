@@ -126,6 +126,10 @@
     "vgc_usage_pair": {
       "description": "VGCPastes 쌍 사용 통계",
       "title": "VGCPastes 쌍"
+    },
+    "matchup": {
+      "description": "팀 시트 매치업 뷰어 열기",
+      "title": "OTS 매치업 뷰어"
     }
   },
   "spread": "할당",

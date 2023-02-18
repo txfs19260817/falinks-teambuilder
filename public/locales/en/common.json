@@ -113,6 +113,10 @@
     "tournament": {
       "title": "Tournaments",
       "description": "Pokémon Tournaments Results and Statistics"
+    },
+    "matchup": {
+      "title": "OTS Match-up Viewer",
+      "description": "Open Team Sheets Match-up Viewer"
     }
   },
   "search": "Search",

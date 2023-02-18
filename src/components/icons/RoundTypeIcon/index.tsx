@@ -3,7 +3,7 @@ import Image from 'next/legacy/image';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
-export function RoundTypeIcon({ typeName }: { typeName: string | TypeName }) {
+export function RoundTypeIcon({ typeName, isTeraType = false }: { typeName: string | TypeName; isTeraType?: boolean }) {
   const { t } = useTranslation('types');
   const { basePath } = useRouter();
   const translatedTypeName = t(`types.${typeName.toLowerCase()}`, {
@@ -12,11 +12,11 @@ export function RoundTypeIcon({ typeName }: { typeName: string | TypeName }) {
   return (
     <Image
       className="inline-block"
-      width={24}
-      height={24}
+      width={isTeraType ? 32 : 24}
+      height={isTeraType ? 38 : 24}
       alt={translatedTypeName}
       title={translatedTypeName}
-      src={`${basePath}/assets/types/${typeName}.webp`}
+      src={`${basePath}/assets/${isTeraType ? `teratypes/${typeName}.png` : `types/${typeName}.webp`}`}
       loading="lazy"
     />
   );

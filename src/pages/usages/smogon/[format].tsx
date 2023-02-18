@@ -9,7 +9,7 @@ import { AppConfig } from '@/utils/AppConfig';
 import { postProcessUsage } from '@/utils/PokemonUtils';
 import type { Format, Usage } from '@/utils/Types';
 
-const smogonFormats: Format[] = new FormatManager().getFormatsByGen(9);
+const smogonFormats: Format[] = new FormatManager().usageFormats;
 
 const UsagePage = ({ usages, format }: { usages: Usage[]; format: string }) => {
   const { t } = useTranslation(['common']);

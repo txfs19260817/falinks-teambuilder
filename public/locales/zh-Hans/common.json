@@ -100,6 +100,10 @@
     "vgc_usage_pair": {
       "description": "VGCPastes 组合使用统计",
       "title": "VGCPastes 组合"
+    },
+    "matchup": {
+      "description": "打开 Team Sheets Match-up Viewer",
+      "title": "OTS 对阵查看器"
     }
   },
   "share": "分享",

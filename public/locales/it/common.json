@@ -126,6 +126,10 @@
     "vgc_usage_pair": {
       "description": "Statistiche sull'utilizzo delle coppie VGCPastes",
       "title": "Coppia VGCPastes"
+    },
+    "matchup": {
+      "description": "Apri Visualizzatore abbinamenti Fogli squadra",
+      "title": "Visualizzatore di corrispondenza OTS"
     }
   },
   "spread": "Spread",

@@ -33,11 +33,11 @@ export const getStaticProps: GetStaticProps<{ id: string; title: string; fallbac
   const team = Pokemon.convertPasteToTeam(data.paste);
   if (team == null) return { notFound: true };
 
+  // Slim down the SSR translations to only the ones we need
   const dex = DexSingleton.getGen();
   const requiredNamespaces = ['common', 'paste', 'moves', 'types', 'species', 'categories', 'items', 'abilities', 'natures'] as const;
   const ssr = await serverSideTranslations(locale ?? AppConfig.defaultLocale, Array.from(requiredNamespaces));
 
-  // Slim down the SSR translations to only the ones we need
   const initialI18nStore = ssr._nextI18Next!.initialI18nStore as Record<
     'en' | 'de' | 'es' | 'fr' | 'it' | 'ja' | 'ko' | 'zh-Hans' | 'zh-Hant',
     Record<typeof requiredNamespaces[number], Record<string, string>> // the inner Record is the JSON translation object

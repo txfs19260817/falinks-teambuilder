@@ -88,6 +88,20 @@ const routes: Route[] = [
     target: '_self',
   },
   {
+    id: 'tools',
+    name: 'Tools',
+    path: '',
+    target: '',
+    children: [
+      {
+        id: 'matchup',
+        name: 'Match-up Viewer',
+        path: '/tools/matchup',
+        target: '_self',
+      },
+    ],
+  },
+  {
     id: 'about',
     name: 'About',
     path: '/about',

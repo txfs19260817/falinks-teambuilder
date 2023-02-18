@@ -2,7 +2,6 @@ import { useTranslation } from 'next-i18next';
 import { useMemo } from 'react';
 
 import { PureSpriteAvatar } from '@/components/icons/PureSpriteAvatar';
-import { getPokemonTranslationKey } from '@/utils/PokemonUtils';
 import type { PairUsage } from '@/utils/Types';
 
 type PairUsageTableProps = {
@@ -34,8 +33,7 @@ const PairUsageTable = ({ pairUsages, nResults, minimumCount = 2 }: PairUsageTab
                 .map((speciesId) => (
                   <td key={speciesId}>
                     <figure className="inline-block w-full">
-                      <PureSpriteAvatar speciesId={speciesId} />
-                      <figcaption className="py-1 text-center font-bold">{t(getPokemonTranslationKey(speciesId, 'species'))}</figcaption>
+                      <PureSpriteAvatar speciesId={speciesId} showName={true} />
                     </figure>
                   </td>
                 ))}

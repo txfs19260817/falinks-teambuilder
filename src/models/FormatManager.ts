@@ -72,7 +72,7 @@ class FormatManager {
         gameType: 'doubles',
         defaultLevel: 50,
         defaultSpeciesName: 'Incineroar',
-        isIndexedAsUsage: true,
+        isIndexedAsUsage: false,
         isVGC: true,
       },
       {

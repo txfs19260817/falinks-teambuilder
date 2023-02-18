@@ -100,6 +100,10 @@
     "vgc_usage_pair": {
       "description": "VGCPastes ペアの使用統計",
       "title": "VGCPastes ペア使用率"
+    },
+    "matchup": {
+      "description": "オープンチームシート マッチアップビューアー",
+      "title": "OTS 対戦ビューア"
     }
   },
   "share": "共有",

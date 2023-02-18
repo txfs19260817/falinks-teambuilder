@@ -100,6 +100,10 @@
     "vgc_usage_pair": {
       "description": "Nutzungsstatistiken für VGCPaste-Paare",
       "title": "VGCPastes Paar"
+    },
+    "matchup": {
+      "description": "Open Team Sheets Match-Up Viewer",
+      "title": "OTS Match-up-Viewer"
     }
   },
   "share": "Teilen",
