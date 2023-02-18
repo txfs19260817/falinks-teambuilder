@@ -156,5 +156,7 @@
   "topcut": "晋级",
   "tournamentAuthor": "RK9Labs 中顯示的玩家名",
   "copyOTS": "復製隊伍到剪貼板",
-  "count": "縂計"
+  "count": "縂計",
+  "hide": "隱藏",
+  "show": "顯示"
 }

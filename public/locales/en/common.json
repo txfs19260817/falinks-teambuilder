@@ -156,5 +156,7 @@
   "tournament": "Tournament",
   "tournamentAuthor": "Player Name As Shown In RK9Labs",
   "teams": "Teams",
+  "hide": "Hide",
+  "show": "Show",
   "topcut": "Top Cut"
 }

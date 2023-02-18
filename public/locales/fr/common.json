@@ -156,5 +156,7 @@
   "topcut": "Top Cut",
   "tournamentAuthor": "Nom du joueur tel qu'indiqué dans RK9Labs",
   "copyOTS": "Copier l'équipe dans le presse-papiers",
-  "count": "Compter"
+  "count": "Compter",
+  "hide": "Masquer",
+  "show": "Afficher"
 }

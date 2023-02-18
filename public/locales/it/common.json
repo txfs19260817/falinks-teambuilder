@@ -156,5 +156,7 @@
   "topcut": "Top Cut",
   "tournamentAuthor": "Nome del giocatore come mostrato in RK9Labs",
   "copyOTS": "Copia Open Team Sheet negli Appunti",
-  "count": "Contare"
+  "count": "Contare",
+  "hide": "Nascondi",
+  "show": "Mostra"
 }

@@ -156,5 +156,7 @@
   "topcut": "トップカット",
   "tournamentAuthor": "RK9Labsに表示されるプレイヤー名",
   "copyOTS": "チームをクリップボードにコピーする",
-  "count": "カウント"
+  "count": "カウント",
+  "hide": "非表示にする",
+  "show": "表示する"
 }

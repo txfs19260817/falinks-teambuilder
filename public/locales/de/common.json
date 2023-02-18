@@ -156,5 +156,7 @@
   "topcut": "Top Cut",
   "tournamentAuthor": "Spielername wie in RK9Labs angezeigt",
   "copyOTS": "Kopieren Sie das Team in die Zwischenablage",
-  "count": "Zählen"
+  "count": "Zählen",
+  "hide": "Ausblenden",
+  "show": "Anzeigen"
 }
