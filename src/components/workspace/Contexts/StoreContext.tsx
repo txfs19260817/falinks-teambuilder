@@ -1,6 +1,7 @@
 import { createContext, Dispatch, ReactNode } from 'react';
 
 import { FocusedFieldAction, FocusedFieldToIdx } from '@/components/workspace/FocusedField/consts';
+import FormatManager from '@/models/FormatManager';
 import { TeamState } from '@/models/TeamState';
 
 interface StoreContextInterface {
@@ -11,6 +12,7 @@ interface StoreContextInterface {
   focusedFieldDispatch: Dispatch<FocusedFieldAction>;
   globalFilter: string;
   setGlobalFilter: (filter: string) => void;
+  formatManager: FormatManager;
 }
 
 type StoreContextProviderProps = {
@@ -26,6 +28,7 @@ const defaultStore: StoreContextInterface = {
   focusedFieldDispatch: (_: FocusedFieldAction) => {},
   globalFilter: '',
   setGlobalFilter: (_: string) => {},
+  formatManager: {} as FormatManager,
 };
 
 export const StoreContext = createContext<StoreContextInterface>(defaultStore);

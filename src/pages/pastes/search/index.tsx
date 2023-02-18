@@ -9,10 +9,11 @@ import { ItemIcon } from '@/components/icons/ItemIcon';
 import { PokemonIcon } from '@/components/icons/PokemonIcon';
 import { RoundTypeIcon } from '@/components/icons/RoundTypeIcon';
 import PastesTable from '@/components/pastes/PastesTable';
-import { FormatSelector } from '@/components/select/FormatSelector';
+import { formatOptionElementsGrouped, FormatSelector } from '@/components/select/FormatSelector';
 import { Select } from '@/components/select/Select';
 import { ValueWithEmojiSelector } from '@/components/select/ValueWithEmojiSelector';
 import DexSingleton from '@/models/DexSingleton';
+import FormatManager from '@/models/FormatManager';
 import { Main } from '@/templates/Main';
 import { AppConfig } from '@/utils/AppConfig';
 import { defaultStats, getMovesBySpecie, getPokemonTranslationKey, maxEVStats, stats, typesWithEmoji } from '@/utils/PokemonUtils';
@@ -32,6 +33,7 @@ const Search = () => {
   const [searchResults, setSearchResults] = useState<PastesList>([]);
   const pokemonList = useMemo<Specie[]>(() => Array.from(gen.species), [gen]);
   const itemList = useMemo<Item[]>(() => Array.from(gen.items), [gen]);
+  const formatManager = useMemo(() => new FormatManager(), []);
 
   const {
     register,
@@ -295,10 +297,9 @@ const Search = () => {
                 <span className="label-text after:text-error after:content-['_*']">{t('common.format')}</span>
               </label>
               <FormatSelector
-                inputGroup={false}
-                formats={['', ...AppConfig.formats]}
-                defaultFormat={AppConfig.defaultFormat}
-                handleChange={(e) => setValue('format', e.target.value)}
+                defaultFormat={formatManager.defaultFormat.id}
+                onChange={(e) => setValue('format', e.target.value)}
+                options={formatOptionElementsGrouped(formatManager.groupFormatsByGen())}
               />
             </div>
             {/* Has Rental Code */}

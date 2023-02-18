@@ -3,10 +3,10 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
 
-import { FormatSelector } from '@/components/select/FormatSelector';
+import { formatOptionElementsGrouped, FormatSelector } from '@/components/select/FormatSelector';
+import FormatManager from '@/models/FormatManager';
 import { Pokemon } from '@/models/Pokemon';
 import { Main } from '@/templates/Main';
-import { AppConfig } from '@/utils/AppConfig';
 import { isValidPokePasteURL } from '@/utils/PokemonUtils';
 
 type CreatePasteForm = {
@@ -23,6 +23,7 @@ type CreatePasteForm = {
 
 const Create = () => {
   const { t } = useTranslation(['common', 'create']);
+  const formatManager = new FormatManager();
   const {
     register,
     handleSubmit,
@@ -31,7 +32,7 @@ const Create = () => {
     formState: { errors },
   } = useForm<CreatePasteForm>({
     defaultValues: {
-      format: AppConfig.defaultFormat,
+      format: formatManager.defaultFormat.id,
       notes: '',
       source: '',
       rentalCode: '',
@@ -152,10 +153,9 @@ const Create = () => {
                 <span className="label-text after:text-error after:content-['_*']">{t('create.form.format.label')}</span>
               </label>
               <FormatSelector
-                inputGroup={false}
-                formats={AppConfig.formats.concat([`gen${AppConfig.defaultGen}`])}
-                defaultFormat={AppConfig.defaultFormat}
-                handleChange={(e) => setValue('format', e.target.value)}
+                defaultFormat={formatManager.defaultFormat.id}
+                onChange={(e) => setValue('format', e.target.value)}
+                options={formatOptionElementsGrouped(formatManager.groupFormatsByGen())}
               />
             </div>
             <div className="form-control">

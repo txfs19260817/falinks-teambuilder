@@ -3,12 +3,14 @@ import { Dex } from '@pkmn/dex';
 import { DisplayUsageStatistics, Smogon } from '@pkmn/smogon';
 import { NextApiRequest, NextApiResponse } from 'next';
 
+import FormatManager from '@/models/FormatManager';
 import { AppConfig } from '@/utils/AppConfig';
 import { ensureInteger } from '@/utils/Helpers';
 
 const gens = new Generations(Dex);
 const smogon = new Smogon(fetch);
-const fallbackFormat = 'gen9battlestadiumdoubles' as ID; // TODO: update it when comes to the first gen9 format
+const formatManager = new FormatManager();
+const fallbackFormat = 'gen9battlestadiumdoubles' as ID;
 
 /**
  * @swagger
@@ -54,7 +56,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Awaited<ReturnT
   }
   // optional
   const generation = gens.get(ensureInteger(gen, AppConfig.defaultGen));
-  const formatID = <ID>(format && typeof format === 'string' ? format : AppConfig.defaultFormat);
+  const formatID = <ID>(format && typeof format === 'string' ? format : formatManager.defaultFormat.id);
 
   // get stats and return
   let r: DisplayUsageStatistics | undefined;

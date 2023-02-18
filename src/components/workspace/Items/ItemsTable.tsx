@@ -45,12 +45,12 @@ const defaultPopularItems = [
 
 function ItemsTable() {
   const { t } = useTranslation(['common', 'items', 'item_descriptions']);
-  const { teamState, tabIdx, focusedFieldState, focusedFieldDispatch, globalFilter, setGlobalFilter } = useContext(StoreContext);
+  const { teamState, tabIdx, focusedFieldState, focusedFieldDispatch, globalFilter, setGlobalFilter, formatManager } = useContext(StoreContext);
 
   // fetch popular items by Pokémon
   const { species } = teamState.getPokemonInTeam(tabIdx) ?? {};
   const { data: popularItemNames } = useSWR<string[]>( // item names
-    species ? `/api/usages/stats/${species}?format=${teamState.format}&items=true` : null, // ?items=true doesn't work in the API, only used as a cache buster for SWR.
+    species ? `/api/usages/stats/${species}?format=${teamState.format}&gen=${formatManager.getFormatById(teamState.format)?.gen}&items=true` : null, // ?items=true doesn't work in the API, only used as a cache buster for SWR.
     {
       fallbackData: defaultPopularItems,
       fetcher: (u: string) =>

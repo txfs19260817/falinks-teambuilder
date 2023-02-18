@@ -3,14 +3,14 @@ import { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
 
-import { FormatSelector } from '@/components/select/FormatSelector';
+import { formatOptionElementsGrouped, FormatSelector } from '@/components/select/FormatSelector';
 import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
 import { AppConfig } from '@/utils/AppConfig';
 import { Paste } from '@/utils/Prisma';
 
 export function PostPokepasteDialog() {
   const { t } = useTranslation(['common', 'room', 'create']);
-  const { teamState } = useContext(StoreContext);
+  const { teamState, formatManager } = useContext(StoreContext);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const { register, setValue, getValues } = useForm<NonNullable<Paste>>({
     defaultValues: {
@@ -95,7 +95,12 @@ export function PostPokepasteDialog() {
             <label className="label">
               <span className="label-text">{t('create.form.format.label')}</span>
             </label>
-            <FormatSelector inputGroup={false} defaultFormat={teamState.format} handleChange={(e) => setValue('format', e.target.value)} />
+            <FormatSelector
+              className="select-bordered select select-sm w-full md:select-md"
+              defaultFormat={teamState.format}
+              onChange={(e) => setValue('format', e.target.value)}
+              options={formatOptionElementsGrouped(formatManager.groupFormatsByGen())}
+            />
           </div>
           <div className="form-control">
             <label className="label">

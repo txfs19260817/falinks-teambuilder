@@ -3,15 +3,16 @@ import { useRouter } from 'next/router';
 import { SSRConfig, useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
-import { FormatSelector } from '@/components/select/FormatSelector';
+import { FormatInputGroupSelector, formatOptionElements } from '@/components/select/FormatSelector';
 import PairUsageTable from '@/components/usages/PairUsageTable';
+import FormatManager from '@/models/FormatManager';
 import { Main } from '@/templates/Main';
 import { AppConfig } from '@/utils/AppConfig';
 import { calcPairUsage } from '@/utils/PokemonUtils';
 import { listPastes } from '@/utils/Prisma';
-import type { PairUsage } from '@/utils/Types';
+import type { Format, PairUsage } from '@/utils/Types';
 
-const formats = AppConfig.formats.filter((f) => f.includes('vgc'));
+const pairUsageFormats: Format[] = new FormatManager().vgcFormats.filter((f) => f.gen === 9);
 
 function PairPage({ pairUsages, format }: InferGetStaticPropsType<typeof getStaticProps>) {
   const { t } = useTranslation(['common', 'usages', 'species']);
@@ -22,7 +23,11 @@ function PairPage({ pairUsages, format }: InferGetStaticPropsType<typeof getStat
         <h1 className="text-2xl font-bold">
           [{format}] VGCPastes {t('usages.pairUsage')}
         </h1>
-        <FormatSelector defaultFormat={format} formats={formats} handleChange={(e) => push(`/usages/vgc/pair/${e.target.value}`)} />
+        <FormatInputGroupSelector
+          defaultFormat={format}
+          onChange={(e) => push(`/usages/vgc/pair/${e.target.value}`)}
+          options={formatOptionElements(pairUsageFormats)}
+        />
         <PairUsageTable pairUsages={pairUsages} minimumCount={10} />
       </div>
     </Main>
@@ -55,11 +60,11 @@ export const getStaticProps: GetStaticProps<{ pairUsages: PairUsage[]; format: s
 export const getStaticPaths: GetStaticPaths = async (context) => {
   const paths =
     context.locales?.flatMap((locale) =>
-      formats.map((format) => ({
-        params: { format },
+      pairUsageFormats.map((format) => ({
+        params: { format: format.id },
         locale,
       }))
-    ) ?? formats.map((format) => ({ params: { format } }));
+    ) ?? pairUsageFormats.map((format) => ({ params: { format: format.id } }));
 
   return {
     paths,

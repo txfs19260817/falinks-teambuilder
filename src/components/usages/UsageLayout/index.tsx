@@ -5,20 +5,20 @@ import { useId, useMemo, useState } from 'react';
 import { ItemIcon } from '@/components/icons/ItemIcon';
 import { PokemonIcon } from '@/components/icons/PokemonIcon';
 import { RoundTypeIcon } from '@/components/icons/RoundTypeIcon';
-import { FormatSelector } from '@/components/select/FormatSelector';
+import { formatOptionElements, FormatSelector } from '@/components/select/FormatSelector';
 import BaseTable from '@/components/usages/BaseTable';
 import InfoCard from '@/components/usages/InfoCard';
 import { PokemonFilter } from '@/components/usages/PokemonFilter';
 import { SpreadTable } from '@/components/usages/SpreadTable';
 import UsageStats from '@/components/usages/UsageStats';
 import DexSingleton from '@/models/DexSingleton';
-import { AppConfig } from '@/utils/AppConfig';
-import { Usage } from '@/utils/Types';
+import FormatManager from '@/models/FormatManager';
+import type { Format, Usage } from '@/utils/Types';
 
 type UsagePageProps = {
   usages: Usage[];
-  format: string;
-  formatOptions?: string[];
+  formatId: string;
+  formatIdOptions?: string[];
   title?: string;
 };
 
@@ -69,7 +69,7 @@ const UsagePanels = ({ pokeUsage }: { pokeUsage: Usage }) => {
   );
 };
 
-const UsageLayout = ({ usages, title, format, formatOptions = AppConfig.formats }: UsagePageProps) => {
+const UsageLayout = ({ usages, title, formatId, formatIdOptions }: UsagePageProps) => {
   const drawerID = useId();
   const { push, pathname } = useRouter();
   const { t } = useTranslation(['common']);
@@ -77,6 +77,7 @@ const UsageLayout = ({ usages, title, format, formatOptions = AppConfig.formats 
   const pokeUsage = useMemo<Usage | undefined>(() => {
     return (usages || []).find((u) => u.rank === selectedRank);
   }, [selectedRank, usages]);
+  const formatManager = useMemo(() => new FormatManager(), []);
 
   // Desktop: show drawer w/o Navbar; Mobile: show Navbar w/ a drawer button
   return (
@@ -92,7 +93,7 @@ const UsageLayout = ({ usages, title, format, formatOptions = AppConfig.formats 
               </svg>
             </label>
           </div>
-          <div className="mx-2 flex-1 px-2">{title || `${t('common.usage')} - ${format}`}</div>
+          <div className="mx-2 flex-1 px-2">{title || `${t('common.usage')} - ${formatId}`}</div>
         </nav>
         {/* Main Content */}
         {pokeUsage && <UsagePanels pokeUsage={pokeUsage} />}
@@ -100,14 +101,15 @@ const UsageLayout = ({ usages, title, format, formatOptions = AppConfig.formats 
       {/* Drawer side */}
       <div className="drawer-side">
         <label htmlFor={drawerID} className="drawer-overlay"></label>
-        <ul className="menu rounded-r-box w-80 border border-base-content/30 bg-base-200 p-4">
-          {(formatOptions?.length ?? 0) > 0 && (
+        <ul className="menu rounded-r-box w-80 gap-y-2 border border-base-content/30 bg-base-200 p-4">
+          {(formatIdOptions?.length ?? 0) > 0 && (
             <FormatSelector
-              formats={formatOptions}
-              defaultFormat={format}
-              handleChange={(e) => {
+              className="select-bordered select select-sm w-64 overflow-ellipsis"
+              defaultFormat={formatId}
+              onChange={(e) => {
                 push({ pathname, query: { format: e.target.value } }).then(() => setSelectedRank(0));
               }}
+              options={formatOptionElements(formatIdOptions?.map(formatManager.getFormatById).filter((f) => f !== undefined) as Format[])}
             />
           )}
           <PokemonFilter usages={usages} drawerID={drawerID} setSelectedRank={setSelectedRank} />

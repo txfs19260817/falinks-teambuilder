@@ -7,6 +7,7 @@ import { useState } from 'react';
 
 import { TournamentOverviewCard } from '@/components/tournaments/TournamentOverviewCard';
 import TournamentTeamsTable from '@/components/tournaments/TournamentTeamsTable';
+import FormatManager from '@/models/FormatManager';
 import Loading from '@/templates/Loading';
 import { Main } from '@/templates/Main';
 import { getTournament, getTournamentTeams } from '@/utils/Prisma';
@@ -48,6 +49,10 @@ export default function TournamentDetailPage({ tournament, tournamentTeams }: In
 export const getServerSideProps: GetServerSideProps<{ tournament: Tournament; tournamentTeams: TournamentTeam[] }, { id: string }> = async (context) => {
   const tournamentId = +(context.params?.id ?? 0);
   const tournament = await getTournament(tournamentId);
+  if (!tournament) return { notFound: true };
+  // overwrite format field from id to name
+  const formatManager = new FormatManager();
+  tournament.format = formatManager.getFormatById(tournament.format)?.name ?? tournament.format;
   const tournamentTeams = await getTournamentTeams(tournamentId);
   return {
     props: {

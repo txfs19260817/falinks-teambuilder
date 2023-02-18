@@ -13,11 +13,11 @@ import { HistoryDialog } from '@/components/workspace/Toolbox/HistoryDialog';
 import { ImportShowdownDialog } from '@/components/workspace/Toolbox/ImportShowdown';
 import { NotesDialog } from '@/components/workspace/Toolbox/Notes';
 import { PostPokepasteDialog } from '@/components/workspace/Toolbox/PostPokepaste';
+import FormatManager from '@/models/FormatManager';
 import { Pokemon } from '@/models/Pokemon';
 import { StoreContextType, TeamState } from '@/models/TeamState';
 import { getProvidersByProtocolName, SupportedProtocolProvider } from '@/providers';
 import { BaseProvider, ClientInfo } from '@/providers/baseProviders';
-import { AppConfig } from '@/utils/AppConfig';
 import { getRandomTrainerName } from '@/utils/PokemonUtils';
 import type { BasePokePaste } from '@/utils/Types';
 import { IndexedDBTeam } from '@/utils/Types';
@@ -26,9 +26,10 @@ export type WorkspaceProps = {
   protocolName: SupportedProtocolProvider;
   roomName: string;
   basePokePaste?: BasePokePaste;
+  format?: string;
 };
 
-function Workspace({ roomName, protocolName, basePokePaste }: WorkspaceProps) {
+function Workspace({ roomName, protocolName, basePokePaste, format }: WorkspaceProps) {
   // States
   const [provider, setProvider] = useState<BaseProvider | undefined>();
   const [tabIdx, setTabIdx] = useState<number>(0);
@@ -52,6 +53,9 @@ function Workspace({ roomName, protocolName, basePokePaste }: WorkspaceProps) {
   // Only `teamState` in this level is instance of MappedTypeDescription.
   // Its children are instances of class TeamState. See `teamStateInstance` below.
   const teamState = useSyncedStore(teamStore);
+
+  // Format manager
+  const formatManager = useMemo(() => new FormatManager(), []);
 
   // Set up the connection
   useEffect(() => {
@@ -107,7 +111,7 @@ function Workspace({ roomName, protocolName, basePokePaste }: WorkspaceProps) {
     const teamChangedListener = () => {
       const value: IndexedDBTeam = {
         species: teamState.team.map((p) => p.species),
-        format: teamState.metadata.format || AppConfig.defaultFormat,
+        format: teamState.metadata.format || formatManager.defaultFormat.id,
       };
       // put indexedDB name to 'roomNames' comma-separated string in localStorage after indexedDB is updated
       indexedDbPersistence.set(roomName, JSON.stringify(value)).then((r) => {
@@ -156,11 +160,11 @@ function Workspace({ roomName, protocolName, basePokePaste }: WorkspaceProps) {
     if (teamState.metadata.roomName !== roomName) {
       teamState.metadata.roomName = roomName;
     }
-    if (teamState.metadata.title?.length === 0) {
+    if (!teamState.metadata.title) {
       teamState.metadata.title = roomName;
     }
-    if (teamState.metadata.format?.length === 0) {
-      teamState.metadata.format = AppConfig.defaultFormat;
+    if (!teamState.metadata.format) {
+      teamState.metadata.format = format && formatManager.isSupportedFormatId(format) ? format! : formatManager.defaultFormat.id;
     }
     return new TeamState(teamState, teamStore);
   }, [teamState, teamStore]);
@@ -175,6 +179,7 @@ function Workspace({ roomName, protocolName, basePokePaste }: WorkspaceProps) {
         focusedFieldDispatch,
         globalFilter,
         setGlobalFilter,
+        formatManager,
       }}
     >
       {/* Toolbox menu bar */}

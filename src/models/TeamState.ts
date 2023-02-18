@@ -14,7 +14,7 @@ type Metadata = {
   notes: string; // it's a readonly field
   authors: string[];
   roomName: string;
-  format: string;
+  format: string; // format ID
 };
 
 type StoreContextType = {
@@ -111,7 +111,7 @@ class TeamState {
   }
 
   get format() {
-    return this.teamState.metadata.format ?? AppConfig.defaultFormat;
+    return this.teamState.metadata.format ?? '';
   }
 
   set format(format: string) {

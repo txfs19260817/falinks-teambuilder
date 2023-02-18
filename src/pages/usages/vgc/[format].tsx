@@ -17,7 +17,7 @@ function Page({ usages, format }: InferGetStaticPropsType<typeof getStaticProps>
 
   return (
     <Main title={`${t('common.routes.vgc_usage.title')}-${format}`} description={t('common.routes.vgc_usage.description')}>
-      <UsageLayout usages={usages} format={format} formatOptions={Object.keys(format2gist)} />
+      <UsageLayout usages={usages} formatId={format} formatIdOptions={Object.keys(format2gist)} />
     </Main>
   );
 }
@@ -43,13 +43,14 @@ export const getStaticProps: GetStaticProps<{ usages: Usage[]; format: string } 
 };
 
 export const getStaticPaths: GetStaticPaths = async (context) => {
+  const formats = Object.keys(format2gist);
   const paths =
     context.locales?.flatMap((locale) =>
-      AppConfig.formats.map((format) => ({
+      formats.map((format) => ({
         params: { format },
         locale,
       }))
-    ) ?? AppConfig.formats.map((format) => ({ params: { format } }));
+    ) ?? formats.map((format) => ({ params: { format } }));
 
   return {
     paths,

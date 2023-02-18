@@ -30,7 +30,7 @@ const TournamentUsageWrapper = ({ tournament, tournamentTeams }: { tournament: T
         ))}
       </div>
       {/* Panel */}
-      <UsageLayout usages={tournamentUsageTab === 'topcut' ? topCutUsages : usages} title={tournament.name} format={tournament.format} formatOptions={[]} />
+      <UsageLayout usages={tournamentUsageTab === 'topcut' ? topCutUsages : usages} title={tournament.name} formatId={tournament.format} formatIdOptions={[]} />
     </>
   );
 };

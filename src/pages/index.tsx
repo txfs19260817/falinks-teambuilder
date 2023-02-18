@@ -2,11 +2,12 @@ import { deleteDB, openDB } from 'idb';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { PokemonIcon } from '@/components/icons/PokemonIcon';
 import type { WorkspaceProps } from '@/components/workspace';
+import FormatManager from '@/models/FormatManager';
 import { supportedProtocols } from '@/providers';
 import { Main } from '@/templates/Main';
 import { AppConfig } from '@/utils/AppConfig';
@@ -17,27 +18,54 @@ import { IndexedDBTeam } from '@/utils/Types';
 type RoomFormProps = WorkspaceProps & {
   userName: string;
   pokePasteUrl?: string;
+  format?: string;
 };
 
 const RoomForm = () => {
   const router = useRouter();
   const { t } = useTranslation(['common', 'home']);
+  const formatManager = useMemo(() => new FormatManager(), []);
   const { register, handleSubmit, setValue } = useForm<RoomFormProps>({
     defaultValues: {
       roomName: `newroom_${S4()}${S4()}`,
       protocolName: 'WebSocket',
+      format: formatManager.defaultFormat.id,
     },
   });
 
-  const gotoRoom = ({ roomName, protocolName, userName, pokePasteUrl }: RoomFormProps) => {
+  // format options
+  const formatOptions = useMemo(() => {
+    const formatGroups = formatManager.groupFormatsByGen();
+    return formatGroups.map((formatsPerGen, i) => {
+      return (
+        <optgroup label={`Gen ${i}`} key={i}>
+          {formatsPerGen.map((format) => (
+            <option key={format.id} value={format.id}>
+              {format.name}
+            </option>
+          ))}
+        </optgroup>
+      );
+    });
+  }, []);
+
+  // onSubmit handler
+  const gotoRoom = ({ roomName, protocolName, userName, pokePasteUrl, format }: RoomFormProps) => {
+    // store username in localStorage for future use
     localStorage.setItem('username', userName);
+    // build the target room route
+    let targetRoomRoute = `/${router.locale}/room/${encodeURIComponent(roomName)}?protocol=${encodeURIComponent(protocolName)}`;
+    if (isValidPokePasteURL(pokePasteUrl)) {
+      targetRoomRoute += `&pokepaste=${encodeURIComponent(pokePasteUrl!)}`;
+    }
+    if (format && formatManager.isSupportedFormatId(format) && !formatManager.isDefaultFormatId(format)) {
+      targetRoomRoute += `&format=${encodeURIComponent(format)}`;
+    }
     // use window.open instead of next/router to disable go back
-    const targetRoomRoute = `/${router.locale}/room/${encodeURIComponent(roomName)}?protocol=${encodeURIComponent(protocolName)}${
-      isValidPokePasteURL(pokePasteUrl) ? `&pokepaste=${encodeURIComponent(pokePasteUrl!)}` : ''
-    }`;
     window.open(targetRoomRoute, '_self');
   };
 
+  // load username from localStorage; do this in `useEffect` to avoid SSR error
   useEffect(() => {
     setValue('userName', localStorage.getItem('username') || '');
   }, []);
@@ -52,6 +80,7 @@ const RoomForm = () => {
       })}
     >
       <div className="form-control">
+        {/* Author */}
         <label className="label" htmlFor="userName">
           <span className="label-text after:text-error after:content-['_*']">{t('home.form.author.label')}</span>
         </label>
@@ -82,6 +111,7 @@ const RoomForm = () => {
         </div>
         <p className="text-xs text-base-content/50">{t('home.form.author.description')}</p>
       </div>
+      {/* PokePaste URL */}
       <div className="form-control">
         <label className="label" htmlFor={'pokePasteUrl'}>
           <span className="label-text">{t('home.form.pokepaste.label')}</span>
@@ -98,6 +128,7 @@ const RoomForm = () => {
         />
         <p className="text-xs text-base-content/50">{t('home.form.pokepaste.description')}</p>
       </div>
+      {/* Room Name */}
       <div className="form-control">
         <label className="label" htmlFor={'roomName'}>
           <span className="label-text after:text-error after:content-['_*']">{t('home.form.room.label')}</span>
@@ -115,6 +146,23 @@ const RoomForm = () => {
         />
         <p className="text-xs text-base-content/50">{t('home.form.room.description')}</p>
       </div>
+      {/* Format */}
+      <div className="form-control">
+        <label className="label" htmlFor={'format'}>
+          <span className="label-text after:text-error after:content-['_*']">{t('common.format')}</span>
+        </label>
+        <select
+          id={'format'}
+          aria-label="Format"
+          required={true}
+          className="select-bordered select text-base-content placeholder:text-base-content/50"
+          {...register('format', { required: true })}
+        >
+          {formatOptions}
+        </select>
+        <p className="text-xs text-base-content/50">{t('home.form.room.description')}</p>
+      </div>
+      {/* Protocol */}
       <div className="form-control">
         <label className="label" htmlFor={'Protocol'}>
           <span className="label-text after:text-error after:content-['_*']">{t('home.form.protocol.label')}</span>

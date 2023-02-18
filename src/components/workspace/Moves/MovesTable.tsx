@@ -14,14 +14,14 @@ import { getMovesBySpecie } from '@/utils/PokemonUtils';
 
 function MovesTable({ moveIdx }: { moveIdx: number }) {
   const { t } = useTranslation(['common', 'categories', 'moves', 'move_descriptions', 'types']);
-  const { teamState, tabIdx, focusedFieldState, focusedFieldDispatch, globalFilter, setGlobalFilter } = useContext(StoreContext);
+  const { teamState, tabIdx, focusedFieldState, focusedFieldDispatch, globalFilter, setGlobalFilter, formatManager } = useContext(StoreContext);
 
   // get all moves that learnable by the Pokémon
   const { species } = teamState.getPokemonInTeam(tabIdx) ?? {};
   const { data: learnableMoves } = useSWR<Move[]>(species, (k) => getMovesBySpecie(k, false, teamState.format));
   // fetch popular moves by this Pokémon
   const { data: popularMoveNames } = useSWR<string[]>( // move names
-    species ? `/api/usages/stats/${species}?format=${teamState.format}&moves=true` : null, // ?moves=true doesn't work in the API, only used as a cache buster for SWR.
+    species ? `/api/usages/stats/${species}?format=${teamState.format}&gen=${formatManager.getFormatById(teamState.format)?.gen}&moves=true` : null, // ?moves=true doesn't work in the API, only used as a cache buster for SWR.
     {
       fallbackData: [],
       fetcher: (u: string) =>

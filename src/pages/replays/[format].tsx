@@ -6,12 +6,14 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import ReplaysTable from '@/components/replays/ReplaysTable';
 import SpeciesMultiSelect from '@/components/replays/SpeciesMultiSelect';
-import { FormatSelector } from '@/components/select/FormatSelector';
+import { FormatInputGroupSelector, formatOptionElements } from '@/components/select/FormatSelector';
+import FormatManager from '@/models/FormatManager';
 import { Main } from '@/templates/Main';
 import { AppConfig } from '@/utils/AppConfig';
 import { listReplays } from '@/utils/Prisma';
+import type { Format } from '@/utils/Types';
 
-const replayFormats = ['gen9vgc2023series1', 'gen9vgc2023series2'];
+const replayFormats: Format[] = new FormatManager().vgcFormats.filter((f) => f.gen === 9);
 
 const ReplaySearchCard = ({ format, speciesOptions }: { format: string; speciesOptions: string[] }) => {
   const { push } = useRouter();
@@ -20,18 +22,12 @@ const ReplaySearchCard = ({ format, speciesOptions }: { format: string; speciesO
   return (
     <div className="dropdown">
       <label tabIndex={0} className="btn-primary btn-sm btn m-1" role="button" aria-label="Search">
-        🔍{t('common.search')}({format})
+        🔍{t('common.search')} ({replayFormats.find((f) => f.id === format)?.name ?? format})
       </label>
       <div tabIndex={0} className="card dropdown-content card-compact bg-base-100 p-2  shadow">
         <div className="card-body">
           <h3 className="card-title">{t('common.search')}</h3>
-          <FormatSelector
-            formats={replayFormats}
-            defaultFormat={format}
-            handleChange={(e) => {
-              push(`/replays/${e.target.value}`);
-            }}
-          />
+          <FormatInputGroupSelector defaultFormat={format} onChange={(e) => push(`/replays/${e.target.value}`)} options={formatOptionElements(replayFormats)} />
           <SpeciesMultiSelect
             species={speciesOptions}
             onChange={(options) => {
@@ -85,10 +81,10 @@ export const getStaticPaths: GetStaticPaths = async (context) => {
   const paths =
     context.locales?.flatMap((locale) =>
       replayFormats.map((format) => ({
-        params: { format },
+        params: { format: format.id },
         locale,
       }))
-    ) ?? replayFormats.map((format) => ({ params: { format } }));
+    ) ?? replayFormats.map((format) => ({ params: { format: format.id } }));
 
   return {
     paths,

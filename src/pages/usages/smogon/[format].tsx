@@ -3,17 +3,20 @@ import { SSRConfig, useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import UsageLayout from '@/components/usages/UsageLayout';
+import FormatManager from '@/models/FormatManager';
 import { Main } from '@/templates/Main';
 import { AppConfig } from '@/utils/AppConfig';
 import { postProcessUsage } from '@/utils/PokemonUtils';
-import type { Usage } from '@/utils/Types';
+import type { Format, Usage } from '@/utils/Types';
+
+const smogonFormats: Format[] = new FormatManager().getFormatsByGen(9);
 
 const UsagePage = ({ usages, format }: { usages: Usage[]; format: string }) => {
   const { t } = useTranslation(['common']);
 
   return (
     <Main title={t('common.routes.smogon_usage.title')} description={t('common.routes.smogon_usage.description')}>
-      <UsageLayout usages={usages} format={format} />
+      <UsageLayout usages={usages} formatId={format} formatIdOptions={smogonFormats.map((f) => f.id)} />
     </Main>
   );
 };
@@ -23,7 +26,7 @@ function Page(data: InferGetStaticPropsType<typeof getStaticProps>) {
 }
 
 export const getStaticProps: GetStaticProps<{ usages: Usage[]; format: string } & SSRConfig, { format: string }> = async ({ params, locale }) => {
-  const format = params?.format ?? AppConfig.defaultFormat;
+  const format = params?.format ?? smogonFormats[0]!.id;
   const usages = await postProcessUsage(format);
   // delete TeraTypes attribute for each usage as Smogon doesn't give it
   usages.forEach((u) => {
@@ -45,11 +48,11 @@ export const getStaticProps: GetStaticProps<{ usages: Usage[]; format: string } 
 export const getStaticPaths: GetStaticPaths = async (context) => {
   const paths =
     context.locales?.flatMap((locale) =>
-      AppConfig.formats.map((format) => ({
-        params: { format },
+      smogonFormats.map((format) => ({
+        params: { format: format.id },
         locale,
       }))
-    ) ?? AppConfig.formats.map((format) => ({ params: { format } }));
+    ) ?? smogonFormats.map((format) => ({ params: { format: format.id } }));
 
   return {
     paths,

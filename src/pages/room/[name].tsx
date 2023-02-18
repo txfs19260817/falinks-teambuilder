@@ -14,8 +14,10 @@ import type { BasePokePaste } from '@/utils/Types';
 type RoomQueryParams = {
   // path params
   name: string;
-  // query params
+  // query params (persisted in URL)
   protocol: SupportedProtocolProvider;
+  // query params (volatile)
+  format?: string; // format
   pokepaste?: string; // url
   packed?: string; // packed team string
 };
@@ -31,7 +33,7 @@ const Room = () => {
   const { isReady, query } = useRouter();
 
   // Get query params and rename them
-  const { name: roomName, protocol, pokepaste: pokePasteUrl, packed } = query as RoomQueryParams;
+  const { name: roomName, protocol, pokepaste: pokePasteUrl, packed, format } = query as RoomQueryParams;
   const protocolName = supportedProtocols.includes(protocol) ? protocol : 'WebSocket';
 
   // Set up the initial team if the pokepaste url is given and valid
@@ -52,9 +54,10 @@ const Room = () => {
     const params = new URLSearchParams(url.search);
     params.delete('pokepaste');
     params.delete('packed');
+    params.delete('format');
     url.search = params.toString();
     window.history.replaceState({}, document.title, url.toString());
-  }, [packed, pokePasteUrl]);
+  }, [packed, pokePasteUrl, format]);
 
   // Prompt the user if they try and leave with unsaved changes
   useEffect(() => {
@@ -70,7 +73,7 @@ const Room = () => {
 
   return (
     <Main title={`Room - ${roomName}`}>
-      {isReady ? <Workspace roomName={roomName} protocolName={protocolName} basePokePaste={basePokePaste} /> : <Loading />}
+      {isReady ? <Workspace roomName={roomName} protocolName={protocolName} basePokePaste={basePokePaste} format={format} /> : <Loading />}
     </Main>
   );
 };

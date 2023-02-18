@@ -11,6 +11,17 @@ export type Option = {
   value: string;
 };
 
+export type Format = {
+  id: string;
+  name: string;
+  gen: number;
+  gameType: 'singles' | 'doubles';
+  defaultLevel: 50 | 100;
+  defaultSpeciesName: string;
+  isIndexedAsUsage: boolean;
+  isVGC: boolean;
+};
+
 export type SelectProps<T extends Option | Option[]> = {
   options: Option[];
   inputSize?: 'xs' | 'sm' | 'md' | 'lg';

@@ -1,11 +1,12 @@
 import { Column, Table } from '@tanstack/react-table';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
-import React from 'react';
 
 import { PokemonIcon } from '@/components/icons/PokemonIcon';
+import { formatOptionElement, FormatSelector } from '@/components/select/FormatSelector';
 import { MultiSelect } from '@/components/select/MultiSelect';
 import { ValueWithEmojiSelector } from '@/components/select/ValueWithEmojiSelector';
+import FormatManager from '@/models/FormatManager';
 import { findIntersections } from '@/utils/Helpers';
 import { getAllFormesForSameFuncSpecies, getPokemonTranslationKey, moveCategoriesWithEmoji, typesWithEmoji } from '@/utils/PokemonUtils';
 
@@ -84,26 +85,25 @@ function OmniFilter({ column, instance }: { column: Column<any>; instance: Table
   }
 
   if (column.id === 'format') {
+    // format manager
+    const formatManager = new FormatManager();
     // all formats
     const formats = instance.getPreFilteredRowModel().flatRows.map(({ getValue }) => getValue<string>(column.id));
     // get all unique formats
-    const options = Array.from(new Set(formats));
+    const optionValues = Array.from(new Set(formats));
+    const options = optionValues.map(formatManager.getFormatById).filter((f) => f !== undefined) as { name: string; id: string }[];
+    const optionElements = [{ name: '-', id: '-' }, ...options].map(formatOptionElement);
+
     // return a select component
     return (
-      <select
+      <FormatSelector
+        defaultFormat={'-'}
         className={`select select-xs w-16 md:w-24`}
         onChange={(e) => {
-          column.setFilterValue(e.target.value);
+          column.setFilterValue(e.target.value === '-' ? '' : e.target.value);
         }}
-        aria-label={column.id}
-      >
-        <option value="">-</option>
-        {options.map((format, i) => (
-          <option key={i} value={format}>
-            {format}
-          </option>
-        ))}
-      </select>
+        options={optionElements}
+      />
     );
   }
 

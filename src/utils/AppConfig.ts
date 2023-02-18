@@ -148,7 +148,6 @@ const formats = [
   'gen9battlestadiumsinglesseries2',
   'gen9doublesou',
   'gen9ou',
-  'gen8spikemuthcup',
   'gen8vgc2022',
 ];
 
