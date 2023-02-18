@@ -130,6 +130,10 @@
     "matchup": {
       "description": "팀 시트 매치업 뷰어 열기",
       "title": "OTS 매치업 뷰어"
+    },
+    "tools": {
+      "title": "도구",
+      "description": "Pokémon Showdown 도구"
     }
   },
   "spread": "할당",

@@ -130,6 +130,10 @@
     "matchup": {
       "description": "Apri Visualizzatore abbinamenti Fogli squadra",
       "title": "Visualizzatore di corrispondenza OTS"
+    },
+    "tools": {
+      "title": "Utensili",
+      "description": "Strumenti per Pokémon Showdown!"
     }
   },
   "spread": "Spread",

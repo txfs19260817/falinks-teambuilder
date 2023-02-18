@@ -104,6 +104,10 @@
     "matchup": {
       "description": "打開 Team Sheets Match-up Viewer",
       "title": "OTS 對陣查看器"
+    },
+    "tools": {
+      "title": "工具",
+      "description": "神奇寶貝對決工具！"
     }
   },
   "share": "分享",

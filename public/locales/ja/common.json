@@ -104,6 +104,10 @@
     "matchup": {
       "description": "オープンチームシート マッチアップビューアー",
       "title": "OTS 対戦ビューア"
+    },
+    "tools": {
+      "title": "ツール",
+      "description": "Pokémon Showdown ツール"
     }
   },
   "share": "共有",

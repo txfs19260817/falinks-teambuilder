@@ -104,6 +104,10 @@
     "matchup": {
       "description": "打开 Team Sheets Match-up Viewer",
       "title": "OTS 对阵查看器"
+    },
+    "tools": {
+      "title": "工具",
+      "description": "Pokémon Showdown 工具"
     }
   },
   "share": "分享",

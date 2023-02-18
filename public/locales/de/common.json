@@ -104,6 +104,10 @@
     "matchup": {
       "description": "Open Team Sheets Match-Up Viewer",
       "title": "OTS Match-up-Viewer"
+    },
+    "tools": {
+      "title": "Werkzeug",
+      "description": "Tools für Pokémon Showdown!"
     }
   },
   "share": "Teilen",

@@ -130,6 +130,10 @@
     "matchup": {
       "description": "Ouvrir la visionneuse de correspondance des feuilles d'équipe",
       "title": "Visionneuse de correspondance OTS"
+    },
+    "tools": {
+      "title": "Outils",
+      "description": "Outils pour Pokémon Showdown!"
     }
   },
   "spread": "Spread",

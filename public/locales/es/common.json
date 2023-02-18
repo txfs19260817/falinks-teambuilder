@@ -130,6 +130,10 @@
     "matchup": {
       "description": "Abrir visor de emparejamiento de Hojas de equipo",
       "title": "Visor de coincidencias OTS"
+    },
+    "tools": {
+      "title": "Herramientas",
+      "description": "Herramientas para Pokémon Showdown!"
     }
   },
   "spread": "Spread",
