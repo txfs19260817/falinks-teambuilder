@@ -272,9 +272,10 @@ class Statistic:
 
 async def main():
     rk9_roster_pages = {
-        "orlando": 'https://www.rk9.gg/roster/h7kIYruNMePQMy4UZkMj',
-        "liverpool": 'https://www.rk9.gg/roster/HmWfWFbzLDG5RVOedmuu',
-        "sandiego": 'https://www.rk9.gg/roster/df5AzRjKxTb62H7BsbOe',
+        #"orlando": 'https://www.rk9.gg/roster/h7kIYruNMePQMy4UZkMj',
+        #"liverpool": 'https://www.rk9.gg/roster/HmWfWFbzLDG5RVOedmuu',
+        #"sandiego": 'https://www.rk9.gg/roster/df5AzRjKxTb62H7BsbOe',
+        "ocic": "https://rk9.gg/roster/OCpGIIa9m9BGzlZ8B5Gt"
     }
     await scrape(rk9_roster_pages)
     for name in rk9_roster_pages.keys():

@@ -6,7 +6,6 @@ import { PokemonIcon } from '@/components/icons/PokemonIcon';
 import { formatOptionElement, FormatSelector } from '@/components/select/FormatSelector';
 import { MultiSelect } from '@/components/select/MultiSelect';
 import { ValueWithEmojiSelector } from '@/components/select/ValueWithEmojiSelector';
-import FormatManager from '@/models/FormatManager';
 import { findIntersections } from '@/utils/Helpers';
 import { getAllFormesForSameFuncSpecies, getPokemonTranslationKey, moveCategoriesWithEmoji, typesWithEmoji } from '@/utils/PokemonUtils';
 
@@ -85,14 +84,15 @@ function OmniFilter({ column, instance }: { column: Column<any>; instance: Table
   }
 
   if (column.id === 'format') {
-    // format manager
-    const formatManager = new FormatManager();
-    // all formats
-    const formats = instance.getPreFilteredRowModel().flatRows.map(({ getValue }) => getValue<string>(column.id));
     // get all unique formats
-    const optionValues = Array.from(new Set(formats));
-    const options = optionValues.map(formatManager.getFormatById).filter((f) => f !== undefined) as { name: string; id: string }[];
-    const optionElements = [{ name: '-', id: '-' }, ...options].map(formatOptionElement);
+    const formatNames = Array.from(new Set(instance.getPreFilteredRowModel().flatRows.map(({ getValue }) => getValue<string>(column.id))));
+    const optionJSXElements = [
+      { name: '-', id: '-' },
+      ...formatNames.map((name) => ({
+        name,
+        id: name,
+      })),
+    ].map(formatOptionElement);
 
     // return a select component
     return (
@@ -102,7 +102,7 @@ function OmniFilter({ column, instance }: { column: Column<any>; instance: Table
         onChange={(e) => {
           column.setFilterValue(e.target.value === '-' ? '' : e.target.value);
         }}
-        options={optionElements}
+        options={optionJSXElements}
       />
     );
   }

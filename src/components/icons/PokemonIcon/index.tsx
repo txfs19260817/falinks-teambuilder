@@ -14,7 +14,7 @@ export const PokemonIcon = ({ speciesId }: { speciesId: ID | string }) => {
       title={translatedName}
       style={
         Icons.getPokemon(speciesId, {
-          domain: 'www.falinks-teambuilder.com/assets/',
+          domain: 'cdn.staticaly.com/gh/txfs19260817/falinks-teambuilder-assets@master/',
         }).css
       }
       aria-label={translatedName}

@@ -41,20 +41,25 @@ async function insertTeamlistFromJSON(teamlists: Teamlist[], tournamentId: numbe
 
 async function main() {
   const regions = [
+    // {
+    //   id: 1,
+    //   name: 'San Diego',
+    //   filename: './scripts/sandiego_team_list.json',
+    // },
+    // {
+    //   id: 2,
+    //   name: 'Liverpool',
+    //   filename: './scripts/liverpool_team_list.json',
+    // },
+    // {
+    //   id: 3,
+    //   name: 'Orlando',
+    //   filename: './scripts/orlando_team_list.json',
+    // },
     {
-      id: 1,
-      name: 'San Diego',
-      filename: './scripts/sandiego_team_list.json',
-    },
-    {
-      id: 2,
-      name: 'Liverpool',
-      filename: './scripts/liverpool_team_list.json',
-    },
-    {
-      id: 3,
-      name: 'Orlando',
-      filename: './scripts/orlando_team_list.json',
+      id: 4,
+      name: 'Oceania',
+      filename: './scripts/ocic_team_list.json',
     },
   ];
   await Promise.all(
