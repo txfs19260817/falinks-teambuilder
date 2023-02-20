@@ -72,7 +72,7 @@ export type Spreads = {
   evs: StatsTable;
 };
 
-export type ValueWithEmojiOption<T extends string = string> = {
+export type ValueWithEmojiOption<T extends string | boolean = string> = {
   value: T;
   emoji: string;
 };

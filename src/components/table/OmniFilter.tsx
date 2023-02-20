@@ -132,6 +132,23 @@ function OmniFilter({ column, instance }: { column: Column<any>; instance: Table
     );
   }
 
+  if (typeof firstValue === 'boolean') {
+    return (
+      <ValueWithEmojiSelector<boolean>
+        options={[
+          { value: true, emoji: '✅' },
+          { value: false, emoji: '❌' },
+        ]}
+        className="select-xs w-12"
+        emptyOption="-"
+        onChange={(e) => {
+          column.setFilterValue(e.target.value);
+        }}
+        ariaLabel={column.id}
+      />
+    );
+  }
+
   return (
     <input
       type="search"

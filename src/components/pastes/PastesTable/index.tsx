@@ -74,6 +74,20 @@ const PastesTable = ({ pastes, enableDateShared = false, enableFormat = false }:
       enableMultiSort: false,
     },
     {
+      header: t('common.rentalCode'),
+      accessorKey: 'rentalCode',
+      enableColumnFilter: false,
+      enableGlobalFilter: false,
+    },
+    {
+      header: t('common.evs'),
+      accessorKey: 'hasEVs',
+      cell: ({ getValue }) => <span>{getValue<boolean>() ? '✅' : '❌'}</span>,
+      filterFn: (row, columnId, filterValue) => filterValue.includes(row.getValue<boolean>(columnId)),
+      enableSorting: false,
+      enableMultiSort: false,
+    },
+    {
       id: 'createdAt',
       header: t('common.createdAt'),
       // Derive the true createdAt date from the CUID

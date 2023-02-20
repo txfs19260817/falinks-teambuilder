@@ -56,12 +56,14 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<PastesList>) =>
 
   // return the results, rewrite the jsonPaste field to be a list of species
   return res.status(200).json(
-    results.map(({ id, title, author, format: resFormat, createdAt, jsonPaste }) => ({
+    results.map(({ id, title, author, format: resFormat, createdAt, rentalCode, jsonPaste }) => ({
       id: id!,
       title: title!,
       author: author!,
       format: resFormat!,
       createdAt: createdAt!,
+      rentalCode: rentalCode == null ? '' : rentalCode,
+      hasEVs: Array.isArray(jsonPaste) && Object.hasOwn(typeof jsonPaste[0] === 'object' ? (jsonPaste[0] as object) : {}, 'evs'),
       species: (jsonPaste as { species: string }[]).map((s) => s.species),
     }))
   );
