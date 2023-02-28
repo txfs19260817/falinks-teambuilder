@@ -97,6 +97,14 @@
       "description": "宝可梦錦標賽結果和統計數據",
       "title": "比賽"
     },
+    "official_tournaments": {
+      "title": "官方賽事",
+      "description": "寶可夢官方賽事結果和統計數據"
+    },
+    "tournaments_insights": {
+      "title": "分析",
+      "description": "寶可夢錦標賽數據分析"
+    },
     "vgc_usage_pair": {
       "description": "VGCPastes 組合使用統計",
       "title": "VGCPastes 組合"

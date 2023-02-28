@@ -114,6 +114,14 @@
       "title": "Tournaments",
       "description": "Pokémon Tournaments Results and Statistics"
     },
+    "official_tournaments": {
+      "title": "Official",
+      "description": "Official Pokémon Tournaments Results and Statistics"
+    },
+    "tournaments_insights": {
+      "title": "Insights",
+      "description": "Data analysis of Pokémon Tournaments"
+    },
     "tools": {
       "title": "Tools",
       "description": "Tools for Pokémon Showdown!"

@@ -97,6 +97,14 @@
       "description": "Ergebnisse und Statistiken von Pokémon-Turnieren",
       "title": "Turniere"
     },
+    "official_tournaments": {
+      "title": "Offizielle Turniere",
+      "description": "Offizielle Pokémon-Turnierergebnisse und Statistiken"
+    },
+    "tournaments_insights": {
+      "title": "Einblick",
+      "description": "Pokémon-Turnier-Datenanalyse"
+    },
     "vgc_usage_pair": {
       "description": "Nutzungsstatistiken für VGCPaste-Paare",
       "title": "VGCPastes Paar"

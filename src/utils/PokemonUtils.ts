@@ -1,3 +1,4 @@
+import type { AreaBumpSerie } from '@nivo/bump';
 import type { Move, MoveCategory, Nature, Specie, TypeEffectiveness, TypeName } from '@pkmn/data';
 import { Team } from '@pkmn/sets';
 import { DisplayUsageStatistics, LegacyDisplayUsageStatistics } from '@pkmn/smogon';
@@ -883,4 +884,52 @@ export const getGenNumberFromFormat = (format: string): number | undefined => {
   if (format === 'vgc2014' || format === 'vgc2015') return 6;
   const genNum = parseInt(format.replace(/gen(\d+).*/, '$1'), 10);
   return Number.isInteger(genNum) ? genNum : undefined;
+};
+
+/**
+ * Extract the trend of each Pokémon percentage from the given usage-date array.
+ *
+ * @param usageDates: The array of usage-date objects, where x is the x-axis value (e.g., date) and usage is the array of Pokémon usages
+ * @param topN: The number of Pokémon to extract per date, default is 25
+ * @returns The array of usage-date objects with the trend of each Pokémon percentage
+ */
+export const extractPokemonTrend = (
+  usageDates: { x: number; usage: Usage[] }[],
+  topN: number = 25
+): AreaBumpSerie<
+  {
+    x: number; // x-axis value (e.g., date or year-week)
+    y: number; // percentage
+  },
+  {}
+>[] => {
+  // map { x: number, usage: Usage[] } to { date: number, species2percentage: Map<string, number> }
+  const dateAndSpecies2percentage = usageDates
+    .sort((a, b) => a.x - b.x) // sort by date ascending
+    .map(({ usage, x }) => {
+      // map species to percentage
+      const species2percentage = new Map<string, number>();
+      usage
+        .sort((a, b) => b['Raw count'] - a['Raw count']) // sort by raw count descending
+        .slice(0, topN) // take top N
+        .forEach(({ name: s, usage: p }) => {
+          species2percentage.set(s, p);
+        });
+      return {
+        x,
+        species2percentage,
+      };
+    });
+  // map { x: number, species2percentage: Map<string, number> } to Map<string, { x: number; y: number }[]>
+  const species2trend = new Map<string, { x: number; y: number }[]>();
+  dateAndSpecies2percentage.forEach(({ x, species2percentage }) => {
+    species2percentage.forEach((percentage, species) => {
+      species2trend.set(species, [...(species2trend.get(species) ?? []), { x, y: percentage }]);
+    });
+  });
+  // map Map<string, { x: number; y: number }[]> to AreaBumpSerie[]
+  return Array.from(species2trend.entries()).map(([species, trend]) => ({
+    id: DexSingleton.getGen().species.get(species)?.id ?? species,
+    data: trend.sort((a, b) => a.x - b.x), // sort by date
+  }));
 };

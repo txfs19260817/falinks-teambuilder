@@ -42,7 +42,11 @@ const nextConfig = {
       },
       {
         source: '/usages/smogon',
-        destination: '/usages/smogon/gen9vgc2023series1' // Update the path when a new VGC format is released
+        destination: '/usages/smogon/gen9vgc2023series2' // Update the path when a new VGC format is released
+      },
+      {
+        source: '/tournaments/insights',
+        destination: '/tournaments/insights/gen9vgc2023series2' // Update the path when a new VGC format is released
       },
       {
         source: '/replays',

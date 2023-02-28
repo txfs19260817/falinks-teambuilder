@@ -123,6 +123,14 @@
       "description": "포켓몬 토너먼트 결과 및 통계",
       "title": "토너먼트"
     },
+    "official_tournaments": {
+      "title": "공식 토너먼트",
+      "description": "공식 포켓몬 토너먼트 결과 및 통계"
+    },
+    "tournaments_insights": {
+      "title": "분석",
+      "description": "포켓몬 토너먼트 데이터 분석"
+    },
     "vgc_usage_pair": {
       "description": "VGCPastes 쌍 사용 통계",
       "title": "VGCPastes 쌍"

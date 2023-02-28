@@ -123,6 +123,14 @@
       "description": "Risultati e statistiche dei tornei Pokémon",
       "title": "Tornei"
     },
+    "tornei_ufficiali": {
+      "title": "Tornei ufficiali",
+      "description": "Risultati e statistiche dei tornei Pokémon ufficiali"
+    },
+    "analisi_tornei": {
+      "title": "Approfondimenti",
+      "description": "Analisi dei dati dei tornei Pokémon"
+    },
     "vgc_usage_pair": {
       "description": "Statistiche sull'utilizzo delle coppie VGCPastes",
       "title": "Coppia VGCPastes"

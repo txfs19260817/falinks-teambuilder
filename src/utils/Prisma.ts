@@ -120,7 +120,7 @@ export const listReplays = async (options: { format: string; pageSize?: number; 
   });
 
 // Tournaments
-export const listTournaments = async (options?: { format?: string; pageSize?: number; page?: number }) =>
+export const listTournaments = async (options?: { format?: string; pageSize?: number; page?: number; include?: boolean }) =>
   prisma.tournament.findMany({
     skip: options && options.page && options.pageSize ? options.pageSize * (options.page - 1) : undefined,
     take: options?.pageSize,
@@ -129,6 +129,9 @@ export const listTournaments = async (options?: { format?: string; pageSize?: nu
     },
     orderBy: {
       date: 'desc',
+    },
+    include: {
+      teams: options?.include ?? false,
     },
   });
 

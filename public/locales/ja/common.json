@@ -97,6 +97,14 @@
       "description": "ポケモントーナメントの結果と統計",
       "title": "トーナメント"
     },
+    "official_tournaments": {
+      "title": "公式トーナメント",
+      "description": "ポケモンの公式大会の結果や統計情報"
+    },
+    "tournaments_insights": {
+      "title": "分析",
+      "description": "ポケモントーナメントのデータ分析"
+    },
     "vgc_usage_pair": {
       "description": "VGCPastes ペアの使用統計",
       "title": "VGCPastes ペア使用率"

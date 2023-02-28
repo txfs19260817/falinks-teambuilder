@@ -1,5 +1,5 @@
 import type { Tournament } from '@prisma/client';
-import { GetStaticProps, InferGetStaticPropsType } from 'next';
+import type { GetStaticProps, InferGetStaticPropsType } from 'next';
 import { useRouter } from 'next/router';
 import { SSRConfig, useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
@@ -77,7 +77,7 @@ const TournamentCarousel = ({ tournaments }: { tournaments: Tournament[] }) => {
 const Tournaments = ({ tournaments }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const { t } = useTranslation(['common']);
   return (
-    <Main title={t('common.routes.tournament.title')} description={t('common.routes.tournament.description')}>
+    <Main title={t('common.routes.official_tournaments.title')} description={t('common.routes.official_tournaments.description')}>
       <TournamentCarousel tournaments={tournaments} />
       <TournamentsTable tournaments={tournaments} />
     </Main>
