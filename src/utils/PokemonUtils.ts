@@ -710,7 +710,12 @@ export const getPokemonTranslationKey = (word: string, category: 'species' | 'mo
   return word;
 };
 
-export const calcUsageFromPastes = (pastes: string[]): Usage[] => {
+/**
+ * Calculate the Smogon style usage of each Pokémon and their attributes from a list of pastes.
+ * @param pastes A list of PokePastes to calculate the usage from.
+ * @param teamBased When calculating the usage of a Pokémon, the dominator is the total number of Pokémon when false, and the total number of teams when true.
+ */
+export const calcUsageFromPastes = (pastes: string[], teamBased: boolean = true): Usage[] => {
   // Build the usage map, counting the occurrences of each Pokémon and their attributes
   const species2usage = new Map<string, Usage>();
   let totalCount = 0;
@@ -772,7 +777,7 @@ export const calcUsageFromPastes = (pastes: string[]): Usage[] => {
 
   // Convert all the counts to percentages
   species2usage.forEach((usage) => {
-    usage.usage = usage['Raw count'] / totalCount;
+    usage.usage = usage['Raw count'] / (teamBased ? pastes.length : totalCount);
     const abilityCount = Object.values(usage.Abilities).reduce((a, b) => (a ?? 0) + (b ?? 0), 0) ?? 1;
     Object.keys(usage.Abilities).forEach((key) => {
       usage.Abilities[key]! /= abilityCount;
