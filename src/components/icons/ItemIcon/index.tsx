@@ -4,5 +4,5 @@ import { useTranslation } from 'next-i18next';
 
 export const ItemIcon = ({ itemName }: { itemName: ItemName | string }) => {
   const { t } = useTranslation(['items']);
-  return <span title={t(`items.${itemName.toLocaleLowerCase()}`)} style={Icons.getItem(itemName).css} />;
+  return <span role="img" title={t(`items.${itemName.toLocaleLowerCase()}`)} style={Icons.getItem(itemName).css} />;
 };
