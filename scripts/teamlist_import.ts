@@ -61,15 +61,20 @@ async function main() {
     //   name: 'Oceania',
     //   filename: './scripts/ocic_team_list.json',
     // },
+    // {
+    //   id: 5,
+    //   name: 'Bochum',
+    //   filename: './scripts/bochum_team_list.json',
+    // },
+    // {
+    //   id: 6,
+    //   name: 'Knoxville',
+    //   filename: './scripts/knoxville_team_list.json',
+    // },
     {
-      id: 5,
-      name: 'Bochum',
-      filename: './scripts/bochum_team_list.json',
-    },
-    {
-      id: 6,
-      name: 'Knoxville',
-      filename: './scripts/knoxville_team_list.json',
+      id: 7,
+      name: 'Perth',
+      filename: './scripts/perth_team_list.json',
     },
   ];
   await Promise.all(
