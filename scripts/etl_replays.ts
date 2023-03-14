@@ -9,7 +9,7 @@ import type { ReplayResponse } from '../src/utils/Types';
 const LAST_N_HOURS = 3;
 const GENERATION = 9;
 const RATING = 1500;
-const FORMATS = ['gen9vgc2023series2'];
+const FORMATS = ['gen9vgc2023series2', 'gen9vgc2023regulationc'];
 
 const prisma = new PrismaClient();
 const gen = new Generations(Dex, (d: Data) => {

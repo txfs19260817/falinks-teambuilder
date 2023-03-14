@@ -11,7 +11,7 @@ from tqdm import tqdm
 
 
 def name_to_filename(name: str) -> Path:
-    return Path(f'{name}_team_list.json')
+    return Path(f'{name.lower()}_team_list.json')
 
 async def getTeamListURLs(page, roster_url: str) -> list[dict]:
     # Go to the roster page
@@ -278,7 +278,8 @@ async def main():
         #"ocic": "https://rk9.gg/roster/OCpGIIa9m9BGzlZ8B5Gt",
         #"bochum": "https://rk9.gg/roster/Ut3nbmM0sUXlyQolPRc3",
         #"knoxville": "https://rk9.gg/roster/0pN73b3SizrkohJlZPd6",
-        "perth": "https://rk9.gg/roster/DQ2i9c14imJ8nxdBYtf7",
+        #"perth": "https://rk9.gg/roster/DQ2i9c14imJ8nxdBYtf7",
+        "vancouver": "https://rk9.gg/roster/8HIYbbqbaWZ1dpj9uQG3",
     }
     await scrape(rk9_roster_pages)
     for name in rk9_roster_pages.keys():

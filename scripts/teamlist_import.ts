@@ -71,10 +71,15 @@ async function main() {
     //   name: 'Knoxville',
     //   filename: './scripts/knoxville_team_list.json',
     // },
+    // {
+    //   id: 7,
+    //   name: 'Perth',
+    //   filename: './scripts/perth_team_list.json',
+    // },
     {
-      id: 7,
-      name: 'Perth',
-      filename: './scripts/perth_team_list.json',
+      id: 9,
+      name: 'Vancouver',
+      filename: './scripts/vancouver_team_list.json',
     },
   ];
   await Promise.all(
