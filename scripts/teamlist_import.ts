@@ -77,10 +77,15 @@ async function main() {
     //   filename: './scripts/perth_team_list.json',
     // },
     {
-      id: 9,
-      name: 'Vancouver',
-      filename: './scripts/vancouver_team_list.json',
+      id: 8,
+      name: 'Natal',
+      filename: './scripts/natal_team_list.json',
     },
+    // {
+    //   id: 9,
+    //   name: 'Vancouver',
+    //   filename: './scripts/vancouver_team_list.json',
+    // },
   ];
   await Promise.all(
     regions.map(({ filename, id }) =>
