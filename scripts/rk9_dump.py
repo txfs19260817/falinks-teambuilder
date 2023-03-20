@@ -96,9 +96,13 @@ async def scrape(rk9_roster_pages: dict[str, str], overwrite: bool = False):
         # Scrape the team list
         print(f"Getting team list for {name}...")
         team_list = await getTeamListURLs(page, url)
-        # drop teams without 'Standing' and non-master divisions
-        team_list = [t for t in team_list if t['Division']
-                     == 'Masters' and t.get('Standing', '').isdigit()]
+        # drop teams from non-master divisions
+        team_list = [t for t in team_list if t['Division'] == 'Masters']
+        # ensure all teams have a standing
+        max_standing = len(team_list) + 1
+        for t in team_list:
+            if not t.get('Standing'):
+                t['Standing'] = max_standing
         # sort the team list by "Standing"
         team_list.sort(key=lambda x: int(x['Standing']))
         for team in tqdm(team_list):
@@ -279,8 +283,9 @@ async def main():
         #"bochum": "https://rk9.gg/roster/Ut3nbmM0sUXlyQolPRc3",
         #"knoxville": "https://rk9.gg/roster/0pN73b3SizrkohJlZPd6",
         #"perth": "https://rk9.gg/roster/DQ2i9c14imJ8nxdBYtf7",
-        "natal": "https://rk9.gg/roster/NaKAJTF2cJgzF5UfyiO0",
+        #"natal": "https://rk9.gg/roster/NaKAJTF2cJgzF5UfyiO0",
         #"vancouver": "https://rk9.gg/roster/8HIYbbqbaWZ1dpj9uQG3",
+        "Utrecht": "https://rk9.gg/roster/iq8HkJq9v11G7GoAOsT0",
     }
     await scrape(rk9_roster_pages)
     for name in rk9_roster_pages.keys():
