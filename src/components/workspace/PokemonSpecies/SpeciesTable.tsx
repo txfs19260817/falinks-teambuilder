@@ -39,17 +39,27 @@ function SpeciesTable() {
   const { teamState, tabIdx, focusedFieldState, focusedFieldDispatch, globalFilter, setGlobalFilter } = useContext(StoreContext);
 
   // table settings
-  const { data: usages, error } = useSWR<Usage[]>(`/api/usages/format/${teamState.format}`, (u) => fetch(u).then((r) => r.json()), {
-    fallbackData: [],
-  });
+  const { data: usages, error } = useSWR<Usage[]>(
+    `/api/usages/format/${teamState.format === 'gen9vgc2023regulationc' ? 'gen9vgc2023series2' : teamState.format}`,
+    (u) => fetch(u).then((r) => r.json()),
+    {
+      fallbackData: [],
+    }
+  );
   const speciesList = useMemo<Specie[]>(() => {
     const speciesDex = DexSingleton.getGenByFormat(teamState.format).species;
     if (!usages) {
       return [...Array.from(speciesDex)];
     }
     // sort by usage
-    const dataSorted = usages.flatMap((u) => speciesDex.get(u.name) || []);
+    let dataSorted = usages.flatMap((u) => speciesDex.get(u.name) || []);
     dataSorted.push(...Array.from(speciesDex).filter((s) => !dataSorted.includes(s)));
+    // hotfix for regulation C, push the 4 quartet to the top
+    if (teamState.format === 'gen9vgc2023regulationc') {
+      const fourQuartetIds = ['tinglu', 'chienpao', 'wochien', 'chiyu'];
+      const fourQuartet = fourQuartetIds.flatMap((id) => speciesDex.get(id) || []);
+      dataSorted = [...fourQuartet, ...dataSorted.filter((s) => !fourQuartet.includes(s))];
+    }
     return dataSorted;
   }, [usages, teamState.format]);
   if (error) {

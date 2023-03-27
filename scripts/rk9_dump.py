@@ -285,7 +285,8 @@ async def main():
         #"perth": "https://rk9.gg/roster/DQ2i9c14imJ8nxdBYtf7",
         #"natal": "https://rk9.gg/roster/NaKAJTF2cJgzF5UfyiO0",
         #"vancouver": "https://rk9.gg/roster/8HIYbbqbaWZ1dpj9uQG3",
-        "Utrecht": "https://rk9.gg/roster/iq8HkJq9v11G7GoAOsT0",
+        #"utrecht": "https://rk9.gg/roster/iq8HkJq9v11G7GoAOsT0",
+        "charlotte": "https://rk9.gg/roster/DW2KvfN94weVjRBvGcNI",
     }
     await scrape(rk9_roster_pages)
     for name in rk9_roster_pages.keys():
