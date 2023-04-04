@@ -12,7 +12,7 @@ class FormatManager {
         gameType: 'doubles',
         defaultLevel: 50,
         defaultSpeciesName: 'Flutter Mane',
-        isIndexedAsUsage: false,
+        isIndexedAsUsage: true,
         isVGC: true,
       },
       {

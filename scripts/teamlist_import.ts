@@ -91,10 +91,20 @@ async function main() {
     //   name: 'Utrecht',
     //   filename: './scripts/utrecht_team_list.json',
     // },
+    // {
+    //   id: 11,
+    //   name: 'Charlotte',
+    //   filename: './scripts/charlotte_team_list.json',
+    // },
     {
-      id: 11,
-      name: 'Charlotte',
-      filename: './scripts/charlotte_team_list.json',
+      id: 12,
+      name: 'Sydney',
+      filename: './scripts/sydney_team_list.json',
+    },
+    {
+      id: 13,
+      name: 'Fort Wayne',
+      filename: './scripts/fortwayne_team_list.json',
     },
   ];
   await Promise.all(

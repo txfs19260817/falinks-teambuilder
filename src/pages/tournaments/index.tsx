@@ -78,7 +78,7 @@ const Tournaments = ({ tournaments }: InferGetStaticPropsType<typeof getStaticPr
   const { t } = useTranslation(['common']);
   return (
     <Main title={t('common.routes.official_tournaments.title')} description={t('common.routes.official_tournaments.description')}>
-      <TournamentCarousel tournaments={tournaments.filter(({ format }) => format.endsWith('2')).sort((a, b) => b.id - a.id)} />
+      <TournamentCarousel tournaments={tournaments.filter(({ format }) => format.endsWith('C')).sort((a, b) => b.id - a.id)} />
       <TournamentsTable tournaments={tournaments} />
     </Main>
   );
