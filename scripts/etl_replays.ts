@@ -6,7 +6,7 @@ import { PrismaClient, replay } from '@prisma/client';
 
 import type { ReplayResponse } from '../src/utils/Types';
 
-const LAST_N_HOURS = 3;
+const LAST_N_HOURS = 24;
 const GENERATION = 9;
 const RATING = 1500;
 const FORMATS = ['gen9vgc2023regulationc'];
