@@ -78,6 +78,8 @@ const PastesTable = ({ pastes, enableDateShared = false, enableFormat = false }:
       accessorKey: 'rentalCode',
       enableColumnFilter: false,
       enableGlobalFilter: false,
+      enableSorting: false,
+      enableMultiSort: false,
     },
     {
       header: t('common.evs'),

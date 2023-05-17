@@ -52,22 +52,8 @@ const routes: Route[] = [
   {
     id: 'tournament',
     name: 'Tournaments',
-    path: '',
-    target: '',
-    children: [
-      {
-        id: 'official_tournaments',
-        name: 'Official',
-        path: '/tournaments',
-        target: '_self',
-      },
-      {
-        id: 'tournaments_insights',
-        name: 'Insights',
-        path: '/tournaments/insights',
-        target: '_self',
-      },
-    ],
+    path: '/tournaments',
+    target: '_self',
   },
   {
     id: 'usage',

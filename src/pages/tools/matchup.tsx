@@ -16,7 +16,7 @@ type PokePasteWithTeam = BasePokePaste & { team: Pokemon[] };
 const MatchupPage = () => {
   const { t } = useTranslation(['tools', 'common', 'items', 'moves', 'species', 'abilities', 'types']);
   const sides = ['left', 'right'] as const;
-  const defaultTeam = (side: typeof sides[number]) => ({
+  const defaultTeam = (side: (typeof sides)[number]) => ({
     author: t('common.player') + (side === 'left' ? '1' : '2'),
     format: '',
     notes: '',
@@ -28,14 +28,14 @@ const MatchupPage = () => {
   const [rightTeam, setRightTeam] = useState<PokePasteWithTeam>(defaultTeam('right'));
   const [leftContent, setLeftContent] = useState<string>(''); // can be either a PokePaste URL or a team string
   const [rightContent, setRightContent] = useState<string>('');
-  const [visiblePanels, setVisiblePanels] = useState<Record<typeof sides[number], boolean>>({
+  const [visiblePanels, setVisiblePanels] = useState<Record<(typeof sides)[number], boolean>>({
     left: true,
     right: true,
   });
   const showDivider = visiblePanels.left && visiblePanels.right;
 
   // on change of the textarea, check if it's a valid PokePaste URL or a paste string
-  const handleUrlChange = (side: typeof sides[number]) => (s: string) => {
+  const handleUrlChange = (side: (typeof sides)[number]) => (s: string) => {
     if (isValidPokePasteURL(s)) {
       Pokemon.pokePasteURLFetcher(s).then((data) => {
         const team = Pokemon.convertPasteToTeam(data.paste) ?? [];
@@ -102,7 +102,7 @@ const MatchupPage = () => {
       }
     };
     // Handle hide/show buttons
-    const toggleHide = (side: typeof sides[number]) => () => {
+    const toggleHide = (side: (typeof sides)[number]) => () => {
       setVisiblePanels((prev) => ({ ...prev, [side]: !prev[side] }));
     };
     return (
@@ -130,7 +130,7 @@ const MatchupPage = () => {
     );
   };
 
-  const TeamGrid = ({ side }: { side: typeof sides[number] }) => {
+  const TeamGrid = ({ side }: { side: (typeof sides)[number] }) => {
     // Clear the team on the given side
     const handleClear = () => {
       if (side === 'left') {
@@ -218,11 +218,11 @@ const MatchupPage = () => {
             <div
               key={side}
               className={`card rounded-box flex-grow place-items-center px-4 py-2${side === 'left' ? ' bg-primary/10' : ' bg-secondary/10'}${
-                visiblePanels[side as typeof sides[number]] ? ' grid' : ' hidden'
+                visiblePanels[side as (typeof sides)[number]] ? ' grid' : ' hidden'
               }${visiblePanels[side === 'left' ? 'right' : 'left'] ? ' lg:max-w-[50%]' : ''}}`}
             >
               <h2 className="text-center text-xl font-bold">{side === 'left' ? leftTeam.author : rightTeam.author}</h2>
-              <TeamGrid key={side} side={side as typeof sides[number]} />
+              <TeamGrid key={side} side={side as (typeof sides)[number]} />
             </div>
           )
         )}

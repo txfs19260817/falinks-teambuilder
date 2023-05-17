@@ -28,6 +28,8 @@ const VGCPastes = ({ format, pastes }: InferGetStaticPropsType<typeof getStaticP
 export const getStaticProps: GetStaticProps<{ pastes: PastesList; format: string } & SSRConfig, { format: string }> = async ({ params, locale }) => {
   const format = params?.format ?? AppConfig.defaultFormat;
   const pastes = await listPastes({ format, isOfficial: true });
+  // sort: extract Milliseconds from Date and sort by ascending
+  pastes.sort((a, b) => b.createdAt.getMilliseconds() - a.createdAt.getMilliseconds());
 
   return {
     props: {

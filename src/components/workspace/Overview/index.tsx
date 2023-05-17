@@ -8,7 +8,7 @@ import { TeamMembersGallery } from '@/components/workspace/Overview/TeamMembersG
 import { TeamMetaSetters } from '@/components/workspace/Overview/TeamMetaSetters';
 
 const tabs = ['Team', 'Types', 'Defense', 'Offense'] as const;
-type Tabs = typeof tabs[number];
+type Tabs = (typeof tabs)[number];
 
 export function OverviewTabBtn() {
   const { t } = useTranslation(['common']);

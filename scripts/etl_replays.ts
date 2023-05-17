@@ -6,7 +6,7 @@ import { PrismaClient, replay } from '@prisma/client';
 
 import type { ReplayResponse } from '../src/utils/Types';
 
-const LAST_N_HOURS = 24;
+const LAST_N_HOURS = 3;
 const GENERATION = 9;
 const RATING = 1500;
 const FORMATS = ['gen9vgc2023regulationc'];
@@ -66,7 +66,7 @@ async function getReplays(format: string, options?: { timeRange?: [number, numbe
     }
     return {
       id: response.id,
-      format: response.format,
+      format,
       rating: response.rating,
       log: response.log,
       p1: response.p1,

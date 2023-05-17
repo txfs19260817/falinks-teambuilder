@@ -312,7 +312,7 @@ const RoomHistory = () => {
 };
 
 const tabs = ['new room', 'room history'] as const;
-type Tab = typeof tabs[number];
+type Tab = (typeof tabs)[number];
 
 const Index = () => {
   const { t } = useTranslation(['common', 'home']);
@@ -345,7 +345,7 @@ const Index = () => {
                   aria-label={`Tab ${tabName}`}
                   key={tabName}
                   onClick={() => setTab(tabName)}
-                  className={`tab tab-lifted tab-lg ${tab === tabName ? 'tab-active' : 'bg-base-100'} capitalize`}
+                  className={`tab-lifted tab tab-lg ${tab === tabName ? 'tab-active' : 'bg-base-100'} capitalize`}
                 >
                   {t(`home.tabs.${tabName}`, {
                     defaultValue: tabName.toUpperCase(),

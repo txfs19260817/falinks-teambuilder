@@ -40,7 +40,7 @@ export const getStaticProps: GetStaticProps<{ id: string; title: string; fallbac
 
   const initialI18nStore = ssr._nextI18Next!.initialI18nStore as Record<
     'en' | 'de' | 'es' | 'fr' | 'it' | 'ja' | 'ko' | 'zh-Hans' | 'zh-Hant',
-    Record<typeof requiredNamespaces[number], Record<string, string>> // the inner Record is the JSON translation object
+    Record<(typeof requiredNamespaces)[number], Record<string, string>> // the inner Record is the JSON translation object
   >;
 
   ssr._nextI18Next!.initialI18nStore = Object.fromEntries(

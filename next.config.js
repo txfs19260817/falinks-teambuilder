@@ -30,15 +30,15 @@ const nextConfig = {
     return [
       {
         source: '/pastes/vgc',
-        destination: '/pastes/vgc/gen9vgc2023series2' // Update the path when a new VGC format is released
+        destination: '/pastes/vgc/gen9vgc2023regulationc' // Update the path when a new VGC format is released
       },
       {
         source: '/usages/vgc',
-        destination: '/usages/vgc/gen9vgc2023series2' // Update the path when a new VGC format is released
+        destination: '/usages/vgc/gen9vgc2023regulationc' // Update the path when a new VGC format is released
       },
       {
         source: '/usages/vgc/pair',
-        destination: '/usages/vgc/pair/gen9vgc2023series2' // Update the path when a new VGC format is released
+        destination: '/usages/vgc/pair/gen9vgc2023regulationc' // Update the path when a new VGC format is released
       },
       {
         source: '/usages/smogon',

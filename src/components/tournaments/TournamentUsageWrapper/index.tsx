@@ -6,7 +6,7 @@ import UsageLayout from '@/components/usages/UsageLayout';
 import { calcUsageFromPastes } from '@/utils/PokemonUtils';
 
 const TournamentUsageTabs = ['full', 'topcut'] as const;
-type TournamentUsageTab = typeof TournamentUsageTabs[number];
+type TournamentUsageTab = (typeof TournamentUsageTabs)[number];
 
 const TournamentUsageWrapper = ({ tournament, tournamentTeams }: { tournament: Tournament; tournamentTeams: TournamentTeam[] }) => {
   const { t } = useTranslation(['common']);
@@ -24,7 +24,7 @@ const TournamentUsageWrapper = ({ tournament, tournamentTeams }: { tournament: T
       {/* Filters */}
       <div className="tabs">
         {TournamentUsageTabs.map((tTab) => (
-          <a key={tTab} className={`tab tab-bordered font-bold${tTab === tournamentUsageTab ? ' tab-active' : ''}`} onClick={() => setTournamentUsageTab(tTab)}>
+          <a key={tTab} className={`tab-bordered tab font-bold${tTab === tournamentUsageTab ? ' tab-active' : ''}`} onClick={() => setTournamentUsageTab(tTab)}>
             {t(`common.${tTab}`)}
           </a>
         ))}

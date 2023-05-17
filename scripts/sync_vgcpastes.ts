@@ -41,13 +41,15 @@ const CREDENTIALS_PATH = path.join(process.cwd(), 'credentials.json');
 const vgcpastesSpreadsheetId = '1r6kYCyhnWbBbLfJrYEwB23sPayo2p9lFKil_ZKHlrYA';
 
 const format2gid = {
-  gen9vgc2023series2: '1081470482',
+  // gen9vgc2023series2: '1081470482',
+  gen9vgc2023regulationc: '1919079665',
 };
 
 // GitHub Gists that store the usage data
 const format2gistid = {
   gen9vgc2023series1: '9e3311a3253e0fb46fcc2459bab6c65d',
   gen9vgc2023series2: '67ca12acee3728da83c8ce6419e2d1b2',
+  gen9vgc2023regulationc: 'f952b9a9012cb1b375772a106b40b26f',
 };
 
 /**
@@ -115,9 +117,13 @@ async function extractFromGoogleSheet(format: keyof typeof format2gid): Promise<
       row.length === keys.length && // all columns are present
       !row.some((val) => val.startsWith('No Data')) && // no "No Data" values
       row.at(keys.indexOf('Pokepaste'))?.startsWith('https://pokepast.es/') && // Pokepaste link is valid
-      Number.isInteger(+(row.at(keys.indexOf('Internal Team ID')) ?? Number.NaN)) // Internal Team ID is an integer
+      Number.isInteger(+(row.at(keys.indexOf('Internal Team ID'))?.slice(1) ?? Number.NaN)) // Internal Team ID is an integer (drop the first character 'C')
   );
   const objs = values.map((row: string[]) => row.reduce((acc, val, i) => ({ ...acc, [keys[i]!]: val }), {})) as Row[];
+  // update 'Internal Team ID' to be the integer value
+  objs.forEach((obj) => {
+    obj['Internal Team ID'] = obj['Internal Team ID'].slice(1);
+  });
 
   // Create a data array
   return Promise.all(
@@ -131,7 +137,7 @@ async function extractFromGoogleSheet(format: keyof typeof format2gid): Promise<
         throw new Error(`Invalid date ${obj['Date Shared']}, obj: ${JSON.stringify(obj)}`);
       }
       const createdAt = new Date(parsedDate);
-      createdAt.setMilliseconds(+obj['Internal Team ID']);
+      createdAt.setMilliseconds(+obj['Internal Team ID']); // add Internal Team ID as milliseconds onto the timestamp
       // add Rental Code
       const rentalCode = obj['Rental Code (Manual Entry)'].length === 6 ? obj['Rental Code (Manual Entry)'] : null;
       // build notes

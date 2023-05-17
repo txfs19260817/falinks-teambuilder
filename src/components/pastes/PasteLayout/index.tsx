@@ -137,7 +137,7 @@ const PasteAndFunctions = ({ team, paste }: { team: Pokemon[]; paste: NonNullabl
 };
 
 const tabs = ['Team', 'Insights', 'Replays'] as const;
-type Tabs = typeof tabs[number];
+type Tabs = (typeof tabs)[number];
 
 const PasteLayout = ({ id }: { id: string }) => {
   const { t } = useTranslation(['common']);
