@@ -145,6 +145,8 @@ def replace_name_with_showdown_compatible(team_list: list[dict[str, Any]]) -> li
         "Oricorio [Sensu Style]": "Oricorio-Sensu",
         "Oricorio [Pom-Pom Style]": "Oricorio-Pom-Pom",
         "Oricorio [Pa'u Style]": "Oricorio-Pa'u",
+        "Maushold [Family of Three]": "Maushold",
+        "Maushold [Family of Four]": "Maushold-Four",
     }
     for team in team_list:
         for p in team['Team']:
@@ -289,8 +291,11 @@ async def main():
         #"vancouver": "https://rk9.gg/roster/8HIYbbqbaWZ1dpj9uQG3",
         #"utrecht": "https://rk9.gg/roster/iq8HkJq9v11G7GoAOsT0",
         #"charlotte": "https://rk9.gg/roster/DW2KvfN94weVjRBvGcNI",
-        "sydney": "https://rk9.gg/roster/u625dn51S2yIWqXPXDJL",
-        "fortwayne": "https://rk9.gg/roster/FW22ZFxaHumKzmfUItVF",
+        #"sydney": "https://rk9.gg/roster/u625dn51S2yIWqXPXDJL",
+        #"fortwayne": "https://rk9.gg/roster/FW22ZFxaHumKzmfUItVF",
+        "euic": "https://rk9.gg/roster/EU2c3yZHykN4AQ65OTBz",
+        #"saopaulo": "https://rk9.gg/roster/SPbmTrT1q3B4liUbIcAy",
+        "portland": "https://rk9.gg/roster/xz2deBnaAtiQYiWRioh8",
     }
     await scrape(rk9_roster_pages)
     for name in rk9_roster_pages.keys():

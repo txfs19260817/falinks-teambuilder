@@ -27,11 +27,7 @@ const TournamentsTable = ({ tournaments }: { tournaments: Tournament[] }) => {
     {
       header: t('common.name'),
       accessorKey: 'name',
-      cell: ({ getValue, row }) => (
-        <a href={row.original.source} target="_blank" rel="noreferrer" className="link">
-          {getValue<string>()}
-        </a>
-      ),
+      cell: ({ getValue }) => getValue<string>(),
     },
     {
       header: t('common.format'),

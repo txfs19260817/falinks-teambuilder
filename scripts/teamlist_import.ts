@@ -96,15 +96,25 @@ async function main() {
     //   name: 'Charlotte',
     //   filename: './scripts/charlotte_team_list.json',
     // },
+    // {
+    //   id: 12,
+    //   name: 'Sydney',
+    //   filename: './scripts/sydney_team_list.json',
+    // },
+    // {
+    //   id: 13,
+    //   name: 'Fort Wayne',
+    //   filename: './scripts/fortwayne_team_list.json',
+    // },
     {
-      id: 12,
-      name: 'Sydney',
-      filename: './scripts/sydney_team_list.json',
+      id: 14,
+      name: 'European',
+      filename: './scripts/euic_team_list.json',
     },
     {
-      id: 13,
-      name: 'Fort Wayne',
-      filename: './scripts/fortwayne_team_list.json',
+      id: 15,
+      name: 'Portland',
+      filename: './scripts/portland_team_list.json',
     },
   ];
   await Promise.all(

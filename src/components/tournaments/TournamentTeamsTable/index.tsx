@@ -55,13 +55,34 @@ const TournamentTeamsTable = ({ tournamentTeams }: { tournamentTeams: Tournament
       enableMultiSort: false,
     },
     {
-      id: 'copy',
-      header: t('common.copyOTS'),
+      id: 'details',
+      header: t('common.details'),
       accessorKey: 'paste',
-      cell: ({ getValue }) => (
-        <button className={'btn-primary btn-xs btn'} onClick={() => navigator.clipboard.writeText(getValue<string>())}>
-          {t('common.copy')}
-        </button>
+      cell: ({ getValue, row }) => (
+        <>
+          <label htmlFor={row.id} className="btn-primary btn-xs btn">
+            {t('common.details')}
+          </label>
+          <input type="checkbox" id={row.id} className="modal-toggle" />
+          <label htmlFor={row.id} className="modal cursor-pointer">
+            <label className="modal-box relative m-12 scrollbar-thin" htmlFor="">
+              <h3 className="text-lg font-bold">
+                {row.original.author} {t('common.team')}
+              </h3>
+              <div className="flex flex-col justify-between">
+                <div className="flex">
+                  {row.getValue<string[]>('species').map((s) => (
+                    <PokemonIcon speciesId={s} key={s} />
+                  ))}
+                </div>
+                <pre className="py-4">{getValue<string>()}</pre>
+              </div>
+              <button className="btn-primary btn-sm btn" onClick={() => navigator.clipboard.writeText(getValue<string>())}>
+                {t('common.copy')}
+              </button>
+            </label>
+          </label>
+        </>
       ),
       enableSorting: false,
       enableColumnFilter: false,
