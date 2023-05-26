@@ -21,7 +21,7 @@ import type { PastesList } from '@/utils/Prisma';
 import type { SearchPasteForm, SearchPastePokemonCriteria } from '@/utils/Types';
 
 const defaultPokemonCriteria: SearchPastePokemonCriteria = {
-  species: 'Garchomp',
+  species: 'Amoonguss',
   moves: ['', '', '', ''],
   minEVs: defaultStats,
   maxEVs: maxEVStats,

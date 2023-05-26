@@ -156,6 +156,7 @@ const dialogProps = [
 // the first element serves as the default format
 // NOTE: change the rewrite rule in `next.config.js` if the default format is changed
 const formats = [
+  'gen9vgc2023regulationc',
   'gen9vgc2023series2',
   'gen9vgc2023series1',
   'gen9battlestadiumsinglesseries1',
