@@ -62,7 +62,7 @@ const Replays = ({ format, replays }: InferGetStaticPropsType<typeof getStaticPr
 };
 
 export const getStaticProps: GetStaticProps<{ replays: replay[]; format: string } & SSRConfig, { format: string }> = async ({ params, locale }) => {
-  const format = params?.format ?? AppConfig.defaultFormat;
+  const format = params?.format ?? FormatManager.defaultFormatId;
   const replays = await listReplays({
     format,
   });

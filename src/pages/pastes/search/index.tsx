@@ -15,7 +15,6 @@ import { ValueWithEmojiSelector } from '@/components/select/ValueWithEmojiSelect
 import DexSingleton from '@/models/DexSingleton';
 import FormatManager from '@/models/FormatManager';
 import { Main } from '@/templates/Main';
-import { AppConfig } from '@/utils/AppConfig';
 import { defaultStats, getMovesBySpecie, getPokemonTranslationKey, maxEVStats, stats, typesWithEmoji } from '@/utils/PokemonUtils';
 import type { PastesList } from '@/utils/Prisma';
 import type { SearchPasteForm, SearchPastePokemonCriteria } from '@/utils/Types';
@@ -44,7 +43,7 @@ const Search = () => {
   } = useForm<SearchPasteForm>({
     defaultValues: {
       speciesCriterion: [],
-      format: AppConfig.defaultFormat,
+      format: formatManager.defaultFormat.id,
       hasRentalCode: false,
       officialOnly: true,
     },

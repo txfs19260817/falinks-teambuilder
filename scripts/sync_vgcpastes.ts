@@ -43,6 +43,7 @@ const vgcpastesSpreadsheetId = '1r6kYCyhnWbBbLfJrYEwB23sPayo2p9lFKil_ZKHlrYA';
 const format2gid = {
   // gen9vgc2023series2: '1081470482',
   gen9vgc2023regulationc: '1919079665',
+  gen9vgc2023regulationd: '1228519048',
 };
 
 // GitHub Gists that store the usage data
@@ -50,6 +51,7 @@ const format2gistid = {
   gen9vgc2023series1: '9e3311a3253e0fb46fcc2459bab6c65d',
   gen9vgc2023series2: '67ca12acee3728da83c8ce6419e2d1b2',
   gen9vgc2023regulationc: 'f952b9a9012cb1b375772a106b40b26f',
+  gen9vgc2023regulationd: 'd19939b8c6ec893559c2a3251276dbc6',
 };
 
 /**
@@ -126,7 +128,7 @@ async function extractFromGoogleSheet(format: keyof typeof format2gid): Promise<
   });
 
   // Create a data array
-  return Promise.all(
+  const data = await Promise.all(
     objs.map(async (obj) => {
       // title and author
       const title = obj['Team Title Presentable'].trim();
@@ -155,9 +157,10 @@ async function extractFromGoogleSheet(format: keyof typeof format2gid): Promise<
       // fetch the paste
       const paste = await fetch(`${obj.Pokepaste}/json`)
         .then((r) => r.json())
-        .then((j) => j.paste as string);
+        .then((j) => j.paste as string)
+        .catch(() => '{}');
       // parse the paste
-      const jsonPaste = JSON.parse(Team.import(paste)?.toJSON() ?? '') as Prisma.JsonArray;
+      const jsonPaste = JSON.parse(Team.import(paste)?.toJSON() || '{}') as Prisma.JsonArray;
 
       return {
         id: cuid(),
@@ -175,6 +178,9 @@ async function extractFromGoogleSheet(format: keyof typeof format2gid): Promise<
       };
     })
   );
+
+  // remove data without a valid paste
+  return data.filter((d) => d.paste.length > 2);
 }
 
 /**
@@ -184,26 +190,76 @@ async function extractFromGoogleSheet(format: keyof typeof format2gid): Promise<
  * @returns boolean - Whether there were any new pastes added
  */
 async function updatePGDatabase(data: Pokepaste[], format: keyof typeof format2gid): Promise<boolean> {
-  // Upsert by CreatedAt
+  // Retrieve the old data from the database
   const oldData = await prisma.pokepaste.findMany({
     where: {
       format,
       isOfficial: true,
     },
   });
-  // filter out old data from the new data by CreatedAt's milliseconds
+
+  // Filter out old data from the new data by CreatedAt's milliseconds
   const newData = data.filter((d) => !oldData.some((o) => o.createdAt.getMilliseconds() === d.createdAt.getMilliseconds()));
   if (!newData.length) {
     console.log(`No new data for ${format}`);
     return false;
   }
 
+  // Insert the new data
   console.log(`Updating ${newData.length} pastes for ${format}. Titles: \n  ${newData.map((d) => d.title).join('\n  ')}`);
   const result = await prisma.pokepaste.createMany({
     data: newData as Prisma.PokepasteCreateManyInput[],
   });
   console.log(`Created ${result.count} pastes for ${format}`);
   return true;
+}
+
+async function removeDuplicates(format: keyof typeof format2gid) {
+  // Find duplicates by title
+  const duplicates = await prisma.pokepaste.groupBy({
+    by: ['title'],
+    where: {
+      format,
+      isOfficial: true,
+    },
+    _count: {
+      title: true,
+    },
+    having: {
+      title: {
+        _count: {
+          gt: 1,
+        },
+      },
+    },
+  });
+  // Only keep the most recent duplicate and delete the rest via their IDs
+  const duplicateTitles = duplicates.map((d) => d.title);
+  // eslint-disable-next-line no-restricted-syntax
+  for (const title of duplicateTitles) {
+    const duplicateIDs = await prisma.pokepaste.findMany({
+      select: {
+        id: true,
+      },
+      where: {
+        format,
+        isOfficial: true,
+        title,
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
+    const idsToDelete = duplicateIDs.slice(1).map((d) => d.id);
+    await prisma.pokepaste.deleteMany({
+      where: {
+        id: {
+          in: idsToDelete,
+        },
+      },
+    });
+    console.log(`Deleted ${idsToDelete.length} duplicates for ${title}`);
+  }
 }
 
 async function calcUsage(format: keyof typeof format2gid) {
@@ -256,6 +312,8 @@ async function main() {
       console.log(`Calculating usage for ${format}...`);
       await calcUsage(format);
     }
+    console.log(`Removing duplicates for ${format}...`);
+    await removeDuplicates(format);
   }
 
   console.log('Done');

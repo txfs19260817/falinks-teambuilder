@@ -5,6 +5,7 @@ import { SWRConfig } from 'swr';
 
 import PasteLayout from '@/components/pastes/PasteLayout';
 import DexSingleton from '@/models/DexSingleton';
+import FormatManager from '@/models/FormatManager';
 import { Pokemon } from '@/models/Pokemon';
 import { Main } from '@/templates/Main';
 import { AppConfig } from '@/utils/AppConfig';
@@ -95,7 +96,7 @@ export const getStaticPaths: GetStaticPaths = async (context) => {
   const ids = await listPastesIDs({
     isPublic: true,
     isOfficial: true,
-    format: AppConfig.defaultFormat,
+    format: FormatManager.defaultFormatId,
   }).then((r) => r.map(({ id }) => id));
 
   const paths =

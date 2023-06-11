@@ -5,6 +5,7 @@ import type { StatID, StatsTable, StatusName } from '@pkmn/types';
 import { MovesetStatistics, Statistics, UsageStatistics } from 'smogon';
 
 import DexSingleton from '@/models/DexSingleton';
+import FormatManager from '@/models/FormatManager';
 import { AppConfig } from '@/utils/AppConfig';
 import { convertObjectNumberValuesToFraction, filterSortLimitObjectByValues, getRandomElement, urlPattern } from '@/utils/Helpers';
 import type { PairUsage, Spreads, Usage, ValueWithEmojiOption } from '@/utils/Types';
@@ -322,9 +323,9 @@ export const getRandomTrainerName = () => getRandomElement(trainerNames) || 'Tra
 
 /**
  * Get the raw usage statistics from the Smogon API for the given format
- * @param format - The format to get usage statistics for. Defaults to `AppConfig.defaultFormat`.
+ * @param format - The format to get usage statistics for. Defaults to `FormatManager.defaultFormatId`.
  */
-export const getLatestUsageByFormat: (format?: string) => Promise<UsageStatistics | null> = async (format: string = AppConfig.defaultFormat) => {
+export const getLatestUsageByFormat: (format?: string) => Promise<UsageStatistics | null> = async (format: string = FormatManager.defaultFormatId) => {
   const { url, latestDate, process } = Statistics;
   const latest = await latestDate(format, true);
   const year = new Date().getFullYear();
@@ -394,9 +395,9 @@ export const movesUsage4x = (usage: Usage): Usage => {
 
 /**
  * Convert the raw usage statistics to a more usable format
- * @param format - The format to get usage statistics for. Defaults to `AppConfig.defaultFormat`.
+ * @param format - The format to get usage statistics for. Defaults to `FormatManager.defaultFormatId`.
  */
-export const postProcessUsage = async (format: string = AppConfig.defaultFormat): Promise<Usage[]> => {
+export const postProcessUsage = async (format: string = FormatManager.defaultFormatId): Promise<Usage[]> => {
   const usageStats = await getLatestUsageByFormat(format);
   return !usageStats
     ? []
@@ -451,7 +452,7 @@ export const wikiLink = (keyword: string, locale?: string) => {
  * @param isBaseSpecies
  * @param format
  */
-export const getMovesBySpecie = (speciesName?: string, isBaseSpecies: boolean = false, format: string = AppConfig.defaultFormat): Promise<Move[]> => {
+export const getMovesBySpecie = (speciesName?: string, isBaseSpecies: boolean = false, format: string = FormatManager.defaultFormatId): Promise<Move[]> => {
   const gen = DexSingleton.getGenByFormat(format);
   const species = gen.species.get(speciesName ?? '');
   // return all moves as the default behavior

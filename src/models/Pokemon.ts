@@ -3,7 +3,7 @@ import { Sets, Team } from '@pkmn/sets';
 import type { PokemonSet, StatsTable } from '@pkmn/types';
 
 import DexSingleton from '@/models/DexSingleton';
-import { AppConfig } from '@/utils/AppConfig';
+import FormatManager from '@/models/FormatManager';
 import { checkArraysEqual, S4 } from '@/utils/Helpers';
 import { abilityToEffectiveness, changeMoveType, getStats, moveToEffectiveness } from '@/utils/PokemonUtils';
 import type { BasePokePaste } from '@/utils/Types';
@@ -252,7 +252,7 @@ export class Pokemon implements PokemonSet {
       )
       .then((res) => ({
         ...res,
-        format: AppConfig.defaultFormat,
+        format: FormatManager.defaultFormatId,
       }));
 
   /* Text <-> Object */
@@ -390,7 +390,7 @@ export class Pokemon implements PokemonSet {
     return unpacked
       ? {
           paste: unpacked.export(),
-          format: unpacked.format || AppConfig.defaultFormat,
+          format: unpacked.format || FormatManager.defaultFormatId,
           title: unpacked.name || '',
         }
       : undefined;

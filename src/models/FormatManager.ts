@@ -6,6 +6,16 @@ class FormatManager {
   constructor() {
     this.formats = [
       {
+        id: 'gen9vgc2023regulationd',
+        name: '[Gen 9] VGC 2023 Regulation D',
+        gen: 9,
+        gameType: 'doubles',
+        defaultLevel: 50,
+        defaultSpeciesName: 'Ursaluna',
+        isIndexedAsUsage: true,
+        isVGC: true,
+      },
+      {
         id: 'gen9vgc2023regulationc',
         name: '[Gen 9] VGC 2023 Regulation C',
         gen: 9,
@@ -372,6 +382,8 @@ class FormatManager {
       },
     ];
   }
+
+  static defaultFormatId = 'gen9vgc2023regulationc';
 
   getFormatById = (formatId: string): Format | undefined => this.formats.find((format) => format.id === formatId);
 

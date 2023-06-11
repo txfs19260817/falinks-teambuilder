@@ -1,7 +1,7 @@
 import type { replay } from '@prisma/client';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-import { AppConfig } from '@/utils/AppConfig';
+import FormatManager from '@/models/FormatManager';
 import { prisma } from '@/utils/Prisma';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<Partial<replay>[]>) => {
@@ -15,7 +15,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Partial<replay>
   const {
     query: { format, species },
   } = req;
-  const formatID = format && typeof format === 'string' ? format : AppConfig.defaultFormat;
+  const formatManager = new FormatManager();
+  const formatID = format && typeof format === 'string' && formatManager.isSupportedFormatId(format) ? format : formatManager.defaultFormat.id;
   const speciesArray = species && typeof species === 'string' ? species.split(',').sort() : [];
 
   // validate query

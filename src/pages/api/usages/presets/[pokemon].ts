@@ -1,6 +1,7 @@
 import { Dex } from '@pkmn/dex';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
+import FormatManager from '@/models/FormatManager';
 import { AppConfig } from '@/utils/AppConfig';
 import { ensureInteger } from '@/utils/Helpers';
 import { prisma } from '@/utils/Prisma';
@@ -28,6 +29,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Data[]>) => {
   if (typeof pokemon !== 'string' || pokemon.length === 0) {
     return res.status(400);
   }
+  const formatManager = new FormatManager();
+  const formatID = format && typeof format === 'string' && formatManager.isSupportedFormatId(format) ? format : formatManager.defaultFormat.id;
   // optional
   const pageNumber = ensureInteger(page, 1);
 
@@ -44,7 +47,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Data[]>) => {
   const results = await prisma.pokepaste.findMany({
     where: {
       isOfficial: true,
-      format: typeof format === 'string' ? format : AppConfig.defaultFormat,
+      format: formatID,
       paste: {
         search: searchTermsString,
       },

@@ -5,8 +5,8 @@ import { MappedTypeDescription } from '@syncedstore/core/types/doc';
 import { UndoManager } from 'yjs';
 
 import DexSingleton from '@/models/DexSingleton';
+import FormatManager from '@/models/FormatManager';
 import { Pokemon } from '@/models/Pokemon';
-import { AppConfig } from '@/utils/AppConfig';
 import { S4 } from '@/utils/Helpers';
 
 type Metadata = {
@@ -140,7 +140,7 @@ class TeamState {
   }
 
   // urlEncode takes effect only when packed is true
-  getTeamPaste(packed = false, urlEncode = false, format = AppConfig.defaultFormat, name = `falinks_${S4()}`) {
+  getTeamPaste(packed = false, urlEncode = false, format = FormatManager.defaultFormatId, name = `falinks_${S4()}`) {
     if (!packed) {
       return Pokemon.convertTeamToPaste(this.teamState.team);
     }
