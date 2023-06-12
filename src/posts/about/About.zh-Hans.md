@@ -5,6 +5,8 @@ Falinks Teambuilder 是一款协作宝可梦队伍编辑器，你可以与他人
 
 为了让组队过程更容易，你可以通过导入现有的 Pokémon Showdown 格式的队伍文本或者 PokePaste 链接来开始。
 
+Logo 设计：[@genrayz](https://twitter.com/genrayz) 感谢！
+
 ## 用户脚本
 
 我们准备了一个用户脚本 [falinks-teambuilder-helper](https://greasyfork.org/zh-CN/scripts/451746-falinks-teambuilder-helper)

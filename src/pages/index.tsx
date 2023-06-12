@@ -1,4 +1,5 @@
 import { deleteDB, openDB } from 'idb';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
@@ -315,6 +316,7 @@ const tabs = ['new room', 'room history'] as const;
 type Tab = (typeof tabs)[number];
 
 const Index = () => {
+  const { basePath } = useRouter();
   const { t } = useTranslation(['common', 'home']);
   const [tab, setTab] = useState<Tab>(tabs[0]);
 
@@ -330,9 +332,17 @@ const Index = () => {
         <div className="hero-overlay bg-opacity-75"></div>
         <div className="hero-content flex-col text-neutral-content lg:flex-row">
           <div className="min-w-fit text-center lg:text-left">
+            {/* Logo */}
+            <div className="avatar hidden lg:inline-flex">
+              <div className="w-48 xl:w-64">
+                <Image src={`${basePath}/Logo.png`} alt="Logo by @genrayz" title="Logo by @genrayz" width={192} height={192} />
+              </div>
+            </div>
+            {/* Title */}
             <h1 aria-label="Applicaton Name" aria-level={1} className="text-3xl font-bold sm:text-4xl md:text-5xl">
               {AppConfig.title}
             </h1>
+            {/* Slogan */}
             <p className="py-2 md:py-6">{t('home.slogan')}</p>
           </div>
 

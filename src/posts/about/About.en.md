@@ -7,6 +7,8 @@ changes you make will be visible on everyone's screens in the same room.
 You may start from scratch or import an existing Showdown paste to create a new team. You may also easily export your
 team to a Showdown importable or generate a PokePaste link.
 
+Logo design: [@genrayz](https://twitter.com/genrayz) Thanks!
+
 ## UserScript
 
 You may install the [falinks-teambuilder-helper](https://greasyfork.org/zh-CN/scripts/451746-falinks-teambuilder-helper)

@@ -1,5 +1,5 @@
 /* eslint-disable import/no-extraneous-dependencies, import/extensions, no-await-in-loop, no-console, no-plusplus */
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, Tournament } from '@prisma/client';
 import { readFile } from 'fs/promises';
 
 const prisma = new PrismaClient();
@@ -22,6 +22,22 @@ interface Team {
   item: string;
   name: string;
   moves: string[];
+}
+
+async function createTournament(name: string, id: number): Promise<Tournament> {
+  const tournament = await prisma.tournament.create({
+    data: {
+      id,
+      name,
+      format: 'gen9vgc2023regulationc',
+      date: new Date(),
+      topcut: 8,
+      source: 'https://rk9.gg/roster/fr2zol30xbnyXVh4U9Xp',
+      country: 'US',
+    },
+  });
+  console.log(`Created tournament ${tournament.name}`);
+  return tournament;
 }
 
 async function insertTeamlistFromJSON(teamlists: Teamlist[], tournamentId: number) {
@@ -116,22 +132,35 @@ async function main() {
     //   name: 'Portland',
     //   filename: './scripts/portland_team_list.json',
     // },
+    // {
+    //   id: 16,
+    //   name: 'Malmö',
+    //   filename: './scripts/malmo_team_list.json',
+    // },
+    // {
+    //   id: 17,
+    //   name: 'Hartford',
+    //   filename: './scripts/hartford_team_list.json',
+    // },
     {
-      id: 16,
-      name: 'Malmö',
-      filename: './scripts/malmo_team_list.json',
+      id: 18,
+      name: 'Milwaukee',
+      filename: './scripts/milwaukee_team_list.json',
     },
     {
-      id: 17,
-      name: 'Hartford',
-      filename: './scripts/hartford_team_list.json',
+      id: 19,
+      name: 'Fresno',
+      filename: './scripts/fresno_team_list.json',
     },
   ];
   await Promise.all(
-    regions.map(({ filename, id }) =>
+    regions.map(({ name, filename, id }) =>
       readFile(filename, 'utf-8')
         .then((s: string) => JSON.parse(s) as Teamlist[])
-        .then((t) => insertTeamlistFromJSON(t, id))
+        .then((t) => {
+          createTournament(name, id);
+          insertTeamlistFromJSON(t, id);
+        })
     )
   );
   console.log('Done');

@@ -296,8 +296,10 @@ async def main():
         #"euic": "https://rk9.gg/roster/EU2c3yZHykN4AQ65OTBz",
         #"saopaulo": "https://rk9.gg/roster/SPbmTrT1q3B4liUbIcAy",
         #"portland": "https://rk9.gg/roster/xz2deBnaAtiQYiWRioh8",
-        "malmo": "https://rk9.gg/roster/MAbpiUxdt7Vcs2bQImWZ",
-        "hartford": "https://rk9.gg/roster/HA22UO6Jly3ArdsSqMkw",
+        #"malmo": "https://rk9.gg/roster/MAbpiUxdt7Vcs2bQImWZ",
+        #"hartford": "https://rk9.gg/roster/HA22UO6Jly3ArdsSqMkw",
+        "milwaukee": "https://rk9.gg/roster/MI2mHpVtGi3W9KBVAiPr",
+        "fresno": "https://rk9.gg/roster/fr2zol30xbnyXVh4U9Xp",
     }
     await scrape(rk9_roster_pages)
     for name in rk9_roster_pages.keys():
