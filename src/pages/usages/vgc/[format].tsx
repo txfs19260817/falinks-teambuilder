@@ -11,6 +11,7 @@ const format2gist: Record<string, string> = {
   gen9vgc2023series1: 'https://gist.githubusercontent.com/txfs19260817/9e3311a3253e0fb46fcc2459bab6c65d/raw/gen9vgc2023series1.json',
   gen9vgc2023series2: 'https://gist.githubusercontent.com/txfs19260817/67ca12acee3728da83c8ce6419e2d1b2/raw/gen9vgc2023series2.json',
   gen9vgc2023regulationc: 'https://gist.githubusercontent.com/txfs19260817/f952b9a9012cb1b375772a106b40b26f/raw/gen9vgc2023regulationc.json',
+  gen9vgc2023regulationd: 'https://gist.githubusercontent.com/txfs19260817/d19939b8c6ec893559c2a3251276dbc6/raw/gen9vgc2023regulationd.json',
 };
 
 function Page({ usages, format }: InferGetStaticPropsType<typeof getStaticProps>) {
