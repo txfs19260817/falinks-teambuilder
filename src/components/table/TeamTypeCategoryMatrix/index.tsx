@@ -21,11 +21,11 @@ export function TeamTypeCategoryMatrix({
     (type) =>
       !teamMemberCategories.Physical.some((s) => s.types.includes(type)) &&
       !teamMemberCategories.Special.some((s) => s.types.includes(type)) &&
-      !teamMemberCategories.Status.some((s) => s.types.includes(type))
+      !teamMemberCategories.Status.some((s) => s.types.includes(type)),
   );
 
   return (
-    <table className="table-zebra table-compact table">
+    <table className="table table-zebra table-xs bg-base-100">
       <thead>
         <tr>
           <th>

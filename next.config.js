@@ -3,11 +3,6 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true'
 });
 
-const withPWA = require('next-pwa')({
-  dest: 'public',
-  runtimeCaching: require('next-pwa/cache')
-});
-
 const { i18n } = require('./next-i18next.config');
 
 /**
@@ -30,23 +25,19 @@ const nextConfig = {
     return [
       {
         source: '/pastes/vgc',
-        destination: '/pastes/vgc/gen9vgc2023regulationd' // Update the path when a new VGC format is released
+        destination: '/pastes/vgc/gen9vgc2023regf' // Update the path when a new VGC format is released
       },
       {
         source: '/usages/vgc',
-        destination: '/usages/vgc/gen9vgc2023regulationd' // Update the path when a new VGC format is released
-      },
-      {
-        source: '/usages/vgc/pair',
-        destination: '/usages/vgc/pair/gen9vgc2023regulationd' // Update the path when a new VGC format is released
+        destination: '/usages/vgc/gen9vgc2023regf' // Update the path when a new VGC format is released
       },
       {
         source: '/usages/smogon',
-        destination: '/usages/smogon/gen9vgc2023regulationc' // Update the path when a new VGC format is released
+        destination: '/usages/smogon/gen9vgc2023regulatione' // Update the path when a new VGC format is released
       },
       {
         source: '/replays',
-        destination: '/replays/gen9vgc2023regulationd' // Update the path when a new format is released
+        destination: '/replays/gen9vgc2023regf' // Update the path when a new format is released
       }
     ];
   },
@@ -62,4 +53,4 @@ const nextConfig = {
   // }
 };
 
-module.exports = withBundleAnalyzer(withPWA(nextConfig));
+module.exports = withBundleAnalyzer(nextConfig);

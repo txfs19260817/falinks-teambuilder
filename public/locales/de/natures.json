@@ -1,1 +1,27 @@
-{"hardy":"Robust","lonely":"Solo","brave":"Mutig","adamant":"Hart","naughty":"Frech","bold":"Kühn","docile":"Sanft","relaxed":"Locker","impish":"Pfiffig","lax":"Lasch","timid":"Scheu","hasty":"Hastig","serious":"Ernst","jolly":"Froh","naive":"Naiv","modest":"Mäßig","mild":"Mild","quiet":"Ruhig","bashful":"Zaghaft","rash":"Hitzig","calm":"Still","gentle":"Zart","sassy":"Forsch","careful":"Sacht","quirky":"Kauzig"}
+{
+  "adamant": "Hart",
+  "bashful": "Zaghaft",
+  "bold": "Kühn",
+  "brave": "Mutig",
+  "calm": "Still",
+  "careful": "Sacht",
+  "docile": "Sanft",
+  "gentle": "Zart",
+  "hardy": "Robust",
+  "hasty": "Hastig",
+  "impish": "Pfiffig",
+  "jolly": "Froh",
+  "lax": "Lasch",
+  "lonely": "Solo",
+  "mild": "Mild",
+  "modest": "Mäßig",
+  "naive": "Naiv",
+  "naughty": "Frech",
+  "quiet": "Ruhig",
+  "quirky": "Kauzig",
+  "rash": "Hitzig",
+  "relaxed": "Locker",
+  "sassy": "Forsch",
+  "serious": "Ernst",
+  "timid": "Scheu"
+}

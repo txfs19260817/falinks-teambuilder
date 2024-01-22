@@ -28,7 +28,7 @@ export function MultiSelect({ options, onChange, iconGetter, ariaLabel, placehol
     },
   });
 
-  const { isOpen, getMenuProps, getInputProps, getComboboxProps, getItemProps, toggleMenu, highlightedIndex, selectedItem } = useCombobox({
+  const { isOpen, getMenuProps, getInputProps, getItemProps, highlightedIndex, selectedItem } = useCombobox({
     items,
     itemToString(item) {
       return item?.label ?? item?.value ?? '';
@@ -77,7 +77,7 @@ export function MultiSelect({ options, onChange, iconGetter, ariaLabel, placehol
     <div className="w-full">
       <div className="flex flex-col gap-1">
         <div className="inline-flex flex-wrap items-center gap-2 rounded-lg border border-neutral shadow-sm">
-          <div className="flex grow gap-0.5" {...getComboboxProps()}>
+          <div className="flex grow gap-0.5">
             {selectedOptions.map((option, index) => (
               <span
                 className="flex flex-row self-center"
@@ -99,17 +99,13 @@ export function MultiSelect({ options, onChange, iconGetter, ariaLabel, placehol
               </span>
             ))}
             <input
-              role="listbox"
               aria-label={ariaLabel}
               placeholder={placeholder}
-              className="input-bordered input input-sm w-full border-none focus:outline-none"
+              className="input input-bordered input-sm w-full border-none focus:outline-none"
               {...getInputProps(
                 getDropdownProps({
                   preventKeyAction: isOpen,
-                  onFocus: () => {
-                    toggleMenu();
-                  },
-                })
+                }),
               )}
             />
           </div>

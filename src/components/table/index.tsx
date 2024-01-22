@@ -22,7 +22,7 @@ function defaultSubComponentRenderer<D>(row: Row<D>) {
 function TableWrapper<D>({ instance, enablePagination, handleRowClick = () => {}, renderSubComponent = defaultSubComponentRenderer }: TableProps<D>) {
   return (
     <>
-      <table className="table-compact relative table w-full">
+      <table className="table table-zebra table-xs relative w-full bg-base-100">
         <Header instance={instance} />
         <tbody>
           {instance.getRowModel().rows.map((row) => {

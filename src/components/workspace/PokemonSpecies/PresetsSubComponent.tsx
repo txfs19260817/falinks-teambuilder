@@ -5,9 +5,9 @@ import { useTranslation } from 'next-i18next';
 import { useContext, useState } from 'react';
 import useSWR from 'swr';
 
+import Loading from '@/components/layout/Loading';
 import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
 import { Pokemon } from '@/models/Pokemon';
-import Loading from '@/templates/Loading';
 import { AppConfig } from '@/utils/AppConfig';
 
 type Data = {
@@ -19,18 +19,18 @@ type Data = {
 
 const pageSize = 5;
 
-const Paginator = ({ page, setPage, disableNext }: { page: number; setPage: (page: number) => void; disableNext: boolean }) => {
+const Paginator = ({ page, setPage, disableNext }: { page: number; setPage: (p: number) => void; disableNext: boolean }) => {
   return (
     <div className="flex justify-center">
       <div className="btn-group">
-        <button className="btn-sm btn" onClick={() => setPage(1)} disabled={page <= 1}>
+        <button className="btn btn-sm" onClick={() => setPage(1)} disabled={page <= 1}>
           «
         </button>
-        <button className="btn-sm btn" onClick={() => setPage(page - 1)} disabled={page <= 1}>
+        <button className="btn btn-sm" onClick={() => setPage(page - 1)} disabled={page <= 1}>
           ←
         </button>
-        <button className="btn-sm btn">{page}</button>
-        <button className="btn-sm btn" onClick={() => setPage(page + 1)} disabled={disableNext}>
+        <button className="btn btn-sm">{page}</button>
+        <button className="btn btn-sm" onClick={() => setPage(page + 1)} disabled={disableNext}>
           →
         </button>
       </div>
@@ -46,7 +46,7 @@ export const PresetsSubComponent = (row: Row<Specie>) => {
     // only fetch presets when the format is in the current generation
     teamState.format.includes(`gen${AppConfig.defaultGen}`) ? `/api/usages/presets/${row.original.name}?page=${pageIndex}&format=${teamState.format}` : null,
     (u) => fetch(u).then((r) => r.json()),
-    { fallbackData: [] }
+    { fallbackData: [] },
   );
   if (data == null) {
     return <Loading />;
@@ -61,7 +61,7 @@ export const PresetsSubComponent = (row: Row<Specie>) => {
       {error || (Array.isArray(data) && data.length === 0) ? (
         <div className="w-full text-center">{t('common.preset.notFound')}</div>
       ) : (
-        <div className="carousel-center carousel rounded-box w-full bg-base-300 p-1">
+        <div className="carousel carousel-center w-full rounded-box bg-base-300 p-1">
           <div className="carousel-item w-full justify-around">
             {data.map((p, i) => (
               <div key={i} className="card w-52 bg-base-100 shadow-xl lg:w-60 xl:w-80">
@@ -69,10 +69,10 @@ export const PresetsSubComponent = (row: Row<Specie>) => {
                   <h6 className="card-title overflow-hidden text-xs tracking-tight">@ [{p.title}]</h6>
                   <pre className="h-40 whitespace-pre-wrap text-xs leading-tight tracking-tighter">{p.paste}</pre>
                   <div className="card-actions justify-end">
-                    <Link href={`/pastes/${p.id}/`} className="btn-secondary btn-xs btn lg:btn-sm" target="_blank">
+                    <Link href={`/pastes/${p.id}/`} className="btn btn-secondary btn-xs lg:btn-sm" target="_blank">
                       {t('common.preset.showTeam')}
                     </Link>
-                    <button type="button" className="btn-primary btn-xs btn lg:btn-sm" onClick={() => handlePresetClick(p.paste)}>
+                    <button type="button" className="btn btn-primary btn-xs lg:btn-sm" onClick={() => handlePresetClick(p.paste)}>
                       {t('common.apply')}
                     </button>
                   </div>

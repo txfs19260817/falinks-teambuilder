@@ -1,23 +1,32 @@
 import { MoveCategory } from '@pkmn/data';
-import Image from 'next/legacy/image';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
+import { useMemo } from 'react';
 
-export function CategoryIcon({ category }: { category: string | MoveCategory }) {
+type CategoryIconProps = {
+  category: string | MoveCategory;
+  width?: number;
+  height?: number;
+};
+
+export function CategoryIcon({ category, width = 32, height = 14 }: CategoryIconProps) {
   const { t } = useTranslation(['common', 'categories']);
   const { basePath } = useRouter();
 
-  const translatedCategory = t(`categories.${category.toLowerCase()}`, {
-    defaultValue: category,
-  });
+  const translatedCategory = useMemo(() => t(`categories.${category.toLowerCase()}`, { defaultValue: category }), [t, category]);
+
+  const imagePath = `${basePath}/assets/moves/categories/${category}.png`;
+
   return (
     <Image
       className="inline-block"
-      width={32}
-      height={14}
+      width={width}
+      height={height}
       alt={translatedCategory}
       title={translatedCategory}
-      src={`${basePath}/assets/moves/categories/${category}.png`}
+      src={imagePath}
+      objectFit="contain"
       loading="lazy"
     />
   );

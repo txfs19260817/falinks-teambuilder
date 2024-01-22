@@ -2,25 +2,25 @@ import { Table } from '@tanstack/react-table';
 
 function Paginator({ instance }: { instance: Table<any> }) {
   return (
-    <div className="btn-group w-full items-center justify-center" aria-label="paginator">
-      <button className="btn-sm btn" onClick={() => instance.setPageIndex(0)} disabled={!instance.getCanPreviousPage()}>
+    <div className="join w-full items-center justify-center" aria-label="paginator">
+      <button className="btn join-item btn-sm" onClick={() => instance.setPageIndex(0)} disabled={!instance.getCanPreviousPage()}>
         {'<<'}
       </button>
-      <button className="btn-sm btn" onClick={() => instance.previousPage()} disabled={!instance.getCanPreviousPage()}>
+      <button className="btn join-item btn-sm" onClick={() => instance.previousPage()} disabled={!instance.getCanPreviousPage()}>
         {'<'}
       </button>
-      <button className="btn-sm btn">
+      <button className="btn join-item btn-sm">
         {instance.getState().pagination.pageIndex + 1} / {instance.getPageCount()}
       </button>
-      <button className="btn-sm btn" onClick={() => instance.nextPage()} disabled={!instance.getCanNextPage()}>
+      <button className="btn join-item btn-sm" onClick={() => instance.nextPage()} disabled={!instance.getCanNextPage()}>
         {'>'}
       </button>
-      <button className="btn-sm btn" onClick={() => instance.setPageIndex(instance.getPageCount() - 1)} disabled={!instance.getCanNextPage()}>
+      <button className="btn join-item btn-sm" onClick={() => instance.setPageIndex(instance.getPageCount() - 1)} disabled={!instance.getCanNextPage()}>
         {'>>'}
       </button>
-      <div className="divider divider-horizontal" />
-      <span className="flex items-center gap-1">
-        Go to page:
+      <div className="divider join-item divider-horizontal" />
+      <span className="join-item flex items-center gap-1">
+        📖:
         <input
           className="input input-sm w-16"
           type="number"
@@ -32,9 +32,9 @@ function Paginator({ instance }: { instance: Table<any> }) {
           }}
         />
       </span>
-      <div className="divider divider-horizontal" />
+      <div className="divider join-item divider-horizontal" />
       <select
-        className="select select-sm"
+        className="join-item select select-sm"
         value={instance.getState().pagination.pageSize}
         onChange={(e) => {
           instance.setPageSize(Number(e.target.value));

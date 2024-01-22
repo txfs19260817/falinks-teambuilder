@@ -15,6 +15,9 @@
       }
     ]
   },
+  "globals": {
+    "JSX": "readonly"
+  },
   "overrides": [
     // Configuration for TypeScript files
     {
@@ -29,7 +32,6 @@
         "simple-import-sort"
       ],
       "extends": [
-        "airbnb-typescript",
         "next/core-web-vitals",
         "plugin:prettier/recommended"
       ],
@@ -70,14 +72,26 @@
         "simple-import-sort/imports": "error",
         // Export configuration for `eslint-plugin-simple-import-sort`
         "simple-import-sort/exports": "error",
-        "@typescript-eslint/no-unused-vars": "off",
+        "no-unused-vars": [
+          "warn",
+          {
+            "varsIgnorePattern": "^_"
+          }
+        ],
         // Sync store needs to be modified directly
         "no-param-reassign": "off",
         // React-table uses this at least
         "no-nested-ternary": "off",
         // We're using this for MongoDB
         "no-underscore-dangle": "off",
-        // I just like it this way
+        "import/extensions": [
+          "error",
+          "ignorePackages",
+          {
+            "ts": "never",
+            "tsx": "never"
+          }
+        ],
         "no-bitwise": "off",
         "unused-imports/no-unused-imports": "error",
         "unused-imports/no-unused-vars": [

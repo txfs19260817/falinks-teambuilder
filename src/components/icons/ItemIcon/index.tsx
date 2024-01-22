@@ -2,7 +2,13 @@ import { ItemName } from '@pkmn/data';
 import { Icons } from '@pkmn/img';
 import { useTranslation } from 'next-i18next';
 
-export const ItemIcon = ({ itemName }: { itemName: ItemName | string }) => {
+type ItemIconProps = {
+  itemName: ItemName | string;
+};
+
+export const ItemIcon = ({ itemName }: ItemIconProps) => {
   const { t } = useTranslation(['items']);
-  return <span role="img" title={t(`items.${itemName.toLocaleLowerCase()}`)} style={Icons.getItem(itemName).css} />;
+  const itemIconStyle = Icons.getItem(itemName).css;
+
+  return <span className="inline-block" role="img" title={t(`items.${itemName.toLowerCase()}`)} style={itemIconStyle} />;
 };

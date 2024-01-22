@@ -24,7 +24,7 @@ export const Select = ({
   const [inputValue, setInputValue] = useState('');
   const [selectedItem, setSelectedItem] = useState<Option | null | undefined>(value);
   const items = useMemo(() => options.filter(getOptionsFilter(inputValue)), [inputValue, options]);
-  const { isOpen, getToggleButtonProps, getMenuProps, getInputProps, getComboboxProps, highlightedIndex, getItemProps } = useCombobox({
+  const { isOpen, getToggleButtonProps, getMenuProps, getInputProps, highlightedIndex, getItemProps } = useCombobox({
     onInputValueChange(changes) {
       const newInputValue = changes.inputValue ?? '';
       setInputValue(newInputValue);
@@ -50,7 +50,7 @@ export const Select = ({
   return (
     <div className="w-full">
       <div className="form-control gap-1">
-        <div className="input-group" {...getComboboxProps()}>
+        <div className="join">
           <input
             {...getInputProps()}
             id={inputId}
@@ -58,12 +58,12 @@ export const Select = ({
             role="listbox"
             aria-label={ariaLabel}
             placeholder={placeholder}
-            className={`input-bordered input w-full ${
+            className={`input join-item input-bordered w-full ${
               inputSize === 'xs' ? 'input-xs' : inputSize === 'sm' ? 'input-sm' : inputSize === 'lg' ? 'input-lg' : ''
             }`}
           />
           <button
-            className={`btn ${inputSize === 'xs' ? 'btn-xs' : inputSize === 'sm' ? 'btn-sm' : inputSize === 'lg' ? 'btn-lg' : ''}`}
+            className={`btn join-item ${inputSize === 'xs' ? 'btn-xs' : inputSize === 'sm' ? 'btn-sm' : inputSize === 'lg' ? 'btn-lg' : ''}`}
             type="button"
             role="button"
             aria-label="toggle menu"
@@ -73,7 +73,7 @@ export const Select = ({
           </button>
         </div>
       </div>
-      <ul {...getMenuProps()} className={`rounded-box absolute z-50 max-h-64 overflow-y-auto bg-base-100 shadow-md scrollbar-thin ${itemClassName}`}>
+      <ul {...getMenuProps()} className={`absolute z-50 max-h-64 overflow-y-auto rounded-box bg-base-100 shadow-md scrollbar-thin ${itemClassName}`}>
         {isOpen &&
           items.map((item, index) => (
             <li

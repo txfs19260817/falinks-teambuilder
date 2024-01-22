@@ -62,6 +62,7 @@ export const typesWithEmoji: ValueWithEmojiOption<TypeName>[] = [
   { value: 'Rock', emoji: '⛰️' },
   { value: 'Steel', emoji: '🛡️' },
   { value: 'Water', emoji: '💧' },
+  { value: 'Stellar', emoji: '🔯' },
   { value: '???', emoji: '❓' },
 ];
 
@@ -351,18 +352,18 @@ export const trimUsage = (
   rank: number,
   threshold: number = 0.01,
   comparator: (a: number, b: number) => number = (a, b) => b - a,
-  limit: number = 15
+  limit: number = 15,
 ): Usage => {
   const { Abilities, Items, Spreads: freqSpreads, Teammates, Moves } = oldUsage;
-  const newAbilities = filterSortLimitObjectByValues(convertObjectNumberValuesToFraction(Abilities), (_) => true, comparator, limit);
-  const newItems = filterSortLimitObjectByValues(convertObjectNumberValuesToFraction(Items), (_) => true, comparator, limit);
+  const newAbilities = filterSortLimitObjectByValues(convertObjectNumberValuesToFraction(Abilities), () => true, comparator, limit);
+  const newItems = filterSortLimitObjectByValues(convertObjectNumberValuesToFraction(Items), () => true, comparator, limit);
   const newSpreads = filterSortLimitObjectByValues(convertObjectNumberValuesToFraction(freqSpreads), (v) => v >= threshold, comparator, limit);
   const newTeammates = filterSortLimitObjectByValues(convertObjectNumberValuesToFraction(Teammates), (v) => v >= threshold, comparator, limit);
   const newMoves = filterSortLimitObjectByValues(
     convertObjectNumberValuesToFraction(Moves),
     (v) => v > threshold * 0.1,
     (a, b) => b - a,
-    limit
+    limit,
   );
   delete newItems.nothing;
   delete newMoves['']; // remove the empty move
@@ -484,7 +485,7 @@ export const getMovesBySpecie = (speciesName?: string, isBaseSpecies: boolean = 
           ? await gen.learnsets.get(basicSpecies.name).then((le) =>
               Object.entries(le?.learnset ?? [])
                 .filter((e) => e[1].some((s) => s.startsWith(`${gen.num}E`)))
-                .flatMap((e) => gen.moves.get(e[0]) ?? [])
+                .flatMap((e) => gen.moves.get(e[0]) ?? []),
             )
           : [];
       res.push(...eggMoves);
@@ -503,8 +504,8 @@ export const getSuggestedSpreadsBySpecie = (d: DisplayUsageStatistics & LegacyDi
       d.stats ?? d.spreads ?? {}, // its either in the stats (DisplayUsageStatistics) or spreads (LegacyDisplayUsageStatistics) field
       (v) => v > 0.001, // only show spreads with a usage of 0.1% or higher
       (a, b) => b - a, // sort by usage descending
-      5 // only show the top 5 spreads
-    )
+      5, // only show the top 5 spreads
+    ),
   ).map(
     (s) =>
       ({
@@ -516,16 +517,16 @@ export const getSuggestedSpreadsBySpecie = (d: DisplayUsageStatistics & LegacyDi
             .split(':')[1]!
             .split('/')
             .map((e: string, i: number) =>
-              i === 0 ? ['hp', +e] : i === 1 ? ['atk', +e] : i === 2 ? ['def', +e] : i === 3 ? ['spa', +e] : i === 4 ? ['spd', +e] : ['spe', +e]
-            )
+              i === 0 ? ['hp', +e] : i === 1 ? ['atk', +e] : i === 2 ? ['def', +e] : i === 3 ? ['spa', +e] : i === 4 ? ['spd', +e] : ['spe', +e],
+            ),
         ),
-      } as Spreads)
+      }) as Spreads,
   );
 
 export const isValidPokePasteURL = (url?: string): boolean => typeof url === 'string' && urlPattern.test(url) && url.includes('pokepast.es');
 
 export const abilityToEffectiveness = (
-  abilityName: string | undefined
+  abilityName: string | undefined,
 ): {
   typeName: TypeName;
   rate: TypeEffectiveness;
@@ -566,7 +567,7 @@ export const abilityToEffectiveness = (
 };
 
 export const moveToEffectiveness = (
-  move: Move
+  move: Move,
 ): {
   typeName: TypeName;
   rate: TypeEffectiveness;
@@ -675,33 +676,39 @@ export const getPokemonTranslationKey = (word: string, category: 'species' | 'mo
   const gen = DexSingleton.getGen();
   switch (category) {
     case 'species': {
-      const dexNum = gen.species.get(word)?.num;
-      if (dexNum) return `species.${dexNum}`;
+      const { id, name } = gen.species.get(word) ?? {};
+      if (id) return `species.${id}`;
+      if (name) return name;
       break;
     }
     case 'moves': {
-      const moveId = gen.moves.get(word)?.id;
-      if (moveId) return `moves.${moveId}`;
+      const { id, name } = gen.moves.get(word) ?? {};
+      if (id) return `moves.${id}`;
+      if (name) return name;
       break;
     }
     case 'abilities': {
-      const abilityId = gen.abilities.get(word)?.id;
-      if (abilityId) return `abilities.${abilityId}`;
+      const { id, name } = gen.abilities.get(word) ?? {};
+      if (id) return `abilities.${id}`;
+      if (name) return name;
       break;
     }
     case 'items': {
-      const itemId = gen.items.get(word)?.id;
-      if (itemId) return `items.${itemId}`;
+      const { id, name } = gen.items.get(word) ?? {};
+      if (id) return `items.${id}`;
+      if (name) return name;
       break;
     }
     case 'natures': {
-      const natureId = gen.natures.get(word)?.id;
-      if (natureId) return `natures.${natureId}`;
+      const { id, name } = gen.natures.get(word) ?? {};
+      if (id) return `natures.${id}`;
+      if (name) return name;
       break;
     }
     case 'types': {
-      const typeId = gen.types.get(word)?.id;
-      if (typeId) return `types.${typeId}`;
+      const { id, name } = gen.types.get(word) ?? {};
+      if (id) return `types.${id}`;
+      if (name) return name;
       break;
     }
     default:

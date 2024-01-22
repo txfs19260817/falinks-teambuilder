@@ -1,1 +1,27 @@
-{"hardy":"Fuerte","lonely":"Huraña","brave":"Audaz","adamant":"Firme","naughty":"Pícara","bold":"Osada","docile":"Dócil","relaxed":"Plácida","impish":"Agitada","lax":"Floja","timid":"Miedosa","hasty":"Activa","serious":"Seria","jolly":"Alegre","naive":"Ingenua","modest":"Modesta","mild":"Afable","quiet":"Mansa","bashful":"Tímida","rash":"Alocada","calm":"Serena","gentle":"Amable","sassy":"Grosera","careful":"Cauta","quirky":"Rara"}
+{
+  "adamant": "Firme",
+  "bashful": "Tímida",
+  "bold": "Osada",
+  "brave": "Audaz",
+  "calm": "Serena",
+  "careful": "Cauta",
+  "docile": "Dócil",
+  "gentle": "Amable",
+  "hardy": "Fuerte",
+  "hasty": "Activa",
+  "impish": "Agitada",
+  "jolly": "Alegre",
+  "lax": "Floja",
+  "lonely": "Huraña",
+  "mild": "Afable",
+  "modest": "Modesta",
+  "naive": "Ingenua",
+  "naughty": "Pícara",
+  "quiet": "Mansa",
+  "quirky": "Rara",
+  "rash": "Alocada",
+  "relaxed": "Plácida",
+  "sassy": "Grosera",
+  "serious": "Seria",
+  "timid": "Miedosa"
+}

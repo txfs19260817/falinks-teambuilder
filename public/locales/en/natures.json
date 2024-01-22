@@ -1,1 +1,27 @@
-{"hardy":"Hardy","lonely":"Lonely","brave":"Brave","adamant":"Adamant","naughty":"Naughty","bold":"Bold","docile":"Docile","relaxed":"Relaxed","impish":"Impish","lax":"Lax","timid":"Timid","hasty":"Hasty","serious":"Serious","jolly":"Jolly","naive":"Naive","modest":"Modest","mild":"Mild","quiet":"Quiet","bashful":"Bashful","rash":"Rash","calm":"Calm","gentle":"Gentle","sassy":"Sassy","careful":"Careful","quirky":"Quirky"}
+{
+  "adamant": "Adamant",
+  "bashful": "Bashful",
+  "bold": "Bold",
+  "brave": "Brave",
+  "calm": "Calm",
+  "careful": "Careful",
+  "docile": "Docile",
+  "gentle": "Gentle",
+  "hardy": "Hardy",
+  "hasty": "Hasty",
+  "impish": "Impish",
+  "jolly": "Jolly",
+  "lax": "Lax",
+  "lonely": "Lonely",
+  "mild": "Mild",
+  "modest": "Modest",
+  "naive": "Naive",
+  "naughty": "Naughty",
+  "quiet": "Quiet",
+  "quirky": "Quirky",
+  "rash": "Rash",
+  "relaxed": "Relaxed",
+  "sassy": "Sassy",
+  "serious": "Serious",
+  "timid": "Timid"
+}

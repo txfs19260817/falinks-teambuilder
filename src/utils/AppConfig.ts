@@ -2,119 +2,6 @@
 // eslint-disable-next-line import/extensions
 import tailwindConfig from '../../tailwind.config.js';
 
-type Route = {
-  id: string;
-  path: string;
-  name: string;
-  target: string;
-  children?: Route[];
-};
-
-const routes: Route[] = [
-  {
-    id: 'home',
-    name: 'Home',
-    path: '/',
-    target: '_self',
-  },
-  {
-    id: 'paste',
-    name: 'Pastes',
-    path: '',
-    target: '',
-    children: [
-      {
-        id: 'vgc_pastes',
-        name: 'VGC Paste',
-        path: '/pastes/vgc',
-        target: '_self',
-      },
-      {
-        id: 'public_pastes',
-        name: 'User Shared',
-        path: '/pastes/public',
-        target: '_self',
-      },
-      {
-        id: 'create_paste',
-        name: 'Create',
-        path: '/pastes/create',
-        target: '_self',
-      },
-      {
-        id: 'search_paste',
-        name: 'Search',
-        path: '/pastes/search',
-        target: '_self',
-      },
-    ],
-  },
-  {
-    id: 'tournament',
-    name: 'Tournaments',
-    path: '/tournaments',
-    target: '_self',
-  },
-  {
-    id: 'usage',
-    name: 'Usage',
-    path: '',
-    target: '',
-    children: [
-      {
-        id: 'vgc_usage',
-        name: 'VGCPastes Usage',
-        path: '/usages/vgc',
-        target: '_self',
-      },
-      {
-        id: 'vgc_usage_pair',
-        name: 'VGCPastes Pair',
-        path: '/usages/vgc/pair',
-        target: '_self',
-      },
-      {
-        id: 'smogon_usage',
-        name: 'Smogon Usage',
-        path: '/usages/smogon',
-        target: '_self',
-      },
-    ],
-  },
-  {
-    id: 'replay',
-    name: 'Replays',
-    path: '/replays',
-    target: '_self',
-  },
-  {
-    id: 'tools',
-    name: 'Tools',
-    path: '',
-    target: '',
-    children: [
-      {
-        id: 'matchup',
-        name: 'Match-up Viewer',
-        path: '/tools/matchup',
-        target: '_self',
-      },
-    ],
-  },
-  {
-    id: 'about',
-    name: 'About',
-    path: '/about',
-    target: '_self',
-  },
-  {
-    id: 'github',
-    name: 'GitHub',
-    path: 'https://github.com/txfs19260817/falinks-teambuilder',
-    target: '_blank',
-  },
-];
-
 const toolboxIDs: Record<string, string> = {
   shareLink: 'share-link-btn',
   loadInShowdown: 'load-in-showdown-btn',
@@ -153,32 +40,17 @@ const dialogProps = [
   },
 ];
 
-// the first element serves as the default format
-// NOTE: change the rewrite rule in `next.config.js` if the default format is changed
-const formats = [
-  'gen9vgc2023regulationc',
-  'gen9vgc2023series2',
-  'gen9vgc2023series1',
-  'gen9battlestadiumsinglesseries1',
-  'gen9battlestadiumsinglesseries2',
-  'gen9doublesou',
-  'gen9ou',
-  'gen8vgc2022',
-];
-
 export const AppConfig = {
   site_name: 'Falinks Teambuilder',
   title: 'Falinks Teambuilder',
   description: 'Falinks Teambuilder is a collaborative Pokémon team building application.',
   canonical: 'https://www.falinks-teambuilder.com',
+  locales: ['de', 'en', 'es', 'fr', 'it', 'ja', 'ko', 'zh-Hans', 'zh-Hant'],
   defaultLocale: 'en',
   themeColor: '#f9da55',
   maxPokemonPerTeam: 6,
   defaultGen: 9,
-  defaultFormat: formats[0]!,
   themes: tailwindConfig.daisyui.themes as string[],
   toolboxIDs,
-  formats,
   dialogProps,
-  routes,
 };

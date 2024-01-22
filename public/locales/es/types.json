@@ -1,1 +1,21 @@
-{"normal":"Normal","fighting":"Lucha","flying":"Volador","poison":"Veneno","ground":"Tierra","rock":"Roca","bug":"Bicho","ghost":"Fantasma","steel":"Acero","fire":"Fuego","water":"Agua","grass":"Planta","electric":"Eléctrico","psychic":"Psíquico","ice":"Hielo","dragon":"Dragón","dark":"Siniestro","fairy":"Hada"}
+{
+  "bug": "Bicho",
+  "dark": "Siniestro",
+  "dragon": "Dragón",
+  "electric": "Eléctrico",
+  "fairy": "Hada",
+  "fighting": "Lucha",
+  "fire": "Fuego",
+  "flying": "Volador",
+  "ghost": "Fantasma",
+  "grass": "Planta",
+  "ground": "Tierra",
+  "ice": "Hielo",
+  "normal": "Normal",
+  "poison": "Veneno",
+  "psychic": "Psíquico",
+  "rock": "Roca",
+  "steel": "Acero",
+  "stellar": "Astral",
+  "water": "Agua"
+}

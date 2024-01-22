@@ -103,7 +103,7 @@
       "description": "VGCPastes pair usage statistics"
     },
     "smogon_usage": {
-      "title": "Smogon",
+      "title": "Smogon Usages",
       "description": "Pokémon Showdown! usage statistics"
     },
     "replay": {

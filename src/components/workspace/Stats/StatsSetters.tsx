@@ -32,7 +32,7 @@ function StatsSetters() {
         fetch(u)
           .then((r) => r.json())
           .then(getSuggestedSpreadsBySpecie),
-    }
+    },
   );
 
   const natures = Array.from(DexSingleton.getGen().natures);
@@ -99,7 +99,7 @@ function StatsSetters() {
   // mouse up or on blur
   const handleEVInputDone = (
     e: MouseEvent<HTMLInputElement> | FocusEvent<HTMLInputElement> | KeyboardEvent<HTMLInputElement> | TouchEvent<HTMLInputElement>,
-    stat: string
+    stat: string,
   ) => {
     // @ts-ignore
     if (e.key && !['ArrowDown', 'ArrowUp', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'Backspace', 'Delete', 'Enter'].includes(e.key)) return;
@@ -121,7 +121,7 @@ function StatsSetters() {
   return (
     <>
       {/* Header */}
-      <div role="rowheader" className="grid grid-cols-12 px-4 text-xs font-bold overflow-x-hidden md:gap-x-4 md:text-sm">
+      <div role="rowheader" className="grid grid-cols-12 overflow-x-hidden px-4 text-xs font-bold md:gap-x-4 md:text-sm">
         <span></span>
         <span>{t('common.stats.base')}</span>
         <span className="invisible md:visible">{t('common.nature')}</span>
@@ -132,12 +132,12 @@ function StatsSetters() {
       </div>
       {/* Sliders */}
       {['hp', 'atk', 'def', 'spa', 'spd', 'spe'].map((stat: string) => {
-        const b = (base as unknown as { [s: string]: number })[stat] ?? 0;
-        const iv = (ivs as unknown as { [s: string]: number })[stat] ?? 31;
-        const ev = (evs as unknown as { [s: string]: number })[stat] ?? 0;
+        const b = (base as { [s: string]: number })[stat] ?? 0;
+        const iv = (ivs as { [s: string]: number })[stat] ?? 31;
+        const ev = (evs as { [s: string]: number })[stat] ?? 0;
         const lv = teamState.getPokemonInTeam(tabIdx)?.level ?? 50;
         return (
-          <div key={stat} className="grid-rows-7 grid grid-cols-12 items-center overflow-hidden px-4 text-xs md:gap-x-4 md:text-sm">
+          <div key={stat} className="grid grid-cols-12 items-center overflow-hidden px-4 text-xs md:gap-x-4 md:text-sm">
             {/* Column Header */}
             <span className="font-bold uppercase" role="columnheader">
               {t(`common.stats.${stat}`)}
@@ -214,7 +214,7 @@ function StatsSetters() {
               min="0"
               max="31"
               value={iv}
-              className="input-bordered input input-xs appearance-none md:input-sm"
+              className="input input-bordered input-xs appearance-none md:input-sm"
               onChange={(e) => handleIVInputChange(e, stat)}
             />
             {/* Final Stat */}
@@ -229,7 +229,7 @@ function StatsSetters() {
         <span className="font-bold uppercase" role="columnheader">
           {t('common.nature')}:
         </span>
-        <select id="nature" className="select-bordered select select-xs col-span-2 md:select-sm" value={nature.name} onChange={handleNatureSelectChange}>
+        <select id="nature" className="select select-bordered select-xs col-span-2 md:select-sm" value={nature.name} onChange={handleNatureSelectChange}>
           {natures.map(({ id, minus, name, plus }) => (
             <option key={name} value={name}>
               {t(id, { ns: 'natures' })}
@@ -243,7 +243,7 @@ function StatsSetters() {
         </span>
         {/* Suggestion Selector */}
         <select
-          className="select-bordered select select-xs col-span-6 md:select-sm"
+          className="select select-bordered select-xs col-span-6 md:select-sm"
           defaultValue=""
           onChange={handleSuggestionSelectChange}
           role="listbox"

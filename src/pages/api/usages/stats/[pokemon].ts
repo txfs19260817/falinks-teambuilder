@@ -1,6 +1,7 @@
 import { Generations, ID } from '@pkmn/data';
 import { Dex } from '@pkmn/dex';
-import { DisplayUsageStatistics, Smogon } from '@pkmn/smogon';
+import type { DisplayUsageStatistics, LegacyDisplayUsageStatistics } from '@pkmn/smogon';
+import { Smogon } from '@pkmn/smogon';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 import FormatManager from '@/models/FormatManager';
@@ -59,7 +60,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Awaited<ReturnT
   const formatID = <ID>(format && typeof format === 'string' ? format : formatManager.defaultFormat.id);
 
   // get stats and return
-  let r: DisplayUsageStatistics | undefined;
+  let r: DisplayUsageStatistics | LegacyDisplayUsageStatistics | undefined;
   try {
     r = await smogon.stats(generation, pokemon, formatID);
   } catch (e) {

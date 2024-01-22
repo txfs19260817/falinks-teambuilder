@@ -4,10 +4,10 @@ import { useRouter } from 'next/router';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useEffect, useState } from 'react';
 
+import Loading from '@/components/layout/Loading';
+import { Main } from '@/components/layout/Main';
 import { Pokemon } from '@/models/Pokemon';
 import { SupportedProtocolProvider, supportedProtocols } from '@/providers';
-import Loading from '@/templates/Loading';
-import { Main } from '@/templates/Main';
 import { isValidPokePasteURL } from '@/utils/PokemonUtils';
 import type { BasePokePaste } from '@/utils/Types';
 

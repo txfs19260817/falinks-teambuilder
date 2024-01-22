@@ -30,14 +30,14 @@ function MoveInput({ moveIdx }: { moveIdx: number }) {
   };
 
   return (
-    <label className="input-group-xs input-group input-group-vertical">
-      <span>
+    <label className="join join-vertical">
+      <span className="text-xs">
         {t('common.move')} {moveIdx + 1}
       </span>
       <input
         type="search"
-        placeholder={t('common.move')}
-        className={`input-primary input input-sm md:input-md ${
+        placeholder={`${t('common.move')} ${moveIdx + 1}`}
+        className={`input input-primary ${
           compareFocusedFieldToIdx(focusedFieldState, thisFocusedFieldState) ? 'outline outline-2 outline-offset-2 outline-primary' : ''
         }`}
         value={move}

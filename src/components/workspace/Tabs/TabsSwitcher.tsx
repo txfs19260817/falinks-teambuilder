@@ -49,26 +49,26 @@ function TabMenu({ idx }: { idx: number }) {
 
   return (
     <>
-      <label tabIndex={idx} className="indicator-item badge-secondary badge">
+      <label tabIndex={idx} role="button" className="badge indicator-item badge-secondary">
         ≡
       </label>
-      <div tabIndex={idx} className="dropdown-content card card-compact w-full bg-base-200 p-1 shadow md:w-96">
+      <div tabIndex={idx} className="card dropdown-content compact z-[1] w-full bg-base-200 text-base-content shadow md:w-80">
         <div className="card-body">
-          <h1 className="card-title">{t(getPokemonTranslationKey(pm.species, 'species'))}</h1>
+          <h2 className="card-title">{t(getPokemonTranslationKey(pm.species, 'species'))}</h2>
           <textarea ref={pasteTextareaRef} className="textarea" placeholder="..." rows={10}></textarea>
           <div className="card-actions">
-            <button className="btn-primary btn-xs btn" onClick={() => updateTab(idx)}>
+            <button className="btn btn-primary btn-xs" onClick={() => updateTab(idx)}>
               {t('common.update')}
             </button>
             <button
-              className="btn-accent btn-xs btn"
+              className="btn btn-accent btn-xs"
               onClick={() => {
                 navigator.clipboard.writeText(pasteTextareaRef.current?.value || '').then(() => toast(t('common.copiedToClipboard')));
               }}
             >
               {t('common.copy')}
             </button>
-            <button className="btn-error btn-xs btn" onClick={() => removeTab(idx)}>
+            <button className="btn btn-error btn-xs" onClick={() => removeTab(idx)}>
               {t('common.delete')}
             </button>
           </div>
@@ -86,7 +86,7 @@ function TabsSwitcher({ children }: { children?: ReactNode }) {
     const formatIdToSpeciesName = new Map(
       formatManager.getAllFormats().map((f) => {
         return [f.id, f.defaultSpeciesName];
-      })
+      }),
     );
     const newMon = new Pokemon(formatIdToSpeciesName.get(teamState.format) ?? 'Pikachu');
     newMon.level = formatManager.getFormatById(teamState.format)?.defaultLevel ?? 100;
@@ -105,19 +105,18 @@ function TabsSwitcher({ children }: { children?: ReactNode }) {
   };
 
   return (
-    <div role="tablist" className="tabs tabs-boxed">
+    <div role="tablist" className="tabs-boxed tabs tabs-md md:tabs-lg">
       {children}
       {teamState.team.map((p, i) => (
-        <div key={p.id} className="dropdown-right dropdown indicator">
-          {/* indicator */}
-          <TabMenu idx={i} />
+        <div
+          key={p.id}
+          role="tab"
+          className={`tab dropdown dropdown-end dropdown-bottom ${i === tabIdx ? 'tab-active' : 'border border-x-2 border-secondary'} `}
+        >
           {/* tab */}
-          <a
-            role="tab"
-            aria-label={`Tab ${i + 1}`}
-            className={`tab tab-lifted tab-md md:tab-lg ${i === tabIdx ? 'tab-active' : ''}`}
-            onClick={() => setTabIdx(i)}
-          >
+          <a aria-label={`Tab ${i + 1}`} onClick={() => setTabIdx(i)} className={`indicator w-full`}>
+            {/* indicator dropdown */}
+            <TabMenu idx={i} />
             <span className="text-sm">{i + 1}</span>
             <PokemonIcon speciesId={p.species} />
             <span>{t(getPokemonTranslationKey(p.species, 'species'))}</span>
@@ -127,10 +126,14 @@ function TabsSwitcher({ children }: { children?: ReactNode }) {
       {/* Show Plus sign following all tabs until there are 6 Pokémon */}
       {teamState.teamLength < AppConfig.maxPokemonPerTeam && (
         // Show tooltip if no Pokémon in team
-        <div className={`tooltip-right tooltip-secondary ${teamState.teamLength === 0 ? 'tooltip-open tooltip' : ''}`} data-tip={t('room.addFirstPm')}>
-          <button className="tab tab-lifted tab-active tab-md md:tab-lg" onClick={() => newTab()} role="tab" aria-label="Add new tab">
-            +
-          </button>
+        <div
+          className={`tab tooltip-right tooltip-secondary bg-accent text-info-content ${teamState.teamLength === 0 ? 'tooltip tooltip-open' : ''}`}
+          data-tip={t('room.addFirstPm')}
+          onClick={() => newTab()}
+          role="tab"
+          aria-label="Add a new tab"
+        >
+          +
         </div>
       )}
     </div>

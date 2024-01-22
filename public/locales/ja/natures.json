@@ -1,1 +1,27 @@
-{"hardy":"がんばりや","lonely":"さみしがり","brave":"ゆうかん","adamant":"いじっぱり","naughty":"やんちゃ","bold":"ずぶとい","docile":"すなお","relaxed":"のんき","impish":"わんぱく","lax":"のうてんき","timid":"おくびょう","hasty":"せっかち","serious":"まじめ","jolly":"ようき","naive":"むじゃき","modest":"ひかえめ","mild":"おっとり","quiet":"れいせい","bashful":"てれや","rash":"うっかりや","calm":"おだやか","gentle":"おとなしい","sassy":"なまいき","careful":"しんちょう","quirky":"きまぐれ"}
+{
+  "adamant": "いじっぱり",
+  "bashful": "てれや",
+  "bold": "ずぶとい",
+  "brave": "ゆうかん",
+  "calm": "おだやか",
+  "careful": "しんちょう",
+  "docile": "すなお",
+  "gentle": "おとなしい",
+  "hardy": "がんばりや",
+  "hasty": "せっかち",
+  "impish": "わんぱく",
+  "jolly": "ようき",
+  "lax": "のうてんき",
+  "lonely": "さみしがり",
+  "mild": "おっとり",
+  "modest": "ひかえめ",
+  "naive": "むじゃき",
+  "naughty": "やんちゃ",
+  "quiet": "れいせい",
+  "quirky": "きまぐれ",
+  "rash": "うっかりや",
+  "relaxed": "のんき",
+  "sassy": "なまいき",
+  "serious": "まじめ",
+  "timid": "おくびょう"
+}

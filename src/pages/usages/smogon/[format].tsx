@@ -2,9 +2,9 @@ import type { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'ne
 import { SSRConfig, useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
+import { Main } from '@/components/layout/Main';
 import UsageLayout from '@/components/usages/UsageLayout';
 import FormatManager from '@/models/FormatManager';
-import { Main } from '@/templates/Main';
 import { AppConfig } from '@/utils/AppConfig';
 import { postProcessUsage } from '@/utils/PokemonUtils';
 import type { Format, Usage } from '@/utils/Types';
@@ -21,6 +21,7 @@ const UsagePage = ({ usages, format }: { usages: Usage[]; format: string }) => {
   );
 };
 
+// eslint-disable-next-line no-use-before-define
 function Page(data: InferGetStaticPropsType<typeof getStaticProps>) {
   return <UsagePage {...data} />;
 }
@@ -51,7 +52,7 @@ export const getStaticPaths: GetStaticPaths = async (context) => {
       smogonFormats.map((format) => ({
         params: { format: format.id },
         locale,
-      }))
+      })),
     ) ?? smogonFormats.map((format) => ({ params: { format: format.id } }));
 
   return {

@@ -1,5 +1,5 @@
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
-import { Main } from '@/templates/Main';
+import { Main } from '@/components/layout/Main';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import PastesTable from '@/components/pastes/PastesTable';
 import type { PastesList } from '@/utils/Prisma';

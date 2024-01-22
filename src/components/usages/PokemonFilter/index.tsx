@@ -18,11 +18,11 @@ export function PokemonFilter({ usages, drawerID, setSelectedRank }: PokemonFilt
     t(getPokemonTranslationKey(name, 'species')).includes(pokemonNameFilter) || name.toLowerCase().includes(pokemonNameFilter.toLowerCase());
   return (
     <>
-      <label className="input-group-xs input-group">
+      <label className="join">
         <span>{t('common.pokemon')}</span>
         <input
           type="search"
-          className="input-ghost input input-sm bg-base-100 text-base-content placeholder:text-neutral/50 focus:bg-base-100"
+          className="input input-ghost input-sm bg-base-100 text-base-content placeholder:text-neutral/50 focus:bg-base-100"
           placeholder={t('usages.filter.placeholder')}
           value={pokemonNameFilter}
           onChange={(e) => setPokemonNameFilter(e.target.value)}
@@ -36,7 +36,7 @@ export function PokemonFilter({ usages, drawerID, setSelectedRank }: PokemonFilt
             <label
               htmlFor={drawerID}
               role="button"
-              className="btn-ghost btn-block btn m-1 w-full bg-base-100 text-xs"
+              className="btn btn-ghost btn-block m-1 w-full bg-base-100 text-xs"
               onClick={() => setSelectedRank(rank)} // rank is 0-indexed and is equivalent to the origin index in the usages array
             >
               <PokemonIcon speciesId={name} />

@@ -17,7 +17,7 @@ function BaseTable({ tableTitle, usages, nameGetter, iconGetter, category }: Bas
   const { t } = useTranslation(translationNSs);
   const { locale } = useRouter();
   return (
-    <table className="table-zebra table-compact table w-full">
+    <table className="table table-zebra table-xs w-full bg-base-100">
       <thead>
         <tr>
           <th className="w-1/12">#</th>

@@ -30,12 +30,12 @@ function ItemInput() {
   };
 
   return (
-    <label className="input-group-xs input-group input-group-vertical md:input-group-md">
-      <span>{t('common.item')}</span>
+    <label className="join join-vertical">
+      <span className="text-sm">{t('common.item')}</span>
       <input
         type="search"
         placeholder={t('common.item')}
-        className={`input-primary input input-sm md:input-md ${
+        className={`input input-primary input-sm md:input-md ${
           compareFocusedFieldToIdx(focusedFieldState, thisFocusedFieldState) ? 'outline outline-2 outline-offset-2 outline-primary' : ''
         }`}
         value={item}

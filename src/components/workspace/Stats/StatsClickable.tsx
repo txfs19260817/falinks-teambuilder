@@ -38,7 +38,7 @@ function StatsClickable() {
 
   return (
     <label
-      className={`input-group-md input-group input-group-vertical rounded-lg border border-base-300 transition-all md:input-group-lg hover:opacity-80 hover:shadow-xl `}
+      className={`join join-vertical h-full gap-y-2 transition-all hover:opacity-80 hover:shadow-xl`}
       onClick={() =>
         focusedFieldDispatch({
           type: 'set',
@@ -48,10 +48,11 @@ function StatsClickable() {
         })
       }
     >
-      <span>{t('common.stats.stats')}</span>
+      <span className="text-sm">{t('common.stats.stats')}</span>
       <div
         role="rowgroup"
-        className={`border border-primary bg-base-100 hover:bg-base-200 ${
+        className={`grid h-full grid-rows-6
+        gap-y-1 rounded-lg border border-primary bg-base-100 hover:bg-base-200 ${
           compareFocusedFieldToIdx(focusedFieldState, thisFocusedFieldState) ? 'outline outline-2 outline-offset-2 outline-primary' : ''
         }`}
       >

@@ -19,10 +19,10 @@ function ShinyToggle() {
   };
 
   return (
-    <div className="md:text-md flex inline-flex space-x-0.5 text-xs">
+    <div className="inline-flex space-x-0.5 text-sm">
       <label>{t('common.shiny')}</label>
       <div className="whitespace-nowrap">
-        <label className="swap swap-flip">
+        <label className="btn btn-ghost swap swap-flip btn-xs">
           <input type="checkbox" checked={checked} onChange={(e) => handleChange(e)} />
           <span className="swap-on">✨</span>
           <span className="swap-off">✖️</span>

@@ -2,9 +2,10 @@ import { GetStaticProps, InferGetStaticPropsType } from 'next';
 import { SSRConfig, useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
-import { Main } from '@/templates/Main';
+import { Main } from '@/components/layout/Main';
 import { getMDDocBySlug, markdownToHtml } from '@/utils/Markdown';
 
+// eslint-disable-next-line no-use-before-define
 const About = ({ content }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const { t } = useTranslation(['common']);
   return (

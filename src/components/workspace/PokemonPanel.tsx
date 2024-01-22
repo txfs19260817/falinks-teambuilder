@@ -16,22 +16,24 @@ const PokemonPanel = () => {
     <div className="mockup-window border bg-base-300">
       <div className="flex h-full flex-col gap-1">
         {/* Upper part */}
-        <div className="rounded-box grid grid-cols-2 gap-x-1 gap-y-2 bg-base-100 px-2 py-1 md:grid-cols-4">
+        <div className="grid grid-cols-2 gap-x-1 gap-y-2 rounded-box bg-base-100 px-2 py-1 md:grid-cols-4">
           {/* 1. Nickname & Species */}
-          <div aria-label="species" className="form-control rounded-box justify-between">
+          <div aria-label="species" className="form-control justify-between rounded-box">
             {/* Nickname */}
             <NicknameInput />
             {/* Sprite */}
-            <SpriteAvatar />
+            <SpriteAvatar size={128} />
             {/* Species */}
             <SpeciesInput />
           </div>
           {/* 2. Misc */}
           <div aria-label="misc" className="form-control justify-between">
-            {/* Level */}
-            <LevelSetter />
-            {/* Gender */}
-            <GenderPicker />
+            <div className="flex">
+              {/* Level */}
+              <LevelSetter />
+              {/* Gender */}
+              <GenderPicker />
+            </div>
             {/* Shiny & TeraType */}
             <div className="flex">
               <ShinyToggle />

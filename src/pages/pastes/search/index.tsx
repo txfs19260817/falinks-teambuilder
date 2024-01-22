@@ -8,13 +8,13 @@ import toast from 'react-hot-toast';
 import { ItemIcon } from '@/components/icons/ItemIcon';
 import { PokemonIcon } from '@/components/icons/PokemonIcon';
 import { RoundTypeIcon } from '@/components/icons/RoundTypeIcon';
+import { Main } from '@/components/layout/Main';
 import PastesTable from '@/components/pastes/PastesTable';
 import { formatOptionElementsGrouped, FormatSelector } from '@/components/select/FormatSelector';
 import { Select } from '@/components/select/Select';
 import { ValueWithEmojiSelector } from '@/components/select/ValueWithEmojiSelector';
 import DexSingleton from '@/models/DexSingleton';
 import FormatManager from '@/models/FormatManager';
-import { Main } from '@/templates/Main';
 import { defaultStats, getMovesBySpecie, getPokemonTranslationKey, maxEVStats, stats, typesWithEmoji } from '@/utils/PokemonUtils';
 import type { PastesList } from '@/utils/Prisma';
 import type { SearchPasteForm, SearchPastePokemonCriteria } from '@/utils/Types';
@@ -107,7 +107,7 @@ const Search = () => {
                   <div
                     key={field.id}
                     tabIndex={0}
-                    className="collapse-open rounded-box collapse animate-fade-in-down border border-base-300 bg-base-200"
+                    className="collapse collapse-open animate-fade-in-down rounded-box border border-base-300 bg-base-200"
                     onClick={() => setFocusSpIdx(index)}
                   >
                     {/* collapse title */}
@@ -142,7 +142,7 @@ const Search = () => {
                             ariaLabel={`Pokemon Select ${index}`}
                           />
                         </div>
-                        <button className="btn-error btn-sm btn" type="button" onClick={() => remove(index)}>
+                        <button className="btn btn-error btn-sm" type="button" onClick={() => remove(index)}>
                           ✕
                         </button>
                       </div>
@@ -160,7 +160,7 @@ const Search = () => {
                             itemList.map(({ name }) => ({
                               value: name,
                               label: t(getPokemonTranslationKey(name, 'items')),
-                            }))
+                            })),
                           )}
                           onChange={({ value }) => {
                             update(index, { ...field, item: value });
@@ -179,7 +179,7 @@ const Search = () => {
                           <span className="label-text font-bold">{t('common.ability')}</span>
                         </label>
                         <select
-                          className="select-bordered select select-sm w-full"
+                          className="select select-bordered select-sm w-full"
                           value={field.ability}
                           onChange={(e) => update(index, { ...field, ability: e.target.value })}
                           role="listbox"
@@ -197,7 +197,7 @@ const Search = () => {
                           <span className="label-text font-bold">{t('common.teraType')}</span>
                         </label>
                         <ValueWithEmojiSelector
-                          className="select-bordered select select-sm w-full"
+                          className="select select-bordered select-sm w-full"
                           options={typesWithEmoji}
                           emptyOption={t('search.any')}
                           enableEmojis={true}
@@ -257,7 +257,7 @@ const Search = () => {
                               min={0}
                               max={252}
                               placeholder="0"
-                              className="input-bordered input-secondary input input-xs col-span-4"
+                              className="input input-bordered input-secondary input-xs col-span-4"
                               {...register(`speciesCriterion.${index}.minEVs.${stat}` as `speciesCriterion.${number}.minEVs.hp`)}
                             />
                             <span className="text-center">~</span>
@@ -269,7 +269,7 @@ const Search = () => {
                               min={0}
                               max={252}
                               placeholder="252"
-                              className="input-bordered input-primary input input-xs col-span-4"
+                              className="input input-bordered input-primary input-xs col-span-4"
                               {...register(`speciesCriterion.${index}.maxEVs.${stat}` as `speciesCriterion.${number}.maxEVs.hp`)}
                             />
                           </div>
@@ -281,7 +281,7 @@ const Search = () => {
                 {fields.length < 6 && (
                   <button
                     type="button"
-                    className="btn-ghost btn border-2 border-dashed border-base-300 text-2xl"
+                    className="btn btn-ghost border-2 border-dashed border-base-300 text-2xl"
                     onClick={() => append({ ...defaultPokemonCriteria })}
                   >
                     +
@@ -316,7 +316,7 @@ const Search = () => {
               </label>
             </div>
             <div className="form-control mt-6">
-              <button className="btn-primary btn">{t('search.form.submit.button')}</button>
+              <button className="btn btn-primary">{t('search.form.submit.button')}</button>
             </div>
           </form>
         </div>

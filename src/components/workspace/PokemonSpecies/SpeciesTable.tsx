@@ -25,6 +25,7 @@ import useSWR from 'swr';
 
 import { PokemonIcon } from '@/components/icons/PokemonIcon';
 import { TypeIcon } from '@/components/icons/TypeIcon';
+import Loading from '@/components/layout/Loading';
 import Table from '@/components/table';
 import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
 import { PresetsSubComponent } from '@/components/workspace/PokemonSpecies/PresetsSubComponent';
@@ -39,12 +40,17 @@ function SpeciesTable() {
   const { teamState, tabIdx, focusedFieldState, focusedFieldDispatch, globalFilter, setGlobalFilter } = useContext(StoreContext);
 
   // table settings
-  const { data: usages, error } = useSWR<Usage[]>(
-    `/api/usages/format/${teamState.format === 'gen9vgc2023regulationc' ? 'gen9vgc2023series2' : teamState.format}`,
+  const {
+    data: usages,
+    error,
+    isLoading,
+  } = useSWR<Usage[]>(
+    // Hack: use `gen9vgc2023regulatione` instead of `gen9vgc2023regf` as there is no usage data for `gen9vgc2023regf`
+    `/api/usages/format/${teamState.format === 'gen9vgc2023regf' ? 'gen9vgc2023regulatione' : teamState.format}`,
     (u) => fetch(u).then((r) => r.json()),
     {
       fallbackData: [],
-    }
+    },
   );
   const speciesList = useMemo<Specie[]>(() => {
     const speciesDex = DexSingleton.getGenByFormat(teamState.format).species;
@@ -52,26 +58,17 @@ function SpeciesTable() {
       return [...Array.from(speciesDex)];
     }
     // sort by usage
-    let dataSorted = usages.flatMap((u) => speciesDex.get(u.name) || []);
+    const dataSorted = usages.flatMap((u) => speciesDex.get(u.name) || []);
     dataSorted.push(...Array.from(speciesDex).filter((s) => !dataSorted.includes(s)));
-    // hotfix for regulation C, push the 4 quartet to the top
-    if (teamState.format === 'gen9vgc2023regulationc') {
-      const fourQuartetIds = ['tinglu', 'chienpao', 'wochien', 'chiyu'];
-      const fourQuartet = fourQuartetIds.flatMap((id) => speciesDex.get(id) || []);
-      dataSorted = [...fourQuartet, ...dataSorted.filter((s) => !fourQuartet.includes(s))];
-    }
     return dataSorted;
   }, [usages, teamState.format]);
   if (error) {
     toast.error(error);
   }
 
-  const getTranslatedName = ({ num, forme, name }: Pick<Specie, 'num' | 'forme' | 'name'>): string =>
-    locale === 'en' ? name : `${t(num, { ns: 'species' })}${forme ? `-${t(forme, { ns: 'formes' })}` : ''}`;
-
   // a filter that supports searching by translated name
   const i18nFilterFn: FilterFnOption<Specie> = (row, columnId, filterValue) =>
-    getTranslatedName(row.original).includes(filterValue) || row.getValue<string>(columnId).toLowerCase().includes(filterValue.toLowerCase());
+    t(row.original.id, { ns: 'species' }).includes(filterValue) || row.getValue<string>(columnId).toLowerCase().includes(filterValue.toLowerCase());
 
   const columns = useMemo<ColumnDef<Specie>[]>(() => {
     return [
@@ -83,7 +80,7 @@ function SpeciesTable() {
             <button
               type="button"
               title={t('common.preset.showPreset')}
-              className="btn-ghost btn-xs btn cursor-pointer"
+              className="btn btn-ghost btn-xs cursor-pointer"
               onClick={(e) => {
                 e.stopPropagation();
                 // Because `useSWR` is used in `PresetsSubComponent`,
@@ -108,11 +105,11 @@ function SpeciesTable() {
         cell: ({ row }) => (
           <span>
             <PokemonIcon speciesId={row.original.id} />
-            {getTranslatedName(row.original)}
+            {t(getPokemonTranslationKey(row.original.id, 'species'))}
           </span>
         ),
         filterFn: i18nFilterFn,
-        sortingFn: (a, b) => getTranslatedName(a.original).localeCompare(getTranslatedName(b.original)),
+        sortingFn: (a, b) => t(getPokemonTranslationKey(a.original.id, 'species')).localeCompare(t(getPokemonTranslationKey(b.original.id, 'species'))),
       },
       {
         header: t('common.types'),
@@ -232,15 +229,16 @@ function SpeciesTable() {
   });
 
   // a hook that if there is only one row after filtering,
-  // and its translated name is the same as the global filter, then select it
+  // and its translated name is the same as the global filter, then select it, providing a better UX
   useEffect(() => {
     const filteredRows = instance.getFilteredRowModel().rows;
+    // return if there is not only one row
     if (filteredRows.length !== 1) return;
-    // filtered original data
-    const { num, forme, name } = filteredRows[0]!.original;
-    const translatedName = getTranslatedName({ num, forme, name });
+    // return if the result is not the same as the user input
+    const translatedName = locale === 'en' ? filteredRows[0]!.original.name : t(filteredRows[0]!.original.id, { ns: 'species' });
     if (translatedName !== globalFilter) return;
-    teamState.updatePokemonInTeam(tabIdx, 'species', name);
+    // update the team with the auto selected pokemon
+    teamState.updatePokemonInTeam(tabIdx, 'species', filteredRows[0]!.original.name);
   }, [globalFilter]);
 
   // handle table events
@@ -253,7 +251,11 @@ function SpeciesTable() {
   };
 
   // table render
-  return <Table<Specie> instance={instance} handleRowClick={handleRowClick} enablePagination={true} renderSubComponent={PresetsSubComponent} />;
+  return isLoading ? (
+    <Loading />
+  ) : (
+    <Table<Specie> instance={instance} handleRowClick={handleRowClick} enablePagination={true} renderSubComponent={PresetsSubComponent} />
+  );
 }
 
 export default SpeciesTable;

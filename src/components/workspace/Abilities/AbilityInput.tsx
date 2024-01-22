@@ -30,12 +30,12 @@ function AbilityInput() {
   };
 
   return (
-    <label className="input-group-xs input-group input-group-vertical md:input-group-md">
-      <span>{t('common.ability')}</span>
+    <label className="join join-vertical">
+      <span className="text-sm">{t('common.ability')}</span>
       <input
         type="search"
         placeholder={t('common.ability')}
-        className={`input-primary input input-sm md:input-md ${
+        className={`input input-primary input-sm md:input-md ${
           compareFocusedFieldToIdx(focusedFieldState, thisFocusedFieldState) ? 'outline outline-2 outline-offset-2 outline-primary' : ''
         }`}
         value={ability}

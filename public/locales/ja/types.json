@@ -1,1 +1,21 @@
-{"normal":"ノーマル","fighting":"かくとう","flying":"ひこう","poison":"どく","ground":"じめん","rock":"いわ","bug":"むし","ghost":"ゴースト","steel":"はがね","fire":"ほのお","water":"みず","grass":"くさ","electric":"でんき","psychic":"エスパー","ice":"こおり","dragon":"ドラゴン","dark":"あく","fairy":"フェアリー"}
+{
+  "bug": "むし",
+  "dark": "あく",
+  "dragon": "ドラゴン",
+  "electric": "でんき",
+  "fairy": "フェアリー",
+  "fighting": "かくとう",
+  "fire": "ほのお",
+  "flying": "ひこう",
+  "ghost": "ゴースト",
+  "grass": "くさ",
+  "ground": "じめん",
+  "ice": "こおり",
+  "normal": "ノーマル",
+  "poison": "どく",
+  "psychic": "エスパー",
+  "rock": "いわ",
+  "steel": "はがね",
+  "stellar": "ステラ",
+  "water": "みず"
+}

@@ -60,7 +60,7 @@ export class Pokemon implements PokemonSet {
     gigantamax?: boolean,
     teraType?: string,
     happiness?: number,
-    shiny?: boolean
+    shiny?: boolean,
   ) {
     this.id = `${S4()}${S4()}`;
     this.species = species;
@@ -107,7 +107,7 @@ export class Pokemon implements PokemonSet {
   }
 
   static getTeamTypeChart = (
-    team: Pokemon[]
+    team: Pokemon[],
   ): {
     offenseMap: Type2EffectivenessMap<TypeEffectiveness>;
     defenseMap: Type2EffectivenessMap;
@@ -150,7 +150,7 @@ export class Pokemon implements PokemonSet {
           2: [],
           4: [],
         },
-      ])
+      ]),
     );
 
     // key: TypeName, value: extended damage multiplier to species ID
@@ -165,7 +165,7 @@ export class Pokemon implements PokemonSet {
           2: [],
           4: [],
         },
-      ])
+      ]),
     );
 
     // key: TypeName, value: damage multiplier to move ID
@@ -178,7 +178,7 @@ export class Pokemon implements PokemonSet {
           1: [],
           2: [],
         },
-      ])
+      ]),
     );
 
     // Build the defense map & defense tera map
@@ -248,7 +248,7 @@ export class Pokemon implements PokemonSet {
             author: string;
             paste: string;
             notes: string;
-          }>
+          }>,
       )
       .then((res) => ({
         ...res,
@@ -266,8 +266,8 @@ export class Pokemon implements PokemonSet {
     let buf = '';
 
     // Species
-    const { num, name } = data.species.get(s.species || s.name || '');
-    const species = t(`${num}`, {
+    const { id, name } = data.species.get(s.species || s.name || '');
+    const species = t(`${id}`, {
       ns: 'species',
       defaultValue: name,
     });
@@ -368,7 +368,7 @@ export class Pokemon implements PokemonSet {
   static convertPasteToTeam(s: string): Pokemon[] | undefined {
     return Team.import(s)?.team.map(
       (p) =>
-        new Pokemon(p.species!, p.name, p.item, p.ability, p.moves, p.nature, p.evs, p.gender, p.ivs, p.level, p.gigantamax, p.teraType, p.happiness, p.shiny)
+        new Pokemon(p.species!, p.name, p.item, p.ability, p.moves, p.nature, p.evs, p.gender, p.ivs, p.level, p.gigantamax, p.teraType, p.happiness, p.shiny),
     );
   }
 

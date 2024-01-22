@@ -7,56 +7,43 @@ import { AppConfig } from '@/utils/AppConfig';
 type IMetaProps = {
   title: string;
   description: string;
-  canonical?: string;
 };
 
-const Meta = (props: IMetaProps) => {
-  const { basePath, locale } = useRouter();
-
+const Meta = ({ title, description }: IMetaProps) => {
+  const { basePath } = useRouter();
   return (
     <>
       <Head>
         <meta charSet="UTF-8" key="charset" />
         <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, user-scalable=no, viewport-fit=cover" />
-        <meta name="application-name" content={AppConfig.site_name} />
-        <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-        <meta name="apple-mobile-web-app-title" content={AppConfig.site_name} />
-        <meta name="description" content={AppConfig.description} />
-        <meta name="format-detection" content="telephone=no" />
-        <meta name="mobile-web-app-capable" content="yes" />
-        <meta name="theme-color" content={AppConfig.themeColor} />
-        <meta name="google-site-verification" content="4zAL7ELcuwsgjP3ZQGRztOrVwu0fBFaa7eVohcc2J2Y" />
-        <link rel="icon" href={`${basePath}/favicon.ico`} key="favicon" />
-        <link rel="icon" type="image/png" sizes="16x16" href={`${basePath}/favicon-16x16.png`} key="icon16" />
-        <link rel="icon" type="image/png" sizes="32x32" href={`${basePath}/favicon-32x32.png`} key="icon32" />
-        <link rel="apple-touch-icon" href={`${basePath}/apple-touch-icon.png`} key="apple" />
-        <link rel="shortcut icon" href={`${basePath}/favicon.ico`} key="favicon" />
-        <link rel="mask-icon" href={`${basePath}/safari-pinned-tab.svg`} color="#5bbad5" />
-        <link rel="manifest" href={`${basePath}/manifest.json`} />
-        <title>{props.title}</title>
       </Head>
       <NextSeo
-        title={props.title}
-        description={props.description}
+        title={title}
+        titleTemplate={`%s | ${AppConfig.site_name}`}
+        defaultTitle={AppConfig.site_name}
+        themeColor={AppConfig.themeColor}
+        description={description}
         canonical={AppConfig.canonical}
+        languageAlternates={AppConfig.locales.map((locale) => ({
+          hrefLang: locale,
+          href: `${AppConfig.canonical}${locale === AppConfig.defaultLocale ? '' : `/${locale}`}`,
+        }))}
         openGraph={{
-          title: props.title,
-          description: props.description,
-          url: props.canonical,
-          locale: locale || AppConfig.defaultLocale,
+          title,
+          description,
+          url: AppConfig.canonical,
           images: [
             {
-              url: `${AppConfig.canonical}/assets/images/hero.jpg`,
+              url: `${basePath}/assets/images/hero.jpg`,
               width: 1200,
               height: 628,
-              alt: AppConfig.site_name,
+              alt: title,
             },
             {
-              url: `${basePath}/apple-touch-icon.png`,
+              url: `${basePath}/icons/apple-touch-icon.png`,
               width: 180,
               height: 180,
-              alt: AppConfig.site_name,
+              alt: title,
             },
           ],
           site_name: AppConfig.site_name,
@@ -65,6 +52,47 @@ const Meta = (props: IMetaProps) => {
           handle: '@dora_865',
           cardType: 'summary_large_image',
         }}
+        additionalLinkTags={[
+          {
+            rel: 'icon',
+            href: `${basePath}/icons/favicon.ico`,
+          },
+          {
+            rel: 'apple-touch-icon',
+            href: `${basePath}/icons/apple-touch-icon.png`,
+            sizes: '180x180',
+          },
+          {
+            rel: 'mask-icon',
+            href: `${basePath}/icons/safari-pinned-tab.svg`,
+            color: AppConfig.themeColor,
+          },
+          {
+            rel: 'icon',
+            href: `${basePath}/icons/favicon-32x32.png`,
+            sizes: '32x32',
+          },
+          {
+            rel: 'icon',
+            href: `${basePath}/icons/favicon-16x16.png`,
+            sizes: '16x16',
+          },
+          {
+            rel: 'icon',
+            href: `${basePath}/icons/android-chrome-192x192.png`,
+            sizes: '192x192',
+          },
+          {
+            rel: 'icon',
+            href: `${basePath}/icons/android-chrome-384x384.png`,
+            sizes: '384x384',
+          },
+          {
+            rel: 'icon',
+            href: `${basePath}/icons/android-chrome-512x512.png`,
+            sizes: '512x512',
+          },
+        ]}
       />
     </>
   );

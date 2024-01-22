@@ -43,7 +43,7 @@ const UsagePanels = ({ pokeUsage }: { pokeUsage: Usage }) => {
         category="moves"
         usages={pokeUsage.Moves as Record<string, number>}
         nameGetter={(k) => DexSingleton.getGen().moves.get(k)?.name ?? k}
-        iconGetter={(k) => <RoundTypeIcon typeName={DexSingleton.getGen().moves.get(k)?.type ?? '???'} />}
+        iconGetter={(k) => <RoundTypeIcon isRound={true} typeName={DexSingleton.getGen().moves.get(k)?.type ?? '???'} />}
       />
       {/* Teammates table */}
       <BaseTable
@@ -69,9 +69,60 @@ const UsagePanels = ({ pokeUsage }: { pokeUsage: Usage }) => {
   );
 };
 
+const MobileNavbar = ({ title, drawerID }: { title: string; drawerID: string }) => {
+  return (
+    <nav className="navbar w-full rounded-box shadow-2xl lg:hidden">
+      <div className="flex-none">
+        <label htmlFor={drawerID} className="btn btn-square btn-ghost">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="inline-block h-6 w-6 stroke-current">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+        </label>
+      </div>
+      <div className="mx-2 flex-1 px-2">{title}</div>
+    </nav>
+  );
+};
+
+const DrawerSidebar = ({
+  usages,
+  drawerID,
+  setSelectedRank,
+  formatIdOptions,
+  formatId,
+  formatManager,
+}: {
+  usages: Usage[];
+  drawerID: string;
+  setSelectedRank: (rank: number) => void;
+  formatIdOptions?: string[];
+  formatId: string;
+  formatManager: FormatManager;
+}) => {
+  const { push, pathname } = useRouter();
+
+  return (
+    <div className="drawer-side h-full">
+      <label htmlFor={drawerID} className="drawer-overlay"></label>
+      <ul className="menu w-80 gap-y-2 rounded-r-box border border-base-content/30 bg-base-200 p-4">
+        {(formatIdOptions?.length ?? 0) > 0 && (
+          <FormatSelector
+            className="select select-bordered select-sm w-64 overflow-ellipsis"
+            defaultFormat={formatId}
+            onChange={(e) => {
+              push({ pathname, query: { format: e.target.value } }).then(() => setSelectedRank(0));
+            }}
+            options={formatOptionElements(formatIdOptions?.map(formatManager.getFormatById).filter((f) => f !== undefined) as Format[])}
+          />
+        )}
+        <PokemonFilter usages={usages} drawerID={drawerID} setSelectedRank={setSelectedRank} />
+      </ul>
+    </div>
+  );
+};
+
 const UsageLayout = ({ usages, title, formatId, formatIdOptions }: UsagePageProps) => {
   const drawerID = useId();
-  const { push, pathname } = useRouter();
   const { t } = useTranslation(['common']);
   const [selectedRank, setSelectedRank] = useState<number>(usages?.at(0)?.rank ?? 0);
   const pokeUsage = useMemo<Usage | undefined>(() => {
@@ -81,40 +132,22 @@ const UsageLayout = ({ usages, title, formatId, formatIdOptions }: UsagePageProp
 
   // Desktop: show drawer w/o Navbar; Mobile: show Navbar w/ a drawer button
   return (
-    <div className="drawer-mobile drawer h-main">
+    <div className="drawer h-main lg:drawer-open">
       <input id={drawerID} type="checkbox" className="drawer-toggle" />
       <div className="drawer-content flex flex-col bg-base-300">
-        {/* nav that only shows on mobile */}
-        <nav className="navbar rounded-box w-full shadow-2xl lg:hidden">
-          <div className="flex-none">
-            <label htmlFor={drawerID} className="btn-ghost btn-square btn">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="inline-block h-6 w-6 stroke-current">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path>
-              </svg>
-            </label>
-          </div>
-          <div className="mx-2 flex-1 px-2">{title || `${t('common.usage')} - ${formatId}`}</div>
-        </nav>
+        <MobileNavbar drawerID={drawerID} title={title || `${t('common.usage')} - ${formatId}`}></MobileNavbar>
         {/* Main Content */}
         {pokeUsage && <UsagePanels pokeUsage={pokeUsage} />}
       </div>
       {/* Drawer side */}
-      <div className="drawer-side">
-        <label htmlFor={drawerID} className="drawer-overlay"></label>
-        <ul className="menu rounded-r-box w-80 gap-y-2 border border-base-content/30 bg-base-200 p-4">
-          {(formatIdOptions?.length ?? 0) > 0 && (
-            <FormatSelector
-              className="select-bordered select select-sm w-64 overflow-ellipsis"
-              defaultFormat={formatId}
-              onChange={(e) => {
-                push({ pathname, query: { format: e.target.value } }).then(() => setSelectedRank(0));
-              }}
-              options={formatOptionElements(formatIdOptions?.map(formatManager.getFormatById).filter((f) => f !== undefined) as Format[])}
-            />
-          )}
-          <PokemonFilter usages={usages} drawerID={drawerID} setSelectedRank={setSelectedRank} />
-        </ul>
-      </div>
+      <DrawerSidebar
+        usages={usages}
+        drawerID={drawerID}
+        setSelectedRank={setSelectedRank}
+        formatIdOptions={formatIdOptions}
+        formatId={formatId}
+        formatManager={formatManager}
+      />
     </div>
   );
 };

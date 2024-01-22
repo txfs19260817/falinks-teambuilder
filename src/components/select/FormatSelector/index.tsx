@@ -39,7 +39,7 @@ export const FormatInputGroupSelector = ({
   onChange,
   options,
   className = 'select-bordered select select-sm w-64 overflow-ellipsis',
-  inputGroupClassName = 'input-group-xs input-group',
+  inputGroupClassName = 'join',
 }: FormatSelectorProps & { inputGroupClassName?: string }) => {
   const { t } = useTranslation(['common']);
   return (

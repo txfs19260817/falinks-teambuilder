@@ -3,10 +3,10 @@ import { useRouter } from 'next/router';
 import { SSRConfig, useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
+import { Main } from '@/components/layout/Main';
 import PastesTable from '@/components/pastes/PastesTable';
 import { FormatInputGroupSelector, formatOptionElements } from '@/components/select/FormatSelector';
 import FormatManager from '@/models/FormatManager';
-import { Main } from '@/templates/Main';
 import { AppConfig } from '@/utils/AppConfig';
 import type { PastesList } from '@/utils/Prisma';
 import { listPastes } from '@/utils/Prisma';
@@ -14,6 +14,7 @@ import type { Format } from '@/utils/Types';
 
 const vgcFormats: Format[] = new FormatManager().vgcFormats.filter((f) => f.gen === 9);
 
+// eslint-disable-next-line no-use-before-define
 const VGCPastes = ({ format, pastes }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const { push } = useRouter();
   const { t } = useTranslation(['common']);
@@ -47,7 +48,7 @@ export const getStaticPaths: GetStaticPaths = async (context) => {
       vgcFormats.map((format) => ({
         params: { format: format.id },
         locale,
-      }))
+      })),
     ) ?? vgcFormats.map((format) => ({ params: { format: format.id } }));
 
   return {

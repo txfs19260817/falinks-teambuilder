@@ -7,10 +7,10 @@ import { useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { PokemonIcon } from '@/components/icons/PokemonIcon';
+import { Main } from '@/components/layout/Main';
 import type { WorkspaceProps } from '@/components/workspace';
 import FormatManager from '@/models/FormatManager';
 import { supportedProtocols } from '@/providers';
-import { Main } from '@/templates/Main';
 import { AppConfig } from '@/utils/AppConfig';
 import { S4 } from '@/utils/Helpers';
 import { getRandomTrainerName, isValidPokePasteURL } from '@/utils/PokemonUtils';
@@ -94,7 +94,7 @@ const RoomForm = () => {
             placeholder={t('home.form.author.placeholder')}
             required={true}
             maxLength={18}
-            className="input-bordered input w-full rounded-r-none text-base-content placeholder:text-base-content/50"
+            className="input input-bordered w-full rounded-r-none text-base-content placeholder:text-base-content/50"
             {...register('userName', { required: true })}
           />
           <button
@@ -124,7 +124,7 @@ const RoomForm = () => {
           aria-label="PokePaste URL"
           placeholder="https://pokepast.es/a00ca5bc26cda7e9"
           maxLength={72}
-          className="input-bordered input text-base-content placeholder:text-base-content/50"
+          className="input input-bordered text-base-content placeholder:text-base-content/50"
           {...register('pokePasteUrl')}
         />
         <p className="text-xs text-base-content/50">{t('home.form.pokepaste.description')}</p>
@@ -142,7 +142,7 @@ const RoomForm = () => {
           placeholder={t('home.form.room.placeholder')}
           required={true}
           maxLength={50}
-          className="input-bordered input text-base-content placeholder:text-base-content/50"
+          className="input input-bordered text-base-content placeholder:text-base-content/50"
           {...register('roomName', { required: true })}
         />
         <p className="text-xs text-base-content/50">{t('home.form.room.description')}</p>
@@ -156,7 +156,7 @@ const RoomForm = () => {
           id={'format'}
           aria-label="Format"
           required={true}
-          className="select-bordered select text-base-content placeholder:text-base-content/50"
+          className="select select-bordered text-base-content placeholder:text-base-content/50"
           {...register('format', { required: true })}
         >
           {formatOptions}
@@ -190,7 +190,7 @@ const RoomForm = () => {
         <p className="text-xs text-base-content/50">{t('home.form.protocol.description')}</p>
       </div>
       <div className="form-control">
-        <button className="btn-primary btn" role={'button'} aria-label={'Create Room Submit Button'}>
+        <button className="btn btn-primary" role={'button'} aria-label={'Create Room Submit Button'}>
           {t('home.form.submit')}
         </button>
       </div>
@@ -217,9 +217,9 @@ const RoomHistory = () => {
             .then((v) => ({
               [name]: JSON.parse(v[0]),
             }))
-            .catch(() => undefined)
-        )
-      )
+            .catch(() => undefined),
+        ),
+      ),
     ).then((arr) => {
       setRoomHistory(arr.filter((v) => v != null) as Record<string, IndexedDBTeam>[]);
     });
@@ -268,16 +268,12 @@ const RoomHistory = () => {
               <button
                 role="link"
                 aria-label={`Room ${key} link`}
-                className="no-animation btn flex-1 text-xs normal-case"
+                className="btn no-animation flex-1 text-xs normal-case"
                 onClick={() => router.push(`/room/${key}`)}
               >
                 <div className="flex flex-col justify-between">
                   <span className="whitespace-nowrap">{`[${room?.format}] ${key}`}</span>
-                  <span>
-                    {room?.species.map((s, i) => (
-                      <PokemonIcon speciesId={s} key={i} />
-                    ))}
-                  </span>
+                  <span>{room?.species.map((s, i) => <PokemonIcon speciesId={s} key={i} />)}</span>
                 </div>
               </button>
               {/* Delete Button */}
@@ -285,7 +281,7 @@ const RoomHistory = () => {
                 role="button"
                 aria-label={`Delete ${key} room`}
                 title={t('home.history.delete', { defaultValue: 'Delete' })}
-                className="btn-error btn-sm btn flex-shrink-0"
+                className="btn btn-error btn-sm flex-shrink-0"
                 onClick={() => {
                   handleDeleteRoom(key);
                 }}
@@ -302,7 +298,7 @@ const RoomHistory = () => {
           role="button"
           aria-label="Clear History"
           title={t('home.history.clear', { defaultValue: 'Clear History' })}
-          className="btn-primary btn-sm btn"
+          className="btn btn-primary btn-sm"
           onClick={handleClearHistory}
         >
           {t('home.history.clear', { defaultValue: 'Clear History' })}
@@ -348,15 +344,9 @@ const Index = () => {
 
           {/* Room Panel */}
           <div className="w-full max-w-xs flex-shrink-0 sm:max-w-sm md:max-w-md">
-            <div className="tabs" role="tablist">
+            <div role="tablist" className="tabs tabs-lifted">
               {tabs.map((tabName) => (
-                <a
-                  role="tab"
-                  aria-label={`Tab ${tabName}`}
-                  key={tabName}
-                  onClick={() => setTab(tabName)}
-                  className={`tab-lifted tab tab-lg ${tab === tabName ? 'tab-active' : 'bg-base-100'} capitalize`}
-                >
+                <a role="tab" key={tabName} onClick={() => setTab(tabName)} className={`tab ${tab === tabName ? 'tab-active' : 'bg-base-100'} capitalize`}>
                   {t(`home.tabs.${tabName}`, {
                     defaultValue: tabName.toUpperCase(),
                   })}

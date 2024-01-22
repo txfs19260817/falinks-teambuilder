@@ -1,1 +1,21 @@
-{"normal":"Normal","fighting":"Kampf","flying":"Flug","poison":"Gift","ground":"Boden","rock":"Gestein","bug":"Käfer","ghost":"Geist","steel":"Stahl","fire":"Feuer","water":"Wasser","grass":"Pflanze","electric":"Elektro","psychic":"Psycho","ice":"Eis","dragon":"Drache","dark":"Unlicht","fairy":"Fee"}
+{
+  "bug": "Käfer",
+  "dark": "Unlicht",
+  "dragon": "Drache",
+  "electric": "Elektro",
+  "fairy": "Fee",
+  "fighting": "Kampf",
+  "fire": "Feuer",
+  "flying": "Flug",
+  "ghost": "Geist",
+  "grass": "Pflanze",
+  "ground": "Boden",
+  "ice": "Eis",
+  "normal": "Normal",
+  "poison": "Gift",
+  "psychic": "Psycho",
+  "rock": "Gestein",
+  "steel": "Stahl",
+  "stellar": "Stellar",
+  "water": "Wasser"
+}

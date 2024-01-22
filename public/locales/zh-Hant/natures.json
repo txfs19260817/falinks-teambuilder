@@ -1,1 +1,27 @@
-{"hardy":"勤奮","lonely":"怕寂寞","brave":"勇敢","adamant":"固執","naughty":"頑皮","bold":"大膽","docile":"坦率","relaxed":"悠閑","impish":"淘氣","lax":"樂天","timid":"膽小","hasty":"急躁","serious":"認真","jolly":"爽朗","naive":"天真","modest":"內斂","mild":"慢吞吞","quiet":"冷靜","bashful":"害羞","rash":"馬虎","calm":"溫和","gentle":"溫順","sassy":"自大","careful":"慎重","quirky":"浮躁"}
+{
+  "adamant": "固執",
+  "bashful": "害羞",
+  "bold": "大膽",
+  "brave": "勇敢",
+  "calm": "溫和",
+  "careful": "慎重",
+  "docile": "坦率",
+  "gentle": "溫順",
+  "hardy": "勤奮",
+  "hasty": "急躁",
+  "impish": "淘氣",
+  "jolly": "爽朗",
+  "lax": "樂天",
+  "lonely": "怕寂寞",
+  "mild": "慢吞吞",
+  "modest": "內斂",
+  "naive": "天真",
+  "naughty": "頑皮",
+  "quiet": "冷靜",
+  "quirky": "浮躁",
+  "rash": "馬虎",
+  "relaxed": "悠閒",
+  "sassy": "自大",
+  "serious": "認真",
+  "timid": "膽小"
+}

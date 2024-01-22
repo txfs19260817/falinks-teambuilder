@@ -15,8 +15,8 @@ function TeraTypeSelect() {
     { label: `(${t('common.auto')})`, value: defaultTeraTypeValue }, // auto
     ...typesWithEmoji
       .filter(({ value }) => value !== '???') // remove ??? type
-      .map(({ value }) => ({
-        label: t(value.toLowerCase(), { ns: 'types' }),
+      .map(({ value, emoji }) => ({
+        label: emoji + t(value.toLowerCase(), { ns: 'types' }),
         value,
       })),
   ];
@@ -35,9 +35,9 @@ function TeraTypeSelect() {
   };
 
   return (
-    <div className="md:text-md flex inline-flex space-x-0.5 text-xs">
+    <div className="inline-flex space-x-0.5 text-sm">
       <label>{t('common.teraType')}</label>
-      <select className="select-bordered select-primary select select-xs" onChange={handleChange} value={teraType}>
+      <select className="select select-bordered select-primary select-xs" onChange={handleChange} value={teraType}>
         {teraTypeOptions.map(({ label, value }) => (
           <option key={label} value={value}>
             {label}

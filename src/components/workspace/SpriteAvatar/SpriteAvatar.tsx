@@ -10,13 +10,14 @@ import { getGenNumberFromFormat } from '@/utils/PokemonUtils';
 type SpriteAvatarProps = {
   idx?: number; // index in `teamState.team`
   pokemon?: Pokemon;
+  size?: number;
 };
 
-function SpriteAvatar({ idx, pokemon }: SpriteAvatarProps) {
+function SpriteAvatar({ idx, pokemon, size }: SpriteAvatarProps) {
   const { teamState, tabIdx } = useContext(StoreContext);
   const { species, shiny } = pokemon ?? teamState.getPokemonInTeam(idx ?? tabIdx) ?? {};
   const genNum = (getGenNumberFromFormat(teamState.format) ?? AppConfig.defaultGen) as GenerationNum;
-  return <PureSpriteAvatar speciesId={species} shiny={shiny} gen={genNum} />;
+  return <PureSpriteAvatar speciesId={species} shiny={shiny} gen={genNum} size={size} />;
 }
 
 export default SpriteAvatar;

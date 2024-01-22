@@ -35,12 +35,12 @@ function SpeciesInput() {
   };
 
   return (
-    <label className="input-group-xs input-group input-group-vertical">
-      <span>{t('common.pokemon')}</span>
+    <label className="join join-vertical gap-0.5">
+      <span className="text-sm">{t('common.pokemon')}</span>
       <input
         type="search"
         placeholder={t('common.pokemon')}
-        className={`input-primary input input-sm md:input-md ${
+        className={`input input-primary input-sm md:input-md ${
           compareFocusedFieldToIdx(focusedFieldState, thisFocusedFieldState) ? 'outline outline-2 outline-offset-2 outline-primary' : ''
         }`}
         value={species}

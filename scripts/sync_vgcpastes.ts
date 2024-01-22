@@ -44,6 +44,8 @@ const format2gid = {
   // gen9vgc2023series2: '1081470482',
   gen9vgc2023regulationc: '1919079665',
   gen9vgc2023regulationd: '1228519048',
+  gen9vgc2023regulatione: '330467775',
+  gen9vgc2023regf: '473622357',
 };
 
 // GitHub Gists that store the usage data
@@ -52,6 +54,8 @@ const format2gistid = {
   gen9vgc2023series2: '67ca12acee3728da83c8ce6419e2d1b2',
   gen9vgc2023regulationc: 'f952b9a9012cb1b375772a106b40b26f',
   gen9vgc2023regulationd: 'd19939b8c6ec893559c2a3251276dbc6',
+  gen9vgc2023regulatione: 'f8c0acae8e7f88b8dc7b5ecce68a8c7e',
+  gen9vgc2023regf: 'd4f1e76b20ff9fe4d72c8cb3e52b3ade',
 };
 
 /**
@@ -119,7 +123,7 @@ async function extractFromGoogleSheet(format: keyof typeof format2gid): Promise<
       row.length === keys.length && // all columns are present
       !row.some((val) => val.startsWith('No Data')) && // no "No Data" values
       row.at(keys.indexOf('Pokepaste'))?.startsWith('https://pokepast.es/') && // Pokepaste link is valid
-      Number.isInteger(+(row.at(keys.indexOf('Internal Team ID'))?.slice(1) ?? Number.NaN)) // Internal Team ID is an integer (drop the first character 'C')
+      Number.isInteger(+(row.at(keys.indexOf('Internal Team ID'))?.slice(1) ?? Number.NaN)), // Internal Team ID is an integer (drop the first character 'C')
   );
   const objs = values.map((row: string[]) => row.reduce((acc, val, i) => ({ ...acc, [keys[i]!]: val }), {})) as Row[];
   // update 'Internal Team ID' to be the integer value
@@ -150,10 +154,10 @@ async function extractFromGoogleSheet(format: keyof typeof format2gid): Promise<
       const source = (obj['Input Tweet'] || '').startsWith('http')
         ? obj['Input Tweet']
         : obj['Secondary Link'].startsWith('http')
-        ? obj['Secondary Link']
-        : obj['Other Links'].startsWith('http')
-        ? obj['Other Links']
-        : null;
+          ? obj['Secondary Link']
+          : obj['Other Links'].startsWith('http')
+            ? obj['Other Links']
+            : null;
       // fetch the paste
       const paste = await fetch(`${obj.Pokepaste}/json`)
         .then((r) => r.json())
@@ -176,7 +180,7 @@ async function extractFromGoogleSheet(format: keyof typeof format2gid): Promise<
         rentalCode,
         jsonPaste,
       };
-    })
+    }),
   );
 
   // remove data without a valid paste

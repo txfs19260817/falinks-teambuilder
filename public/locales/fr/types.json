@@ -1,1 +1,21 @@
-{"normal":"Normal","fighting":"Combat","flying":"Vol","poison":"Poison","ground":"Sol","rock":"Roche","bug":"Insecte","ghost":"Spectre","steel":"Acier","fire":"Feu","water":"Eau","grass":"Plante","electric":"Électrik","psychic":"Psy","ice":"Glace","dragon":"Dragon","dark":"Ténèbres","fairy":"Fée"}
+{
+  "bug": "Insecte",
+  "dark": "Ténèbres",
+  "dragon": "Dragon",
+  "electric": "Électrik",
+  "fairy": "Fée",
+  "fighting": "Combat",
+  "fire": "Feu",
+  "flying": "Vol",
+  "ghost": "Spectre",
+  "grass": "Plante",
+  "ground": "Sol",
+  "ice": "Glace",
+  "normal": "Normal",
+  "poison": "Poison",
+  "psychic": "Psy",
+  "rock": "Roche",
+  "steel": "Acier",
+  "stellar": "Stellaire",
+  "water": "Eau"
+}

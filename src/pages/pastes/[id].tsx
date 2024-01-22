@@ -3,18 +3,19 @@ import { SSRConfig } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { SWRConfig } from 'swr';
 
+import { Main } from '@/components/layout/Main';
 import PasteLayout from '@/components/pastes/PasteLayout';
 import DexSingleton from '@/models/DexSingleton';
 import FormatManager from '@/models/FormatManager';
 import { Pokemon } from '@/models/Pokemon';
-import { Main } from '@/templates/Main';
 import { AppConfig } from '@/utils/AppConfig';
 import { getPaste, listPastesIDs } from '@/utils/Prisma';
 
+// eslint-disable-next-line no-use-before-define
 export default function Page({ fallback, id, title }: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
     <SWRConfig value={{ fallback }}>
-      <Main title={`Paste - ${title}`} description={`Paste - ${title}`}>
+      <Main title={title} description={`Paste - ${title}`}>
         <PasteLayout id={id} />
       </Main>
     </SWRConfig>
@@ -51,10 +52,6 @@ export const getStaticProps: GetStaticProps<{ id: string; title: string; fallbac
         Object.entries(namespaces).map(([namespace, translations]) => {
           // namespaces to be trimmed: 'moves', 'species', 'items', 'abilities', 'natures'
           switch (namespace) {
-            case 'species': {
-              const speciesNums = team.map((p) => (dex.species.get(p.species)?.num ?? 0).toString());
-              return [namespace, Object.fromEntries(Object.entries(translations).filter(([key]) => speciesNums.includes(key)))];
-            }
             case 'moves': {
               const moveIDs = team.flatMap((p) => p.moves).map((m) => dex.moves.get(m)?.id ?? '') as string[];
               return [namespace, Object.fromEntries(Object.entries(translations).filter(([key]) => moveIDs.includes(key)))];
@@ -74,9 +71,9 @@ export const getStaticProps: GetStaticProps<{ id: string; title: string; fallbac
             default:
               return [namespace, translations];
           }
-        })
+        }),
       ),
-    ])
+    ]),
   );
 
   return {
@@ -104,7 +101,7 @@ export const getStaticPaths: GetStaticPaths = async (context) => {
       ids.map((id) => ({
         params: { id },
         locale,
-      }))
+      })),
     ) ?? ids.map((id) => ({ params: { id } }));
 
   return {

@@ -7,9 +7,9 @@ import useSWR from 'swr';
 
 import { CategoryIcon } from '@/components/icons/CategoryIcon';
 import { TypeIcon } from '@/components/icons/TypeIcon';
+import Loading from '@/components/layout/Loading';
 import Table from '@/components/table';
 import { StoreContext } from '@/components/workspace/Contexts/StoreContext';
-import Loading from '@/templates/Loading';
 import { getMovesBySpecie } from '@/utils/PokemonUtils';
 
 function MovesTable({ moveIdx }: { moveIdx: number }) {
@@ -18,7 +18,7 @@ function MovesTable({ moveIdx }: { moveIdx: number }) {
 
   // get all moves that learnable by the Pokémon
   const { species } = teamState.getPokemonInTeam(tabIdx) ?? {};
-  const { data: learnableMoves } = useSWR<Move[]>(species, (k) => getMovesBySpecie(k, false, teamState.format));
+  const { data: learnableMoves } = useSWR<Move[]>(species, (k: string) => getMovesBySpecie(k, false, teamState.format));
   // fetch popular moves by this Pokémon
   const { data: popularMoveNames } = useSWR<string[]>( // move names
     species ? `/api/usages/stats/${species}?format=${teamState.format}&gen=${formatManager.getFormatById(teamState.format)?.gen}&moves=true` : null, // ?moves=true doesn't work in the API, only used as a cache buster for SWR.
@@ -30,9 +30,9 @@ function MovesTable({ moveIdx }: { moveIdx: number }) {
           .then((d: DisplayUsageStatistics) =>
             Object.entries(d?.moves ?? {})
               .sort((a, b) => b[1] - a[1])
-              .map(([k, _]) => k)
+              .map(([k, _]) => k),
           ),
-    }
+    },
   );
 
   // move popular moves to the top
@@ -117,7 +117,7 @@ function MovesTable({ moveIdx }: { moveIdx: number }) {
         enableSorting: false,
       },
     ],
-    []
+    [],
   );
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 

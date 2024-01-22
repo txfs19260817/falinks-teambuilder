@@ -109,7 +109,7 @@ export function TeamTypeChart<T extends ExtendedTypeEffectiveness | TypeEffectiv
   const { t } = useTranslation(['common', 'types']);
   const multipliers = (direction === 'offense' ? Array.from([0, 0.5, 1, 2]) : Array.from([0, 0.25, 0.5, 1, 2, 4])) as Array<T>;
   return (
-    <table className="table-compact table">
+    <table className="table table-xs">
       <thead>
         <tr>
           <th>{t('common.type', { defaultValue: 'Type' })}</th>

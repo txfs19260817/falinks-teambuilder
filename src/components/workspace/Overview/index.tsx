@@ -17,7 +17,7 @@ export function OverviewTabBtn() {
     <button
       role="tab"
       aria-label={t('common.overview')}
-      className={`tab tab-lifted tab-md md:tab-lg ${tabIdx === -1 ? 'tab-active' : 'bg-info text-info-content'}`}
+      className={`tab ${tabIdx === -1 ? 'tab-active' : 'bg-info text-info-content'}`}
       onClick={() => setTabIdx(-1)}
     >
       {t('common.overview')}
@@ -35,7 +35,7 @@ function Overview() {
   return (
     <div className="mockup-window border bg-base-300">
       <TeamMetaSetters />
-      <div className="tabs tabs-boxed">
+      <div className="tabs-boxed tabs">
         {tabs.map((tab) => (
           <a role="tab" aria-label={tab} key={tab} className={`tab ${currentTab === tab ? 'tab-active' : ''}`} onClick={() => setCurrentTab(tab)}>
             {t(tab.toLowerCase(), { ns: 'common' })}

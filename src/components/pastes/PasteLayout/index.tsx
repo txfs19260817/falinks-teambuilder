@@ -1,4 +1,3 @@
-import { replay } from '@prisma/client';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
@@ -8,8 +7,8 @@ import useSWRImmutable from 'swr/immutable';
 
 import { PokemonIcon } from '@/components/icons/PokemonIcon';
 import { PureSpriteAvatar } from '@/components/icons/PureSpriteAvatar';
+import Loading from '@/components/layout/Loading';
 import { Pokemon } from '@/models/Pokemon';
-import Loading from '@/templates/Loading';
 import { S4, urlPattern } from '@/utils/Helpers';
 import { Paste } from '@/utils/Prisma';
 
@@ -17,14 +16,9 @@ const TeamInsight = dynamic(() => import('@/components/pastes/TeamInsight'), {
   ssr: false,
   loading: () => <Loading />,
 });
-const ReplaysTable = dynamic(() => import('@/components/replays/ReplaysTable'), {
-  ssr: false,
-  loading: () => <Loading />,
-});
-
 const PasteAndFunctions = ({ team, paste }: { team: Pokemon[]; paste: NonNullable<Paste> }) => {
   const { locale, push } = useRouter();
-  const { t } = useTranslation(['common']);
+  const { t } = useTranslation(['common', 'species']);
   const [showTranslated, setShowTranslated] = useState(false);
   const translatedPaste = Pokemon.convertTeamToTranslatedPaste(Pokemon.convertPasteToTeam(paste.paste) || [], t);
 
@@ -56,7 +50,7 @@ const PasteAndFunctions = ({ team, paste }: { team: Pokemon[]; paste: NonNullabl
         format: paste.format,
         name: paste.title,
       })}`,
-      '_blank'
+      '_blank',
     );
   };
 
@@ -65,7 +59,7 @@ const PasteAndFunctions = ({ team, paste }: { team: Pokemon[]; paste: NonNullabl
       {/* avatars */}
       <div className="hidden grid-rows-6 md:grid">
         {team.map((p) => (
-          <PureSpriteAvatar key={p.species} speciesId={p.species} shiny={p.shiny} />
+          <PureSpriteAvatar size={172} key={p.species} speciesId={p.species} shiny={p.shiny} />
         ))}
       </div>
       <div className="grid w-1/2 grid-cols-3 justify-items-center align-middle md:hidden">
@@ -115,19 +109,19 @@ const PasteAndFunctions = ({ team, paste }: { team: Pokemon[]; paste: NonNullabl
         <div className="form-control justify-around gap-1.5">
           <label className="label cursor-pointer">
             <span className="label-text">PokePaste</span>
-            <input type="checkbox" className="toggle-primary toggle" checked={showTranslated} onChange={() => setShowTranslated((s) => !s)} />
+            <input type="checkbox" className="toggle toggle-primary" checked={showTranslated} onChange={() => setShowTranslated((s) => !s)} />
             <span className="label-text">{t('paste.showTranslation')}</span>
           </label>
-          <button className="btn-primary btn-sm btn" type="button" onClick={handleCopy}>
+          <button className="btn btn-primary btn-sm" type="button" onClick={handleCopy}>
             {t('common.copy')} PokePaste
           </button>
-          <button className="btn-secondary btn-sm btn" type="button" onClick={handleShare}>
+          <button className="btn btn-secondary btn-sm" type="button" onClick={handleShare}>
             {t('common.share')}
           </button>
-          <button className="btn-accent btn-sm btn" type="button" onClick={handleOpenInRoom}>
+          <button className="btn btn-accent btn-sm" type="button" onClick={handleOpenInRoom}>
             {t('paste.openInRoom')}
           </button>
-          <button className="btn-info tooltip tooltip-top btn-sm btn" data-tip={t('paste.loadInShowdown.description')} onClick={handleLoadInShowdown}>
+          <button className="btn btn-info btn-sm tooltip tooltip-top" data-tip={t('paste.loadInShowdown.description')} onClick={handleLoadInShowdown}>
             {t('paste.loadInShowdown.title')}
           </button>
         </div>
@@ -136,17 +130,13 @@ const PasteAndFunctions = ({ team, paste }: { team: Pokemon[]; paste: NonNullabl
   );
 };
 
-const tabs = ['Team', 'Insights', 'Replays'] as const;
+const tabs = ['Team', 'Insights'] as const;
 type Tabs = (typeof tabs)[number];
 
 const PasteLayout = ({ id }: { id: string }) => {
-  const { t } = useTranslation(['common']);
+  const { t } = useTranslation(['common', 'species']);
   const [currentTab, setCurrentTab] = useState<Tabs>('Team');
-  const { data: paste, error } = useSWRImmutable<Paste>(id, (i) => fetch(`/api/pastes/${i}`).then((res) => res.json()));
-  const { data: replays } = useSWRImmutable<replay[]>(paste?.format && paste?.paste ? Pokemon.extractSpeciesFromPaste(paste.paste).join(',') : null, (k) =>
-    fetch(`/api/replays/teams?format=${paste?.format}&species=${k}`).then((r) => r.json())
-  );
-
+  const { data: paste, error } = useSWRImmutable<Paste>(id, (i: string) => fetch(`/api/pastes/${i}`).then((res) => res.json()));
   if (error) {
     toast.error('An error occurred while fetching the paste.');
     return null;
@@ -156,7 +146,7 @@ const PasteLayout = ({ id }: { id: string }) => {
 
   return (
     <>
-      <div className="tabs tabs-boxed" role="tablist">
+      <div className="tabs-boxed tabs" role="tablist">
         {tabs.map((tab) => (
           <a
             key={tab}
@@ -172,7 +162,6 @@ const PasteLayout = ({ id }: { id: string }) => {
       </div>
       {currentTab === 'Team' && <PasteAndFunctions team={team} paste={paste} />}
       {currentTab === 'Insights' && <TeamInsight team={team} />}
-      {currentTab === 'Replays' && <ReplaysTable replays={replays ?? []} />}
     </>
   );
 };
