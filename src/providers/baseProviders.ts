@@ -1,4 +1,4 @@
-import type { MappedTypeDescription } from '@syncedstore/core/types/doc';
+import type { MappedTypeDescription } from '@syncedstore/core/types/doc'; // eslint-disable-line import/no-unresolved
 import { IndexeddbPersistence } from 'y-indexeddb';
 import type { Awareness } from 'y-protocols/awareness';
 import type { Doc } from 'yjs';

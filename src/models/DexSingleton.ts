@@ -5,7 +5,7 @@ import { Data, Dex } from '@pkmn/dex';
 import { AppConfig } from '@/utils/AppConfig';
 
 class DexSingleton {
-  private static instance: DexSingleton;
+  private static instance: DexSingleton; // eslint-disable-line no-use-before-define
 
   private readonly genNum: number;
 

@@ -1,5 +1,5 @@
 import { getYjsValue } from '@syncedstore/core';
-import { MappedTypeDescription } from '@syncedstore/core/types/doc';
+import type { MappedTypeDescription } from '@syncedstore/core/types/doc'; // eslint-disable-line import/no-unresolved
 import { WebsocketProvider } from 'y-websocket';
 
 import { StoreContextType } from '@/models/TeamState';
@@ -7,7 +7,7 @@ import { Providers } from '@/providers/baseProviders';
 
 const serverUrl = process.env.NEXT_PUBLIC_YJS_WS_HOST || 'wss://falinks-teambuilder.herokuapp.com/';
 
-let instance: WebsocketProviders;
+let instance: Providers<WebsocketProvider>;
 
 class WebsocketProviders extends Providers<WebsocketProvider> {
   constructor() {

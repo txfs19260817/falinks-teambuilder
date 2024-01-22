@@ -1,4 +1,4 @@
-import { MappedTypeDescription } from '@syncedstore/core/types/doc';
+import type { MappedTypeDescription } from '@syncedstore/core/types/doc'; // eslint-disable-line import/no-unresolved
 import Collaboration from '@tiptap/extension-collaboration';
 import CollaborationCursor from '@tiptap/extension-collaboration-cursor';
 import { Placeholder } from '@tiptap/extension-placeholder';
@@ -77,7 +77,7 @@ export function NotesDialog({ store, provider, user }: EditorProps) {
                 })
                 .run()
             }
-            className={`btn-xs btn ${
+            className={`btn btn-xs ${
               editor.isActive('heading', {
                 level: lv,
               })
@@ -88,22 +88,22 @@ export function NotesDialog({ store, provider, user }: EditorProps) {
             {`H${lv}`}
           </button>
         ))}
-        <button onClick={() => editor.chain().focus().toggleBulletList().run()} className="btn-xs btn">
+        <button onClick={() => editor.chain().focus().toggleBulletList().run()} className="btn btn-xs">
           Bullet list
         </button>
-        <button onClick={() => editor.chain().focus().toggleOrderedList().run()} className="btn-xs btn">
+        <button onClick={() => editor.chain().focus().toggleOrderedList().run()} className="btn btn-xs">
           Ordered list
         </button>
       </FloatingMenu>
 
       <BubbleMenu className="btn-group" editor={editor} tippyOptions={{ duration: 100 }}>
-        <button onClick={() => editor.chain().focus().toggleBold().run()} className={`btn-xs btn ${editor.isActive('bold') ? 'btn-active' : ''} font-bold`}>
+        <button onClick={() => editor.chain().focus().toggleBold().run()} className={`btn btn-xs ${editor.isActive('bold') ? 'btn-active' : ''} font-bold`}>
           <span className="font-bold">B</span>
         </button>
-        <button onClick={() => editor.chain().focus().toggleItalic().run()} className={`btn-xs btn ${editor.isActive('italic') ? 'btn-active' : ''} italic`}>
+        <button onClick={() => editor.chain().focus().toggleItalic().run()} className={`btn btn-xs ${editor.isActive('italic') ? 'btn-active' : ''} italic`}>
           <span className="italic">I</span>
         </button>
-        <button onClick={() => editor.chain().focus().toggleStrike().run()} className={`btn-xs btn ${editor.isActive('strike') ? 'btn-active' : ''}`}>
+        <button onClick={() => editor.chain().focus().toggleStrike().run()} className={`btn btn-xs ${editor.isActive('strike') ? 'btn-active' : ''}`}>
           <span className="line-through">S</span>
         </button>
       </BubbleMenu>
@@ -111,7 +111,7 @@ export function NotesDialog({ store, provider, user }: EditorProps) {
       <input type="checkbox" id={AppConfig.toolboxIDs.notesModal} className="modal-toggle" />
       <div className="modal modal-bottom">
         <div className="modal-box">
-          <label htmlFor={AppConfig.toolboxIDs.notesModal} className="btn-sm btn-circle btn absolute right-2 top-2">
+          <label htmlFor={AppConfig.toolboxIDs.notesModal} className="btn btn-circle btn-sm absolute right-2 top-2">
             ✕
           </label>
           <h3 className="text-lg font-bold">📝 Notes</h3>

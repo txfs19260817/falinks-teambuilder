@@ -93,6 +93,10 @@
           }
         ],
         "no-bitwise": "off",
+        "no-shadow": "off",
+        "@typescript-eslint/no-shadow": [
+          "error"
+        ],
         "unused-imports/no-unused-imports": "error",
         "unused-imports/no-unused-vars": [
           "error",

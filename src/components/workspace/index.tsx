@@ -38,7 +38,7 @@ function Workspace({ roomName, protocolName, basePokePaste, format }: WorkspaceP
     {
       Species: 0,
     },
-    setGlobalFilter
+    setGlobalFilter,
   );
 
   // Initialize synced store

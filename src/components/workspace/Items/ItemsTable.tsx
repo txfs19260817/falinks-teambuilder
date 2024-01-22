@@ -57,7 +57,7 @@ function ItemsTable() {
         fetch(u)
           .then((r) => r.json())
           .then((d: DisplayUsageStatistics) => Object.keys(d?.items ?? {})),
-    }
+    },
   );
 
   // move popular items to the top
@@ -108,7 +108,7 @@ function ItemsTable() {
         enableSorting: false,
       },
     ],
-    []
+    [],
   );
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [pagination, setPagination] = useState<PaginationState>({

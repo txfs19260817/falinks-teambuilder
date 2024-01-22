@@ -55,7 +55,7 @@ function AbilitiesTable() {
         enableSorting: false,
       },
     ],
-    []
+    [],
   );
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 

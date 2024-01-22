@@ -14,16 +14,7 @@ export const prisma: PrismaClient =
   prismaGlobal.prisma ||
   new PrismaClient({
     log:
-      process.env.NODE_ENV === 'development'
-        ? ['query', 'error', 'warn']
-        : process.env.NODE_ENV === 'test'
-        ? [
-            {
-              emit: 'event',
-              level: 'query',
-            },
-          ]
-        : ['error'],
+      process.env.NODE_ENV === 'development' ? ['query', 'error', 'warn'] : process.env.NODE_ENV === 'test' ? [{ emit: 'event', level: 'query' }] : ['error'],
   });
 
 if (process.env.NODE_ENV !== 'production') {
@@ -78,7 +69,7 @@ export const listPastes = async (options?: { format?: string; isOfficial?: boole
         rentalCode: rentalCode == null ? '' : rentalCode,
         hasEVs: Array.isArray(jsonPaste) && Object.hasOwn(typeof jsonPaste[0] === 'object' ? (jsonPaste[0] as object) : {}, 'evs'),
         species: (jsonPaste as { species: string }[]).map((s) => s.species),
-      }))
+      })),
     );
 
 // Get a PokePaste by ID

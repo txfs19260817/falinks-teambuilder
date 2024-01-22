@@ -50,7 +50,7 @@ test('filterSortLimitObjectByValues', () => {
     obj,
     (v) => v > 2,
     (a, b) => a - b,
-    2
+    2,
   );
   expect(filtered).toEqual({ c: 3, d: 4 });
 });

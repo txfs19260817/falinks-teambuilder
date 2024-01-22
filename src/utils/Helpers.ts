@@ -33,7 +33,7 @@ export const urlPattern = new RegExp(
     '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' +
     '(\\?[;&a-z\\d%_.~+=-]*)?' +
     '(\\#[-a-z\\d_]*)?$',
-  'i'
+  'i',
 );
 
 export const getRandomElement = (list: string[]) => list[Math.floor(Math.random() * list.length)];
@@ -51,7 +51,7 @@ export const filterSortLimitObjectByValues = <T extends object>(
   obj: T,
   filter: (value: T[keyof T]) => boolean,
   sort: (a: T[keyof T], b: T[keyof T]) => number,
-  limit: number
+  limit: number,
 ): Partial<T> => {
   const filtered = Object.entries(obj).filter(([, value]) => filter(value));
   const sorted = filtered.sort((a, b) => sort(a[1], b[1]));
@@ -92,7 +92,7 @@ export const checkArraysEqual = (a: unknown[], b: unknown[], ignoreOrder: boolea
 export const isSubset = (a: unknown[], b: unknown[]) => (a == null || b == null || a.length > b.length ? false : a.every((v) => b.includes(v)));
 
 export const getISOWeekNumber = (
-  date: Date
+  date: Date,
 ): {
   year: number;
   week: number;
@@ -143,7 +143,7 @@ function cartesianProduct<T>(arr: T[][]): T[][] {
         })
         .reduce((c, d) => c.concat(d), []);
     },
-    [[]] as T[][]
+    [[]] as T[][],
   );
 }
 

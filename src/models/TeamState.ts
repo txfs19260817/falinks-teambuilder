@@ -1,7 +1,7 @@
 /* eslint max-classes-per-file: "off" */
 import { Generation } from '@pkmn/data';
 import { getYjsDoc } from '@syncedstore/core';
-import { MappedTypeDescription } from '@syncedstore/core/types/doc';
+import type { MappedTypeDescription } from '@syncedstore/core/types/doc'; // eslint-disable-line import/no-unresolved
 import { UndoManager } from 'yjs';
 
 import DexSingleton from '@/models/DexSingleton';
@@ -44,7 +44,7 @@ class TeamState {
       [boolean, boolean, boolean, boolean],
       [boolean, boolean, boolean, boolean],
       [boolean, boolean, boolean, boolean],
-      [boolean, boolean, boolean, boolean]
+      [boolean, boolean, boolean, boolean],
     ];
   } = {
     species: [false, false, false, false, false, false],

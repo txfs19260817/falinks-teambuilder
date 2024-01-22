@@ -1,4 +1,4 @@
-// import the original type declarations
+/* eslint-disable camelcase, import/no-unresolved */
 import 'i18next';
 
 import abilities from 'public/locales/en/abilities.json';

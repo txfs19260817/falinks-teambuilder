@@ -1,11 +1,11 @@
 import { getYjsValue } from '@syncedstore/core';
-import { MappedTypeDescription } from '@syncedstore/core/types/doc';
+import type { MappedTypeDescription } from '@syncedstore/core/types/doc'; // eslint-disable-line import/no-unresolved
 import { WebrtcProvider } from 'y-webrtc';
 
 import { StoreContextType } from '@/models/TeamState';
 import { Providers } from '@/providers/baseProviders';
 
-let instance: WebrtcProviders;
+let instance: Providers<WebrtcProvider>;
 
 class WebrtcProviders extends Providers<WebrtcProvider> {
   constructor() {

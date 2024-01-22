@@ -75,7 +75,7 @@ async function ensureJSONPastes() {
         data: {
           jsonPaste,
         },
-      })
+      }),
     );
   while (promises.length) {
     // eslint-disable-next-line no-await-in-loop

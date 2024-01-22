@@ -39,7 +39,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<PastesList>) =>
       pastes
         .filter(({ jsonPaste }) =>
           // every one should have evs
-          (jsonPaste as unknown as PokemonSet[]).every((p) => p.evs != null)
+          (jsonPaste as unknown as PokemonSet[]).every((p) => p.evs != null),
         )
         .filter(({ jsonPaste }) =>
           speciesCriterion.every((s) =>
@@ -48,10 +48,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<PastesList>) =>
               (t) =>
                 s.species === t.species &&
                 s.moves.filter((m) => m.length > 0).every((m) => t.moves.includes(m)) && // s.moves is (an array of empty string or a subset of t.moves) is ok
-                Object.entries(t.evs).every(([k, v]) => +s.minEVs[k as StatID] <= v && v <= +s.maxEVs[k as StatID])
-            )
-          )
-        )
+                Object.entries(t.evs).every(([k, v]) => +s.minEVs[k as StatID] <= v && v <= +s.maxEVs[k as StatID]),
+            ),
+          ),
+        ),
     );
 
   // return the results, rewrite the jsonPaste field to be a list of species
@@ -65,7 +65,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<PastesList>) =>
       rentalCode: rentalCode == null ? '' : rentalCode,
       hasEVs: Array.isArray(jsonPaste) && Object.hasOwn(typeof jsonPaste[0] === 'object' ? (jsonPaste[0] as object) : {}, 'evs'),
       species: (jsonPaste as { species: string }[]).map((s) => s.species),
-    }))
+    })),
   );
 };
 
