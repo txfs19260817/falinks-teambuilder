@@ -142,6 +142,9 @@
     "tools": {
       "title": "Herramientas",
       "description": "Herramientas para Pokémon Showdown!"
+    },
+    "external_links": {
+      "title": "Enlaces externos"
     }
   },
   "spread": "Spread",

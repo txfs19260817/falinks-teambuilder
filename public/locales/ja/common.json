@@ -116,6 +116,15 @@
     "tools": {
       "title": "ツール",
       "description": "Pokémon Showdown ツール"
+    },
+    "external_links": {
+      "title": "外部リンク"
+    },
+    "damage_calc": {
+      "title": "ダメージ計算機"
+    },
+    "libertynote": {
+      "title": "LibertyNote"
     }
   },
   "share": "共有",

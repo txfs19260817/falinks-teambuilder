@@ -116,6 +116,12 @@
     "tools": {
       "title": "工具",
       "description": "神奇寶貝對決工具！"
+    },
+    "external_links": {
+      "title": "外部連結"
+    },
+    "damage_calc": {
+      "title": "傷害計算器"
     }
   },
   "share": "分享",

@@ -116,6 +116,9 @@
     "tools": {
       "title": "Werkzeug",
       "description": "Tools für Pokémon Showdown!"
+    },
+    "external_links": {
+      "title": "Externe Links"
     }
   },
   "share": "Teilen",

@@ -142,6 +142,12 @@
     "tools": {
       "title": "도구",
       "description": "Pokémon Showdown 도구"
+    },
+    "external_links": {
+      "title": "외부 링크"
+    },
+    "damage_calc": {
+      "title": "데미지 계산기"
     }
   },
   "spread": "할당",

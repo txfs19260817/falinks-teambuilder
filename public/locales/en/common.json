@@ -129,6 +129,9 @@
     "matchup": {
       "title": "OTS Match-up Viewer",
       "description": "Open Team Sheets Match-up Viewer"
+    },
+    "external_links": {
+      "title": "External Links"
     }
   },
   "search": "Search",

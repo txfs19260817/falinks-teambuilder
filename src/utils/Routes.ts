@@ -78,9 +78,57 @@ export const routes: Route[] = [
     target: '_self',
   },
   {
-    id: 'github',
-    name: 'GitHub',
-    path: 'https://github.com/txfs19260817/falinks-teambuilder',
-    target: '_blank',
+    id: 'external_links',
+    name: 'External Links',
+    children: [
+      {
+        id: 'github',
+        name: 'GitHub',
+        path: 'https://github.com/txfs19260817/falinks-teambuilder',
+        target: '_blank',
+      },
+      {
+        id: 'smogon',
+        name: 'Smogon',
+        path: 'https://www.smogon.com/',
+        target: '_blank',
+      },
+      {
+        id: 'pikalytics',
+        name: 'Pikalytics',
+        path: 'https://pikalytics.com/',
+        target: '_blank',
+      },
+      {
+        id: 'labmaus',
+        name: 'LabMaus',
+        path: 'https://labmaus.net/',
+        target: '_blank',
+      },
+      {
+        id: 'limitlesstcg',
+        name: 'Limitless TCG',
+        path: 'https://play.limitlesstcg.com/tournaments/',
+        target: '_blank',
+      },
+      {
+        id: 'victoryroadvgc',
+        name: 'Victory Road',
+        path: 'https://victoryroadvgc.com/',
+        target: '_blank',
+      },
+      {
+        id: 'damage_calc',
+        name: 'Damage Calculator',
+        path: 'https://nerd-of-now.github.io/NCP-VGC-Damage-Calculator/',
+        target: '_blank',
+      },
+      {
+        id: 'libertynote',
+        name: 'Liberty Note',
+        path: 'https://liberty-note.com/',
+        target: '_blank',
+      },
+    ],
   },
 ];
