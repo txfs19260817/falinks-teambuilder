@@ -5,8 +5,8 @@ on:
   pull_request:
     branches: [ main, master ]
   schedule:
-    # Runs "at minute 55 past every hour" (see https://crontab.guru)
-    - cron: '55 * * * *'
+    # Runs “At minute 55 past every 8th hour.” (see https://crontab.guru/#55_*/8_*_*_*)
+    - cron: '55 */8 * * *'
 jobs:
   build:
     runs-on: windows-latest
