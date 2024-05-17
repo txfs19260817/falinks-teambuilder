@@ -332,8 +332,11 @@ export const getLatestUsageByFormat: (format?: string) => Promise<UsageStatistic
   const year = new Date().getFullYear();
   const month = new Date().getMonth(); // 0-11
   const date = latest?.date ?? (month !== 0 ? `${year}-${`${month}`.padStart(2, '0')}` : `${year - 1}-12`);
+  // add "bo3" suffix for regf, regg and following formats
+  const bo3Formats = new Set(['gen9vgc2024regf', 'gen9vgc2024regg']);
   try {
-    return process(await fetch(url(date, format)).then((r) => r.text()));
+    const reqFormat = bo3Formats.has(format) ? `${format}bo3` : format;
+    return process(await fetch(url(date, reqFormat)).then((r) => r.text()));
   } catch (e) {
     return null;
   }

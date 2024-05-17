@@ -45,8 +45,8 @@ function SpeciesTable() {
     error,
     isLoading,
   } = useSWR<Usage[]>(
-    // Hack: use `gen9vgc2023regulatione` instead of `gen9vgc2023regf` as there is no usage data for `gen9vgc2023regf`
-    `/api/usages/format/${teamState.format === 'gen9vgc2023regf' ? 'gen9vgc2023regulatione' : teamState.format}`,
+    // Hack: use `gen9vgc2024regf` instead of `gen9vgc2024regg` as there is no usage data for `gen9vgc2024regg`
+    `/api/usages/format/${teamState.format === 'gen9vgc2024regg' ? 'gen9vgc2024regf' : teamState.format}`,
     (u) => fetch(u).then((r) => r.json()),
     {
       fallbackData: [],

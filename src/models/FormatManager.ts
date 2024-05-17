@@ -6,8 +6,18 @@ class FormatManager {
   constructor() {
     this.formats = [
       {
-        id: 'gen9vgc2023regf',
-        name: '[Gen 9] VGC 2023 Regulation F',
+        id: 'gen9vgc2024regg',
+        name: '[Gen 9] VGC 2024 Regulation G',
+        gen: 9,
+        gameType: 'doubles',
+        defaultLevel: 50,
+        defaultSpeciesName: 'Terapagos',
+        isIndexedAsUsage: true,
+        isVGC: true,
+      },
+      {
+        id: 'gen9vgc2024regf',
+        name: '[Gen 9] VGC 2024 Regulation F',
         gen: 9,
         gameType: 'doubles',
         defaultLevel: 50,
